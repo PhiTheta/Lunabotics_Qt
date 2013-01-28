@@ -2,7 +2,8 @@
 #include "ui_mainwindow.h"
 #include <QDebug>
 #include <QByteArray>
-#include <QMetaEnum>
+#include <QtNetwork>
+#include <QHostAddress>
 
 #define DEFAULT_LINEAR_SPEED_LIMIT  5.0
 #define DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT  45
@@ -21,6 +22,12 @@ union BytesToUint8
     uint8_t uint8Value;
 };
 
+union BytesToDouble
+{
+    char bytes[8];
+    double doubleValue;
+};
+
 enum ControlType
 {
     ControlAckermann = 0,
@@ -34,7 +41,13 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    tcpSocket = new QTcpSocket(this);
+    this->tcpSocket = new QTcpSocket(this);
+
+    this->tcpServer = new QTcpServer(this);
+    connect(this->tcpServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
+    this->tcpServer->listen(QHostAddress("192.168.218.1"), 5555);// //QHostAddress::Any, 5555);
+
+
     this->autonomyEnabled = false;
     this->controlType = ControlAckermann;
     ui->driveForwardLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
@@ -48,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    this->tcpSocket->abort();
+    this->tcpServer->close();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -97,10 +112,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     }
     this->postData();
 }
-
-//Forward = 5.0
-//Backward = -3.0
-//Left, Right = +-1.0
 
 void MainWindow::postData()
 {
@@ -280,4 +291,56 @@ void MainWindow::on_useAckermannButton_clicked()
 {
     qDebug() << "Switching to Ackermann driving mode";
     this->controlType = ControlAckermann;
+}
+
+
+//TCP Server methods
+
+
+void MainWindow::serverAcceptConnection()
+{
+    qDebug() << "New connection available";
+    this->tcpClient = this->tcpServer->nextPendingConnection();
+    connect(this->tcpClient, SIGNAL(readyRead()), this, SLOT(serverStartRead()));
+}
+
+void MainWindow::serverStartRead()
+{
+    qDebug() << "Receiving telemetry";
+    char buffer[64*3] = {0};
+    this->tcpClient->read(buffer, this->tcpClient->bytesAvailable());
+
+    BytesToDouble doubleConverter;
+    int pointer = 0;
+    doubleConverter.bytes[0] = buffer[pointer++];
+    doubleConverter.bytes[1] = buffer[pointer++];
+    doubleConverter.bytes[2] = buffer[pointer++];
+    doubleConverter.bytes[3] = buffer[pointer++];
+    doubleConverter.bytes[4] = buffer[pointer++];
+    doubleConverter.bytes[5] = buffer[pointer++];
+    doubleConverter.bytes[6] = buffer[pointer++];
+    doubleConverter.bytes[7] = buffer[pointer++];
+    double xValue = doubleConverter.doubleValue;
+    doubleConverter.bytes[0] = buffer[pointer++];
+    doubleConverter.bytes[1] = buffer[pointer++];
+    doubleConverter.bytes[2] = buffer[pointer++];
+    doubleConverter.bytes[3] = buffer[pointer++];
+    doubleConverter.bytes[4] = buffer[pointer++];
+    doubleConverter.bytes[5] = buffer[pointer++];
+    doubleConverter.bytes[6] = buffer[pointer++];
+    doubleConverter.bytes[7] = buffer[pointer++];
+    double yValue = doubleConverter.doubleValue;
+    doubleConverter.bytes[0] = buffer[pointer++];
+    doubleConverter.bytes[1] = buffer[pointer++];
+    doubleConverter.bytes[2] = buffer[pointer++];
+    doubleConverter.bytes[3] = buffer[pointer++];
+    doubleConverter.bytes[4] = buffer[pointer++];
+    doubleConverter.bytes[5] = buffer[pointer++];
+    doubleConverter.bytes[6] = buffer[pointer++];
+    doubleConverter.bytes[7] = buffer[pointer++];
+    double zValue = doubleConverter.doubleValue;
+    this->tcpClient->close();
+
+    ui->posXLabel->setText(QString::number(xValue));
+    ui->posYLabel->setText(QString::number(yValue));
 }

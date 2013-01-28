@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QKeyEvent>
 #include <QTcpSocket>
+#include <QTcpServer>
 
 #define BUFFER_SIZE 256
 
@@ -45,10 +46,14 @@ private slots:
     void on_useSpotButton_clicked();
 
     void on_useAckermannButton_clicked();
+    void serverAcceptConnection();
+    void serverStartRead();
 
 private:
     Ui::MainWindow *ui;
     QTcpSocket *tcpSocket;
+    QTcpServer *tcpServer;
+    QTcpSocket *tcpClient;
     void leftAction();
     void rightAction();
     void forwardAction();

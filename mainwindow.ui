@@ -252,7 +252,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Lock</string>
+      <string>Unlock</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="portLineEdit">
@@ -265,10 +265,10 @@
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
+      <enum>Qt::ClickFocus</enum>
      </property>
      <property name="text">
-      <string>5555</string>
+      <string>5556</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="ipLineEdit">
@@ -281,10 +281,10 @@
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
+      <enum>Qt::ClickFocus</enum>
      </property>
      <property name="text">
-      <string>192.168.218.128</string>
+      <string>192.168.218.129</string>
      </property>
     </widget>
     <widget class="QLabel" name="ipTitleLabel">

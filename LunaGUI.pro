@@ -13,11 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    preferencedialog.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    preferencedialog.h \
+    constants.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    preferencedialog.ui
 
 OTHER_FILES +=
 

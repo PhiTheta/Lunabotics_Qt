@@ -1,9 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "preferencedialog.h"
+#include "constants.h"
 #include <QDebug>
 #include <QByteArray>
 #include <QtNetwork>
 #include <QHostAddress>
+#include <QSettings>
 
 #define DEFAULT_LINEAR_SPEED_LIMIT  5.0
 #define DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT  45
@@ -41,11 +44,24 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QString text;
+    ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
+    ui->spotLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
+    ui->lateralLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
+    ui->ackermanDependentValueEdit->setText(text.setNum(DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT));
+    ui->spotDependentValueEdit->setText(text.setNum(DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT));
+    ui->lateralDependentValueEdit->setText(text.setNum(DEFAULT_LATERAL_SPEED_LIMIT));
+
+
     this->tcpSocket = new QTcpSocket(this);
 
     this->tcpServer = new QTcpServer(this);
     connect(this->tcpServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
-    this->tcpServer->listen(QHostAddress("192.168.218.1"), 5555);// //QHostAddress::Any, 5555);
+
+    QSettings settings("ivany4", "lunabotics");
+    settings.beginGroup("connection");
+    this->tcpServer->listen(QHostAddress(settings.value("in_ip", CONN_INCOMING_ADDR).toString()), settings.value("in_port", CONN_INCOMING_PORT).toInt());
+    settings.endGroup();
 
 
     this->autonomyEnabled = false;
@@ -54,8 +70,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->driveLeftLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     ui->driveBackLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
-    ui->ipLineEdit->setEnabled(false);
-    ui->portLineEdit->setEnabled(false);
 }
 
 MainWindow::~MainWindow()
@@ -63,6 +77,7 @@ MainWindow::~MainWindow()
     delete ui;
     this->tcpSocket->abort();
     this->tcpServer->close();
+    this->tcpClient->close();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -118,7 +133,13 @@ void MainWindow::postData()
     union BytesToFloat floatConverter;
 
     tcpSocket->abort();
-    tcpSocket->connectToHost(ui->ipLineEdit->text(), ui->portLineEdit->text().toInt());
+
+
+    QSettings settings("ivany4", "lunabotics");
+    settings.beginGroup("connection");
+
+    tcpSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
+    settings.endGroup();
 
     QByteArray *bytes = new QByteArray();
     bytes->append(this->autonomyEnabled);
@@ -249,21 +270,6 @@ void MainWindow::postData()
 
 }
 
-void MainWindow::on_lockButton_clicked()
-{
-    if (ui->ipLineEdit->isEnabled()) {
-        ui->ipLineEdit->setEnabled(false);
-        ui->portLineEdit->setEnabled(false);
-        ui->lockButton->setText("Unlock");
-    }
-    else {
-        ui->ipLineEdit->setEnabled(true);
-        ui->portLineEdit->setEnabled(true);
-        ui->lockButton->setText("Lock");
-    }
-
-}
-
 void MainWindow::on_autonomyCheckbox_clicked(bool checked)
 {
     if (checked) {
@@ -330,17 +336,53 @@ void MainWindow::serverStartRead()
     doubleConverter.bytes[6] = buffer[pointer++];
     doubleConverter.bytes[7] = buffer[pointer++];
     double yValue = doubleConverter.doubleValue;
-    doubleConverter.bytes[0] = buffer[pointer++];
-    doubleConverter.bytes[1] = buffer[pointer++];
-    doubleConverter.bytes[2] = buffer[pointer++];
-    doubleConverter.bytes[3] = buffer[pointer++];
-    doubleConverter.bytes[4] = buffer[pointer++];
-    doubleConverter.bytes[5] = buffer[pointer++];
-    doubleConverter.bytes[6] = buffer[pointer++];
-    doubleConverter.bytes[7] = buffer[pointer++];
-    double zValue = doubleConverter.doubleValue;
-    this->tcpClient->close();
+//    doubleConverter.bytes[0] = buffer[pointer++];
+//    doubleConverter.bytes[1] = buffer[pointer++];
+//    doubleConverter.bytes[2] = buffer[pointer++];
+//    doubleConverter.bytes[3] = buffer[pointer++];
+//    doubleConverter.bytes[4] = buffer[pointer++];
+//    doubleConverter.bytes[5] = buffer[pointer++];
+//    doubleConverter.bytes[6] = buffer[pointer++];
+//    doubleConverter.bytes[7] = buffer[pointer++];
+//    double zValue = doubleConverter.doubleValue;
 
     ui->posXLabel->setText(QString::number(xValue));
     ui->posYLabel->setText(QString::number(yValue));
+}
+
+void MainWindow::on_actionPreferences_triggered()
+{
+    PreferenceDialog *preferenceDialog = new PreferenceDialog(this);
+    preferenceDialog->setWindowModality(Qt::WindowModal);
+    preferenceDialog->exec();
+}
+
+void MainWindow::on_ackermannLinearSpeedCheckBox_clicked(bool checked)
+{
+    ui->ackermannLinearSpeedEdit->setEnabled(checked);
+}
+
+void MainWindow::on_ackermannDependentValueCheckBox_clicked(bool checked)
+{
+    ui->ackermanDependentValueEdit->setEnabled(checked);
+}
+
+void MainWindow::on_spoeLinearSpeedCheckBox_clicked(bool checked)
+{
+    ui->spotLinearSpeedEdit->setEnabled(checked);
+}
+
+void MainWindow::on_spotDependentValueCheckBox_clicked(bool checked)
+{
+    ui->spotDependentValueEdit->setEnabled(checked);
+}
+
+void MainWindow::on_lateralLinearSpeedCheckBox_clicked(bool checked)
+{
+    ui->lateralLinearSpeedEdit->setEnabled(checked);
+}
+
+void MainWindow::on_lateralDependentValueCheckBox_clicked(bool checked)
+{
+    ui->lateralDependentValueEdit->setEnabled(checked);
 }

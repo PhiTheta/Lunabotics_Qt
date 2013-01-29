@@ -37,8 +37,6 @@ protected:
     void keyReleaseEvent(QKeyEvent *event);
 
 private slots:
-    void on_lockButton_clicked();
-
     void on_autonomyCheckbox_clicked(bool checked);
 
     void on_useLateralButton_clicked();
@@ -48,6 +46,20 @@ private slots:
     void on_useAckermannButton_clicked();
     void serverAcceptConnection();
     void serverStartRead();
+
+    void on_actionPreferences_triggered();
+
+    void on_ackermannLinearSpeedCheckBox_clicked(bool checked);
+
+    void on_ackermannDependentValueCheckBox_clicked(bool checked);
+
+    void on_spoeLinearSpeedCheckBox_clicked(bool checked);
+
+    void on_spotDependentValueCheckBox_clicked(bool checked);
+
+    void on_lateralLinearSpeedCheckBox_clicked(bool checked);
+
+    void on_lateralDependentValueCheckBox_clicked(bool checked);
 
 private:
     Ui::MainWindow *ui;

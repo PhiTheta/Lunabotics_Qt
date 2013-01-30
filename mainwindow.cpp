@@ -7,6 +7,7 @@
 #include <QtNetwork>
 #include <QHostAddress>
 #include <QSettings>
+#include <QMetaEnum>
 
 #define DEFAULT_LINEAR_SPEED_LIMIT  5.0
 #define DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT  45
@@ -44,6 +45,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->outgoingSocket = NULL;
+    this->incomingServer = NULL;
+    this->incomingSocket = NULL;
+
     QString text;
     ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
     ui->spotLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
@@ -52,17 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->spotDependentValueEdit->setText(text.setNum(DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT));
     ui->lateralDependentValueEdit->setText(text.setNum(DEFAULT_LATERAL_SPEED_LIMIT));
 
-
-    this->tcpSocket = new QTcpSocket(this);
-
-    this->tcpServer = new QTcpServer(this);
-    connect(this->tcpServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
-
-    QSettings settings("ivany4", "lunabotics");
-    settings.beginGroup("connection");
-    this->tcpServer->listen(QHostAddress(settings.value("in_ip", CONN_INCOMING_ADDR).toString()), settings.value("in_port", CONN_INCOMING_PORT).toInt());
-    settings.endGroup();
-
+    this->connectRobot();
 
     this->autonomyEnabled = false;
     this->controlType = ControlAckermann;
@@ -75,9 +70,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    this->tcpSocket->abort();
-    this->tcpServer->close();
-    this->tcpClient->close();
+    this->disconnectRobot();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -130,16 +123,13 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 void MainWindow::postData()
 {
-    union BytesToFloat floatConverter;
-
-    tcpSocket->abort();
-
-
+    this->outgoingSocket->abort();
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("connection");
-
-    tcpSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
+    this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
     settings.endGroup();
+
+    union BytesToFloat floatConverter;
 
     QByteArray *bytes = new QByteArray();
     bytes->append(this->autonomyEnabled);
@@ -206,8 +196,13 @@ void MainWindow::postData()
     bytes->append(this->drivingMask & DrivingLeft);
     bytes->append(this->drivingMask & DrivingRight);
 
-    tcpSocket->write(bytes->data(), bytes->size());
-    tcpSocket->read(bytes->data(), bytes->size());
+    this->outgoingSocket->write(bytes->data(), bytes->size());
+
+    while (this->outgoingSocket->bytesToWrite() > 0) {
+        this->outgoingSocket->waitForBytesWritten();
+    }
+
+    this->outgoingSocket->read(bytes->data(), bytes->size());
 
 
 
@@ -267,7 +262,7 @@ void MainWindow::postData()
     qDebug() << "   Left: " << (driveLeft ? "yes" : "no");
     qDebug() << "   Right: " << (driveRight ? "yes" : "no");
 
-
+    delete bytes;
 }
 
 void MainWindow::on_autonomyCheckbox_clicked(bool checked)
@@ -306,15 +301,15 @@ void MainWindow::on_useAckermannButton_clicked()
 void MainWindow::serverAcceptConnection()
 {
     qDebug() << "New connection available";
-    this->tcpClient = this->tcpServer->nextPendingConnection();
-    connect(this->tcpClient, SIGNAL(readyRead()), this, SLOT(serverStartRead()));
+    this->incomingSocket = this->incomingServer->nextPendingConnection();
+    connect(this->incomingSocket, SIGNAL(readyRead()), this, SLOT(serverStartRead()));
 }
 
 void MainWindow::serverStartRead()
 {
     qDebug() << "Receiving telemetry";
     char buffer[64*3] = {0};
-    this->tcpClient->read(buffer, this->tcpClient->bytesAvailable());
+    this->incomingSocket->read(buffer, this->incomingSocket->bytesAvailable());
 
     BytesToDouble doubleConverter;
     int pointer = 0;
@@ -354,7 +349,52 @@ void MainWindow::on_actionPreferences_triggered()
 {
     PreferenceDialog *preferenceDialog = new PreferenceDialog(this);
     preferenceDialog->setWindowModality(Qt::WindowModal);
-    preferenceDialog->exec();
+    if (preferenceDialog->exec() == QDialog::Accepted) {
+        this->connectRobot();
+    }
+}
+
+void MainWindow::disconnectRobot()
+{
+    if (this->outgoingSocket) {
+        if (this->outgoingSocket->isOpen()) {
+            this->outgoingSocket->abort();
+        }
+        delete this->outgoingSocket, this->outgoingSocket = NULL;
+    }
+    if (this->incomingServer) {
+        if (this->incomingServer->isListening()) {
+            this->incomingServer->close();
+        }
+        delete this->incomingServer, this->incomingServer = NULL;
+    }
+    if (this->incomingSocket) {
+        if (this->incomingSocket->isOpen()) {
+            this->incomingSocket->abort();
+        }
+        delete this->incomingSocket, this->incomingSocket = NULL;
+    }
+}
+
+void MainWindow::connectRobot()
+{
+    qDebug() << "Closing connection";
+    this->disconnectRobot();
+
+    qDebug() << "Creating new connection";
+
+
+    QSettings settings("ivany4", "lunabotics");
+    settings.beginGroup("connection");
+
+    this->outgoingSocket = new QTcpSocket(this);
+    this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
+
+    this->incomingServer = new QTcpServer(this);
+    connect(this->incomingServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
+    this->incomingServer->listen(QHostAddress(settings.value("in_ip", CONN_INCOMING_ADDR).toString()), settings.value("in_port", CONN_INCOMING_PORT).toInt());
+
+    settings.endGroup();
 }
 
 void MainWindow::on_ackermannLinearSpeedCheckBox_clicked(bool checked)

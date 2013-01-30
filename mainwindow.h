@@ -27,7 +27,7 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(DrivingCommands);
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+    Q_ENUMS(QAbstractSocket::SocketState);
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -63,14 +63,16 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QTcpSocket *tcpSocket;
-    QTcpServer *tcpServer;
-    QTcpSocket *tcpClient;
+    QTcpSocket *outgoingSocket;
+    QTcpSocket *incomingSocket;
+    QTcpServer *incomingServer;
     void leftAction();
     void rightAction();
     void forwardAction();
     void backAction();
     void postData();
+    void connectRobot();
+    void disconnectRobot();
     bool autonomyEnabled;
     uint8_t controlType;
     DrivingCommands drivingMask;

@@ -13,16 +13,24 @@ class MainWindow;
 }
 
 
-enum DrivingCommandsMask
+enum STEERING_MASK
 {
-    DrivingForward   = 1 << 0,
-    DrivingBackgward = 1 << 1,
-    DrivingRight     = 1 << 2,
-    DrivingLeft      = 1 << 3
+    FORWARD   = 1 << 0,
+    BACKWARD  = 1 << 1,
+    RIGHT     = 1 << 2,
+    LEFT      = 1 << 3
 };
 
-Q_DECLARE_FLAGS(DrivingCommands, DrivingCommandsMask);
-Q_DECLARE_OPERATORS_FOR_FLAGS(DrivingCommands);
+enum TX_CONTENT_TYPE
+{
+    STEERING         = 0,
+    AUTONOMY         = 1,
+    CTRL_MODE        = 2,
+    ROUTE            = 3
+};
+
+Q_DECLARE_FLAGS(STEERING_CMDS, STEERING_MASK);
+Q_DECLARE_OPERATORS_FOR_FLAGS(STEERING_CMDS);
 
 class MainWindow : public QMainWindow
 {
@@ -70,12 +78,12 @@ private:
     void rightAction();
     void forwardAction();
     void backAction();
-    void postData();
+    void postData(TX_CONTENT_TYPE contentType);
     void connectRobot();
     void disconnectRobot();
     bool autonomyEnabled;
     uint8_t controlType;
-    DrivingCommands drivingMask;
+    STEERING_CMDS drivingMask;
 };
 
 #endif // MAINWINDOW_H

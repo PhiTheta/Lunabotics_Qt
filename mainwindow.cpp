@@ -14,29 +14,25 @@
 #define DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT 1.0
 #define DEFAULT_LATERAL_SPEED_LIMIT 2.0
 
-union BytesToFloat
-{
+union BytesToFloat {
     char    bytes[4];
     float   floatValue;
 };
 
-union BytesToUint8
-{
+union BytesToUint8 {
     char bytes[1];
     uint8_t uint8Value;
 };
 
-union BytesToDouble
-{
+union BytesToDouble {
     char bytes[8];
     double doubleValue;
 };
 
-enum ControlType
-{
-    ControlAckermann = 0,
-    ControlSpot      = 1,
-    ControlLateral   = 2
+enum CTRL_MODE_TYPE {
+    ACKERMANN 		 = 0,
+    TURN_IN_SPOT     = 1,
+    LATERAL   		 = 2
 };
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -60,7 +56,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->connectRobot();
 
     this->autonomyEnabled = false;
-    this->controlType = ControlAckermann;
+    this->controlType = ACKERMANN;
     ui->driveForwardLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     ui->driveLeftLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
@@ -76,52 +72,52 @@ MainWindow::~MainWindow()
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
     if (event->text().compare("w", Qt::CaseSensitive) == 0) {
-        this->drivingMask |= DrivingForward;
+        this->drivingMask |= FORWARD;
         ui->driveForwardLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
     else if (event->text().compare("a", Qt::CaseSensitive) == 0) {
-        this->drivingMask |= DrivingLeft;
+        this->drivingMask |= LEFT;
         ui->driveLeftLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
     else if (event->text().compare("s", Qt::CaseSensitive) == 0) {
-        this->drivingMask |= DrivingBackgward;
+        this->drivingMask |= BACKWARD;
         ui->driveBackLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
     else if (event->text().compare("d", Qt::CaseSensitive) == 0) {
-        this->drivingMask |= DrivingRight;
+        this->drivingMask |= RIGHT;
         ui->driveRightLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
     else {
         return;
     }
-    this->postData();
+    this->postData(STEERING);
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->text().compare("w", Qt::CaseSensitive) == 0) {
-        this->drivingMask &= ~DrivingForward;
+        this->drivingMask &= ~FORWARD;
         ui->driveForwardLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
     else if (event->text().compare("a", Qt::CaseSensitive) == 0) {
-        this->drivingMask &= ~DrivingLeft;
+        this->drivingMask &= ~LEFT;
         ui->driveLeftLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
     else if (event->text().compare("s", Qt::CaseSensitive) == 0) {
-        this->drivingMask &= ~DrivingBackgward;
+        this->drivingMask &= ~BACKWARD;
         ui->driveBackLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
     else if (event->text().compare("d", Qt::CaseSensitive) == 0) {
-        this->drivingMask &= ~DrivingRight;
+        this->drivingMask &= ~RIGHT;
         ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
     else {
         return;
     }
-    this->postData();
+    this->postData(STEERING);
 }
 
-void MainWindow::postData()
+void MainWindow::postData(TX_CONTENT_TYPE contentType)
 {
     this->outgoingSocket->abort();
     QSettings settings("ivany4", "lunabotics");
@@ -132,77 +128,96 @@ void MainWindow::postData()
     union BytesToFloat floatConverter;
 
     QByteArray *bytes = new QByteArray();
-    bytes->append(this->autonomyEnabled);
-    bytes->append(this->controlType);
+    bytes->append(contentType);
 
-    float linearSpeedLimit = DEFAULT_LATERAL_SPEED_LIMIT;
-    float controlDependentLimit = 0;
-    switch (this->controlType) {
-    case ControlAckermann:
-        controlDependentLimit = DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT;
-        if (ui->ackermannLinearSpeedCheckBox->checkState() == Qt::Checked) {
-            linearSpeedLimit = ui->ackermannLinearSpeedEdit->text().toFloat();
-        }
-        if (ui->ackermannDependentValueCheckBox->checkState() == Qt::Checked) {
-            controlDependentLimit = ui->ackermanDependentValueEdit->text().toFloat();
-        }
+
+    switch (contentType) {
+    case AUTONOMY:
+        bytes->append(this->autonomyEnabled);
         break;
-    case ControlSpot:
-        controlDependentLimit = DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT;
-        if (ui->spoeLinearSpeedCheckBox->checkState() == Qt::Checked) {
-            linearSpeedLimit = ui->spotLinearSpeedEdit->text().toFloat();
-        }
-        if (ui->spotDependentValueCheckBox->checkState() == Qt::Checked) {
-            controlDependentLimit = ui->spotDependentValueEdit->text().toFloat();
-        }
+       case CTRL_MODE:
+        bytes->append(this->controlType);
         break;
-    case ControlLateral:
-        controlDependentLimit = DEFAULT_LATERAL_SPEED_LIMIT;
-        if (ui->lateralLinearSpeedCheckBox->checkState() == Qt::Checked) {
-            linearSpeedLimit = ui->lateralLinearSpeedEdit->text().toFloat();
+    case STEERING: {
+        float linearSpeedLimit = DEFAULT_LATERAL_SPEED_LIMIT;
+        float controlDependentLimit = 0;
+        switch (this->controlType) {
+        case ACKERMANN:
+            controlDependentLimit = DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT;
+            if (ui->ackermannLinearSpeedCheckBox->checkState() == Qt::Checked) {
+                linearSpeedLimit = ui->ackermannLinearSpeedEdit->text().toFloat();
+            }
+            if (ui->ackermannDependentValueCheckBox->checkState() == Qt::Checked) {
+                controlDependentLimit = ui->ackermanDependentValueEdit->text().toFloat();
+            }
+            break;
+        case TURN_IN_SPOT:
+            controlDependentLimit = DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT;
+            if (ui->spoeLinearSpeedCheckBox->checkState() == Qt::Checked) {
+                linearSpeedLimit = ui->spotLinearSpeedEdit->text().toFloat();
+            }
+            if (ui->spotDependentValueCheckBox->checkState() == Qt::Checked) {
+                controlDependentLimit = ui->spotDependentValueEdit->text().toFloat();
+            }
+            break;
+        case LATERAL:
+            controlDependentLimit = DEFAULT_LATERAL_SPEED_LIMIT;
+            if (ui->lateralLinearSpeedCheckBox->checkState() == Qt::Checked) {
+                linearSpeedLimit = ui->lateralLinearSpeedEdit->text().toFloat();
+            }
+            if (ui->lateralDependentValueCheckBox->checkState() == Qt::Checked) {
+                controlDependentLimit = ui->lateralDependentValueEdit->text().toFloat();
+            }
+            break;
+        default:
+            break;
         }
-        if (ui->lateralDependentValueCheckBox->checkState() == Qt::Checked) {
-            controlDependentLimit = ui->lateralDependentValueEdit->text().toFloat();
+        qDebug() << "Settign linear speed limit as " << linearSpeedLimit;
+        qDebug() << "Settign dependent limit as " << controlDependentLimit;
+        floatConverter.floatValue = linearSpeedLimit;
+        bytes->append(floatConverter.bytes, sizeof(float));
+        floatConverter.floatValue = controlDependentLimit;
+        bytes->append(floatConverter.bytes, sizeof(float));
+        qDebug() << "Driving:";
+        if (this->drivingMask & FORWARD) {
+            qDebug() << "   Forward";
         }
+        if (this->drivingMask & BACKWARD) {
+            qDebug() << "   Backward";
+        }
+        if (this->drivingMask & LEFT) {
+            qDebug() << "   Left";
+        }
+        if (this->drivingMask & RIGHT) {
+            qDebug() << "   Right";
+        }
+
+        bytes->append(this->drivingMask & FORWARD);
+        bytes->append(this->drivingMask & BACKWARD);
+        bytes->append(this->drivingMask & LEFT);
+        bytes->append(this->drivingMask & RIGHT);
+    }
+        break;
+    case ROUTE:
         break;
     default:
         break;
     }
 
-    qDebug() << "Settign linear speed limit as " << linearSpeedLimit;
-    qDebug() << "Settign dependent limit as " << controlDependentLimit;
+    if (this->outgoingSocket->state() != QAbstractSocket::UnconnectedState) {
+        this->outgoingSocket->write(bytes->data(), bytes->size());
 
-    floatConverter.floatValue = linearSpeedLimit;
-    bytes->append(floatConverter.bytes, sizeof(float));
-    floatConverter.floatValue = controlDependentLimit;
-    bytes->append(floatConverter.bytes, sizeof(float));
-
-    qDebug() << "Driving:";
-    if (this->drivingMask & DrivingForward) {
-        qDebug() << "   Forward";
+//        while (this->outgoingSocket->bytesToWrite() > 0) {
+//            this->outgoingSocket->waitForBytesWritten();
+//        }
     }
-    if (this->drivingMask & DrivingBackgward) {
-        qDebug() << "   Backward";
-    }
-    if (this->drivingMask & DrivingLeft) {
-        qDebug() << "   Left";
-    }
-    if (this->drivingMask & DrivingRight) {
-        qDebug() << "   Right";
+    else {
+        qDebug() << "Socket is not connected!";
     }
 
-    bytes->append(this->drivingMask & DrivingForward);
-    bytes->append(this->drivingMask & DrivingBackgward);
-    bytes->append(this->drivingMask & DrivingLeft);
-    bytes->append(this->drivingMask & DrivingRight);
+    // READ THE RESPONSE
 
-    this->outgoingSocket->write(bytes->data(), bytes->size());
-
-    while (this->outgoingSocket->bytesToWrite() > 0) {
-        this->outgoingSocket->waitForBytesWritten();
-    }
-
-    this->outgoingSocket->read(bytes->data(), bytes->size());
+    //this->outgoingSocket->read(bytes->data(), bytes->size());
 
 
 
@@ -212,7 +227,7 @@ void MainWindow::postData()
     // DECODE TO ENSURE THAT ALL VALUES HAVE BEEN ENCODED CORRECTLY
     //
     ///////////////////////////////////////////////////////////////////
-
+/*
     const char *data = bytes->constData();
 
     bool autoDrive = data[0];
@@ -261,7 +276,7 @@ void MainWindow::postData()
     qDebug() << "   Backward: " << (driveBackward ? "yes" : "no");
     qDebug() << "   Left: " << (driveLeft ? "yes" : "no");
     qDebug() << "   Right: " << (driveRight ? "yes" : "no");
-
+*/
     delete bytes;
 }
 
@@ -274,24 +289,28 @@ void MainWindow::on_autonomyCheckbox_clicked(bool checked)
         qDebug() << "Enabling autonomy";
     }
     this->autonomyEnabled = !checked;
+    this->postData(AUTONOMY);
 }
 
 void MainWindow::on_useLateralButton_clicked()
 {
     qDebug() << "Switching to lateral driving mode";
-    this->controlType = ControlLateral;
+    this->controlType = LATERAL;
+    this->postData(CTRL_MODE);
 }
 
 void MainWindow::on_useSpotButton_clicked()
 {
     qDebug() << "Switching to spot driving mode";
-    this->controlType = ControlSpot;
+    this->controlType = TURN_IN_SPOT;
+    this->postData(CTRL_MODE);
 }
 
 void MainWindow::on_useAckermannButton_clicked()
 {
     qDebug() << "Switching to Ackermann driving mode";
-    this->controlType = ControlAckermann;
+    this->controlType = ACKERMANN;
+    this->postData(CTRL_MODE);
 }
 
 

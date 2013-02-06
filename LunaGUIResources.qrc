@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/images">
         <file>rover.png</file>
+        <file>bender.icns</file>
     </qresource>
 </RCC>

@@ -68,7 +68,6 @@ MainWindow::~MainWindow()
     delete ui;
     this->disconnectRobot();
     delete this->incomingServer;
-    delete this->incomingSocket;
     delete this->outgoingSocket;
 }
 
@@ -322,9 +321,6 @@ void MainWindow::on_useAckermannButton_clicked()
 
 void MainWindow::serverAcceptConnection()
 {
-    if (this->incomingSocket) {
-        delete this->incomingSocket;
-    }
     this->incomingSocket = this->incomingServer->nextPendingConnection();
 
     if (this->incomingSocket) {
@@ -413,9 +409,12 @@ void MainWindow::connectRobot()
 
     if (!this->incomingServer) {
         this->incomingServer = new QTcpServer(this);
+        connect(this->incomingServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
     }
-    connect(this->incomingServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
-    this->incomingServer->listen(QHostAddress(settings.value("in_ip", CONN_INCOMING_ADDR).toString()), settings.value("in_port", CONN_INCOMING_PORT).toInt());
+
+    if (!this->incomingServer->listen(QHostAddress(settings.value("in_ip", CONN_INCOMING_ADDR).toString()), settings.value("in_port", CONN_INCOMING_PORT).toInt())) {
+        qDebug() << "Failed to start listening for " << settings.value("in_ip", CONN_INCOMING_ADDR).toString();
+    }
 
     settings.endGroup();
 }

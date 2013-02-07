@@ -67,6 +67,9 @@ MainWindow::~MainWindow()
 {
     delete ui;
     this->disconnectRobot();
+    delete this->incomingServer;
+    delete this->incomingSocket;
+    delete this->outgoingSocket;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -204,7 +207,7 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
         break;
     }
 
-    if (this->outgoingSocket->state() != QAbstractSocket::UnconnectedState) {
+    if (this->outgoingSocket->state() != QTcpSocket::UnconnectedState) {
         this->outgoingSocket->write(bytes->data(), bytes->size());
 
 //        while (this->outgoingSocket->bytesToWrite() > 0) {
@@ -319,9 +322,15 @@ void MainWindow::on_useAckermannButton_clicked()
 
 void MainWindow::serverAcceptConnection()
 {
-    qDebug() << "New connection available";
+    if (this->incomingSocket) {
+        delete this->incomingSocket;
+    }
     this->incomingSocket = this->incomingServer->nextPendingConnection();
-    connect(this->incomingSocket, SIGNAL(readyRead()), this, SLOT(serverStartRead()));
+
+    if (this->incomingSocket) {
+        qDebug() << "New connection";
+        connect(this->incomingSocket, SIGNAL(readyRead()), this, SLOT(serverStartRead()));
+    }
 }
 
 void MainWindow::serverStartRead()
@@ -375,29 +384,20 @@ void MainWindow::on_actionPreferences_triggered()
 
 void MainWindow::disconnectRobot()
 {
+    qDebug() << "Closing connection";
     if (this->outgoingSocket) {
-        if (this->outgoingSocket->isOpen()) {
-            this->outgoingSocket->abort();
-        }
-        delete this->outgoingSocket, this->outgoingSocket = NULL;
+        this->outgoingSocket->close();
     }
     if (this->incomingServer) {
-        if (this->incomingServer->isListening()) {
-            this->incomingServer->close();
-        }
-        delete this->incomingServer, this->incomingServer = NULL;
+        this->incomingServer->close();
     }
     if (this->incomingSocket) {
-        if (this->incomingSocket->isOpen()) {
-            this->incomingSocket->abort();
-        }
-        delete this->incomingSocket, this->incomingSocket = NULL;
+        this->incomingSocket->close();
     }
 }
 
 void MainWindow::connectRobot()
 {
-    qDebug() << "Closing connection";
     this->disconnectRobot();
 
     qDebug() << "Creating new connection";
@@ -406,10 +406,14 @@ void MainWindow::connectRobot()
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("connection");
 
-    this->outgoingSocket = new QTcpSocket(this);
+    if (!this->outgoingSocket) {
+        this->outgoingSocket = new QTcpSocket(this);
+    }
     this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
 
-    this->incomingServer = new QTcpServer(this);
+    if (!this->incomingServer) {
+        this->incomingServer = new QTcpServer(this);
+    }
     connect(this->incomingServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
     this->incomingServer->listen(QHostAddress(settings.value("in_ip", CONN_INCOMING_ADDR).toString()), settings.value("in_port", CONN_INCOMING_PORT).toInt());
 

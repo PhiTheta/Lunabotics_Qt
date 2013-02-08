@@ -208,10 +208,6 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
 
     if (this->outgoingSocket->state() != QTcpSocket::UnconnectedState) {
         this->outgoingSocket->write(bytes->data(), bytes->size());
-
-//        while (this->outgoingSocket->bytesToWrite() > 0) {
-//            this->outgoingSocket->waitForBytesWritten();
-//        }
     }
     else {
         qDebug() << "Socket is not connected!";
@@ -221,64 +217,6 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
 
     //this->outgoingSocket->read(bytes->data(), bytes->size());
 
-
-
-
-    ///////////////////////////////////////////////////////////////////
-    //
-    // DECODE TO ENSURE THAT ALL VALUES HAVE BEEN ENCODED CORRECTLY
-    //
-    ///////////////////////////////////////////////////////////////////
-/*
-    const char *data = bytes->constData();
-
-    bool autoDrive = data[0];
-    BytesToUint8 intConverter;
-    ControlType type;
-    intConverter.bytes[0] = data[1];
-    switch (intConverter.uint8Value) {
-        case 0:
-            type = ControlAckermann;
-            break;
-        case 1:
-            type = ControlSpot;
-            break;
-        case 2:
-            type = ControlLateral;
-            break;
-        default:
-            break;
-    }
-
-
-    floatConverter.bytes[0] = data[2];
-    floatConverter.bytes[1] = data[3];
-    floatConverter.bytes[2] = data[4];
-    floatConverter.bytes[3] = data[5];
-    float linearSpeed = floatConverter.floatValue;
-
-    floatConverter.bytes[0] = data[6];
-    floatConverter.bytes[1] = data[7];
-    floatConverter.bytes[2] = data[8];
-    floatConverter.bytes[3] = data[9];
-    float dependentValue = floatConverter.floatValue;
-
-    bool driveForward = data[10];
-    bool driveBackward = data[11];
-    bool driveLeft = data[12];
-    bool driveRight = data[13];
-
-    qDebug() << "Autonomy enabled: " << (autoDrive ? "yes" : "no");
-    qDebug() << "Control Type: " << (type == ControlAckermann ? "Ackermann" : type == ControlLateral ? "Lateral" : "Spot");
-    qDebug() << "Linear speed: " << linearSpeed;
-    qDebug() << "Dependent value: " << dependentValue;
-    qDebug() << "Driving mask: ";
-
-    qDebug() << "   Forward: " << (driveForward ? "yes" : "no");
-    qDebug() << "   Backward: " << (driveBackward ? "yes" : "no");
-    qDebug() << "   Left: " << (driveLeft ? "yes" : "no");
-    qDebug() << "   Right: " << (driveRight ? "yes" : "no");
-*/
     delete bytes;
 }
 
@@ -332,7 +270,7 @@ void MainWindow::serverAcceptConnection()
 void MainWindow::serverStartRead()
 {
     qDebug() << "Receiving telemetry";
-    char buffer[64*3] = {0};
+    char buffer[sizeof(double)*6] = {0};
     this->incomingSocket->read(buffer, this->incomingSocket->bytesAvailable());
 
     BytesToDouble doubleConverter;
@@ -345,7 +283,7 @@ void MainWindow::serverStartRead()
     doubleConverter.bytes[5] = buffer[pointer++];
     doubleConverter.bytes[6] = buffer[pointer++];
     doubleConverter.bytes[7] = buffer[pointer++];
-    double xValue = doubleConverter.doubleValue;
+    double posXValue = doubleConverter.doubleValue;
     doubleConverter.bytes[0] = buffer[pointer++];
     doubleConverter.bytes[1] = buffer[pointer++];
     doubleConverter.bytes[2] = buffer[pointer++];
@@ -354,7 +292,43 @@ void MainWindow::serverStartRead()
     doubleConverter.bytes[5] = buffer[pointer++];
     doubleConverter.bytes[6] = buffer[pointer++];
     doubleConverter.bytes[7] = buffer[pointer++];
-    double yValue = doubleConverter.doubleValue;
+    double posYValue = doubleConverter.doubleValue;
+    doubleConverter.bytes[0] = buffer[pointer++];
+    doubleConverter.bytes[1] = buffer[pointer++];
+    doubleConverter.bytes[2] = buffer[pointer++];
+    doubleConverter.bytes[3] = buffer[pointer++];
+    doubleConverter.bytes[4] = buffer[pointer++];
+    doubleConverter.bytes[5] = buffer[pointer++];
+    doubleConverter.bytes[6] = buffer[pointer++];
+    doubleConverter.bytes[7] = buffer[pointer++];
+    double orValue = doubleConverter.doubleValue;
+    doubleConverter.bytes[0] = buffer[pointer++];
+    doubleConverter.bytes[1] = buffer[pointer++];
+    doubleConverter.bytes[2] = buffer[pointer++];
+    doubleConverter.bytes[3] = buffer[pointer++];
+    doubleConverter.bytes[4] = buffer[pointer++];
+    doubleConverter.bytes[5] = buffer[pointer++];
+    doubleConverter.bytes[6] = buffer[pointer++];
+    doubleConverter.bytes[7] = buffer[pointer++];
+    double vXValue = doubleConverter.doubleValue;
+    doubleConverter.bytes[0] = buffer[pointer++];
+    doubleConverter.bytes[1] = buffer[pointer++];
+    doubleConverter.bytes[2] = buffer[pointer++];
+    doubleConverter.bytes[3] = buffer[pointer++];
+    doubleConverter.bytes[4] = buffer[pointer++];
+    doubleConverter.bytes[5] = buffer[pointer++];
+    doubleConverter.bytes[6] = buffer[pointer++];
+    doubleConverter.bytes[7] = buffer[pointer++];
+    double vYValue = doubleConverter.doubleValue;
+    doubleConverter.bytes[0] = buffer[pointer++];
+    doubleConverter.bytes[1] = buffer[pointer++];
+    doubleConverter.bytes[2] = buffer[pointer++];
+    doubleConverter.bytes[3] = buffer[pointer++];
+    doubleConverter.bytes[4] = buffer[pointer++];
+    doubleConverter.bytes[5] = buffer[pointer++];
+    doubleConverter.bytes[6] = buffer[pointer++];
+    doubleConverter.bytes[7] = buffer[pointer++];
+    double vZValue = doubleConverter.doubleValue;
 //    doubleConverter.bytes[0] = buffer[pointer++];
 //    doubleConverter.bytes[1] = buffer[pointer++];
 //    doubleConverter.bytes[2] = buffer[pointer++];
@@ -363,10 +337,35 @@ void MainWindow::serverStartRead()
 //    doubleConverter.bytes[5] = buffer[pointer++];
 //    doubleConverter.bytes[6] = buffer[pointer++];
 //    doubleConverter.bytes[7] = buffer[pointer++];
-//    double zValue = doubleConverter.doubleValue;
+//    double wXValue = doubleConverter.doubleValue;
+//    doubleConverter.bytes[0] = buffer[pointer++];
+//    doubleConverter.bytes[1] = buffer[pointer++];
+//    doubleConverter.bytes[2] = buffer[pointer++];
+//    doubleConverter.bytes[3] = buffer[pointer++];
+//    doubleConverter.bytes[4] = buffer[pointer++];
+//    doubleConverter.bytes[5] = buffer[pointer++];
+//    doubleConverter.bytes[6] = buffer[pointer++];
+//    doubleConverter.bytes[7] = buffer[pointer++];
+//    double wYValue = doubleConverter.doubleValue;
+//    doubleConverter.bytes[0] = buffer[pointer++];
+//    doubleConverter.bytes[1] = buffer[pointer++];
+//    doubleConverter.bytes[2] = buffer[pointer++];
+//    doubleConverter.bytes[3] = buffer[pointer++];
+//    doubleConverter.bytes[4] = buffer[pointer++];
+//    doubleConverter.bytes[5] = buffer[pointer++];
+//    doubleConverter.bytes[6] = buffer[pointer++];
+//    doubleConverter.bytes[7] = buffer[pointer++];
+//    double wZValue = doubleConverter.doubleValue;
 
-    ui->posXLabel->setText(QString::number(xValue));
-    ui->posYLabel->setText(QString::number(yValue));
+    ui->posXLabel->setText(QString::number(posXValue));
+    ui->posYLabel->setText(QString::number(posYValue));
+    ui->orLabel->setText(QString::number(orValue));
+    ui->vXLabel->setText(QString::number(vXValue));
+    ui->vYLabel->setText(QString::number(vYValue));
+    ui->vZLabel->setText(QString::number(vZValue));
+//    ui->wXLabel->setText(QString::number(wXValue));
+//    ui->wYLabel->setText(QString::number(wYValue));
+//    ui->wZLabel->setText(QString::number(wZValue));
 }
 
 void MainWindow::on_actionPreferences_triggered()

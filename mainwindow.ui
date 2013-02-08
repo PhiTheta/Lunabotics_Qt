@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>882</width>
-    <height>446</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,8 +26,8 @@
    <widget class="QLabel" name="positionTitleLabel">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>30</y>
+      <x>430</x>
+      <y>120</y>
       <width>62</width>
       <height>16</height>
      </rect>
@@ -39,8 +39,8 @@
    <widget class="QLabel" name="posXTitleLabel">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>50</y>
+      <x>440</x>
+      <y>140</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -52,8 +52,8 @@
    <widget class="QLabel" name="posYTitleLabel">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>70</y>
+      <x>440</x>
+      <y>160</y>
       <width>21</width>
       <height>16</height>
      </rect>
@@ -65,8 +65,8 @@
    <widget class="QLabel" name="posXLabel">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>50</y>
+      <x>460</x>
+      <y>140</y>
       <width>62</width>
       <height>16</height>
      </rect>
@@ -78,8 +78,8 @@
    <widget class="QLabel" name="posYLabel">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>70</y>
+      <x>460</x>
+      <y>160</y>
       <width>62</width>
       <height>16</height>
      </rect>
@@ -91,8 +91,8 @@
    <widget class="QLabel" name="orientationTitleLabel">
     <property name="geometry">
      <rect>
-      <x>360</x>
-      <y>100</y>
+      <x>340</x>
+      <y>120</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -101,24 +101,11 @@
      <string>Orientation</string>
     </property>
    </widget>
-   <widget class="QLabel" name="orientationLabel">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>100</y>
-      <width>62</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>theta</string>
-    </property>
-   </widget>
    <widget class="Line" name="leftSeparatorLine">
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>10</y>
+      <y>30</y>
       <width>20</width>
       <height>371</height>
      </rect>
@@ -522,10 +509,10 @@
    <widget class="QLabel" name="roverViewLabel">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>140</y>
-      <width>171</width>
-      <height>231</height>
+      <x>360</x>
+      <y>230</y>
+      <width>141</width>
+      <height>201</height>
      </rect>
     </property>
     <property name="text">
@@ -607,6 +594,201 @@
     </property>
     <property name="tristate">
      <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="orLabel">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>140</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>theta</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="wZLabel">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>90</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>z</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="wZTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>90</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>z:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="angularSpeedTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>30</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Angular speed</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="wYLabel">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>70</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>y</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="wYTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>70</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>y:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="wXTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>50</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>x:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="wXLabel">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>50</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>x</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vZLabel">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>90</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>z</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vZTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>90</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>z:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="linearSpeedTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>30</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Linear speed</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vYLabel">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>70</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>y</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vYTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>70</y>
+      <width>21</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>y:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vXTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>50</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>x:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="vXLabel">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>50</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>x</string>
     </property>
    </widget>
   </widget>

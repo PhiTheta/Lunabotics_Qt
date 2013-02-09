@@ -291,7 +291,7 @@ void MainWindow::serverAcceptConnection()
 double MainWindow::decodeDouble(char buffer[], int &pointer)
 {
     BytesToDouble doubleConverter;
-    for (unsigned int i = 0; i < 8; i++) {
+    for (unsigned int i = 0; i < sizeof(double); i++) {
         doubleConverter.bytes[i] = buffer[pointer++];
     }
     return doubleConverter.doubleValue;
@@ -307,7 +307,7 @@ uint8_t MainWindow::decodeByte(char buffer[], int &pointer)
 int MainWindow::decodeInt(char buffer[], int &pointer)
 {
     BytesToFloatInt intConverter;
-    for (unsigned int i = 0; i < sizeof(int32_t); i++) {
+    for (unsigned int i = 0; i < sizeof(int); i++) {
         intConverter.bytes[i] = buffer[pointer++];
     }
     return intConverter.intValue;
@@ -343,9 +343,15 @@ void MainWindow::serverStartRead()
         ui->vXLabel->setText(QString("%1 m/s").arg(QString::number(vXValue, 'f', 2)));
         ui->vYLabel->setText(QString("%1 m/s").arg(QString::number(vYValue, 'f', 2)));
         ui->vZLabel->setText(QString("%1 m/s").arg(QString::number(vZValue, 'f', 2)));
+
+
+        this->robotPosition.setX(posXValue);
+        this->robotPosition.setY(posYValue);
         //    ui->wXLabel->setText(QString::number(wXValue));
         //    ui->wYLabel->setText(QString::number(wYValue));
         //    ui->wZLabel->setText(QString::number(wZValue));
+
+        this->redrawMap();
     }
         break;
 
@@ -407,6 +413,7 @@ void MainWindow::redrawMap()
         QBrush redBrush(Qt::red);
         QBrush whiteBrush(Qt::white);
         QBrush blueBrush(Qt::blue);
+        QBrush yellowBrush(Qt::yellow);
         QPen pen(Qt::black);
         int viewportWidth = ui->mapView->width()-10;
         int viewportHeight = ui->mapView->height()-10;
@@ -422,12 +429,20 @@ void MainWindow::redrawMap()
             pathCells.push_back(point);
         }
 
+        int robotX = round(this->robotPosition.x()/this->mapResolution);
+        int robotY = round(this->robotPosition.y()/this->mapResolution);
+        robotX = std::max(0, robotX);
+        robotY = std::max(0, robotY);
+
         for (int i = 0; i < this->mapHeight; i++) {
             for (int j = 0; j < this->mapWidth; j++) {
                 uint8_t occupancy = this->occupancyGrid->at(i*this->mapWidth+j);
                 QBrush brush;
                 if (occupancy > OCCUPANCY_THRESHOLD) {
                     brush = redBrush;
+                }
+                else if (j == robotX && i == robotY) {
+                    brush = yellowBrush;
                 }
                 else {
                     QPoint point;

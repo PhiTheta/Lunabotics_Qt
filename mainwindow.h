@@ -79,6 +79,7 @@ private:
     QGraphicsScene *mapScene;
     QVector<uint8_t> *occupancyGrid;
     QVector<QPointF> *path;
+    QPointF robotPosition;
     uint8_t mapWidth;
     uint8_t mapHeight;
     double mapResolution;

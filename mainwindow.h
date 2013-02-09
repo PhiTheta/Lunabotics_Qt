@@ -78,9 +78,10 @@ private:
     QTcpServer *incomingServer;
     QGraphicsScene *mapScene;
     QVector<uint8_t> *occupancyGrid;
-    QVector<QGraphicsRectItem> *mapCells;
+    QVector<QPointF> *path;
     uint8_t mapWidth;
     uint8_t mapHeight;
+    double mapResolution;
 
     void leftAction();
     void rightAction();

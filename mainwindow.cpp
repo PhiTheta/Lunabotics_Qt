@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->mapScene = new QGraphicsScene(this);
     ui->mapView->setScene(this->mapScene);
     this->occupancyGrid = new QVector<uint8_t>();
-    this->mapCells = new QVector<QGraphicsRectItem>();
+    this->path = new QVector<QPointF>();
 
     QString text;
     ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
@@ -89,6 +89,7 @@ MainWindow::~MainWindow()
     delete this->outgoingSocket;
     delete this->mapScene;
     delete this->occupancyGrid;
+    delete this->path;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -351,7 +352,8 @@ void MainWindow::serverStartRead()
     case MAP: {
         this->mapWidth = this->decodeByte(buffer, pointer);
         this->mapHeight = this->decodeByte(buffer, pointer);
-        qDebug() << "Receiving map (" << this->mapWidth << "x" << this->mapHeight << ")";
+        this->mapResolution = this->decodeDouble(buffer, pointer);
+        qDebug() << "Receiving map (" << this->mapWidth << "x" << this->mapHeight << ") res is " << this->mapResolution;
         this->occupancyGrid->clear();
 
         for (int i = 0; i < this->mapWidth*this->mapHeight; i++) {
@@ -365,6 +367,20 @@ void MainWindow::serverStartRead()
 
     case PATH: {
         qDebug() << "Receiving waypoints";
+        int numOfPoses = this->decodeByte(buffer, pointer);
+        this->path->clear();
+
+        for (int i = 0; i < numOfPoses; i++) {
+            double x = this->decodeDouble(buffer, pointer);
+            double y = this->decodeDouble(buffer, pointer);
+            QPointF point;
+            point.setX(x);
+            point.setY(y);
+            qDebug() << x << "  ,  " << y;
+            this->path->push_back(point);
+        }
+
+        this->redrawMap();
     }
 
     default:
@@ -390,17 +406,45 @@ void MainWindow::redrawMap()
     if (this->mapWidth > 0 && this->mapHeight > 0) {
         QBrush redBrush(Qt::red);
         QBrush whiteBrush(Qt::white);
+        QBrush blueBrush(Qt::blue);
         QPen pen(Qt::black);
         int viewportWidth = ui->mapView->width()-10;
         int viewportHeight = ui->mapView->height()-10;
         int cellWidth = floor(viewportWidth/this->mapWidth);
         int cellHeight = floor(viewportHeight/this->mapHeight);
+
+        QVector<QPoint> pathCells;
+        for (int i = 0; i < this->path->size(); i++) {
+            QPointF pointF = this->path->at(i);
+            QPoint point;
+            point.setX(round(pointF.x()/this->mapResolution));
+            point.setY(round(pointF.y()/this->mapResolution));
+            pathCells.push_back(point);
+        }
+
         for (int i = 0; i < this->mapHeight; i++) {
             for (int j = 0; j < this->mapWidth; j++) {
                 uint8_t occupancy = this->occupancyGrid->at(i*this->mapWidth+j);
-                this->mapScene->addRect(j*cellWidth-viewportWidth/2, i*cellHeight-viewportHeight/2, cellWidth, cellHeight, pen, occupancy > OCCUPANCY_THRESHOLD ? redBrush : whiteBrush);
+                QBrush brush;
+                if (occupancy > OCCUPANCY_THRESHOLD) {
+                    brush = redBrush;
+                }
+                else {
+                    QPoint point;
+                    point.setX(j);
+                    point.setY(i);
+                    if (pathCells.contains(point)) {
+                        brush = blueBrush;
+                    }
+                    else {
+                        brush = whiteBrush;
+                    }
+                }
+                this->mapScene->addRect(j*cellWidth-viewportWidth/2, i*cellHeight-viewportHeight/2, cellWidth, cellHeight, pen, brush);
             }
         }
+
+
     }
 }
 

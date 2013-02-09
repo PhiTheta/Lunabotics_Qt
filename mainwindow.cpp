@@ -8,15 +8,19 @@
 #include <QHostAddress>
 #include <QSettings>
 #include <QMetaEnum>
+#include <QtAlgorithms>
 
 #define DEFAULT_LINEAR_SPEED_LIMIT  5.0
 #define DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT  45
 #define DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT 1.0
 #define DEFAULT_LATERAL_SPEED_LIMIT 2.0
 
-union BytesToFloat {
+#define OCCUPANCY_THRESHOLD     80
+
+union BytesToFloatInt {
     char    bytes[4];
     float   floatValue;
+    float   intValue;
 };
 
 union BytesToUint8 {
@@ -35,6 +39,12 @@ enum CTRL_MODE_TYPE {
     LATERAL   		 = 2
 };
 
+enum RX_CONTENT_TYPE {
+    TELEMETRY       = 0,
+    MAP             = 1,
+    PATH            = 2
+};
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -44,6 +54,12 @@ MainWindow::MainWindow(QWidget *parent) :
     this->outgoingSocket = NULL;
     this->incomingServer = NULL;
     this->incomingSocket = NULL;
+    this->mapWidth = this->mapHeight = 0;
+
+    this->mapScene = new QGraphicsScene(this);
+    ui->mapView->setScene(this->mapScene);
+    this->occupancyGrid = new QVector<uint8_t>();
+    this->mapCells = new QVector<QGraphicsRectItem>();
 
     QString text;
     ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
@@ -61,14 +77,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->driveLeftLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     ui->driveBackLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     this->disconnectRobot();
+
     delete this->incomingServer;
     delete this->outgoingSocket;
+    delete this->mapScene;
+    delete this->occupancyGrid;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -127,7 +147,7 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
     this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
     settings.endGroup();
 
-    union BytesToFloat floatConverter;
+    union BytesToFloatInt floatConverter;
 
     QByteArray *bytes = new QByteArray();
     bytes->append(contentType);
@@ -267,105 +287,91 @@ void MainWindow::serverAcceptConnection()
     }
 }
 
+double MainWindow::decodeDouble(char buffer[], int &pointer)
+{
+    BytesToDouble doubleConverter;
+    for (unsigned int i = 0; i < 8; i++) {
+        doubleConverter.bytes[i] = buffer[pointer++];
+    }
+    return doubleConverter.doubleValue;
+}
+
+uint8_t MainWindow::decodeByte(char buffer[], int &pointer)
+{
+    BytesToUint8 uint8Converter;
+    uint8Converter.bytes[0] = buffer[pointer++];
+    return uint8Converter.uint8Value;
+}
+
+int MainWindow::decodeInt(char buffer[], int &pointer)
+{
+    BytesToFloatInt intConverter;
+    for (unsigned int i = 0; i < sizeof(int32_t); i++) {
+        intConverter.bytes[i] = buffer[pointer++];
+    }
+    return intConverter.intValue;
+}
+
 void MainWindow::serverStartRead()
 {
-    qDebug() << "Receiving telemetry";
-    char buffer[sizeof(double)*6] = {0};
-    this->incomingSocket->read(buffer, this->incomingSocket->bytesAvailable());
-
-    BytesToDouble doubleConverter;
     int pointer = 0;
-    doubleConverter.bytes[0] = buffer[pointer++];
-    doubleConverter.bytes[1] = buffer[pointer++];
-    doubleConverter.bytes[2] = buffer[pointer++];
-    doubleConverter.bytes[3] = buffer[pointer++];
-    doubleConverter.bytes[4] = buffer[pointer++];
-    doubleConverter.bytes[5] = buffer[pointer++];
-    doubleConverter.bytes[6] = buffer[pointer++];
-    doubleConverter.bytes[7] = buffer[pointer++];
-    double posXValue = doubleConverter.doubleValue;
-    doubleConverter.bytes[0] = buffer[pointer++];
-    doubleConverter.bytes[1] = buffer[pointer++];
-    doubleConverter.bytes[2] = buffer[pointer++];
-    doubleConverter.bytes[3] = buffer[pointer++];
-    doubleConverter.bytes[4] = buffer[pointer++];
-    doubleConverter.bytes[5] = buffer[pointer++];
-    doubleConverter.bytes[6] = buffer[pointer++];
-    doubleConverter.bytes[7] = buffer[pointer++];
-    double posYValue = doubleConverter.doubleValue;
-    doubleConverter.bytes[0] = buffer[pointer++];
-    doubleConverter.bytes[1] = buffer[pointer++];
-    doubleConverter.bytes[2] = buffer[pointer++];
-    doubleConverter.bytes[3] = buffer[pointer++];
-    doubleConverter.bytes[4] = buffer[pointer++];
-    doubleConverter.bytes[5] = buffer[pointer++];
-    doubleConverter.bytes[6] = buffer[pointer++];
-    doubleConverter.bytes[7] = buffer[pointer++];
-    double orValue = doubleConverter.doubleValue;
-    doubleConverter.bytes[0] = buffer[pointer++];
-    doubleConverter.bytes[1] = buffer[pointer++];
-    doubleConverter.bytes[2] = buffer[pointer++];
-    doubleConverter.bytes[3] = buffer[pointer++];
-    doubleConverter.bytes[4] = buffer[pointer++];
-    doubleConverter.bytes[5] = buffer[pointer++];
-    doubleConverter.bytes[6] = buffer[pointer++];
-    doubleConverter.bytes[7] = buffer[pointer++];
-    double vXValue = doubleConverter.doubleValue;
-    doubleConverter.bytes[0] = buffer[pointer++];
-    doubleConverter.bytes[1] = buffer[pointer++];
-    doubleConverter.bytes[2] = buffer[pointer++];
-    doubleConverter.bytes[3] = buffer[pointer++];
-    doubleConverter.bytes[4] = buffer[pointer++];
-    doubleConverter.bytes[5] = buffer[pointer++];
-    doubleConverter.bytes[6] = buffer[pointer++];
-    doubleConverter.bytes[7] = buffer[pointer++];
-    double vYValue = doubleConverter.doubleValue;
-    doubleConverter.bytes[0] = buffer[pointer++];
-    doubleConverter.bytes[1] = buffer[pointer++];
-    doubleConverter.bytes[2] = buffer[pointer++];
-    doubleConverter.bytes[3] = buffer[pointer++];
-    doubleConverter.bytes[4] = buffer[pointer++];
-    doubleConverter.bytes[5] = buffer[pointer++];
-    doubleConverter.bytes[6] = buffer[pointer++];
-    doubleConverter.bytes[7] = buffer[pointer++];
-    double vZValue = doubleConverter.doubleValue;
-//    doubleConverter.bytes[0] = buffer[pointer++];
-//    doubleConverter.bytes[1] = buffer[pointer++];
-//    doubleConverter.bytes[2] = buffer[pointer++];
-//    doubleConverter.bytes[3] = buffer[pointer++];
-//    doubleConverter.bytes[4] = buffer[pointer++];
-//    doubleConverter.bytes[5] = buffer[pointer++];
-//    doubleConverter.bytes[6] = buffer[pointer++];
-//    doubleConverter.bytes[7] = buffer[pointer++];
-//    double wXValue = doubleConverter.doubleValue;
-//    doubleConverter.bytes[0] = buffer[pointer++];
-//    doubleConverter.bytes[1] = buffer[pointer++];
-//    doubleConverter.bytes[2] = buffer[pointer++];
-//    doubleConverter.bytes[3] = buffer[pointer++];
-//    doubleConverter.bytes[4] = buffer[pointer++];
-//    doubleConverter.bytes[5] = buffer[pointer++];
-//    doubleConverter.bytes[6] = buffer[pointer++];
-//    doubleConverter.bytes[7] = buffer[pointer++];
-//    double wYValue = doubleConverter.doubleValue;
-//    doubleConverter.bytes[0] = buffer[pointer++];
-//    doubleConverter.bytes[1] = buffer[pointer++];
-//    doubleConverter.bytes[2] = buffer[pointer++];
-//    doubleConverter.bytes[3] = buffer[pointer++];
-//    doubleConverter.bytes[4] = buffer[pointer++];
-//    doubleConverter.bytes[5] = buffer[pointer++];
-//    doubleConverter.bytes[6] = buffer[pointer++];
-//    doubleConverter.bytes[7] = buffer[pointer++];
-//    double wZValue = doubleConverter.doubleValue;
+    qint64 bytesAvailable = this->incomingSocket->bytesAvailable();
+    char *buffer = new char[bytesAvailable];
+    this->incomingSocket->read(buffer, bytesAvailable);
 
-    ui->posXLabel->setText(QString::number(posXValue));
-    ui->posYLabel->setText(QString::number(posYValue));
-    ui->orLabel->setText(QString::number(orValue));
-    ui->vXLabel->setText(QString::number(vXValue));
-    ui->vYLabel->setText(QString::number(vYValue));
-    ui->vZLabel->setText(QString::number(vZValue));
-//    ui->wXLabel->setText(QString::number(wXValue));
-//    ui->wYLabel->setText(QString::number(wYValue));
-//    ui->wZLabel->setText(QString::number(wZValue));
+    RX_CONTENT_TYPE contentType = (RX_CONTENT_TYPE)this->decodeByte(buffer, pointer);
+
+    switch (contentType) {
+    case TELEMETRY: {
+     //   qDebug() << "Receiving telemetry";
+
+        double posXValue = this->decodeDouble(buffer, pointer);
+        double posYValue = this->decodeDouble(buffer, pointer);
+        double orValue = this->decodeDouble(buffer, pointer);
+        double vXValue = this->decodeDouble(buffer, pointer);
+        double vYValue = this->decodeDouble(buffer, pointer);
+        double vZValue = this->decodeDouble(buffer, pointer);
+
+        //    double wXValue = this->decodeDouble(buffer, pointer);
+        //    double wYValue = this->decodeDouble(buffer, pointer);
+        //    double wZValue = this->decodeDouble(buffer, pointer);
+
+        ui->posXLabel->setText(QString("%1 m").arg(QString::number(posXValue, 'f', 2)));
+        ui->posYLabel->setText(QString("%1 m").arg(QString::number(posYValue, 'f', 2)));
+        ui->orLabel->setText(QString("%1 rad").arg(QString::number(orValue, 'f', 2)));
+        ui->vXLabel->setText(QString("%1 m/s").arg(QString::number(vXValue, 'f', 2)));
+        ui->vYLabel->setText(QString("%1 m/s").arg(QString::number(vYValue, 'f', 2)));
+        ui->vZLabel->setText(QString("%1 m/s").arg(QString::number(vZValue, 'f', 2)));
+        //    ui->wXLabel->setText(QString::number(wXValue));
+        //    ui->wYLabel->setText(QString::number(wYValue));
+        //    ui->wZLabel->setText(QString::number(wZValue));
+    }
+        break;
+
+    case MAP: {
+        this->mapWidth = this->decodeByte(buffer, pointer);
+        this->mapHeight = this->decodeByte(buffer, pointer);
+        qDebug() << "Receiving map (" << this->mapWidth << "x" << this->mapHeight << ")";
+        this->occupancyGrid->clear();
+
+        for (int i = 0; i < this->mapWidth*this->mapHeight; i++) {
+            uint8_t cell = this->decodeByte(buffer, pointer);
+            this->occupancyGrid->push_back(cell);
+        }
+
+        this->redrawMap();
+    }
+        break;
+
+    case PATH: {
+        qDebug() << "Receiving waypoints";
+    }
+
+    default:
+        break;
+    }
+
+    delete buffer;
 }
 
 void MainWindow::on_actionPreferences_triggered()
@@ -374,6 +380,27 @@ void MainWindow::on_actionPreferences_triggered()
     preferenceDialog->setWindowModality(Qt::WindowModal);
     if (preferenceDialog->exec() == QDialog::Accepted) {
         this->connectRobot();
+    }
+}
+
+void MainWindow::redrawMap()
+{
+    qDeleteAll(this->mapScene->items());
+
+    if (this->mapWidth > 0 && this->mapHeight > 0) {
+        QBrush redBrush(Qt::red);
+        QBrush whiteBrush(Qt::white);
+        QPen pen(Qt::black);
+        int viewportWidth = ui->mapView->width()-10;
+        int viewportHeight = ui->mapView->height()-10;
+        int cellWidth = floor(viewportWidth/this->mapWidth);
+        int cellHeight = floor(viewportHeight/this->mapHeight);
+        for (int i = 0; i < this->mapHeight; i++) {
+            for (int j = 0; j < this->mapWidth; j++) {
+                uint8_t occupancy = this->occupancyGrid->at(i*this->mapWidth+j);
+                this->mapScene->addRect(j*cellWidth-viewportWidth/2, i*cellHeight-viewportHeight/2, cellWidth, cellHeight, pen, occupancy > OCCUPANCY_THRESHOLD ? redBrush : whiteBrush);
+            }
+        }
     }
 }
 
@@ -447,3 +474,5 @@ void MainWindow::on_lateralDependentValueCheckBox_clicked(bool checked)
 {
     ui->lateralDependentValueEdit->setEnabled(checked);
 }
+
+

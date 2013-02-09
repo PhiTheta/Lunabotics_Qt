@@ -72,7 +72,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>x</string>
+     <string>? m</string>
     </property>
    </widget>
    <widget class="QLabel" name="posYLabel">
@@ -85,7 +85,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>y</string>
+     <string>? m</string>
     </property>
    </widget>
    <widget class="QLabel" name="orientationTitleLabel">
@@ -606,7 +606,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>theta</string>
+     <string>? rad</string>
     </property>
    </widget>
    <widget class="QLabel" name="wZLabel">
@@ -619,7 +619,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>z</string>
+     <string>? rad/s</string>
     </property>
    </widget>
    <widget class="QLabel" name="wZTitleLabel">
@@ -658,7 +658,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>y</string>
+     <string>? rad/s</string>
     </property>
    </widget>
    <widget class="QLabel" name="wYTitleLabel">
@@ -697,7 +697,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>x</string>
+     <string>? rad/s</string>
     </property>
    </widget>
    <widget class="QLabel" name="vZLabel">
@@ -710,7 +710,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>z</string>
+     <string>? m/s</string>
     </property>
    </widget>
    <widget class="QLabel" name="vZTitleLabel">
@@ -749,7 +749,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>y</string>
+     <string>? m/s</string>
     </property>
    </widget>
    <widget class="QLabel" name="vYTitleLabel">
@@ -788,7 +788,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>x</string>
+     <string>? m/s</string>
     </property>
    </widget>
   </widget>

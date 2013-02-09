@@ -5,6 +5,8 @@
 #include <QKeyEvent>
 #include <QTcpSocket>
 #include <QTcpServer>
+#include <QtGui>
+#include <QtCore>
 
 #define BUFFER_SIZE 256
 
@@ -74,6 +76,12 @@ private:
     QTcpSocket *outgoingSocket;
     QTcpSocket *incomingSocket;
     QTcpServer *incomingServer;
+    QGraphicsScene *mapScene;
+    QVector<uint8_t> *occupancyGrid;
+    QVector<QGraphicsRectItem> *mapCells;
+    uint8_t mapWidth;
+    uint8_t mapHeight;
+
     void leftAction();
     void rightAction();
     void forwardAction();
@@ -81,6 +89,12 @@ private:
     void postData(TX_CONTENT_TYPE contentType);
     void connectRobot();
     void disconnectRobot();
+    void redrawMap();
+
+    double decodeDouble(char buffer[], int &pointer);
+    uint8_t decodeByte(char buffer[], int &pointer);
+    int decodeInt(char buffer[], int &pointer);
+
     bool autonomyEnabled;
     uint8_t controlType;
     STEERING_CMDS drivingMask;

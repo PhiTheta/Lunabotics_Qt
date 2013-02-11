@@ -14,11 +14,13 @@ ICON = bender.icns
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    preferencedialog.cpp
+    preferencedialog.cpp \
+    occupancygraphicsitem.cpp
 
 HEADERS  += mainwindow.h \
     preferencedialog.h \
-    constants.h
+    constants.h \
+    occupancygraphicsitem.h
 
 FORMS    += mainwindow.ui \
     preferencedialog.ui

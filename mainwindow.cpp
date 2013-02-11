@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "preferencedialog.h"
 #include "constants.h"
+#include "occupancygraphicsitem.h"
 #include <QDebug>
 #include <QByteArray>
 #include <QtNetwork>
@@ -68,6 +69,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ackermanDependentValueEdit->setText(text.setNum(DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT));
     ui->spotDependentValueEdit->setText(text.setNum(DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT));
     ui->lateralDependentValueEdit->setText(text.setNum(DEFAULT_LATERAL_SPEED_LIMIT));
+
+    this->redrawMap();
 
     this->connectRobot();
 
@@ -142,12 +145,13 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 void MainWindow::postData(TX_CONTENT_TYPE contentType)
 {
+    /*
     this->outgoingSocket->abort();
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("connection");
     this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
     settings.endGroup();
-
+*/
     union BytesToFloatInt floatConverter;
 
     QByteArray *bytes = new QByteArray();
@@ -222,6 +226,10 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
     }
         break;
     case ROUTE:
+        floatConverter.floatValue = this->goal.x()*this->mapResolution;
+        bytes->append(floatConverter.bytes, sizeof(float));
+        floatConverter.floatValue = this->goal.y()*this->mapResolution;
+        bytes->append(floatConverter.bytes, sizeof(float));
         break;
     default:
         break;
@@ -409,14 +417,37 @@ void MainWindow::redrawMap()
 {
     qDeleteAll(this->mapScene->items());
 
+
+    //////////////TEST///////////////
+/*
+    this->mapWidth = 10;
+    this->mapHeight = 10;
+    this->mapResolution = 1;
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            uint8_t occ = 0;
+            if (i > 6 && i < 8 && j > 4 && j < 7) occ = 100;
+            this->occupancyGrid->push_back(occ);
+        }
+    }
+
+    qDebug() << "TEsting Map";
+
+
+*/
+
+
+
+    //////////////////////////////////
+
     if (this->mapWidth > 0 && this->mapHeight > 0) {
         QBrush redBrush(Qt::red);
         QBrush whiteBrush(Qt::white);
         QBrush blueBrush(Qt::blue);
         QBrush yellowBrush(Qt::yellow);
         QPen pen(Qt::black);
-        int viewportWidth = ui->mapView->width()-10;
-        int viewportHeight = ui->mapView->height()-10;
+        int viewportWidth = ui->mapView->width();
+        int viewportHeight = ui->mapView->height();
         int cellWidth = floor(viewportWidth/this->mapWidth);
         int cellHeight = floor(viewportHeight/this->mapHeight);
 
@@ -438,27 +469,35 @@ void MainWindow::redrawMap()
             for (int j = 0; j < this->mapWidth; j++) {
                 uint8_t occupancy = this->occupancyGrid->at(i*this->mapWidth+j);
                 QBrush brush;
+                QPoint point;
+                point.setX(j);
+                point.setY(i);
                 if (occupancy > OCCUPANCY_THRESHOLD) {
                     brush = redBrush;
                 }
                 else if (j == robotX && i == robotY) {
                     brush = yellowBrush;
                 }
-                else {
-                    QPoint point;
-                    point.setX(j);
-                    point.setY(i);
-                    if (pathCells.contains(point)) {
-                        brush = blueBrush;
-                    }
-                    else {
-                        brush = whiteBrush;
-                    }
+                else if (pathCells.contains(point)) {
+                    brush = blueBrush;
                 }
-                this->mapScene->addRect(j*cellWidth-viewportWidth/2, i*cellHeight-viewportHeight/2, cellWidth, cellHeight, pen, brush);
+                else {
+                    brush = whiteBrush;
+                }
+                OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, QRect(j*cellWidth-viewportWidth/2, i*cellHeight-viewportHeight/2, cellWidth, cellHeight), 0);
+                rect->setBrush(brush);
+                rect->setPen(pen);
+
+                QObject::connect(rect, SIGNAL(clicked(QPoint)), this, SLOT(mapCell_clicked(QPoint)));
+
+                this->mapScene->addItem(rect);
             }
         }
 
+
+//        QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(QImage("robot.png")));
+////        pixmapItem->setPos(robotX*cellWidth-viewportWidth/2, robotY*cellHeight-viewportHeight/2);
+//        this->mapScene->addItem(pixmapItem);
 
     }
 }
@@ -490,6 +529,9 @@ void MainWindow::connectRobot()
     if (!this->outgoingSocket) {
         this->outgoingSocket = new QTcpSocket(this);
     }
+
+    connect(this->outgoingSocket, SIGNAL(connected()), this, SLOT(socketConnected()));
+    connect(this->outgoingSocket, SIGNAL(disconnected()), this, SLOT(socketDisconnected()));
     this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
 
     if (!this->incomingServer) {
@@ -502,6 +544,24 @@ void MainWindow::connectRobot()
     }
 
     settings.endGroup();
+}
+
+void MainWindow::mapCell_clicked(QPoint coordinate)
+{
+    qDebug() << "Coordinate " << coordinate.x() << "," << coordinate.y() << " clicked";
+    this->goal = coordinate;
+    this->postData(ROUTE);
+    //TODO: Request a path here
+}
+
+void MainWindow::socketConnected()
+{
+    ui->connectionLabel->setText("Robot connected");
+}
+
+void MainWindow::socketDisconnected()
+{
+    ui->connectionLabel->setText("Robot disconnected");
 }
 
 void MainWindow::on_ackermannLinearSpeedCheckBox_clicked(bool checked)

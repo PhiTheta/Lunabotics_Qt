@@ -71,6 +71,10 @@ private slots:
 
     void on_lateralDependentValueCheckBox_clicked(bool checked);
 
+    void mapCell_clicked(QPoint coordinate);
+    void socketConnected();
+    void socketDisconnected();
+
 private:
     Ui::MainWindow *ui;
     QTcpSocket *outgoingSocket;
@@ -80,6 +84,7 @@ private:
     QVector<uint8_t> *occupancyGrid;
     QVector<QPointF> *path;
     QPointF robotPosition;
+    QPoint goal;
     uint8_t mapWidth;
     uint8_t mapHeight;
     double mapResolution;

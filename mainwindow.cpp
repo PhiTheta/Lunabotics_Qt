@@ -145,13 +145,13 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 void MainWindow::postData(TX_CONTENT_TYPE contentType)
 {
-    /*
+
     this->outgoingSocket->abort();
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("connection");
     this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
     settings.endGroup();
-*/
+
     union BytesToFloatInt floatConverter;
 
     QByteArray *bytes = new QByteArray();
@@ -249,18 +249,6 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
     delete bytes;
 }
 
-void MainWindow::on_autonomyCheckbox_clicked(bool checked)
-{
-    if (checked) {
-        qDebug() << "Disabling autonomy";
-    }
-    else {
-        qDebug() << "Enabling autonomy";
-    }
-    this->autonomyEnabled = !checked;
-    this->postData(AUTONOMY);
-}
-
 void MainWindow::on_useLateralButton_clicked()
 {
     qDebug() << "Switching to lateral driving mode";
@@ -355,6 +343,7 @@ void MainWindow::serverStartRead()
 
         this->robotPosition.setX(posXValue);
         this->robotPosition.setY(posYValue);
+        this->robotAngle = orValue;
         //    ui->wXLabel->setText(QString::number(wXValue));
         //    ui->wYLabel->setText(QString::number(wYValue));
         //    ui->wZLabel->setText(QString::number(wZValue));
@@ -445,6 +434,7 @@ void MainWindow::redrawMap()
         QBrush whiteBrush(Qt::white);
         QBrush blueBrush(Qt::blue);
         QBrush yellowBrush(Qt::yellow);
+        QBrush clearBrush(Qt::transparent);
         QPen pen(Qt::black);
         int viewportWidth = ui->mapView->width();
         int viewportHeight = ui->mapView->height();
@@ -484,7 +474,7 @@ void MainWindow::redrawMap()
                 else {
                     brush = whiteBrush;
                 }
-                OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, QRect(j*cellWidth-viewportWidth/2, i*cellHeight-viewportHeight/2, cellWidth, cellHeight), 0);
+                OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, QRect(viewportWidth-(j+1)*cellWidth, i*cellHeight-viewportHeight/2, cellWidth, cellHeight), 0);
                 rect->setBrush(brush);
                 rect->setPen(pen);
 
@@ -494,6 +484,14 @@ void MainWindow::redrawMap()
             }
         }
 
+
+
+        this->mapScene->addEllipse(viewportWidth-(robotX+1)*cellWidth, robotY*cellHeight-viewportHeight/2, cellWidth, cellHeight, pen, clearBrush);
+        qreal robotCenterX = viewportWidth-(robotX+0.5)*cellWidth;
+        qreal robotCenterY = (robotY+0.5)*cellHeight-viewportHeight/2;
+        qreal pointerX = robotCenterX-cellWidth/2*cos(this->robotAngle);
+        qreal pointerY = robotCenterY+cellHeight/2*sin(this->robotAngle);
+        this->mapScene->addLine(robotCenterX, robotCenterY, pointerX, pointerY);
 
 //        QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(QImage("robot.png")));
 ////        pixmapItem->setPos(robotX*cellWidth-viewportWidth/2, robotY*cellHeight-viewportHeight/2);
@@ -530,8 +528,8 @@ void MainWindow::connectRobot()
         this->outgoingSocket = new QTcpSocket(this);
     }
 
-    connect(this->outgoingSocket, SIGNAL(connected()), this, SLOT(socketConnected()));
-    connect(this->outgoingSocket, SIGNAL(disconnected()), this, SLOT(socketDisconnected()));
+    connect(this->outgoingSocket, SIGNAL(connected()), this, SLOT(outSocketConnected()));
+    connect(this->outgoingSocket, SIGNAL(disconnected()), this, SLOT(outSocketDisconnected()));
     this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
 
     if (!this->incomingServer) {
@@ -550,18 +548,20 @@ void MainWindow::mapCell_clicked(QPoint coordinate)
 {
     qDebug() << "Coordinate " << coordinate.x() << "," << coordinate.y() << " clicked";
     this->goal = coordinate;
+    if (!this->autonomyEnabled) {
+        this->toggleAutonomy();
+    }
     this->postData(ROUTE);
-    //TODO: Request a path here
 }
 
-void MainWindow::socketConnected()
+void MainWindow::outSocketConnected()
 {
-    ui->connectionLabel->setText("Robot connected");
+    ui->outConnectionLabel->setText("Sending socket: connected");
 }
 
-void MainWindow::socketDisconnected()
+void MainWindow::outSocketDisconnected()
 {
-    ui->connectionLabel->setText("Robot disconnected");
+    ui->outConnectionLabel->setText("Sending socket: disconnected");
 }
 
 void MainWindow::on_ackermannLinearSpeedCheckBox_clicked(bool checked)
@@ -595,3 +595,28 @@ void MainWindow::on_lateralDependentValueCheckBox_clicked(bool checked)
 }
 
 
+
+void MainWindow::on_autonomyButton_clicked()
+{
+    this->toggleAutonomy();
+}
+
+void MainWindow::toggleAutonomy()
+{
+    if (this->autonomyEnabled) {
+        qDebug() << "Disabling autonomy";
+        ui->autonomyButton->setText("Enable autonomy");
+        this->autonomyEnabled = false;
+    }
+    else {
+        qDebug() << "Enabling autonomy";
+        ui->autonomyButton->setText("Disable autonomy");
+        this->autonomyEnabled = true;
+    }
+    this->postData(AUTONOMY);
+}
+
+void MainWindow::on_actionExit_triggered()
+{
+    QApplication::quit();
+}

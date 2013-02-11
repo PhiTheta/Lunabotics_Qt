@@ -601,28 +601,6 @@
      </brush>
     </property>
    </widget>
-   <widget class="QCheckBox" name="autonomyCheckbox">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>300</y>
-      <width>141</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Manual Control</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-    <property name="tristate">
-     <bool>false</bool>
-    </property>
-   </widget>
    <widget class="QLabel" name="orLabel">
     <property name="geometry">
      <rect>
@@ -818,17 +796,30 @@
      <string>? m/s</string>
     </property>
    </widget>
-   <widget class="QLabel" name="connectionLabel">
+   <widget class="QLabel" name="outConnectionLabel">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>410</y>
-      <width>171</width>
+      <y>400</y>
+      <width>211</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Robot disconnected</string>
+     <string>Sending socket: disconnected</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="autonomyButton">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>290</y>
+      <width>141</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Enable Autonomy</string>
     </property>
    </widget>
   </widget>

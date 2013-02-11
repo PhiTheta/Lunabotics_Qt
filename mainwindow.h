@@ -47,7 +47,6 @@ protected:
     void keyReleaseEvent(QKeyEvent *event);
 
 private slots:
-    void on_autonomyCheckbox_clicked(bool checked);
 
     void on_useLateralButton_clicked();
 
@@ -72,8 +71,12 @@ private slots:
     void on_lateralDependentValueCheckBox_clicked(bool checked);
 
     void mapCell_clicked(QPoint coordinate);
-    void socketConnected();
-    void socketDisconnected();
+    void outSocketConnected();
+    void outSocketDisconnected();
+
+    void on_autonomyButton_clicked();
+
+    void on_actionExit_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -84,6 +87,7 @@ private:
     QVector<uint8_t> *occupancyGrid;
     QVector<QPointF> *path;
     QPointF robotPosition;
+    double robotAngle;
     QPoint goal;
     uint8_t mapWidth;
     uint8_t mapHeight;
@@ -97,6 +101,7 @@ private:
     void connectRobot();
     void disconnectRobot();
     void redrawMap();
+    void toggleAutonomy();
 
     double decodeDouble(char buffer[], int &pointer);
     uint8_t decodeByte(char buffer[], int &pointer);

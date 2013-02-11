@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>882</width>
+    <width>900</width>
     <height>500</height>
    </rect>
   </property>
@@ -273,7 +273,7 @@
      <enum>Qt::NoFocus</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tabAckermann">
      <attribute name="title">
@@ -349,19 +349,6 @@
      <attribute name="title">
       <string>Spot</string>
      </attribute>
-     <widget class="QCheckBox" name="spotDependentValueCheckBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>90</y>
-        <width>231</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Limit rotational speed to [km/h]</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="useSpotButton">
       <property name="geometry">
        <rect>
@@ -373,45 +360,6 @@
       </property>
       <property name="text">
        <string>Use this mode</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="spoeLinearSpeedCheckBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>201</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Limit linear speed to [km/h]</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="spotLinearSpeedEdit">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>40</y>
-        <width>81</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="spotDependentValueEdit">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>120</y>
-        <width>81</width>
-        <height>22</height>
-       </rect>
       </property>
      </widget>
     </widget>
@@ -486,7 +434,7 @@
      </widget>
     </widget>
    </widget>
-   <widget class="QLabel" name="controlModeTitleLabel">
+   <widget class="QLabel" name="controlModesTitleLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -528,7 +476,7 @@
    <widget class="Line" name="rightSeparatorLine">
     <property name="geometry">
      <rect>
-      <x>530</x>
+      <x>560</x>
       <y>10</y>
       <width>20</width>
       <height>371</height>
@@ -547,7 +495,7 @@
    <widget class="QLabel" name="mapTitleLabel">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>590</x>
       <y>10</y>
       <width>91</width>
       <height>16</height>
@@ -567,7 +515,7 @@
    <widget class="QGraphicsView" name="mapView">
     <property name="geometry">
      <rect>
-      <x>560</x>
+      <x>590</x>
       <y>40</y>
       <width>301</width>
       <height>261</height>
@@ -619,7 +567,7 @@
      <rect>
       <x>460</x>
       <y>90</y>
-      <width>62</width>
+      <width>101</width>
       <height>16</height>
      </rect>
     </property>
@@ -658,7 +606,7 @@
      <rect>
       <x>460</x>
       <y>70</y>
-      <width>62</width>
+      <width>101</width>
       <height>16</height>
      </rect>
     </property>
@@ -697,7 +645,7 @@
      <rect>
       <x>460</x>
       <y>50</y>
-      <width>62</width>
+      <width>101</width>
       <height>16</height>
      </rect>
     </property>
@@ -822,13 +770,110 @@
      <string>Enable Autonomy</string>
     </property>
    </widget>
+   <widget class="QLabel" name="controlModeTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>200</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Control Mode:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="controlModeLabel">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>200</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ackermann</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="spotAngleTolerance">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>340</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0.4</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="spotAngleToleranceTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>310</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Angle tolerance (rad)</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="spotDistanceTolerance">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>340</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0.1</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="spotDistanceToleranceTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>310</y>
+      <width>161</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Distance tolerance (m)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="mapResolutionLabel">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>10</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>1 cell = 1x1m</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>882</width>
+     <width>900</width>
      <height>22</height>
     </rect>
    </property>

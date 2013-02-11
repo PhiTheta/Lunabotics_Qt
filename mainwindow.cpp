@@ -34,12 +34,6 @@ union BytesToDouble {
     double doubleValue;
 };
 
-enum CTRL_MODE_TYPE {
-    ACKERMANN 		 = 0,
-    TURN_IN_SPOT     = 1,
-    LATERAL   		 = 2
-};
-
 enum RX_CONTENT_TYPE {
     TELEMETRY       = 0,
     MAP             = 1,
@@ -64,10 +58,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QString text;
     ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
-    ui->spotLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
     ui->lateralLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
     ui->ackermanDependentValueEdit->setText(text.setNum(DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT));
-    ui->spotDependentValueEdit->setText(text.setNum(DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT));
     ui->lateralDependentValueEdit->setText(text.setNum(DEFAULT_LATERAL_SPEED_LIMIT));
 
     this->redrawMap();
@@ -180,12 +172,6 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
             break;
         case TURN_IN_SPOT:
             controlDependentLimit = DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT;
-            if (ui->spoeLinearSpeedCheckBox->checkState() == Qt::Checked) {
-                linearSpeedLimit = ui->spotLinearSpeedEdit->text().toFloat();
-            }
-            if (ui->spotDependentValueCheckBox->checkState() == Qt::Checked) {
-                controlDependentLimit = ui->spotDependentValueEdit->text().toFloat();
-            }
             break;
         case LATERAL:
             controlDependentLimit = DEFAULT_LATERAL_SPEED_LIMIT;
@@ -199,12 +185,6 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
         default:
             break;
         }
-        qDebug() << "Settign linear speed limit as " << linearSpeedLimit;
-        qDebug() << "Settign dependent limit as " << controlDependentLimit;
-        floatConverter.floatValue = linearSpeedLimit;
-        bytes->append(floatConverter.bytes, sizeof(float));
-        floatConverter.floatValue = controlDependentLimit;
-        bytes->append(floatConverter.bytes, sizeof(float));
         qDebug() << "Driving:";
         if (this->drivingMask & FORWARD) {
             qDebug() << "   Forward";
@@ -229,6 +209,10 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
         floatConverter.floatValue = this->goal.x()*this->mapResolution;
         bytes->append(floatConverter.bytes, sizeof(float));
         floatConverter.floatValue = this->goal.y()*this->mapResolution;
+        bytes->append(floatConverter.bytes, sizeof(float));
+        floatConverter.floatValue = ui->spotAngleTolerance->text().toFloat();
+        bytes->append(floatConverter.bytes, sizeof(float));
+        floatConverter.floatValue = ui->spotDistanceTolerance->text().toFloat();
         bytes->append(floatConverter.bytes, sizeof(float));
         break;
     default:
@@ -328,10 +312,10 @@ void MainWindow::serverStartRead()
         double vXValue = this->decodeDouble(buffer, pointer);
         double vYValue = this->decodeDouble(buffer, pointer);
         double vZValue = this->decodeDouble(buffer, pointer);
-
-        //    double wXValue = this->decodeDouble(buffer, pointer);
-        //    double wYValue = this->decodeDouble(buffer, pointer);
-        //    double wZValue = this->decodeDouble(buffer, pointer);
+        double wXValue = this->decodeDouble(buffer, pointer);
+        double wYValue = this->decodeDouble(buffer, pointer);
+        double wZValue = this->decodeDouble(buffer, pointer);
+        uint8_t controlMode = this->decodeByte(buffer, pointer);
 
         ui->posXLabel->setText(QString("%1 m").arg(QString::number(posXValue, 'f', 2)));
         ui->posYLabel->setText(QString("%1 m").arg(QString::number(posYValue, 'f', 2)));
@@ -339,14 +323,24 @@ void MainWindow::serverStartRead()
         ui->vXLabel->setText(QString("%1 m/s").arg(QString::number(vXValue, 'f', 2)));
         ui->vYLabel->setText(QString("%1 m/s").arg(QString::number(vYValue, 'f', 2)));
         ui->vZLabel->setText(QString("%1 m/s").arg(QString::number(vZValue, 'f', 2)));
+        ui->wXLabel->setText(QString("%1 rad/s").arg(QString::number(wXValue, 'f', 2)));
+        ui->wYLabel->setText(QString("%1 rad/s").arg(QString::number(wYValue, 'f', 2)));
+        ui->wZLabel->setText(QString("%1 rad/s").arg(QString::number(wZValue, 'f', 2)));
+
+        this->robotControlType = (CTRL_MODE_TYPE)controlMode;
+        switch (this->robotControlType) {
+        case ACKERMANN: ui->controlModeLabel->setText("Ackermann"); break;
+        case TURN_IN_SPOT: ui->controlModeLabel->setText("'Turn in spot'"); break;
+        case LATERAL: ui->controlModeLabel->setText("Lateral"); break;
+        default: ui->controlModeLabel->setText("Undefined"); break;
+        }
+
+
 
 
         this->robotPosition.setX(posXValue);
         this->robotPosition.setY(posYValue);
         this->robotAngle = orValue;
-        //    ui->wXLabel->setText(QString::number(wXValue));
-        //    ui->wYLabel->setText(QString::number(wYValue));
-        //    ui->wZLabel->setText(QString::number(wZValue));
 
         this->redrawMap();
     }
@@ -356,7 +350,7 @@ void MainWindow::serverStartRead()
         this->mapWidth = this->decodeByte(buffer, pointer);
         this->mapHeight = this->decodeByte(buffer, pointer);
         this->mapResolution = this->decodeDouble(buffer, pointer);
-        qDebug() << "Receiving map (" << this->mapWidth << "x" << this->mapHeight << ") res is " << this->mapResolution;
+        ui->mapResolutionLabel->setText(QString("1 cell = %1x%2m").arg(QString::number(this->mapResolution, 'f', 2)).arg(QString::number(this->mapResolution, 'f', 2)));
         this->occupancyGrid->clear();
 
         for (int i = 0; i < this->mapWidth*this->mapHeight; i++) {
@@ -435,7 +429,9 @@ void MainWindow::redrawMap()
         QBrush blueBrush(Qt::blue);
         QBrush yellowBrush(Qt::yellow);
         QBrush clearBrush(Qt::transparent);
-        QPen pen(Qt::black);
+        QPen blackPen(Qt::black);
+        QPen grayPen(Qt::gray);
+        QPen clearPen(Qt::transparent);
         int viewportWidth = ui->mapView->width();
         int viewportHeight = ui->mapView->height();
         int cellWidth = floor(viewportWidth/this->mapWidth);
@@ -476,7 +472,7 @@ void MainWindow::redrawMap()
                 }
                 OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, QRect(viewportWidth-(j+1)*cellWidth, i*cellHeight-viewportHeight/2, cellWidth, cellHeight), 0);
                 rect->setBrush(brush);
-                rect->setPen(pen);
+                rect->setPen(clearPen);
 
                 QObject::connect(rect, SIGNAL(clicked(QPoint)), this, SLOT(mapCell_clicked(QPoint)));
 
@@ -484,13 +480,16 @@ void MainWindow::redrawMap()
             }
         }
 
+        qreal robotRealX = this->robotPosition.x()/this->mapResolution;
+        qreal robotRealY = this->robotPosition.y()/this->mapResolution;
 
+        qreal robotCenterX = viewportWidth-(robotRealX+0.5)*cellWidth;
+        qreal robotCenterY = (robotRealY+0.5)*cellHeight-viewportHeight/2;
+        qreal robotRadius = 10;
+        qreal pointerX = robotCenterX-robotRadius*cos(this->robotAngle);
+        qreal pointerY = robotCenterY+robotRadius*sin(this->robotAngle);
 
-        this->mapScene->addEllipse(viewportWidth-(robotX+1)*cellWidth, robotY*cellHeight-viewportHeight/2, cellWidth, cellHeight, pen, clearBrush);
-        qreal robotCenterX = viewportWidth-(robotX+0.5)*cellWidth;
-        qreal robotCenterY = (robotY+0.5)*cellHeight-viewportHeight/2;
-        qreal pointerX = robotCenterX-cellWidth/2*cos(this->robotAngle);
-        qreal pointerY = robotCenterY+cellHeight/2*sin(this->robotAngle);
+        this->mapScene->addEllipse(robotCenterX-robotRadius, robotCenterY-robotRadius, robotRadius*2, robotRadius*2, blackPen, clearBrush);
         this->mapScene->addLine(robotCenterX, robotCenterY, pointerX, pointerY);
 
 //        QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(QImage("robot.png")));
@@ -572,16 +571,6 @@ void MainWindow::on_ackermannLinearSpeedCheckBox_clicked(bool checked)
 void MainWindow::on_ackermannDependentValueCheckBox_clicked(bool checked)
 {
     ui->ackermanDependentValueEdit->setEnabled(checked);
-}
-
-void MainWindow::on_spoeLinearSpeedCheckBox_clicked(bool checked)
-{
-    ui->spotLinearSpeedEdit->setEnabled(checked);
-}
-
-void MainWindow::on_spotDependentValueCheckBox_clicked(bool checked)
-{
-    ui->spotDependentValueEdit->setEnabled(checked);
 }
 
 void MainWindow::on_lateralLinearSpeedCheckBox_clicked(bool checked)

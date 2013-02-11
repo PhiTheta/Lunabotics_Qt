@@ -51,7 +51,7 @@
      </rect>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::TabFocus</enum>
+     <enum>Qt::StrongFocus</enum>
     </property>
     <property name="text">
      <string>5555</string>
@@ -67,7 +67,7 @@
      </rect>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::TabFocus</enum>
+     <enum>Qt::StrongFocus</enum>
     </property>
     <property name="text">
      <string>192.168.218.129</string>
@@ -122,7 +122,7 @@
      </rect>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::TabFocus</enum>
+     <enum>Qt::StrongFocus</enum>
     </property>
     <property name="text">
      <string>5556</string>
@@ -138,7 +138,7 @@
      </rect>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::TabFocus</enum>
+     <enum>Qt::StrongFocus</enum>
     </property>
     <property name="text">
      <string>192.168.218.1</string>

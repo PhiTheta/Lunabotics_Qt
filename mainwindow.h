@@ -31,6 +31,12 @@ enum TX_CONTENT_TYPE
     ROUTE            = 3
 };
 
+enum CTRL_MODE_TYPE {
+    ACKERMANN 		 = 0,
+    TURN_IN_SPOT     = 1,
+    LATERAL   		 = 2
+};
+
 Q_DECLARE_FLAGS(STEERING_CMDS, STEERING_MASK);
 Q_DECLARE_OPERATORS_FOR_FLAGS(STEERING_CMDS);
 
@@ -62,10 +68,6 @@ private slots:
 
     void on_ackermannDependentValueCheckBox_clicked(bool checked);
 
-    void on_spoeLinearSpeedCheckBox_clicked(bool checked);
-
-    void on_spotDependentValueCheckBox_clicked(bool checked);
-
     void on_lateralLinearSpeedCheckBox_clicked(bool checked);
 
     void on_lateralDependentValueCheckBox_clicked(bool checked);
@@ -92,6 +94,7 @@ private:
     uint8_t mapWidth;
     uint8_t mapHeight;
     double mapResolution;
+    CTRL_MODE_TYPE robotControlType;
 
     void leftAction();
     void rightAction();
@@ -108,7 +111,7 @@ private:
     int decodeInt(char buffer[], int &pointer);
 
     bool autonomyEnabled;
-    uint8_t controlType;
+    CTRL_MODE_TYPE controlType;
     STEERING_CMDS drivingMask;
 };
 

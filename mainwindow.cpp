@@ -458,17 +458,23 @@ void MainWindow::redrawMap()
                 QPoint point;
                 point.setX(j);
                 point.setY(i);
-                if (occupancy > OCCUPANCY_THRESHOLD) {
-                    brush = redBrush;
-                }
-                else if (j == robotX && i == robotY) {
-                    brush = yellowBrush;
-                }
-                else if (pathCells.contains(point)) {
+
+//                if (occupancy > OCCUPANCY_THRESHOLD) {
+//                    brush = redBrush;
+//                }
+//                else
+                if (j == robotX && i == robotY) {
                     brush = blueBrush;
                 }
-                else {
+                else if (pathCells.contains(point)) {
                     brush = whiteBrush;
+                }
+                else {
+                    int red = occupancy * 2.55;
+                    int green = (100-occupancy) * 2.55;
+                    int blue = 0;
+                    QBrush varBrush(QColor(red, green, blue));
+                    brush = varBrush;
                 }
                 OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, QRect(viewportWidth-(j+1)*cellWidth, i*cellHeight-viewportHeight/2, cellWidth, cellHeight), 0);
                 rect->setBrush(brush);

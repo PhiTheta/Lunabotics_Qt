@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
-    <height>500</height>
+    <width>1024</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -454,32 +454,13 @@
      <string>Control Modes:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="roverViewLabel">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>230</y>
-      <width>141</width>
-      <height>201</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="LunaGUIResources.qrc">:/images/rover.png</pixmap>
-    </property>
-    <property name="scaledContents">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="Line" name="rightSeparatorLine">
     <property name="geometry">
      <rect>
       <x>560</x>
       <y>10</y>
       <width>20</width>
-      <height>371</height>
+      <height>531</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -516,13 +497,16 @@
     <property name="geometry">
      <rect>
       <x>590</x>
-      <y>40</y>
+      <y>80</y>
       <width>301</width>
       <height>261</height>
      </rect>
     </property>
+    <property name="cursor" stdset="0">
+     <cursorShape>CrossCursor</cursorShape>
+    </property>
     <property name="mouseTracking">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="autoFillBackground">
      <bool>false</bool>
@@ -803,7 +787,7 @@
     <property name="geometry">
      <rect>
       <x>590</x>
-      <y>340</y>
+      <y>380</y>
       <width>81</width>
       <height>22</height>
      </rect>
@@ -816,7 +800,7 @@
     <property name="geometry">
      <rect>
       <x>590</x>
-      <y>310</y>
+      <y>350</y>
       <width>141</width>
       <height>16</height>
      </rect>
@@ -832,7 +816,7 @@
     <property name="geometry">
      <rect>
       <x>740</x>
-      <y>340</y>
+      <y>380</y>
       <width>81</width>
       <height>22</height>
      </rect>
@@ -845,7 +829,7 @@
     <property name="geometry">
      <rect>
       <x>740</x>
-      <y>310</y>
+      <y>350</y>
       <width>161</width>
       <height>16</height>
      </rect>
@@ -867,13 +851,192 @@
      <string>1 cell = 1x1m</string>
     </property>
    </widget>
+   <widget class="QLabel" name="gridPositionTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>10</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Robot position:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gridPositionLabel">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>10</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>unknown</string>
+    </property>
+   </widget>
+   <widget class="QTableView" name="pathTableView">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>110</y>
+      <width>91</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::NoSelection</enum>
+    </property>
+    <property name="showGrid">
+     <bool>true</bool>
+    </property>
+    <property name="sortingEnabled">
+     <bool>false</bool>
+    </property>
+    <property name="cornerButtonEnabled">
+     <bool>false</bool>
+    </property>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>30</number>
+    </attribute>
+   </widget>
+   <widget class="QLabel" name="pathTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>80</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Path:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="autonomyLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>430</y>
+      <width>381</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>23</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>DRIVING AUTONOMOUSLY</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="collisionLabel">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>420</y>
+      <width>381</width>
+      <height>111</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>23</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>COLLISION HAZARD</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="mechanicsGraphicsView">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>220</y>
+      <width>221</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cursorPositionTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>30</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Cursor position:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="cursorPositionLabel">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>30</y>
+      <width>62</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>unknown</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>900</width>
+     <width>1024</width>
      <height>22</height>
     </rect>
    </property>
@@ -920,8 +1083,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="LunaGUIResources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

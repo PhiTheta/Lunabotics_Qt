@@ -1,10 +1,12 @@
 #include "occupancygraphicsitem.h"
 #include <QDebug>
+#include <QGraphicsSceneHoverEvent>
 
 OccupancyGraphicsItem::OccupancyGraphicsItem(QPoint coordinate, QRect rect, QGraphicsItem* parent) :
     QGraphicsRectItem(rect.x(), rect.y(), rect.width(), rect.height(), parent)
 {
     this->setAcceptedMouseButtons(Qt::LeftButton);
+    this->setAcceptHoverEvents(true);
     this->preservedBrush.setColor(Qt::white);
     this->coordinate = coordinate;
 }
@@ -20,7 +22,12 @@ void OccupancyGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void OccupancyGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "Mouse released";
     this->setBrush(this->preservedBrush);
     QGraphicsItem::mouseReleaseEvent(event);
+}
+
+void OccupancyGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    QGraphicsItem::hoverEnterEvent(event);
+    emit hovered(this->coordinate);
 }

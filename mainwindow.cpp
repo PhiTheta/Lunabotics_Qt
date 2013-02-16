@@ -37,7 +37,8 @@ union BytesToDouble {
 enum RX_CONTENT_TYPE {
     TELEMETRY       = 0,
     MAP             = 1,
-    PATH            = 2
+    PATH            = 2,
+    LASER           = 3
 };
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -56,11 +57,18 @@ MainWindow::MainWindow(QWidget *parent) :
     this->occupancyGrid = new QVector<uint8_t>();
     this->path = new QVector<QPointF>();
 
+
+
     QString text;
     ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
     ui->lateralLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
     ui->ackermanDependentValueEdit->setText(text.setNum(DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT));
     ui->lateralDependentValueEdit->setText(text.setNum(DEFAULT_LATERAL_SPEED_LIMIT));
+
+    this->pathTableModel = new QStandardItemModel(0, 2, this); //2 Rows and 3 Columns
+    this->pathTableModel->setHorizontalHeaderItem(0, new QStandardItem(QString("x")));
+    this->pathTableModel->setHorizontalHeaderItem(1, new QStandardItem(QString("y")));
+    ui->pathTableView->setModel(this->pathTableModel);
 
     this->redrawMap();
 
@@ -68,11 +76,17 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->autonomyEnabled = false;
     this->controlType = ACKERMANN;
-    ui->driveForwardLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
-    ui->driveLeftLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
-    ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
-    ui->driveBackLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
+    ui->driveForwardLabel->setStyleSheet("background-color : blue; color : white;");
+    ui->driveLeftLabel->setStyleSheet("background-color : blue; color : white;");
+    ui->driveRightLabel->setStyleSheet("background-color : blue; color : white;");
+    ui->driveBackLabel->setStyleSheet("background-color : blue; color : white;");
 
+    ui->autonomyLabel->setStyleSheet("background-color : yellow; color : black;");
+    ui->collisionLabel->setStyleSheet("background-color : red; color : black;");
+    ui->autonomyLabel->setVisible(false);
+    ui->collisionLabel->setVisible(false);
+    ui->mapView->setStyleSheet("background: transparent");
+    ui->mechanicsGraphicsView->setStyleSheet("background: transparent");
 }
 
 MainWindow::~MainWindow()
@@ -87,54 +101,337 @@ MainWindow::~MainWindow()
     delete this->path;
 }
 
-void MainWindow::keyPressEvent(QKeyEvent* event)
+
+void MainWindow::toggleAutonomy()
 {
-    if (event->text().compare("w", Qt::CaseSensitive) == 0) {
-        this->drivingMask |= FORWARD;
-        ui->driveForwardLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
-    }
-    else if (event->text().compare("a", Qt::CaseSensitive) == 0) {
-        this->drivingMask |= LEFT;
-        ui->driveLeftLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
-    }
-    else if (event->text().compare("s", Qt::CaseSensitive) == 0) {
-        this->drivingMask |= BACKWARD;
-        ui->driveBackLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
-    }
-    else if (event->text().compare("d", Qt::CaseSensitive) == 0) {
-        this->drivingMask |= RIGHT;
-        ui->driveRightLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
+    if (this->autonomyEnabled) {
+        qDebug() << "Disabling autonomy";
+        ui->autonomyButton->setText("Enable autonomy");
+        this->autonomyEnabled = false;
     }
     else {
-        return;
+        qDebug() << "Enabling autonomy";
+        ui->autonomyButton->setText("Disable autonomy");
+        this->autonomyEnabled = true;
     }
-    this->postData(STEERING);
+    ui->autonomyLabel->setVisible(this->autonomyEnabled);
+    this->postData(AUTONOMY);
 }
 
-void MainWindow::keyReleaseEvent(QKeyEvent *event)
+
+
+void MainWindow::redrawMap()
 {
-    if (event->text().compare("w", Qt::CaseSensitive) == 0) {
-        this->drivingMask &= ~FORWARD;
-        ui->driveForwardLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
+    qDeleteAll(this->mapScene->items());
+
+    //////////////TEST///////////////
+/*
+    this->mapWidth = 10;
+    this->mapHeight = 10;
+    this->mapResolution = 1;
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            uint8_t occ = 0;
+            if (i > 6 && i < 8 && j > 4 && j < 7) occ = 100;
+            this->occupancyGrid->push_back(occ);
+        }
     }
-    else if (event->text().compare("a", Qt::CaseSensitive) == 0) {
-        this->drivingMask &= ~LEFT;
-        ui->driveLeftLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
+
+    this->path->clear();
+
+    QPointF point;
+    point.setX(2);
+    point.setY(2);
+    this->path->push_back(point);
+    point.setX(4);
+    point.setY(6);
+    this->path->push_back(point);
+    point.setX(8);
+    point.setY(7);
+    this->path->push_back(point);
+    point.setX(1);
+    point.setY(1);
+    this->path->push_back(point);
+
+    this->pathTableModel->clear();
+
+
+    qDebug() << "TEsting Map";
+
+
+
+
+*/
+
+    //////////////////////////////////
+
+    if (this->mapWidth > 0 && this->mapHeight > 0) {
+
+
+        QBrush whiteBrush(Qt::white);
+        QBrush blueBrush(Qt::blue);
+        QBrush clearBrush(Qt::transparent);
+        QPen blackPen(Qt::black);
+        QPen clearPen(Qt::transparent);
+        int viewportWidth = ui->mapView->width()-30;
+        int viewportHeight = ui->mapView->height()-15;
+        int cellWidth = floor(viewportWidth/this->mapWidth);
+        int cellHeight = floor(viewportHeight/this->mapHeight);
+
+        QVector<QPoint> pathCells;
+        for (int i = 0; i < this->path->size(); i++) {
+            QPointF pointF = this->path->at(i);
+            QPoint point;
+            point.setX(round(pointF.x()/this->mapResolution));
+            point.setY(round(pointF.y()/this->mapResolution));
+            pathCells.push_back(point);
+        }
+
+        int robotX = round(this->robotPosition.x()/this->mapResolution);
+        int robotY = round(this->robotPosition.y()/this->mapResolution);
+        robotX = std::max(0, robotX);
+        robotY = std::max(0, robotY);
+        ui->gridPositionLabel->setText(QString("%1,%2").arg(QString::number(robotX)).arg(QString::number(robotY)));
+
+        for (int i = 0; i < this->mapHeight; i++) {
+            for (int j = 0; j < this->mapWidth; j++) {
+                uint8_t occupancy = this->occupancyGrid->at(i*this->mapWidth+j);
+                QBrush brush;
+                QPoint point;
+                point.setX(j);
+                point.setY(i);
+                if (j == robotX && i == robotY) {
+                    brush = blueBrush;
+                }
+                else {
+                    int red = occupancy * 2.55;
+                    int green = (100-occupancy) * 2.55;
+                    int blue = std::min(0, (100-abs(occupancy-50))) * 50;
+                    QBrush varBrush(QColor(red, green, blue));
+                    brush = varBrush;
+                }
+                OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, QRect(viewportWidth-(j+1)*cellWidth, i*cellHeight-viewportHeight/2, cellWidth, cellHeight), 0);
+                rect->setBrush(brush);
+                rect->setPen(clearPen);
+
+                QObject::connect(rect, SIGNAL(clicked(QPoint)), this, SLOT(mapCell_clicked(QPoint)));
+                QObject::connect(rect, SIGNAL(hovered(QPoint)), this, SLOT(mapCell_hovered(QPoint)));
+
+                this->mapScene->addItem(rect);
+            }
+        }
+
+        QBrush redBrush(Qt::red);
+        QPen yellowPen(Qt::yellow);
+        QPen whitePen(Qt::white);
+        yellowPen.setWidth(2);
+        whitePen.setWidth(2);
+
+
+        for (int i = 1; i < pathCells.size(); i++) {
+            this->mapScene->addLine(viewportWidth-(pathCells.at(i-1).x()+0.5)*cellWidth, (pathCells.at(i-1).y()+0.5)*cellHeight-viewportHeight/2, viewportWidth-(pathCells.at(i).x()+0.5)*cellWidth, (pathCells.at(i).y()+0.5)*cellHeight-viewportHeight/2, whitePen);
+        }
+        for (int i = 0; i < pathCells.size(); i++) {
+            this->mapScene->addEllipse(viewportWidth-(pathCells.at(i).x()+1)*cellWidth, pathCells.at(i).y()*cellHeight-viewportHeight/2, cellWidth, cellHeight, yellowPen, redBrush);
+            QStandardItem *row = new QStandardItem(QString::number(pathCells.at(i).x()));
+            this->pathTableModel->setItem(i,0,row);
+            row = new QStandardItem(QString::number(pathCells.at(i).y()));
+            this->pathTableModel->setItem(i,1,row);
+        }
+
+        qreal robotRealX = this->robotPosition.x()/this->mapResolution;
+        qreal robotRealY = this->robotPosition.y()/this->mapResolution;
+
+        qreal robotCenterX = viewportWidth-(robotRealX+0.5)*cellWidth;
+        qreal robotCenterY = (robotRealY+0.5)*cellHeight-viewportHeight/2;
+        qreal robotRadius = 10;
+        qreal pointerX = robotCenterX-robotRadius*cos(this->robotAngle);
+        qreal pointerY = robotCenterY+robotRadius*sin(this->robotAngle);
+
+        this->mapScene->addEllipse(robotCenterX-robotRadius, robotCenterY-robotRadius, robotRadius*2, robotRadius*2, blackPen, clearBrush);
+        this->mapScene->addLine(robotCenterX, robotCenterY, pointerX, pointerY);
+
+//        QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(QImage("robot.png")));
+////        pixmapItem->setPos(robotX*cellWidth-viewportWidth/2, robotY*cellHeight-viewportHeight/2);
+//        this->mapScene->addItem(pixmapItem);
+
+
     }
-    else if (event->text().compare("s", Qt::CaseSensitive) == 0) {
-        this->drivingMask &= ~BACKWARD;
-        ui->driveBackLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
-    }
-    else if (event->text().compare("d", Qt::CaseSensitive) == 0) {
-        this->drivingMask &= ~RIGHT;
-        ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
-    }
-    else {
-        return;
-    }
-    this->postData(STEERING);
 }
 
+
+void MainWindow::connectRobot()
+{
+    this->disconnectRobot();
+
+    qDebug() << "Creating new connection";
+
+
+    QSettings settings("ivany4", "lunabotics");
+    settings.beginGroup("connection");
+
+    if (!this->outgoingSocket) {
+        this->outgoingSocket = new QTcpSocket(this);
+    }
+
+    connect(this->outgoingSocket, SIGNAL(connected()), this, SLOT(outSocketConnected()));
+    connect(this->outgoingSocket, SIGNAL(disconnected()), this, SLOT(outSocketDisconnected()));
+    this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
+
+    if (!this->incomingServer) {
+        this->incomingServer = new QTcpServer(this);
+        connect(this->incomingServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
+    }
+
+    if (!this->incomingServer->listen(QHostAddress(settings.value("in_ip", CONN_INCOMING_ADDR).toString()), settings.value("in_port", CONN_INCOMING_PORT).toInt())) {
+        qDebug() << "Failed to start listening for " << settings.value("in_ip", CONN_INCOMING_ADDR).toString();
+    }
+
+    settings.endGroup();
+}
+
+void MainWindow::disconnectRobot()
+{
+    qDebug() << "Closing connection";
+    if (this->outgoingSocket) {
+        this->outgoingSocket->close();
+    }
+    if (this->incomingServer) {
+        this->incomingServer->close();
+    }
+    if (this->incomingSocket) {
+        this->incomingSocket->close();
+    }
+}
+
+void MainWindow::serverAcceptConnection()
+{
+    this->incomingSocket = this->incomingServer->nextPendingConnection();
+
+    if (this->incomingSocket) {
+        qDebug() << "New connection";
+        connect(this->incomingSocket, SIGNAL(readyRead()), this, SLOT(serverStartRead()));
+    }
+}
+
+void MainWindow::serverStartRead()
+{
+    int pointer = 0;
+    qint64 bytesAvailable = this->incomingSocket->bytesAvailable();
+    char *buffer = new char[bytesAvailable];
+    this->incomingSocket->read(buffer, bytesAvailable);
+
+    RX_CONTENT_TYPE contentType = (RX_CONTENT_TYPE)this->decodeByte(buffer, pointer);
+
+    switch (contentType) {
+    case TELEMETRY: {
+     //   qDebug() << "Receiving telemetry";
+
+        double posXValue = this->decodeDouble(buffer, pointer);
+        double posYValue = this->decodeDouble(buffer, pointer);
+        double orValue = this->decodeDouble(buffer, pointer);
+        double vXValue = this->decodeDouble(buffer, pointer);
+        double vYValue = this->decodeDouble(buffer, pointer);
+        double vZValue = this->decodeDouble(buffer, pointer);
+        double wXValue = this->decodeDouble(buffer, pointer);
+        double wYValue = this->decodeDouble(buffer, pointer);
+        double wZValue = this->decodeDouble(buffer, pointer);
+        uint8_t controlMode = this->decodeByte(buffer, pointer);
+
+        ui->posXLabel->setText(QString("%1 m").arg(QString::number(posXValue, 'f', 2)));
+        ui->posYLabel->setText(QString("%1 m").arg(QString::number(posYValue, 'f', 2)));
+        ui->orLabel->setText(QString("%1 rad").arg(QString::number(orValue, 'f', 2)));
+        ui->vXLabel->setText(QString("%1 m/s").arg(QString::number(vXValue, 'f', 2)));
+        ui->vYLabel->setText(QString("%1 m/s").arg(QString::number(vYValue, 'f', 2)));
+        ui->vZLabel->setText(QString("%1 m/s").arg(QString::number(vZValue, 'f', 2)));
+        ui->wXLabel->setText(QString("%1 rad/s").arg(QString::number(wXValue, 'f', 2)));
+        ui->wYLabel->setText(QString("%1 rad/s").arg(QString::number(wYValue, 'f', 2)));
+        ui->wZLabel->setText(QString("%1 rad/s").arg(QString::number(wZValue, 'f', 2)));
+
+        this->robotControlType = (CTRL_MODE_TYPE)controlMode;
+        switch (this->robotControlType) {
+        case ACKERMANN: ui->controlModeLabel->setText("Ackermann"); break;
+        case TURN_IN_SPOT: ui->controlModeLabel->setText("'Turn in spot'"); break;
+        case LATERAL: ui->controlModeLabel->setText("Lateral"); break;
+        default: ui->controlModeLabel->setText("Undefined"); break;
+        }
+
+
+
+
+        this->robotPosition.setX(posXValue);
+        this->robotPosition.setY(posYValue);
+        this->robotAngle = orValue;
+
+        this->redrawMap();
+    }
+        break;
+
+    case MAP: {
+        this->mapWidth = this->decodeByte(buffer, pointer);
+        this->mapHeight = this->decodeByte(buffer, pointer);
+        this->mapResolution = this->decodeDouble(buffer, pointer);
+        ui->mapResolutionLabel->setText(QString("1 cell = %1x%2m").arg(QString::number(this->mapResolution, 'f', 2)).arg(QString::number(this->mapResolution, 'f', 2)));
+        this->occupancyGrid->clear();
+
+        for (int i = 0; i < this->mapWidth*this->mapHeight; i++) {
+            uint8_t cell = this->decodeByte(buffer, pointer);
+            this->occupancyGrid->push_back(cell);
+        }
+
+        this->redrawMap();
+    }
+        break;
+
+    case PATH: {
+        qDebug() << "Receiving waypoints";
+        int numOfPoses = this->decodeByte(buffer, pointer);
+        this->path->clear();
+
+        for (int i = 0; i < numOfPoses; i++) {
+            double x = this->decodeDouble(buffer, pointer);
+            double y = this->decodeDouble(buffer, pointer);
+            QPointF point;
+            point.setX(x);
+            point.setY(y);
+            qDebug() << x << "  ,  " << y;
+            this->path->push_back(point);
+        }
+
+        this->redrawMap();
+    }
+        break;
+
+    case LASER: {
+
+        float angleMin = this->decodeFloat(buffer, pointer);
+        float angleMax = this->decodeFloat(buffer, pointer);
+        float angleIncrement = this->decodeFloat(buffer, pointer);
+        int numOfRanges = this->decodeInt(buffer, pointer);
+
+        QVector<float> ranges;
+        for (int i = 0; i < numOfRanges; i++) {
+            float range = this->decodeFloat(buffer, pointer);
+            ranges.push_back(range);
+        }
+
+        this->laserScan.setAngleMin(angleMin);
+        this->laserScan.setAngleMax(angleMax);
+        this->laserScan.setAngleIncrement(angleIncrement);
+        this->laserScan.setRanges(ranges);
+
+        qDebug() << "Getting laser between angles " << this->laserScan.getAngleMin() << " and " << this->laserScan.getAngleMax();
+
+        this->redrawMap();
+    }
+        break;
+
+    default:
+        break;
+    }
+
+    delete buffer;
+}
 void MainWindow::postData(TX_CONTENT_TYPE contentType)
 {
 
@@ -233,330 +530,19 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
     delete bytes;
 }
 
-void MainWindow::on_useLateralButton_clicked()
-{
-    qDebug() << "Switching to lateral driving mode";
-    this->controlType = LATERAL;
-    this->postData(CTRL_MODE);
-}
-
-void MainWindow::on_useSpotButton_clicked()
-{
-    qDebug() << "Switching to spot driving mode";
-    this->controlType = TURN_IN_SPOT;
-    this->postData(CTRL_MODE);
-}
-
-void MainWindow::on_useAckermannButton_clicked()
-{
-    qDebug() << "Switching to Ackermann driving mode";
-    this->controlType = ACKERMANN;
-    this->postData(CTRL_MODE);
-}
-
-
-//TCP Server methods
-
-
-void MainWindow::serverAcceptConnection()
-{
-    this->incomingSocket = this->incomingServer->nextPendingConnection();
-
-    if (this->incomingSocket) {
-        qDebug() << "New connection";
-        connect(this->incomingSocket, SIGNAL(readyRead()), this, SLOT(serverStartRead()));
-    }
-}
-
-double MainWindow::decodeDouble(char buffer[], int &pointer)
-{
-    BytesToDouble doubleConverter;
-    for (unsigned int i = 0; i < sizeof(double); i++) {
-        doubleConverter.bytes[i] = buffer[pointer++];
-    }
-    return doubleConverter.doubleValue;
-}
-
-uint8_t MainWindow::decodeByte(char buffer[], int &pointer)
-{
-    BytesToUint8 uint8Converter;
-    uint8Converter.bytes[0] = buffer[pointer++];
-    return uint8Converter.uint8Value;
-}
-
-int MainWindow::decodeInt(char buffer[], int &pointer)
-{
-    BytesToFloatInt intConverter;
-    for (unsigned int i = 0; i < sizeof(int); i++) {
-        intConverter.bytes[i] = buffer[pointer++];
-    }
-    return intConverter.intValue;
-}
-
-void MainWindow::serverStartRead()
-{
-    int pointer = 0;
-    qint64 bytesAvailable = this->incomingSocket->bytesAvailable();
-    char *buffer = new char[bytesAvailable];
-    this->incomingSocket->read(buffer, bytesAvailable);
-
-    RX_CONTENT_TYPE contentType = (RX_CONTENT_TYPE)this->decodeByte(buffer, pointer);
-
-    switch (contentType) {
-    case TELEMETRY: {
-     //   qDebug() << "Receiving telemetry";
-
-        double posXValue = this->decodeDouble(buffer, pointer);
-        double posYValue = this->decodeDouble(buffer, pointer);
-        double orValue = this->decodeDouble(buffer, pointer);
-        double vXValue = this->decodeDouble(buffer, pointer);
-        double vYValue = this->decodeDouble(buffer, pointer);
-        double vZValue = this->decodeDouble(buffer, pointer);
-        double wXValue = this->decodeDouble(buffer, pointer);
-        double wYValue = this->decodeDouble(buffer, pointer);
-        double wZValue = this->decodeDouble(buffer, pointer);
-        uint8_t controlMode = this->decodeByte(buffer, pointer);
-
-        ui->posXLabel->setText(QString("%1 m").arg(QString::number(posXValue, 'f', 2)));
-        ui->posYLabel->setText(QString("%1 m").arg(QString::number(posYValue, 'f', 2)));
-        ui->orLabel->setText(QString("%1 rad").arg(QString::number(orValue, 'f', 2)));
-        ui->vXLabel->setText(QString("%1 m/s").arg(QString::number(vXValue, 'f', 2)));
-        ui->vYLabel->setText(QString("%1 m/s").arg(QString::number(vYValue, 'f', 2)));
-        ui->vZLabel->setText(QString("%1 m/s").arg(QString::number(vZValue, 'f', 2)));
-        ui->wXLabel->setText(QString("%1 rad/s").arg(QString::number(wXValue, 'f', 2)));
-        ui->wYLabel->setText(QString("%1 rad/s").arg(QString::number(wYValue, 'f', 2)));
-        ui->wZLabel->setText(QString("%1 rad/s").arg(QString::number(wZValue, 'f', 2)));
-
-        this->robotControlType = (CTRL_MODE_TYPE)controlMode;
-        switch (this->robotControlType) {
-        case ACKERMANN: ui->controlModeLabel->setText("Ackermann"); break;
-        case TURN_IN_SPOT: ui->controlModeLabel->setText("'Turn in spot'"); break;
-        case LATERAL: ui->controlModeLabel->setText("Lateral"); break;
-        default: ui->controlModeLabel->setText("Undefined"); break;
-        }
-
-
-
-
-        this->robotPosition.setX(posXValue);
-        this->robotPosition.setY(posYValue);
-        this->robotAngle = orValue;
-
-        this->redrawMap();
-    }
-        break;
-
-    case MAP: {
-        this->mapWidth = this->decodeByte(buffer, pointer);
-        this->mapHeight = this->decodeByte(buffer, pointer);
-        this->mapResolution = this->decodeDouble(buffer, pointer);
-        ui->mapResolutionLabel->setText(QString("1 cell = %1x%2m").arg(QString::number(this->mapResolution, 'f', 2)).arg(QString::number(this->mapResolution, 'f', 2)));
-        this->occupancyGrid->clear();
-
-        for (int i = 0; i < this->mapWidth*this->mapHeight; i++) {
-            uint8_t cell = this->decodeByte(buffer, pointer);
-            this->occupancyGrid->push_back(cell);
-        }
-
-        this->redrawMap();
-    }
-        break;
-
-    case PATH: {
-        qDebug() << "Receiving waypoints";
-        int numOfPoses = this->decodeByte(buffer, pointer);
-        this->path->clear();
-
-        for (int i = 0; i < numOfPoses; i++) {
-            double x = this->decodeDouble(buffer, pointer);
-            double y = this->decodeDouble(buffer, pointer);
-            QPointF point;
-            point.setX(x);
-            point.setY(y);
-            qDebug() << x << "  ,  " << y;
-            this->path->push_back(point);
-        }
-
-        this->redrawMap();
-    }
-
-    default:
-        break;
-    }
-
-    delete buffer;
-}
-
-void MainWindow::on_actionPreferences_triggered()
-{
-    PreferenceDialog *preferenceDialog = new PreferenceDialog(this);
-    preferenceDialog->setWindowModality(Qt::WindowModal);
-    if (preferenceDialog->exec() == QDialog::Accepted) {
-        this->connectRobot();
-    }
-}
-
-void MainWindow::redrawMap()
-{
-    qDeleteAll(this->mapScene->items());
-
-
-    //////////////TEST///////////////
-/*
-    this->mapWidth = 10;
-    this->mapHeight = 10;
-    this->mapResolution = 1;
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            uint8_t occ = 0;
-            if (i > 6 && i < 8 && j > 4 && j < 7) occ = 100;
-            this->occupancyGrid->push_back(occ);
-        }
-    }
-
-    qDebug() << "TEsting Map";
-
-
-*/
-
-
-
-    //////////////////////////////////
-
-    if (this->mapWidth > 0 && this->mapHeight > 0) {
-        QBrush redBrush(Qt::red);
-        QBrush whiteBrush(Qt::white);
-        QBrush blueBrush(Qt::blue);
-        QBrush yellowBrush(Qt::yellow);
-        QBrush clearBrush(Qt::transparent);
-        QPen blackPen(Qt::black);
-        QPen grayPen(Qt::gray);
-        QPen clearPen(Qt::transparent);
-        int viewportWidth = ui->mapView->width();
-        int viewportHeight = ui->mapView->height();
-        int cellWidth = floor(viewportWidth/this->mapWidth);
-        int cellHeight = floor(viewportHeight/this->mapHeight);
-
-        QVector<QPoint> pathCells;
-        for (int i = 0; i < this->path->size(); i++) {
-            QPointF pointF = this->path->at(i);
-            QPoint point;
-            point.setX(round(pointF.x()/this->mapResolution));
-            point.setY(round(pointF.y()/this->mapResolution));
-            pathCells.push_back(point);
-        }
-
-        int robotX = round(this->robotPosition.x()/this->mapResolution);
-        int robotY = round(this->robotPosition.y()/this->mapResolution);
-        robotX = std::max(0, robotX);
-        robotY = std::max(0, robotY);
-
-        for (int i = 0; i < this->mapHeight; i++) {
-            for (int j = 0; j < this->mapWidth; j++) {
-                uint8_t occupancy = this->occupancyGrid->at(i*this->mapWidth+j);
-                QBrush brush;
-                QPoint point;
-                point.setX(j);
-                point.setY(i);
-
-//                if (occupancy > OCCUPANCY_THRESHOLD) {
-//                    brush = redBrush;
-//                }
-//                else
-                if (j == robotX && i == robotY) {
-                    brush = blueBrush;
-                }
-                else if (pathCells.contains(point)) {
-                    brush = whiteBrush;
-                }
-                else {
-                    int red = occupancy * 2.55;
-                    int green = (100-occupancy) * 2.55;
-                    int blue = 0;
-                    QBrush varBrush(QColor(red, green, blue));
-                    brush = varBrush;
-                }
-                OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, QRect(viewportWidth-(j+1)*cellWidth, i*cellHeight-viewportHeight/2, cellWidth, cellHeight), 0);
-                rect->setBrush(brush);
-                rect->setPen(clearPen);
-
-                QObject::connect(rect, SIGNAL(clicked(QPoint)), this, SLOT(mapCell_clicked(QPoint)));
-
-                this->mapScene->addItem(rect);
-            }
-        }
-
-        qreal robotRealX = this->robotPosition.x()/this->mapResolution;
-        qreal robotRealY = this->robotPosition.y()/this->mapResolution;
-
-        qreal robotCenterX = viewportWidth-(robotRealX+0.5)*cellWidth;
-        qreal robotCenterY = (robotRealY+0.5)*cellHeight-viewportHeight/2;
-        qreal robotRadius = 10;
-        qreal pointerX = robotCenterX-robotRadius*cos(this->robotAngle);
-        qreal pointerY = robotCenterY+robotRadius*sin(this->robotAngle);
-
-        this->mapScene->addEllipse(robotCenterX-robotRadius, robotCenterY-robotRadius, robotRadius*2, robotRadius*2, blackPen, clearBrush);
-        this->mapScene->addLine(robotCenterX, robotCenterY, pointerX, pointerY);
-
-//        QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(QImage("robot.png")));
-////        pixmapItem->setPos(robotX*cellWidth-viewportWidth/2, robotY*cellHeight-viewportHeight/2);
-//        this->mapScene->addItem(pixmapItem);
-
-    }
-}
-
-void MainWindow::disconnectRobot()
-{
-    qDebug() << "Closing connection";
-    if (this->outgoingSocket) {
-        this->outgoingSocket->close();
-    }
-    if (this->incomingServer) {
-        this->incomingServer->close();
-    }
-    if (this->incomingSocket) {
-        this->incomingSocket->close();
-    }
-}
-
-void MainWindow::connectRobot()
-{
-    this->disconnectRobot();
-
-    qDebug() << "Creating new connection";
-
-
-    QSettings settings("ivany4", "lunabotics");
-    settings.beginGroup("connection");
-
-    if (!this->outgoingSocket) {
-        this->outgoingSocket = new QTcpSocket(this);
-    }
-
-    connect(this->outgoingSocket, SIGNAL(connected()), this, SLOT(outSocketConnected()));
-    connect(this->outgoingSocket, SIGNAL(disconnected()), this, SLOT(outSocketDisconnected()));
-    this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
-
-    if (!this->incomingServer) {
-        this->incomingServer = new QTcpServer(this);
-        connect(this->incomingServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
-    }
-
-    if (!this->incomingServer->listen(QHostAddress(settings.value("in_ip", CONN_INCOMING_ADDR).toString()), settings.value("in_port", CONN_INCOMING_PORT).toInt())) {
-        qDebug() << "Failed to start listening for " << settings.value("in_ip", CONN_INCOMING_ADDR).toString();
-    }
-
-    settings.endGroup();
-}
 
 void MainWindow::mapCell_clicked(QPoint coordinate)
 {
-    qDebug() << "Coordinate " << coordinate.x() << "," << coordinate.y() << " clicked";
     this->goal = coordinate;
     if (!this->autonomyEnabled) {
         this->toggleAutonomy();
     }
     this->postData(ROUTE);
+}
+
+void MainWindow::mapCell_hovered(QPoint coordinate)
+{
+    ui->cursorPositionLabel->setText(QString("%1,%2").arg(QString::number(coordinate.x())).arg(QString::number(coordinate.y())));
 }
 
 void MainWindow::outSocketConnected()
@@ -590,28 +576,132 @@ void MainWindow::on_lateralDependentValueCheckBox_clicked(bool checked)
 }
 
 
+void MainWindow::on_actionPreferences_triggered()
+{
+    PreferenceDialog *preferenceDialog = new PreferenceDialog(this);
+    preferenceDialog->setWindowModality(Qt::WindowModal);
+    if (preferenceDialog->exec() == QDialog::Accepted) {
+        this->connectRobot();
+    }
+}
 
 void MainWindow::on_autonomyButton_clicked()
 {
     this->toggleAutonomy();
 }
 
-void MainWindow::toggleAutonomy()
-{
-    if (this->autonomyEnabled) {
-        qDebug() << "Disabling autonomy";
-        ui->autonomyButton->setText("Enable autonomy");
-        this->autonomyEnabled = false;
-    }
-    else {
-        qDebug() << "Enabling autonomy";
-        ui->autonomyButton->setText("Disable autonomy");
-        this->autonomyEnabled = true;
-    }
-    this->postData(AUTONOMY);
-}
-
 void MainWindow::on_actionExit_triggered()
 {
     QApplication::quit();
+}
+
+
+void MainWindow::on_useLateralButton_clicked()
+{
+    qDebug() << "Switching to lateral driving mode";
+    this->controlType = LATERAL;
+    this->postData(CTRL_MODE);
+}
+
+void MainWindow::on_useSpotButton_clicked()
+{
+    qDebug() << "Switching to spot driving mode";
+    this->controlType = TURN_IN_SPOT;
+    this->postData(CTRL_MODE);
+}
+
+void MainWindow::on_useAckermannButton_clicked()
+{
+    qDebug() << "Switching to Ackermann driving mode";
+    this->controlType = ACKERMANN;
+    this->postData(CTRL_MODE);
+}
+
+
+void MainWindow::keyPressEvent(QKeyEvent* event)
+{
+    if (event->text().compare("w", Qt::CaseSensitive) == 0) {
+        this->drivingMask |= FORWARD;
+        ui->driveForwardLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
+    }
+    else if (event->text().compare("a", Qt::CaseSensitive) == 0) {
+        this->drivingMask |= LEFT;
+        ui->driveLeftLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
+    }
+    else if (event->text().compare("s", Qt::CaseSensitive) == 0) {
+        this->drivingMask |= BACKWARD;
+        ui->driveBackLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
+    }
+    else if (event->text().compare("d", Qt::CaseSensitive) == 0) {
+        this->drivingMask |= RIGHT;
+        ui->driveRightLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
+    }
+    else {
+        return;
+    }
+    this->postData(STEERING);
+    if (this->autonomyEnabled) {
+        this->toggleAutonomy();
+    }
+}
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    if (event->text().compare("w", Qt::CaseSensitive) == 0) {
+        this->drivingMask &= ~FORWARD;
+        ui->driveForwardLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
+    }
+    else if (event->text().compare("a", Qt::CaseSensitive) == 0) {
+        this->drivingMask &= ~LEFT;
+        ui->driveLeftLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
+    }
+    else if (event->text().compare("s", Qt::CaseSensitive) == 0) {
+        this->drivingMask &= ~BACKWARD;
+        ui->driveBackLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
+    }
+    else if (event->text().compare("d", Qt::CaseSensitive) == 0) {
+        this->drivingMask &= ~RIGHT;
+        ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
+    }
+    else {
+        return;
+    }
+    this->postData(STEERING);
+    if (this->autonomyEnabled) {
+        this->toggleAutonomy();
+    }
+}
+
+double MainWindow::decodeDouble(char buffer[], int &pointer)
+{
+    BytesToDouble converter;
+    for (unsigned int i = 0; i < sizeof(double); i++) {
+        converter.bytes[i] = buffer[pointer++];
+    }
+    return converter.doubleValue;
+}
+
+uint8_t MainWindow::decodeByte(char buffer[], int &pointer)
+{
+    BytesToUint8 converter;
+    converter.bytes[0] = buffer[pointer++];
+    return converter.uint8Value;
+}
+
+int MainWindow::decodeInt(char buffer[], int &pointer)
+{
+    BytesToFloatInt converter;
+    for (unsigned int i = 0; i < sizeof(int); i++) {
+        converter.bytes[i] = buffer[pointer++];
+    }
+    return converter.intValue;
+}
+
+float MainWindow::decodeFloat(char buffer[], int &pointer)
+{
+    BytesToFloatInt converter;
+    for (unsigned int i = 0; i < sizeof(float); i++) {
+        converter.bytes[i] = buffer[pointer++];
+    }
+    return converter.floatValue;
 }

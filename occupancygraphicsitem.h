@@ -14,12 +14,14 @@ public:
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
 
 private:
     QBrush preservedBrush;
 
 signals:
     void clicked(QPoint coordinate);
+    void hovered(QPoint coordinate);
     
 public slots:
     

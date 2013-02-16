@@ -7,6 +7,7 @@
 #include <QTcpServer>
 #include <QtGui>
 #include <QtCore>
+#include "laserscan.h"
 
 #define BUFFER_SIZE 256
 
@@ -73,6 +74,7 @@ private slots:
     void on_lateralDependentValueCheckBox_clicked(bool checked);
 
     void mapCell_clicked(QPoint coordinate);
+    void mapCell_hovered(QPoint coordinate);
     void outSocketConnected();
     void outSocketDisconnected();
 
@@ -95,6 +97,8 @@ private:
     uint8_t mapHeight;
     double mapResolution;
     CTRL_MODE_TYPE robotControlType;
+    QStandardItemModel *pathTableModel;
+    LaserScan laserScan;
 
     void leftAction();
     void rightAction();
@@ -109,6 +113,7 @@ private:
     double decodeDouble(char buffer[], int &pointer);
     uint8_t decodeByte(char buffer[], int &pointer);
     int decodeInt(char buffer[], int &pointer);
+    float decodeFloat(char buffer[], int &pointer);
 
     bool autonomyEnabled;
     CTRL_MODE_TYPE controlType;

@@ -21,7 +21,7 @@
 union BytesToFloatInt {
     char    bytes[4];
     float   floatValue;
-    float   intValue;
+    int   intValue;
 };
 
 union BytesToUint8 {
@@ -57,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->occupancyGrid = new QVector<uint8_t>();
     this->path = new QVector<QPointF>();
 
-
+    this->nextWaypointIdx = -1;
 
     QString text;
     ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
@@ -69,6 +69,13 @@ MainWindow::MainWindow(QWidget *parent) :
     this->pathTableModel->setHorizontalHeaderItem(0, new QStandardItem(QString("x")));
     this->pathTableModel->setHorizontalHeaderItem(1, new QStandardItem(QString("y")));
     ui->pathTableView->setModel(this->pathTableModel);
+
+
+    this->mapViewportWidth = ui->mapView->width()-30;
+    this->mapViewportHeight = ui->mapView->height()-15;
+    this->mapCellWidth = 0;
+    this->mapCellHeight = 0;
+
 
     this->redrawMap();
 
@@ -114,7 +121,7 @@ void MainWindow::toggleAutonomy()
         ui->autonomyButton->setText("Disable autonomy");
         this->autonomyEnabled = true;
     }
-    ui->autonomyLabel->setVisible(this->autonomyEnabled);
+    ui->autonomyLabel->setVisible(this->autonomyEnabled && this->isDriving);
     this->postData(AUTONOMY);
 }
 
@@ -173,20 +180,6 @@ void MainWindow::redrawMap()
         QBrush clearBrush(Qt::transparent);
         QPen blackPen(Qt::black);
         QPen clearPen(Qt::transparent);
-        int viewportWidth = ui->mapView->width()-30;
-        int viewportHeight = ui->mapView->height()-15;
-        int cellWidth = floor(viewportWidth/this->mapWidth);
-        int cellHeight = floor(viewportHeight/this->mapHeight);
-
-        QVector<QPoint> pathCells;
-        for (int i = 0; i < this->path->size(); i++) {
-            QPointF pointF = this->path->at(i);
-            QPoint point;
-            point.setX(round(pointF.x()/this->mapResolution));
-            point.setY(round(pointF.y()/this->mapResolution));
-            pathCells.push_back(point);
-        }
-
         int robotX = round(this->robotPosition.x()/this->mapResolution);
         int robotY = round(this->robotPosition.y()/this->mapResolution);
         robotX = std::max(0, robotX);
@@ -210,7 +203,7 @@ void MainWindow::redrawMap()
                     QBrush varBrush(QColor(red, green, blue));
                     brush = varBrush;
                 }
-                OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, QRect(viewportWidth-(j+1)*cellWidth, i*cellHeight-viewportHeight/2, cellWidth, cellHeight), 0);
+                OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, QRect(this->mapViewportWidth-(j+1)*this->mapCellWidth, i*this->mapCellHeight-this->mapViewportHeight/2, this->mapCellWidth, this->mapCellHeight), 0);
                 rect->setBrush(brush);
                 rect->setPen(clearPen);
 
@@ -222,43 +215,99 @@ void MainWindow::redrawMap()
         }
 
         QBrush redBrush(Qt::red);
+        QBrush yellowBrush(Qt::yellow);
+        QBrush purpleBrush(QColor(255,0,255));
         QPen yellowPen(Qt::yellow);
         QPen whitePen(Qt::white);
+        QPen purplePen(QColor(255,0,255));
         yellowPen.setWidth(2);
         whitePen.setWidth(2);
 
-
-        for (int i = 1; i < pathCells.size(); i++) {
-            this->mapScene->addLine(viewportWidth-(pathCells.at(i-1).x()+0.5)*cellWidth, (pathCells.at(i-1).y()+0.5)*cellHeight-viewportHeight/2, viewportWidth-(pathCells.at(i).x()+0.5)*cellWidth, (pathCells.at(i).y()+0.5)*cellHeight-viewportHeight/2, whitePen);
+        this->pathTableModel->clear();
+        if (this->controlType == TURN_IN_SPOT) {
+            QVector<QPoint> pathCells;
+            for (int i = 0; i < this->path->size(); i++) {
+                QPointF pointF = this->path->at(i);
+                QPoint point;
+                point.setX(round(pointF.x()/this->mapResolution));
+                point.setY(round(pointF.y()/this->mapResolution));
+                pathCells.push_back(point);
+            }
+            for (int i = 1; i < this->path->size(); i++) {
+                QPointF pathPoint1 = this->mapPoint(this->path->at(i-1));
+                QPointF pathPoint2 = this->mapPoint(this->path->at(i));
+                this->mapScene->addLine(pathPoint1.x(), pathPoint1.y(), pathPoint2.x(), pathPoint2.y(), whitePen);
+            }
+            for (int i = 0; i < pathCells.size(); i++) {
+                this->mapScene->addEllipse(this->mapViewportWidth-(pathCells.at(i).x()+1)*this->mapCellWidth, pathCells.at(i).y()*this->mapCellHeight-this->mapViewportHeight/2, this->mapCellWidth, this->mapCellHeight, yellowPen, i == this->nextWaypointIdx ? purpleBrush : redBrush);
+                QStandardItem *row = new QStandardItem(QString::number(pathCells.at(i).x()));
+                this->pathTableModel->setItem(i,0,row);
+                row = new QStandardItem(QString::number(pathCells.at(i).y()));
+                this->pathTableModel->setItem(i,1,row);
+            }
         }
-        for (int i = 0; i < pathCells.size(); i++) {
-            this->mapScene->addEllipse(viewportWidth-(pathCells.at(i).x()+1)*cellWidth, pathCells.at(i).y()*cellHeight-viewportHeight/2, cellWidth, cellHeight, yellowPen, redBrush);
-            QStandardItem *row = new QStandardItem(QString::number(pathCells.at(i).x()));
-            this->pathTableModel->setItem(i,0,row);
-            row = new QStandardItem(QString::number(pathCells.at(i).y()));
-            this->pathTableModel->setItem(i,1,row);
+        else {
+            if (this->path->size() > 0) {
+                QPointF p = this->mapPoint(this->path->at(0));
+                this->mapScene->addEllipse(p.x()-2, p.y()-2, 4, 4, yellowPen, yellowBrush);
+            }
+            for (int i = 1; i < this->path->size(); i++) {
+                QPointF pathPoint1 = this->mapPoint(this->path->at(i-1));
+                QPointF pathPoint2 = this->mapPoint(this->path->at(i));
+                this->mapScene->addLine(pathPoint1.x(), pathPoint1.y(), pathPoint2.x(), pathPoint2.y(), whitePen);
+                this->mapScene->addEllipse(pathPoint2.x()-2, pathPoint2.y()-2, 4, 4, yellowPen, yellowBrush);
+            }
+            if (this->nextWaypointIdx >= 0 && this->nextWaypointIdx < this->path->size()) {
+                QPointF p = this->mapPoint(this->path->at(this->nextWaypointIdx));
+                this->mapScene->addEllipse(p.x()-3, p.y()-3, 6, 6, purplePen, purpleBrush);
+            }
         }
 
-        qreal robotRealX = this->robotPosition.x()/this->mapResolution;
-        qreal robotRealY = this->robotPosition.y()/this->mapResolution;
+        QPointF robotCenter = this->mapPoint(this->robotPosition);
 
-        qreal robotCenterX = viewportWidth-(robotRealX+0.5)*cellWidth;
-        qreal robotCenterY = (robotRealY+0.5)*cellHeight-viewportHeight/2;
+        if (this->controlType == ACKERMANN && this->isDriving) {
+            QPointF closestPoint = this->mapPoint(this->closestTrajectoryPoint);
+            if (fabs(closestPoint.x()) < this->mapViewportWidth/2 && fabs(closestPoint.y()) < this->mapViewportHeight/2) {
+                this->mapScene->addLine(robotCenter.x(), robotCenter.y(), closestPoint.x(), closestPoint.y(), purplePen);
+            }
+        }
+
         qreal robotRadius = 10;
-        qreal pointerX = robotCenterX-robotRadius*cos(this->robotAngle);
-        qreal pointerY = robotCenterY+robotRadius*sin(this->robotAngle);
+        qreal pointerX = robotCenter.x()-robotRadius*cos(this->robotAngle);
+        qreal pointerY = robotCenter.y()+robotRadius*sin(this->robotAngle);
 
-        this->mapScene->addEllipse(robotCenterX-robotRadius, robotCenterY-robotRadius, robotRadius*2, robotRadius*2, blackPen, clearBrush);
-        this->mapScene->addLine(robotCenterX, robotCenterY, pointerX, pointerY);
+        this->mapScene->addEllipse(robotCenter.x()-robotRadius, robotCenter.y()-robotRadius, robotRadius*2, robotRadius*2, blackPen, clearBrush);
+        this->mapScene->addLine(robotCenter.x(), robotCenter.y(), pointerX, pointerY);
 
 //        QGraphicsPixmapItem *pixmapItem = new QGraphicsPixmapItem(QPixmap::fromImage(QImage("robot.png")));
 ////        pixmapItem->setPos(robotX*cellWidth-viewportWidth/2, robotY*cellHeight-viewportHeight/2);
 //        this->mapScene->addItem(pixmapItem);
 
 
+
+
+        //Draw bezier curves
+
+//        QPainter painter(this);
+//        painter.setRenderHint(QPainter::Antialiasing, true);
+
+//        QPainterPath path;
+//        path.moveTo(80, 320);
+//        path.cubicTo(200, 80, 320, 80, 480, 320);
+
+//        painter.setPen(QPen(Qt::black, 8));
+//        painter.drawPath(path);
+
+
     }
 }
 
+QPointF MainWindow::mapPoint(QPointF pointInMeters)
+{
+    qreal x = this->mapViewportWidth-(pointInMeters.x()/this->mapResolution+0.5)*this->mapCellWidth;
+    qreal y = (pointInMeters.y()/this->mapResolution+0.5)*this->mapCellHeight-this->mapViewportHeight/2;
+    return QPointF(x, y);
+}
 
 void MainWindow::connectRobot()
 {
@@ -274,6 +323,8 @@ void MainWindow::connectRobot()
         this->outgoingSocket = new QTcpSocket(this);
     }
 
+
+
     connect(this->outgoingSocket, SIGNAL(connected()), this, SLOT(outSocketConnected()));
     connect(this->outgoingSocket, SIGNAL(disconnected()), this, SLOT(outSocketDisconnected()));
     this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
@@ -283,7 +334,15 @@ void MainWindow::connectRobot()
         connect(this->incomingServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
     }
 
-    if (!this->incomingServer->listen(QHostAddress(settings.value("in_ip", CONN_INCOMING_ADDR).toString()), settings.value("in_port", CONN_INCOMING_PORT).toInt())) {
+
+    QHostAddress inAddr = QHostAddress::Any;
+    QString inIPString = settings.value("in_ip", CONN_INCOMING_ADDR).toString();
+    if (inIPString.compare("any") != 0) {
+        inAddr = QHostAddress(inIPString);
+    }
+
+
+    if (!this->incomingServer->listen(inAddr, settings.value("in_port", CONN_INCOMING_PORT).toInt())) {
         qDebug() << "Failed to start listening for " << settings.value("in_ip", CONN_INCOMING_ADDR).toString();
     }
 
@@ -337,6 +396,30 @@ void MainWindow::serverStartRead()
         double wYValue = this->decodeDouble(buffer, pointer);
         double wZValue = this->decodeDouble(buffer, pointer);
         uint8_t controlMode = this->decodeByte(buffer, pointer);
+        this->isDriving = this->decodeByte(buffer, pointer);
+
+        this->robotControlType = (CTRL_MODE_TYPE)controlMode;
+
+        if (this->isDriving) {
+            this->nextWaypointIdx = this->decodeInt(buffer, pointer)-1;
+
+            if (this->robotControlType == ACKERMANN) {
+                double yErrValue = this->decodeDouble(buffer, pointer);
+                double closestTrajectoryXValue = this->decodeDouble(buffer, pointer);
+                double closestTrajectoryYValue = this->decodeDouble(buffer, pointer);
+                this->closestTrajectoryPoint.setX(closestTrajectoryXValue);
+                this->closestTrajectoryPoint.setY(closestTrajectoryYValue);
+                ui->yErrLabel->setText(QString("%1").arg(QString::number(yErrValue, 'f', 3)));
+            }
+            else {
+                ui->yErrLabel->setText("N/A");
+            }
+        }
+        else {
+            ui->yErrLabel->setText("N/A");
+        }
+
+        ui->autonomyLabel->setVisible(this->autonomyEnabled && this->isDriving);
 
         ui->posXLabel->setText(QString("%1 m").arg(QString::number(posXValue, 'f', 2)));
         ui->posYLabel->setText(QString("%1 m").arg(QString::number(posYValue, 'f', 2)));
@@ -348,7 +431,6 @@ void MainWindow::serverStartRead()
         ui->wYLabel->setText(QString("%1 rad/s").arg(QString::number(wYValue, 'f', 2)));
         ui->wZLabel->setText(QString("%1 rad/s").arg(QString::number(wZValue, 'f', 2)));
 
-        this->robotControlType = (CTRL_MODE_TYPE)controlMode;
         switch (this->robotControlType) {
         case ACKERMANN: ui->controlModeLabel->setText("Ackermann"); break;
         case TURN_IN_SPOT: ui->controlModeLabel->setText("'Turn in spot'"); break;
@@ -373,6 +455,10 @@ void MainWindow::serverStartRead()
         this->mapResolution = this->decodeDouble(buffer, pointer);
         ui->mapResolutionLabel->setText(QString("1 cell = %1x%2m").arg(QString::number(this->mapResolution, 'f', 2)).arg(QString::number(this->mapResolution, 'f', 2)));
         this->occupancyGrid->clear();
+
+        this->mapCellWidth = floor(this->mapViewportWidth/this->mapWidth);
+        this->mapCellHeight = floor(this->mapViewportHeight/this->mapHeight);
+
 
         for (int i = 0; i < this->mapWidth*this->mapHeight; i++) {
             uint8_t cell = this->decodeByte(buffer, pointer);
@@ -403,7 +489,7 @@ void MainWindow::serverStartRead()
         break;
 
     case LASER: {
-
+/*
         float angleMin = this->decodeFloat(buffer, pointer);
         float angleMax = this->decodeFloat(buffer, pointer);
         float angleIncrement = this->decodeFloat(buffer, pointer);
@@ -423,6 +509,7 @@ void MainWindow::serverStartRead()
         qDebug() << "Getting laser between angles " << this->laserScan.getAngleMin() << " and " << this->laserScan.getAngleMax();
 
         this->redrawMap();
+        */
     }
         break;
 
@@ -451,8 +538,22 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
     case AUTONOMY:
         bytes->append(this->autonomyEnabled);
         break;
-       case CTRL_MODE:
+    case CTRL_MODE:
         bytes->append(this->controlType);
+        if (this->controlType == ACKERMANN) {
+            float linearSpeedLimit = DEFAULT_LATERAL_SPEED_LIMIT;
+            float controlDependentLimit = DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT;
+            if (ui->ackermannLinearSpeedCheckBox->checkState() == Qt::Checked) {
+                linearSpeedLimit = ui->ackermannLinearSpeedEdit->text().toFloat();
+            }
+            if (ui->ackermannDependentValueCheckBox->checkState() == Qt::Checked) {
+                controlDependentLimit = ui->ackermanDependentValueEdit->text().toFloat();
+            }
+            floatConverter.floatValue = linearSpeedLimit;
+            bytes->append(floatConverter.bytes, sizeof(float));
+            floatConverter.floatValue = controlDependentLimit;
+            bytes->append(floatConverter.bytes, sizeof(float));
+        }
         break;
     case STEERING: {
         float linearSpeedLimit = DEFAULT_LATERAL_SPEED_LIMIT;
@@ -512,6 +613,22 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
         floatConverter.floatValue = ui->spotDistanceTolerance->text().toFloat();
         bytes->append(floatConverter.bytes, sizeof(float));
         break;
+
+    case MAP_REQUEST:
+        //Nothing to include
+        break;
+
+    case PID:
+        settings.beginGroup("pid");
+        floatConverter.floatValue = settings.value("p", PID_KP).toFloat();
+        bytes->append(floatConverter.bytes, sizeof(float));
+        floatConverter.floatValue = settings.value("i", PID_KI).toFloat();
+        bytes->append(floatConverter.bytes, sizeof(float));
+        floatConverter.floatValue = settings.value("d", PID_KD).toFloat();
+        bytes->append(floatConverter.bytes, sizeof(float));
+        settings.endGroup();
+        break;
+
     default:
         break;
     }
@@ -582,6 +699,7 @@ void MainWindow::on_actionPreferences_triggered()
     preferenceDialog->setWindowModality(Qt::WindowModal);
     if (preferenceDialog->exec() == QDialog::Accepted) {
         this->connectRobot();
+        this->postData(PID);
     }
 }
 
@@ -615,6 +733,11 @@ void MainWindow::on_useAckermannButton_clicked()
     qDebug() << "Switching to Ackermann driving mode";
     this->controlType = ACKERMANN;
     this->postData(CTRL_MODE);
+}
+
+void MainWindow::on_refreshMapButton_clicked()
+{
+    this->postData(MAP_REQUEST);
 }
 
 

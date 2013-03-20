@@ -29,7 +29,9 @@ enum TX_CONTENT_TYPE
     STEERING         = 0,
     AUTONOMY         = 1,
     CTRL_MODE        = 2,
-    ROUTE            = 3
+    ROUTE            = 3,
+    MAP_REQUEST      = 4,
+    PID              = 5
 };
 
 enum CTRL_MODE_TYPE {
@@ -82,6 +84,8 @@ private slots:
 
     void on_actionExit_triggered();
 
+    void on_refreshMapButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTcpSocket *outgoingSocket;
@@ -91,14 +95,24 @@ private:
     QVector<uint8_t> *occupancyGrid;
     QVector<QPointF> *path;
     QPointF robotPosition;
+    QPointF closestTrajectoryPoint;
     double robotAngle;
     QPoint goal;
     uint8_t mapWidth;
     uint8_t mapHeight;
     double mapResolution;
+    bool isDriving;
+    int nextWaypointIdx;
+    QPointF mapPoint(QPointF pointInMeters);
     CTRL_MODE_TYPE robotControlType;
     QStandardItemModel *pathTableModel;
     LaserScan laserScan;
+
+    int mapViewportWidth;
+    int mapViewportHeight;
+    int mapCellWidth;
+    int mapCellHeight;
+
 
     void leftAction();
     void rightAction();

@@ -19,6 +19,12 @@ public:
 private slots:
     void on_buttonBox_accepted();
 
+    void on_anyInIPCheckBox_clicked(bool checked);
+
+    void on_profileComboBox_currentIndexChanged(int index);
+
+    void on_resetGainsButton_clicked();
+
 private:
     Ui::PreferenceDialog *ui;
 };

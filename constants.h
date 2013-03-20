@@ -6,4 +6,8 @@
 #define CONN_INCOMING_PORT  5556
 #define CONN_OUTGOING_PORT  5555
 
+#define PID_KP              "2"
+#define PID_KI              "0.1"
+#define PID_KD              "1"
+
 #endif // CONSTANTS_H

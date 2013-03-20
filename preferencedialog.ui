@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>207</height>
+    <width>377</width>
+    <height>358</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,11 +16,14 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>170</y>
-     <width>341</width>
+     <x>40</x>
+     <y>320</y>
+     <width>321</width>
      <height>32</height>
     </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
@@ -34,18 +37,18 @@
     <rect>
      <x>20</x>
      <y>10</y>
-     <width>161</width>
-     <height>141</height>
+     <width>341</width>
+     <height>221</height>
     </rect>
    </property>
    <property name="title">
-    <string>Send robot messages to</string>
+    <string>Connection</string>
    </property>
    <widget class="QLineEdit" name="outPortLineEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>100</y>
+      <y>180</y>
       <width>121</width>
       <height>22</height>
      </rect>
@@ -61,7 +64,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>50</y>
+      <y>130</y>
       <width>121</width>
       <height>22</height>
      </rect>
@@ -77,7 +80,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>30</y>
+      <y>110</y>
       <width>111</width>
       <height>16</height>
      </rect>
@@ -90,7 +93,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>80</y>
+      <y>160</y>
       <width>62</width>
       <height>16</height>
      </rect>
@@ -99,40 +102,24 @@
      <string>Port</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QGroupBox" name="inConnectionBox">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>10</y>
-     <width>161</width>
-     <height>141</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Accept Robot messages at</string>
-   </property>
-   <widget class="QLineEdit" name="inPortLineEdit">
+   <widget class="QLabel" name="inPortTitleLabel">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>100</y>
-      <width>121</width>
-      <height>22</height>
+      <x>200</x>
+      <y>160</y>
+      <width>62</width>
+      <height>16</height>
      </rect>
     </property>
-    <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
-    </property>
     <property name="text">
-     <string>5556</string>
+     <string>Port</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="inIPLineEdit">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>50</y>
+      <x>200</x>
+      <y>130</y>
       <width>121</width>
       <height>22</height>
      </rect>
@@ -147,8 +134,8 @@
    <widget class="QLabel" name="inIPTitleLabel">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>30</y>
+      <x>200</x>
+      <y>110</y>
       <width>111</width>
       <height>16</height>
      </rect>
@@ -157,19 +144,224 @@
      <string>IP address</string>
     </property>
    </widget>
-   <widget class="QLabel" name="inPortTitleLabel">
+   <widget class="QCheckBox" name="anyInIPCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>110</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Any</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="inPortLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>180</y>
+      <width>121</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::StrongFocus</enum>
+    </property>
+    <property name="text">
+     <string>5556</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="outTitleLabel">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>80</y>
-      <width>62</width>
+      <width>151</width>
       <height>16</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="text">
-     <string>Port</string>
+     <string>Outgoing:</string>
     </property>
    </widget>
+   <widget class="QLabel" name="inTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>80</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Incoming:</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="profileComboBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>50</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>VMWare</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Pioneer</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Elias</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="profileTitleLabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>151</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Profile:</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="PIDTitleLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>250</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PID controller gains:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="KpTitleLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>270</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Kp</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="KiTitleLabel">
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>270</y>
+     <width>16</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ki</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="KdTitleLabel">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>270</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Kd</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="KpLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>270</y>
+     <width>41</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>2</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="KiLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>270</y>
+     <width>41</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>1</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="KdLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>270</y>
+     <width>41</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0.1</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="resetGainsButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>300</y>
+     <width>114</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reset gains</string>
+   </property>
   </widget>
  </widget>
  <resources/>

@@ -16,13 +16,15 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     preferencedialog.cpp \
     occupancygraphicsitem.cpp \
-    laserscan.cpp
+    laserscan.cpp \
+    SleepSimulator.cpp
 
 HEADERS  += mainwindow.h \
     preferencedialog.h \
     constants.h \
     occupancygraphicsitem.h \
-    laserscan.h
+    laserscan.h \
+    SleepSimulator.h
 
 FORMS    += mainwindow.ui \
     preferencedialog.ui

@@ -3,13 +3,13 @@
 #include "preferencedialog.h"
 #include "constants.h"
 #include "occupancygraphicsitem.h"
+#include "SleepSimulator.h"
 #include <QDebug>
 #include <QByteArray>
 #include <QtNetwork>
 #include <QHostAddress>
 #include <QSettings>
 #include <QMetaEnum>
-#include <QtAlgorithms>
 
 #define DEFAULT_LINEAR_SPEED_LIMIT  5.0
 #define DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT  45
@@ -267,7 +267,8 @@ void MainWindow::redrawMap()
 
         if (this->controlType == ACKERMANN && this->isDriving) {
             QPointF closestPoint = this->mapPoint(this->closestTrajectoryPoint);
-            if (fabs(closestPoint.x()) < this->mapViewportWidth/2 && fabs(closestPoint.y()) < this->mapViewportHeight/2) {
+            qDebug() << "CLosest point " << closestPoint.x() << ", " << closestPoint.y();
+            if (closestPoint.x() <= this->mapViewportWidth && closestPoint.y() <= this->mapViewportHeight) {
                 this->mapScene->addLine(robotCenter.x(), robotCenter.y(), closestPoint.x(), closestPoint.y(), purplePen);
             }
         }
@@ -410,12 +411,15 @@ void MainWindow::serverStartRead()
                 this->closestTrajectoryPoint.setX(closestTrajectoryXValue);
                 this->closestTrajectoryPoint.setY(closestTrajectoryYValue);
                 ui->yErrLabel->setText(QString("%1").arg(QString::number(yErrValue, 'f', 3)));
+                ui->closestTrajectoryPointLabel->setText(QString("%1, %2 (%3, %4 on the map)").arg(QString::number(closestTrajectoryXValue, 'f', 2)).arg(QString::number(closestTrajectoryYValue, 'f', 2)).arg(QString::number(round(closestTrajectoryXValue/this->mapResolution), 'f', 0)).arg(QString::number(round(closestTrajectoryYValue/this->mapResolution), 'f', 0)));
             }
             else {
+                ui->closestTrajectoryPointLabel->setText("N/A");
                 ui->yErrLabel->setText("N/A");
             }
         }
         else {
+            ui->closestTrajectoryPointLabel->setText("N/A");
             ui->yErrLabel->setText("N/A");
         }
 
@@ -740,6 +744,15 @@ void MainWindow::on_refreshMapButton_clicked()
     this->postData(MAP_REQUEST);
 }
 
+void MainWindow::on_resendParamsButton_clicked()
+{
+    SleepSimulator sim;
+    this->postData(CTRL_MODE);
+    sim.sleep(1000);
+    this->postData(PID);
+    sim.sleep(1000);
+    this->postData(AUTONOMY);
+}
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {

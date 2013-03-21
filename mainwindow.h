@@ -86,6 +86,8 @@ private slots:
 
     void on_refreshMapButton_clicked();
 
+    void on_resendParamsButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTcpSocket *outgoingSocket;

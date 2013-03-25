@@ -98,6 +98,7 @@ private:
     QVector<QPointF> *path;
     QPointF robotPosition;
     QPointF closestTrajectoryPoint;
+    QPointF velocityPoint;
     double robotAngle;
     QPoint goal;
     uint8_t mapWidth;

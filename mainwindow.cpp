@@ -217,6 +217,7 @@ void MainWindow::redrawMap()
         QBrush redBrush(Qt::red);
         QBrush yellowBrush(Qt::yellow);
         QBrush purpleBrush(QColor(255,0,255));
+        QPen redPen(Qt::red);
         QPen yellowPen(Qt::yellow);
         QPen whitePen(Qt::white);
         QPen purplePen(QColor(255,0,255));
@@ -267,9 +268,13 @@ void MainWindow::redrawMap()
 
         if (this->controlType == ACKERMANN && this->isDriving) {
             QPointF closestPoint = this->mapPoint(this->closestTrajectoryPoint);
+            QPointF velocityPoint = this->mapPoint(this->velocityPoint);
             qDebug() << "CLosest point " << closestPoint.x() << ", " << closestPoint.y();
+            if (velocityPoint.x() <= this->mapViewportWidth && velocityPoint.y() <= this->mapViewportHeight) {
+                this->mapScene->addLine(robotCenter.x(), robotCenter.y(), velocityPoint.x(), velocityPoint.y(), redPen);
+            }
             if (closestPoint.x() <= this->mapViewportWidth && closestPoint.y() <= this->mapViewportHeight) {
-                this->mapScene->addLine(robotCenter.x(), robotCenter.y(), closestPoint.x(), closestPoint.y(), purplePen);
+                this->mapScene->addLine(velocityPoint.x(), velocityPoint.y(), closestPoint.x(), closestPoint.y(), purplePen);
             }
         }
 
@@ -408,8 +413,12 @@ void MainWindow::serverStartRead()
                 double yErrValue = this->decodeDouble(buffer, pointer);
                 double closestTrajectoryXValue = this->decodeDouble(buffer, pointer);
                 double closestTrajectoryYValue = this->decodeDouble(buffer, pointer);
+                double velocityPointXValue = this->decodeDouble(buffer, pointer);
+                double velocityPointYValue = this->decodeDouble(buffer, pointer);
                 this->closestTrajectoryPoint.setX(closestTrajectoryXValue);
                 this->closestTrajectoryPoint.setY(closestTrajectoryYValue);
+                this->velocityPoint.setX(velocityPointXValue);
+                this->velocityPoint.setY(velocityPointYValue);
                 ui->yErrLabel->setText(QString("%1").arg(QString::number(yErrValue, 'f', 3)));
                 ui->closestTrajectoryPointLabel->setText(QString("%1, %2 (%3, %4 on the map)").arg(QString::number(closestTrajectoryXValue, 'f', 2)).arg(QString::number(closestTrajectoryYValue, 'f', 2)).arg(QString::number(round(closestTrajectoryXValue/this->mapResolution), 'f', 0)).arg(QString::number(round(closestTrajectoryYValue/this->mapResolution), 'f', 0)));
             }

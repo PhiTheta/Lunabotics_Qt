@@ -11,10 +11,11 @@
 #include <QSettings>
 #include <QMetaEnum>
 
-#define DEFAULT_LINEAR_SPEED_LIMIT  5.0
+#define DEFAULT_LINEAR_SPEED_LIMIT  0.33
 #define DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT  45
 #define DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT 1.0
 #define DEFAULT_LATERAL_SPEED_LIMIT 2.0
+#define DEFAULT_BEZIER_SEGMENTS 20
 
 #define OCCUPANCY_THRESHOLD     80
 
@@ -60,9 +61,16 @@ MainWindow::MainWindow(QWidget *parent) :
     this->nextWaypointIdx = -1;
 
     QString text;
+
+    QSettings settings("ivany4", "lunabotics");
+    settings.beginGroup("control");
+    ui->ackermannLinearSpeedEdit->setText(settings.value("ackermann.v", DEFAULT_LINEAR_SPEED_LIMIT).toString());
+    ui->bezierSegmentsEdit->setText(settings.value("ackermann.bezier", DEFAULT_BEZIER_SEGMENTS).toString());
+    settings.endGroup();
+
+
     ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
     ui->lateralLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
-    ui->ackermanDependentValueEdit->setText(text.setNum(DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT));
     ui->lateralDependentValueEdit->setText(text.setNum(DEFAULT_LATERAL_SPEED_LIMIT));
 
     this->pathTableModel = new QStandardItemModel(0, 2, this); //2 Rows and 3 Columns
@@ -98,6 +106,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+
+    QSettings settings("ivany4", "lunabotics");
+    settings.beginGroup("control");
+    settings.setValue("ackermann.v", ui->ackermannLinearSpeedEdit->text());
+    settings.setValue("ackermann.bezier", ui->bezierSegmentsEdit->text());
+    settings.endGroup();
+
     delete ui;
     this->disconnectRobot();
 
@@ -554,17 +569,11 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
     case CTRL_MODE:
         bytes->append(this->controlType);
         if (this->controlType == ACKERMANN) {
-            float linearSpeedLimit = DEFAULT_LATERAL_SPEED_LIMIT;
-            float controlDependentLimit = DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT;
-            if (ui->ackermannLinearSpeedCheckBox->checkState() == Qt::Checked) {
-                linearSpeedLimit = ui->ackermannLinearSpeedEdit->text().toFloat();
-            }
-            if (ui->ackermannDependentValueCheckBox->checkState() == Qt::Checked) {
-                controlDependentLimit = ui->ackermanDependentValueEdit->text().toFloat();
-            }
+            float linearSpeedLimit = ui->ackermannLinearSpeedEdit->text().toFloat();
+            float bezierSegmentsNumber = ui->bezierSegmentsEdit->text().toFloat();
             floatConverter.floatValue = linearSpeedLimit;
             bytes->append(floatConverter.bytes, sizeof(float));
-            floatConverter.floatValue = controlDependentLimit;
+            floatConverter.floatValue = bezierSegmentsNumber;
             bytes->append(floatConverter.bytes, sizeof(float));
         }
         break;
@@ -573,13 +582,8 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
         float controlDependentLimit = 0;
         switch (this->controlType) {
         case ACKERMANN:
-            controlDependentLimit = DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT;
-            if (ui->ackermannLinearSpeedCheckBox->checkState() == Qt::Checked) {
-                linearSpeedLimit = ui->ackermannLinearSpeedEdit->text().toFloat();
-            }
-            if (ui->ackermannDependentValueCheckBox->checkState() == Qt::Checked) {
-                controlDependentLimit = ui->ackermanDependentValueEdit->text().toFloat();
-            }
+            linearSpeedLimit = ui->ackermannLinearSpeedEdit->text().toFloat();
+            controlDependentLimit = ui->bezierSegmentsEdit->text().toFloat();
             break;
         case TURN_IN_SPOT:
             controlDependentLimit = DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT;
@@ -683,16 +687,6 @@ void MainWindow::outSocketConnected()
 void MainWindow::outSocketDisconnected()
 {
     ui->outConnectionLabel->setText("Sending socket: disconnected");
-}
-
-void MainWindow::on_ackermannLinearSpeedCheckBox_clicked(bool checked)
-{
-    ui->ackermannLinearSpeedEdit->setEnabled(checked);
-}
-
-void MainWindow::on_ackermannDependentValueCheckBox_clicked(bool checked)
-{
-    ui->ackermanDependentValueEdit->setEnabled(checked);
 }
 
 void MainWindow::on_lateralLinearSpeedCheckBox_clicked(bool checked)
@@ -849,4 +843,10 @@ float MainWindow::decodeFloat(char buffer[], int &pointer)
         converter.bytes[i] = buffer[pointer++];
     }
     return converter.floatValue;
+}
+
+void MainWindow::on_removePathButton_clicked()
+{
+    this->path->clear();
+    this->redrawMap();
 }

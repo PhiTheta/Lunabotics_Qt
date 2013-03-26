@@ -273,38 +273,12 @@
      <enum>Qt::NoFocus</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tabAckermann">
      <attribute name="title">
       <string>Ackermann</string>
      </attribute>
-     <widget class="QCheckBox" name="ackermannLinearSpeedCheckBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>211</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Limit linear speed to [km/h]</string>
-      </property>
-     </widget>
-     <widget class="QCheckBox" name="ackermannDependentValueCheckBox">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>90</y>
-        <width>251</width>
-        <height>20</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Limit wheel rotation angle to [deg]</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="useAckermannButton">
       <property name="geometry">
        <rect>
@@ -320,7 +294,7 @@
      </widget>
      <widget class="QLineEdit" name="ackermannLinearSpeedEdit">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
@@ -330,18 +304,50 @@
         <height>22</height>
        </rect>
       </property>
+      <property name="text">
+       <string>0.33</string>
+      </property>
      </widget>
-     <widget class="QLineEdit" name="ackermanDependentValueEdit">
+     <widget class="QLineEdit" name="bezierSegmentsEdit">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>120</y>
+        <y>100</y>
         <width>81</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="text">
+       <string>20</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ackermannLinearSpeedTitleLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>171</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Linear velocity limit [m/s]</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="bezierSegmentsTitleLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>70</y>
+        <width>181</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Segments per Bezier curve</string>
       </property>
      </widget>
     </widget>
@@ -1059,7 +1065,7 @@
    <widget class="QPushButton" name="refreshMapButton">
     <property name="geometry">
      <rect>
-      <x>600</x>
+      <x>590</x>
       <y>40</y>
       <width>114</width>
       <height>32</height>
@@ -1106,6 +1112,19 @@
     </property>
     <property name="text">
      <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="removePathButton">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>40</y>
+      <width>114</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Remove path</string>
     </property>
    </widget>
   </widget>

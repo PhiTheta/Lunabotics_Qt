@@ -67,10 +67,6 @@ private slots:
 
     void on_actionPreferences_triggered();
 
-    void on_ackermannLinearSpeedCheckBox_clicked(bool checked);
-
-    void on_ackermannDependentValueCheckBox_clicked(bool checked);
-
     void on_lateralLinearSpeedCheckBox_clicked(bool checked);
 
     void on_lateralDependentValueCheckBox_clicked(bool checked);
@@ -87,6 +83,8 @@ private slots:
     void on_refreshMapButton_clicked();
 
     void on_resendParamsButton_clicked();
+
+    void on_removePathButton_clicked();
 
 private:
     Ui::MainWindow *ui;

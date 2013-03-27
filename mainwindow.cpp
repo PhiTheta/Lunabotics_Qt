@@ -401,10 +401,14 @@ void MainWindow::serverStartRead()
     char *buffer = new char[bytesAvailable];
     this->incomingSocket->read(buffer, bytesAvailable);
 
-    RX_CONTENT_TYPE contentType = (RX_CONTENT_TYPE)this->decodeByte(buffer, pointer);
+    qint8 typeValue = this->decodeByte(buffer, pointer);
 
-    switch (contentType) {
-    case TELEMETRY: {
+    bool hasTelemetry = (typeValue & 1<<TELEMETRY);
+    bool hasMap = (typeValue & 1<<MAP);
+    bool hasPath = (typeValue & 1<<PATH);
+    bool hasVision = (typeValue & 1<<LASER);
+
+    if (hasTelemetry) {
      //   qDebug() << "Receiving telemetry";
 
         double posXValue = this->decodeDouble(buffer, pointer);
@@ -475,9 +479,8 @@ void MainWindow::serverStartRead()
 
         this->redrawMap();
     }
-        break;
 
-    case MAP: {
+    if (hasMap) {
         this->mapWidth = this->decodeByte(buffer, pointer);
         this->mapHeight = this->decodeByte(buffer, pointer);
         this->mapResolution = this->decodeDouble(buffer, pointer);
@@ -495,9 +498,8 @@ void MainWindow::serverStartRead()
 
         this->redrawMap();
     }
-        break;
 
-    case PATH: {
+    if (hasPath) {
         qDebug() << "Receiving waypoints";
         int numOfPoses = this->decodeByte(buffer, pointer);
         this->path->clear();
@@ -514,9 +516,8 @@ void MainWindow::serverStartRead()
 
         this->redrawMap();
     }
-        break;
 
-    case LASER: {
+    if (hasVision) {
 /*
         float angleMin = this->decodeFloat(buffer, pointer);
         float angleMax = this->decodeFloat(buffer, pointer);
@@ -538,11 +539,6 @@ void MainWindow::serverStartRead()
 
         this->redrawMap();
         */
-    }
-        break;
-
-    default:
-        break;
     }
 
     delete buffer;

@@ -992,9 +992,9 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>300</y>
+      <y>440</y>
       <width>221</width>
-      <height>221</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -1046,7 +1046,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>230</y>
+      <y>220</y>
       <width>62</width>
       <height>16</height>
      </rect>
@@ -1059,7 +1059,7 @@
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>230</y>
+      <y>220</y>
       <width>62</width>
       <height>16</height>
      </rect>
@@ -1098,7 +1098,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>250</y>
+      <y>270</y>
       <width>151</width>
       <height>16</height>
      </rect>
@@ -1111,7 +1111,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>270</y>
+      <y>290</y>
       <width>211</width>
       <height>16</height>
      </rect>
@@ -1131,6 +1131,117 @@
     </property>
     <property name="text">
      <string>Remove path</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>320</y>
+      <width>131</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>In robot-local frame</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>340</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Trajectory point:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="transformedTrajectoryPointLabel">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>340</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>360</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reference point:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="transformedReferencePointLabel">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>360</y>
+      <width>91</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>N/A</string>
+    </property>
+   </widget>
+   <widget class="QGraphicsView" name="localFrameView">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>450</y>
+      <width>161</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="cursor" stdset="0">
+     <cursorShape>CrossCursor</cursorShape>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="backgroundBrush">
+     <brush brushstyle="NoBrush">
+      <color alpha="0">
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </brush>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+    </property>
+    <property name="dragMode">
+     <enum>QGraphicsView::RubberBandDrag</enum>
     </property>
    </widget>
   </widget>

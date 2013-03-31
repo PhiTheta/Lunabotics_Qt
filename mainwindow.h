@@ -92,11 +92,14 @@ private:
     QTcpSocket *incomingSocket;
     QTcpServer *incomingServer;
     QGraphicsScene *mapScene;
+    QGraphicsScene *localFrameScene;
     QVector<uint8_t> *occupancyGrid;
     QVector<QPointF> *path;
     QPointF robotPosition;
     QPointF closestTrajectoryPoint;
     QPointF velocityPoint;
+    QPointF transformedVelocityPoint;
+    QPointF transformedClosestTrajectoryPoint;
     double robotAngle;
     QPoint goal;
     uint8_t mapWidth;
@@ -114,6 +117,8 @@ private:
     int mapCellWidth;
     int mapCellHeight;
 
+    int localFrameViewportWidth;
+    int localFrameViewportHeight;
 
     void leftAction();
     void rightAction();

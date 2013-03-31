@@ -34,6 +34,8 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     ui->KpLineEdit->setText(settings.value("p", PID_KP).toString());
     ui->KiLineEdit->setText(settings.value("i", PID_KI).toString());
     ui->KdLineEdit->setText(settings.value("d", PID_KD).toString());
+    ui->PIDOffsetEdit->setText(settings.value("offset", PID_OFFSET).toString());
+    ui->PIDVelocityMEdit->setText(settings.value("v", PID_VEL_M).toString());
     settings.endGroup();
 }
 
@@ -55,6 +57,8 @@ void PreferenceDialog::on_buttonBox_accepted()
     settings.setValue("p", ui->KpLineEdit->text());
     settings.setValue("i", ui->KiLineEdit->text());
     settings.setValue("d", ui->KdLineEdit->text());
+    settings.setValue("offset", ui->PIDOffsetEdit->text());
+    settings.setValue("v", ui->PIDVelocityMEdit->text());
     settings.endGroup();
 }
 

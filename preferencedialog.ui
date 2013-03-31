@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>377</width>
-    <height>358</height>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>320</y>
+     <y>360</y>
      <width>321</width>
      <height>32</height>
     </rect>
@@ -268,6 +268,12 @@
      <height>16</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
     <string>PID controller gains:</string>
    </property>
@@ -354,13 +360,84 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>300</y>
+     <y>340</y>
      <width>114</width>
      <height>32</height>
     </rect>
    </property>
    <property name="text">
     <string>Reset gains</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="PIDReferenceTitleLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>300</y>
+     <width>141</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>PID reference point:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="PIDVelocityMEdit">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>320</y>
+     <width>41</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>1</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="PIDOffsetEdit">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>320</y>
+     <width>41</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0.05</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="PIDOffsetTitleLabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>320</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Offset [m]:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="PIDVelocityMTitleLabel">
+   <property name="geometry">
+    <rect>
+     <x>165</x>
+     <y>320</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Velocity multiplier:</string>
    </property>
   </widget>
  </widget>

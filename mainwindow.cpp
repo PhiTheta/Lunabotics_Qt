@@ -58,6 +58,9 @@ MainWindow::MainWindow(QWidget *parent) :
     this->occupancyGrid = new QVector<uint8_t>();
     this->path = new QVector<QPointF>();
 
+    this->localFrameScene = new QGraphicsScene(this);
+    ui->localFrameView->setScene(this->localFrameScene);
+
     this->nextWaypointIdx = -1;
 
     QString text;
@@ -83,6 +86,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->mapViewportHeight = ui->mapView->height()-15;
     this->mapCellWidth = 0;
     this->mapCellHeight = 0;
+    this->localFrameViewportWidth = ui->localFrameView->width();
+    this->localFrameViewportHeight = ui->localFrameView->height();
 
 
     this->redrawMap();
@@ -119,6 +124,7 @@ MainWindow::~MainWindow()
     delete this->incomingServer;
     delete this->outgoingSocket;
     delete this->mapScene;
+    delete this->localFrameScene;
     delete this->occupancyGrid;
     delete this->path;
 }
@@ -145,45 +151,22 @@ void MainWindow::toggleAutonomy()
 void MainWindow::redrawMap()
 {
     qDeleteAll(this->mapScene->items());
+    qDeleteAll(this->localFrameScene->items());
 
-    //////////////TEST///////////////
-/*
-    this->mapWidth = 10;
-    this->mapHeight = 10;
-    this->mapResolution = 1;
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            uint8_t occ = 0;
-            if (i > 6 && i < 8 && j > 4 && j < 7) occ = 100;
-            this->occupancyGrid->push_back(occ);
-        }
-    }
+    //// DRAW LOCAL FRAME ////////
 
-    this->path->clear();
+    qreal originX = ui->localFrameView->width()/2;
+    qreal originY = ui->localFrameView->height()/2;
+    qreal x = originX-this->transformedVelocityPoint.x()/this->mapResolution*10;
+    qreal y = originY-this->transformedVelocityPoint.y()/this->mapResolution*10;
 
-    QPointF point;
-    point.setX(2);
-    point.setY(2);
-    this->path->push_back(point);
-    point.setX(4);
-    point.setY(6);
-    this->path->push_back(point);
-    point.setX(8);
-    point.setY(7);
-    this->path->push_back(point);
-    point.setX(1);
-    point.setY(1);
-    this->path->push_back(point);
-
-    this->pathTableModel->clear();
-
-
-    qDebug() << "TEsting Map";
-
-
-
-
-*/
+    this->localFrameScene->addEllipse(originX-2, originY-2, 4, 4, QPen(Qt::red), QBrush(Qt::red));
+    this->localFrameScene->addEllipse(x-1, y-1, 2, 2, QPen(Qt::blue), QBrush(Qt::blue));
+    this->localFrameScene->addLine(x, y, originX, originY, QPen(Qt::red));
+    qreal x1 = originX-this->transformedClosestTrajectoryPoint.x()/this->mapResolution*10;
+    qreal y1 = originY-this->transformedClosestTrajectoryPoint.y()/this->mapResolution*10;
+    this->localFrameScene->addEllipse(x1-1, y1-1, 2, 2, QPen(Qt::black), QBrush(Qt::black));
+    this->localFrameScene->addLine(x, y, x1, y1, QPen(Qt::blue));
 
     //////////////////////////////////
 
@@ -434,11 +417,21 @@ void MainWindow::serverStartRead()
                 double closestTrajectoryYValue = this->decodeDouble(buffer, pointer);
                 double velocityPointXValue = this->decodeDouble(buffer, pointer);
                 double velocityPointYValue = this->decodeDouble(buffer, pointer);
+                double transformedClosestTrajectoryYValue = this->decodeDouble(buffer, pointer);
+                double transformedClosestTrajectoryXValue = this->decodeDouble(buffer, pointer);
+                double transformedVelocityPointYValue = this->decodeDouble(buffer, pointer);
+                double transformedVelocityPointXValue = this->decodeDouble(buffer, pointer);
                 this->closestTrajectoryPoint.setX(closestTrajectoryXValue);
                 this->closestTrajectoryPoint.setY(closestTrajectoryYValue);
                 this->velocityPoint.setX(velocityPointXValue);
                 this->velocityPoint.setY(velocityPointYValue);
-                ui->yErrLabel->setText(QString("%1").arg(QString::number(yErrValue, 'f', 3)));
+                this->transformedClosestTrajectoryPoint.setX(transformedClosestTrajectoryXValue);
+                this->transformedClosestTrajectoryPoint.setY(transformedClosestTrajectoryYValue);
+                this->transformedVelocityPoint.setX(transformedVelocityPointXValue);
+                this->transformedVelocityPoint.setY(transformedVelocityPointYValue);
+                ui->yErrLabel->setText(QString("%1 m").arg(QString::number(yErrValue, 'f', 3)));
+                ui->transformedTrajectoryPointLabel->setText(QString("%1, %2").arg(QString::number(transformedClosestTrajectoryXValue, 'f', 2)).arg(QString::number(transformedClosestTrajectoryYValue, 'f', 2)));
+                ui->transformedReferencePointLabel->setText(QString("%1, %2").arg(QString::number(transformedVelocityPointXValue, 'f', 2)).arg(QString::number(transformedVelocityPointYValue, 'f', 2)));
                 ui->closestTrajectoryPointLabel->setText(QString("%1, %2 (%3, %4 on the map)").arg(QString::number(closestTrajectoryXValue, 'f', 2)).arg(QString::number(closestTrajectoryYValue, 'f', 2)).arg(QString::number(round(closestTrajectoryXValue/this->mapResolution), 'f', 0)).arg(QString::number(round(closestTrajectoryYValue/this->mapResolution), 'f', 0)));
             }
             else {
@@ -638,6 +631,10 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
         floatConverter.floatValue = settings.value("i", PID_KI).toFloat();
         bytes->append(floatConverter.bytes, sizeof(float));
         floatConverter.floatValue = settings.value("d", PID_KD).toFloat();
+        bytes->append(floatConverter.bytes, sizeof(float));
+        floatConverter.floatValue = settings.value("offset", PID_OFFSET).toFloat();
+        bytes->append(floatConverter.bytes, sizeof(float));
+        floatConverter.floatValue = settings.value("v", PID_VEL_M).toFloat();
         bytes->append(floatConverter.bytes, sizeof(float));
         settings.endGroup();
         break;

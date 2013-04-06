@@ -8,6 +8,7 @@
 #include <QtGui>
 #include <QtCore>
 #include "laserscan.h"
+#include "Telecommand.pb.h"
 
 #define BUFFER_SIZE 256
 
@@ -22,22 +23,6 @@ enum STEERING_MASK
     BACKWARD  = 1 << 1,
     RIGHT     = 1 << 2,
     LEFT      = 1 << 3
-};
-
-enum TX_CONTENT_TYPE
-{
-    STEERING         = 0,
-    AUTONOMY         = 1,
-    CTRL_MODE        = 2,
-    ROUTE            = 3,
-    MAP_REQUEST      = 4,
-    PID              = 5
-};
-
-enum CTRL_MODE_TYPE {
-    ACKERMANN 		 = 0,
-    TURN_IN_SPOT     = 1,
-    LATERAL   		 = 2
 };
 
 Q_DECLARE_FLAGS(STEERING_CMDS, STEERING_MASK);
@@ -93,7 +78,7 @@ private:
     QTcpServer *incomingServer;
     QGraphicsScene *mapScene;
     QGraphicsScene *localFrameScene;
-    QVector<uint8_t> *occupancyGrid;
+    QVector<int> *occupancyGrid;
     QVector<QPointF> *path;
     QPointF robotPosition;
     QPointF closestTrajectoryPoint;
@@ -102,13 +87,12 @@ private:
     QPointF transformedClosestTrajectoryPoint;
     double robotAngle;
     QPoint goal;
-    uint8_t mapWidth;
-    uint8_t mapHeight;
+    int mapWidth;
+    int mapHeight;
     double mapResolution;
-    bool isDriving;
     int nextWaypointIdx;
     QPointF mapPoint(QPointF pointInMeters);
-    CTRL_MODE_TYPE robotControlType;
+    lunabotics::SteeringModeType robotControlType;
     QStandardItemModel *pathTableModel;
     LaserScan laserScan;
 
@@ -124,19 +108,16 @@ private:
     void rightAction();
     void forwardAction();
     void backAction();
-    void postData(TX_CONTENT_TYPE contentType);
+    void postData(lunabotics::Telecommand::Type contentType);
     void connectRobot();
     void disconnectRobot();
     void redrawMap();
     void toggleAutonomy();
-
-    double decodeDouble(char buffer[], int &pointer);
-    uint8_t decodeByte(char buffer[], int &pointer);
-    int decodeInt(char buffer[], int &pointer);
-    float decodeFloat(char buffer[], int &pointer);
+    void setAutonomy(bool enabled);
+    void setAutonomyLabel(bool enabled);
 
     bool autonomyEnabled;
-    CTRL_MODE_TYPE controlType;
+    lunabotics::SteeringModeType controlType;
     STEERING_CMDS drivingMask;
 };
 

@@ -10,6 +10,7 @@
 #include <QHostAddress>
 #include <QSettings>
 #include <QMetaEnum>
+#include "Telemetry.pb.h"
 
 #define DEFAULT_LINEAR_SPEED_LIMIT  0.33
 #define DEFAULT_WHEEL_ROTATION_ANGLE_LIMIT  45
@@ -19,33 +20,13 @@
 
 #define OCCUPANCY_THRESHOLD     80
 
-union BytesToFloatInt {
-    char    bytes[4];
-    float   floatValue;
-    int   intValue;
-};
-
-union BytesToUint8 {
-    char bytes[1];
-    uint8_t uint8Value;
-};
-
-union BytesToDouble {
-    char bytes[8];
-    double doubleValue;
-};
-
-enum RX_CONTENT_TYPE {
-    TELEMETRY       = 0,
-    MAP             = 1,
-    PATH            = 2,
-    LASER           = 3
-};
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+
     ui->setupUi(this);
 
     this->outgoingSocket = NULL;
@@ -55,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->mapScene = new QGraphicsScene(this);
     ui->mapView->setScene(this->mapScene);
-    this->occupancyGrid = new QVector<uint8_t>();
+    this->occupancyGrid = new QVector<int>();
     this->path = new QVector<QPointF>();
 
     this->localFrameScene = new QGraphicsScene(this);
@@ -95,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->connectRobot();
 
     this->autonomyEnabled = false;
-    this->controlType = ACKERMANN;
+    this->controlType = lunabotics::ACKERMANN;
     ui->driveForwardLabel->setStyleSheet("background-color : blue; color : white;");
     ui->driveLeftLabel->setStyleSheet("background-color : blue; color : white;");
     ui->driveRightLabel->setStyleSheet("background-color : blue; color : white;");
@@ -111,6 +92,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    google::protobuf::ShutdownProtobufLibrary();
 
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("control");
@@ -132,26 +114,45 @@ MainWindow::~MainWindow()
 
 void MainWindow::toggleAutonomy()
 {
-    if (this->autonomyEnabled) {
-        qDebug() << "Disabling autonomy";
-        ui->autonomyButton->setText("Enable autonomy");
-        this->autonomyEnabled = false;
-    }
-    else {
-        qDebug() << "Enabling autonomy";
-        ui->autonomyButton->setText("Disable autonomy");
-        this->autonomyEnabled = true;
-    }
-    ui->autonomyLabel->setVisible(this->autonomyEnabled && this->isDriving);
-    this->postData(AUTONOMY);
+    this->setAutonomy(!this->autonomyEnabled);
 }
 
+void MainWindow::setAutonomy(bool enabled)
+{
+    if (enabled != this->autonomyEnabled) {
+        this->autonomyEnabled = enabled;
+        if (enabled) {
+            this->setAutonomy(true);
+            qDebug() << "Enabling autonomy";
+        }
+        else {
+            this->setAutonomy(false);
+            qDebug() << "Disabling autonomy";
+        }
+        this->postData(lunabotics::Telecommand::SET_AUTONOMY);
+    }
+}
+
+void MainWindow::setAutonomyLabel(bool enabled)
+{
+    ui->autonomyLabel->setVisible(enabled);
+    if (enabled) {
+        ui->autonomyButton->setText("Disable autonomy");
+    }
+    else {
+        ui->autonomyButton->setText("Enable autonomy");
+    }
+}
 
 
 void MainWindow::redrawMap()
 {
     qDeleteAll(this->mapScene->items());
     qDeleteAll(this->localFrameScene->items());
+
+    if (!this->autonomyEnabled) {
+        this->path->clear();
+    }
 
     //// DRAW LOCAL FRAME ////////
 
@@ -223,7 +224,7 @@ void MainWindow::redrawMap()
         whitePen.setWidth(2);
 
         this->pathTableModel->clear();
-        if (this->controlType == TURN_IN_SPOT) {
+        if (this->controlType == lunabotics::TURN_IN_SPOT) {
             QVector<QPoint> pathCells;
             for (int i = 0; i < this->path->size(); i++) {
                 QPointF pointF = this->path->at(i);
@@ -264,7 +265,7 @@ void MainWindow::redrawMap()
 
         QPointF robotCenter = this->mapPoint(this->robotPosition);
 
-        if (this->controlType == ACKERMANN && this->isDriving) {
+        if (this->controlType == lunabotics::ACKERMANN && this->autonomyEnabled) {
             QPointF closestPoint = this->mapPoint(this->closestTrajectoryPoint);
             QPointF velocityPoint = this->mapPoint(this->velocityPoint);
             qDebug() << "CLosest point " << closestPoint.x() << ", " << closestPoint.y();
@@ -379,272 +380,203 @@ void MainWindow::serverAcceptConnection()
 
 void MainWindow::serverStartRead()
 {
-    int pointer = 0;
     qint64 bytesAvailable = this->incomingSocket->bytesAvailable();
     char *buffer = new char[bytesAvailable];
     this->incomingSocket->read(buffer, bytesAvailable);
 
-    qint8 typeValue = this->decodeByte(buffer, pointer);
+//    qDebug() << "Getting " << bytesAvailable << "bytes";
 
-    bool hasTelemetry = (typeValue & 1<<TELEMETRY);
-    bool hasMap = (typeValue & 1<<MAP);
-    bool hasPath = (typeValue & 1<<PATH);
-    bool hasVision = (typeValue & 1<<LASER);
+    lunabotics::Telemetry tm;
+    if (!tm.ParseFromArray(buffer, bytesAvailable) || !tm.IsInitialized()) {
+        qDebug() << "Failed to parse telemetry object";
+    }
+    else {
+        bool renderMap = false;
+        if (tm.has_state_data()) {
+            const lunabotics::Telemetry::State state = tm.state_data();
 
-    if (hasTelemetry) {
-     //   qDebug() << "Receiving telemetry";
+            this->robotPosition.setX(state.position().x());
+            this->robotPosition.setY(state.position().y());
+            this->robotAngle = state.heading();
 
-        double posXValue = this->decodeDouble(buffer, pointer);
-        double posYValue = this->decodeDouble(buffer, pointer);
-        double orValue = this->decodeDouble(buffer, pointer);
-        double vXValue = this->decodeDouble(buffer, pointer);
-        double vYValue = this->decodeDouble(buffer, pointer);
-        double vZValue = this->decodeDouble(buffer, pointer);
-        double wXValue = this->decodeDouble(buffer, pointer);
-        double wYValue = this->decodeDouble(buffer, pointer);
-        double wZValue = this->decodeDouble(buffer, pointer);
-        uint8_t controlMode = this->decodeByte(buffer, pointer);
-        this->isDriving = this->decodeByte(buffer, pointer);
 
-        this->robotControlType = (CTRL_MODE_TYPE)controlMode;
+            ui->posXLabel->setText(QString("%1 m").arg(QString::number(this->robotPosition.x(), 'f', 2)));
+            ui->posYLabel->setText(QString("%1 m").arg(QString::number(this->robotPosition.y(), 'f', 2)));
+            ui->orLabel->setText(QString("%1 rad").arg(QString::number(this->robotAngle, 'f', 2)));
+            ui->vXLabel->setText(QString("%1 m/s").arg(QString::number(state.velocities().linear(), 'f', 2)));
+            ui->wZLabel->setText(QString("%1 rad/s").arg(QString::number(state.velocities().angular(), 'f', 2)));
 
-        if (this->isDriving) {
-            this->nextWaypointIdx = this->decodeInt(buffer, pointer)-1;
+            this->robotControlType = state.steering_mode();
+            this->autonomyEnabled = state.autonomy_enabled();
+            this->setAutonomyLabel(this->autonomyEnabled);
 
-            if (this->robotControlType == ACKERMANN) {
-                double yErrValue = this->decodeDouble(buffer, pointer);
-                double closestTrajectoryXValue = this->decodeDouble(buffer, pointer);
-                double closestTrajectoryYValue = this->decodeDouble(buffer, pointer);
-                double velocityPointXValue = this->decodeDouble(buffer, pointer);
-                double velocityPointYValue = this->decodeDouble(buffer, pointer);
-                double transformedClosestTrajectoryYValue = this->decodeDouble(buffer, pointer);
-                double transformedClosestTrajectoryXValue = this->decodeDouble(buffer, pointer);
-                double transformedVelocityPointYValue = this->decodeDouble(buffer, pointer);
-                double transformedVelocityPointXValue = this->decodeDouble(buffer, pointer);
-                this->closestTrajectoryPoint.setX(closestTrajectoryXValue);
-                this->closestTrajectoryPoint.setY(closestTrajectoryYValue);
-                this->velocityPoint.setX(velocityPointXValue);
-                this->velocityPoint.setY(velocityPointYValue);
-                this->transformedClosestTrajectoryPoint.setX(transformedClosestTrajectoryXValue);
-                this->transformedClosestTrajectoryPoint.setY(transformedClosestTrajectoryYValue);
-                this->transformedVelocityPoint.setX(transformedVelocityPointXValue);
-                this->transformedVelocityPoint.setY(transformedVelocityPointYValue);
-                ui->yErrLabel->setText(QString("%1 m").arg(QString::number(yErrValue, 'f', 3)));
-                ui->transformedTrajectoryPointLabel->setText(QString("%1, %2").arg(QString::number(transformedClosestTrajectoryXValue, 'f', 2)).arg(QString::number(transformedClosestTrajectoryYValue, 'f', 2)));
-                ui->transformedReferencePointLabel->setText(QString("%1, %2").arg(QString::number(transformedVelocityPointXValue, 'f', 2)).arg(QString::number(transformedVelocityPointYValue, 'f', 2)));
-                ui->closestTrajectoryPointLabel->setText(QString("%1, %2 (%3, %4 on the map)").arg(QString::number(closestTrajectoryXValue, 'f', 2)).arg(QString::number(closestTrajectoryYValue, 'f', 2)).arg(QString::number(round(closestTrajectoryXValue/this->mapResolution), 'f', 0)).arg(QString::number(round(closestTrajectoryYValue/this->mapResolution), 'f', 0)));
+            if (state.has_next_waypoint_idx()) {
+                this->nextWaypointIdx = state.next_waypoint_idx()-1;
+            }
+
+            if (state.has_ackermann_telemetry()) {
+
+                const lunabotics::Telemetry::State::AckermannTelemetry params = state.ackermann_telemetry();
+
+                ui->yErrLabel->setText(QString("%1 m").arg(QString::number(params.pid_error(), 'f', 3)));
+                this->closestTrajectoryPoint.setX(params.closest_trajectory_point().x());
+                this->closestTrajectoryPoint.setY(params.closest_trajectory_point().y());
+                this->velocityPoint.setX(params.velocity_vector_point().x());
+                this->velocityPoint.setY(params.velocity_vector_point().y());
+                this->transformedClosestTrajectoryPoint.setX(params.closest_trajectory_local_point().x());
+                this->transformedClosestTrajectoryPoint.setY(params.closest_trajectory_local_point().y());
+                this->transformedVelocityPoint.setX(params.velocity_vector_local_point().x());
+                this->transformedVelocityPoint.setY(params.velocity_vector_local_point().y());
+
+                ui->pidGroupBox->setVisible(true);
+                ui->transformedTrajectoryXLabel->setText(QString("x: %1 m").arg(QString::number(this->transformedClosestTrajectoryPoint.x(), 'f', 2)));
+                ui->transformedTrajectoryYLabel->setText(QString("y: %1 m").arg(QString::number(this->transformedClosestTrajectoryPoint.y(), 'f', 2)));
+                ui->transformedReferenceXLabel->setText(QString("x: %1 m").arg(QString::number(this->transformedVelocityPoint.x(), 'f', 2)));
+                ui->transformedReferenceYLabel->setText(QString("y: %1 m").arg(QString::number(this->transformedVelocityPoint.y(), 'f', 2)));
+                ui->closestTrajectoryXLabel->setText(QString("x: %1 m").arg(QString::number(this->closestTrajectoryPoint.x(), 'f', 2)));
+                ui->closestTrajectoryYLabel->setText(QString("y: %1 m").arg(QString::number(this->closestTrajectoryPoint.y(), 'f', 2)));
             }
             else {
-                ui->closestTrajectoryPointLabel->setText("N/A");
-                ui->yErrLabel->setText("N/A");
+                ui->pidGroupBox->setVisible(false);
             }
-        }
-        else {
-            ui->closestTrajectoryPointLabel->setText("N/A");
-            ui->yErrLabel->setText("N/A");
-        }
 
-        ui->autonomyLabel->setVisible(this->autonomyEnabled && this->isDriving);
+            switch (this->robotControlType) {
+            case lunabotics::ACKERMANN: ui->controlModeLabel->setText("Ackermann"); break;
+            case lunabotics::TURN_IN_SPOT: ui->controlModeLabel->setText("'Turn in spot'"); break;
+            case lunabotics::CRAB: ui->controlModeLabel->setText("Crab"); break;
+            default: ui->controlModeLabel->setText("Undefined"); break;
+            }
 
-        ui->posXLabel->setText(QString("%1 m").arg(QString::number(posXValue, 'f', 2)));
-        ui->posYLabel->setText(QString("%1 m").arg(QString::number(posYValue, 'f', 2)));
-        ui->orLabel->setText(QString("%1 rad").arg(QString::number(orValue, 'f', 2)));
-        ui->vXLabel->setText(QString("%1 m/s").arg(QString::number(vXValue, 'f', 2)));
-        ui->vYLabel->setText(QString("%1 m/s").arg(QString::number(vYValue, 'f', 2)));
-        ui->vZLabel->setText(QString("%1 m/s").arg(QString::number(vZValue, 'f', 2)));
-        ui->wXLabel->setText(QString("%1 rad/s").arg(QString::number(wXValue, 'f', 2)));
-        ui->wYLabel->setText(QString("%1 rad/s").arg(QString::number(wYValue, 'f', 2)));
-        ui->wZLabel->setText(QString("%1 rad/s").arg(QString::number(wZValue, 'f', 2)));
-
-        switch (this->robotControlType) {
-        case ACKERMANN: ui->controlModeLabel->setText("Ackermann"); break;
-        case TURN_IN_SPOT: ui->controlModeLabel->setText("'Turn in spot'"); break;
-        case LATERAL: ui->controlModeLabel->setText("Lateral"); break;
-        default: ui->controlModeLabel->setText("Undefined"); break;
+            renderMap = true;
         }
 
+        if (tm.has_world_data()) {
+            const lunabotics::Telemetry::World world = tm.world_data();
+            int width = world.width();
+            int height = world.height();
+            if (world.cell_size() != width*height) {
+                qDebug() << "ERROR: World dimensions mismatch. Declared width and height don't correspond to number of cells in the message";
+            }
+            else if (width == 0 || height == 0) {
+                qDebug() << "ERROR: Receiving zero dimensions for map";
+            }
+            else {
+                this->mapWidth = width;
+                this->mapHeight = height;
+                this->mapResolution = world.resolution();
+                ui->mapResolutionLabel->setText(QString("1 cell = %1x%2m").arg(QString::number(this->mapResolution, 'f', 2)).arg(QString::number(this->mapResolution, 'f', 2)));
+                this->occupancyGrid->clear();
 
+                this->mapCellWidth = floor(this->mapViewportWidth/this->mapWidth);
+                this->mapCellHeight = floor(this->mapViewportHeight/this->mapHeight);
 
-
-        this->robotPosition.setX(posXValue);
-        this->robotPosition.setY(posYValue);
-        this->robotAngle = orValue;
-
-        this->redrawMap();
-    }
-
-    if (hasMap) {
-        this->mapWidth = this->decodeByte(buffer, pointer);
-        this->mapHeight = this->decodeByte(buffer, pointer);
-        this->mapResolution = this->decodeDouble(buffer, pointer);
-        ui->mapResolutionLabel->setText(QString("1 cell = %1x%2m").arg(QString::number(this->mapResolution, 'f', 2)).arg(QString::number(this->mapResolution, 'f', 2)));
-        this->occupancyGrid->clear();
-
-        this->mapCellWidth = floor(this->mapViewportWidth/this->mapWidth);
-        this->mapCellHeight = floor(this->mapViewportHeight/this->mapHeight);
-
-
-        for (int i = 0; i < this->mapWidth*this->mapHeight; i++) {
-            uint8_t cell = this->decodeByte(buffer, pointer);
-            this->occupancyGrid->push_back(cell);
+                for (int i = 0; i < world.cell_size(); i++) {
+                    this->occupancyGrid->push_back(world.cell(i));
+                }
+            }
+            renderMap = true;
         }
 
-        this->redrawMap();
-    }
+        if (tm.has_path_data()) {
+            this->path->clear();
 
-    if (hasPath) {
-        qDebug() << "Receiving waypoints";
-        int numOfPoses = this->decodeByte(buffer, pointer);
-        this->path->clear();
+            const lunabotics::Telemetry::Path path = tm.path_data();
 
-        for (int i = 0; i < numOfPoses; i++) {
-            double x = this->decodeDouble(buffer, pointer);
-            double y = this->decodeDouble(buffer, pointer);
-            QPointF point;
-            point.setX(x);
-            point.setY(y);
-            qDebug() << x << "  ,  " << y;
-            this->path->push_back(point);
+            for (int i = 0; i < path.position_size(); i++) {
+                const lunabotics::Point position = path.position(i);
+                QPointF point;
+                point.setX(position.x());
+                point.setY(position.y());
+                this->path->push_back(point);
+            }
+
+            renderMap = true;
         }
 
-        this->redrawMap();
-    }
-
-    if (hasVision) {
-/*
-        float angleMin = this->decodeFloat(buffer, pointer);
-        float angleMax = this->decodeFloat(buffer, pointer);
-        float angleIncrement = this->decodeFloat(buffer, pointer);
-        int numOfRanges = this->decodeInt(buffer, pointer);
-
-        QVector<float> ranges;
-        for (int i = 0; i < numOfRanges; i++) {
-            float range = this->decodeFloat(buffer, pointer);
-            ranges.push_back(range);
+        if (tm.has_laser_scan_data()) {
         }
 
-        this->laserScan.setAngleMin(angleMin);
-        this->laserScan.setAngleMax(angleMax);
-        this->laserScan.setAngleIncrement(angleIncrement);
-        this->laserScan.setRanges(ranges);
-
-        qDebug() << "Getting laser between angles " << this->laserScan.getAngleMin() << " and " << this->laserScan.getAngleMax();
-
-        this->redrawMap();
-        */
+        if (renderMap) {
+            this->redrawMap();
+        }
     }
 
     delete buffer;
-}
-void MainWindow::postData(TX_CONTENT_TYPE contentType)
-{
 
+}
+void MainWindow::postData(lunabotics::Telecommand::Type contentType)
+{
     this->outgoingSocket->abort();
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("connection");
     this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
     settings.endGroup();
 
-    union BytesToFloatInt floatConverter;
-
-    QByteArray *bytes = new QByteArray();
-    bytes->append(contentType);
-
+    lunabotics::Telecommand tc;
+    tc.set_type(contentType);
 
     switch (contentType) {
-    case AUTONOMY:
-        bytes->append(this->autonomyEnabled);
+    case lunabotics::Telecommand::SET_AUTONOMY:
+        tc.mutable_autonomy_data()->set_enabled(this->autonomyEnabled);
         break;
-    case CTRL_MODE:
-        bytes->append(this->controlType);
-        if (this->controlType == ACKERMANN) {
-            float linearSpeedLimit = ui->ackermannLinearSpeedEdit->text().toFloat();
-            float bezierSegmentsNumber = ui->bezierSegmentsEdit->text().toFloat();
-            floatConverter.floatValue = linearSpeedLimit;
-            bytes->append(floatConverter.bytes, sizeof(float));
-            floatConverter.floatValue = bezierSegmentsNumber;
-            bytes->append(floatConverter.bytes, sizeof(float));
+    case lunabotics::Telecommand::STEERING_MODE: {
+        lunabotics::Telecommand::SteeringMode *steeringMode = tc.mutable_steering_mode_data();
+        steeringMode->set_type(this->controlType);
+        if (this->controlType == lunabotics::ACKERMANN) {
+            lunabotics::Telecommand::SteeringMode::AckermannSteeringData *steeringData = steeringMode->mutable_ackermann_steering_data();
+            steeringData->set_max_linear_velocity(ui->ackermannLinearSpeedEdit->text().toFloat());
+            steeringData->set_bezier_curve_segments(ui->bezierSegmentsEdit->text().toInt());
         }
-        break;
-    case STEERING: {
-        float linearSpeedLimit = DEFAULT_LATERAL_SPEED_LIMIT;
-        float controlDependentLimit = 0;
-        switch (this->controlType) {
-        case ACKERMANN:
-            linearSpeedLimit = ui->ackermannLinearSpeedEdit->text().toFloat();
-            controlDependentLimit = ui->bezierSegmentsEdit->text().toFloat();
-            break;
-        case TURN_IN_SPOT:
-            controlDependentLimit = DEFAULT_SPOT_ROTATIONAL_SPEED_LIMIT;
-            break;
-        case LATERAL:
-            controlDependentLimit = DEFAULT_LATERAL_SPEED_LIMIT;
-            if (ui->lateralLinearSpeedCheckBox->checkState() == Qt::Checked) {
-                linearSpeedLimit = ui->lateralLinearSpeedEdit->text().toFloat();
-            }
-            if (ui->lateralDependentValueCheckBox->checkState() == Qt::Checked) {
-                controlDependentLimit = ui->lateralDependentValueEdit->text().toFloat();
-            }
-            break;
-        default:
-            break;
-        }
-        qDebug() << "Driving:";
-        if (this->drivingMask & FORWARD) {
-            qDebug() << "   Forward";
-        }
-        if (this->drivingMask & BACKWARD) {
-            qDebug() << "   Backward";
-        }
-        if (this->drivingMask & LEFT) {
-            qDebug() << "   Left";
-        }
-        if (this->drivingMask & RIGHT) {
-            qDebug() << "   Right";
-        }
-
-        bytes->append(this->drivingMask & FORWARD);
-        bytes->append(this->drivingMask & BACKWARD);
-        bytes->append(this->drivingMask & LEFT);
-        bytes->append(this->drivingMask & RIGHT);
     }
         break;
-    case ROUTE:
-        floatConverter.floatValue = this->goal.x()*this->mapResolution;
-        bytes->append(floatConverter.bytes, sizeof(float));
-        floatConverter.floatValue = this->goal.y()*this->mapResolution;
-        bytes->append(floatConverter.bytes, sizeof(float));
-        floatConverter.floatValue = ui->spotAngleTolerance->text().toFloat();
-        bytes->append(floatConverter.bytes, sizeof(float));
-        floatConverter.floatValue = ui->spotDistanceTolerance->text().toFloat();
-        bytes->append(floatConverter.bytes, sizeof(float));
+    case lunabotics::Telecommand::TELEOPERATION: {
+        lunabotics::Telecommand::Teleoperation *teleoperation = tc.mutable_teleoperation_data();
+        teleoperation->set_forward(this->drivingMask & FORWARD);
+        teleoperation->set_backward(this->drivingMask & BACKWARD);
+        teleoperation->set_left(this->drivingMask & LEFT);
+        teleoperation->set_right(this->drivingMask & RIGHT);
+    }
+        break;
+    case lunabotics::Telecommand::DEFINE_ROUTE: {
+        lunabotics::Telecommand::DefineRoute *route = tc.mutable_define_route_data();
+        route->mutable_goal()->set_x(this->goal.x()*this->mapResolution);
+        route->mutable_goal()->set_y(this->goal.y()*this->mapResolution);
+        route->set_heading_accuracy(ui->spotAngleTolerance->text().toFloat());
+        route->set_position_accuracy(ui->spotDistanceTolerance->text().toFloat());
+    }
         break;
 
-    case MAP_REQUEST:
+    case lunabotics::Telecommand::REQUEST_MAP:
         //Nothing to include
         break;
 
-    case PID:
+    case lunabotics::Telecommand::ADJUST_PID: {
+        lunabotics::Telecommand::AdjustPID *pid = tc.mutable_adjust_pid_data();
         settings.beginGroup("pid");
-        floatConverter.floatValue = settings.value("p", PID_KP).toFloat();
-        bytes->append(floatConverter.bytes, sizeof(float));
-        floatConverter.floatValue = settings.value("i", PID_KI).toFloat();
-        bytes->append(floatConverter.bytes, sizeof(float));
-        floatConverter.floatValue = settings.value("d", PID_KD).toFloat();
-        bytes->append(floatConverter.bytes, sizeof(float));
-        floatConverter.floatValue = settings.value("offset", PID_OFFSET).toFloat();
-        bytes->append(floatConverter.bytes, sizeof(float));
-        floatConverter.floatValue = settings.value("v", PID_VEL_M).toFloat();
-        bytes->append(floatConverter.bytes, sizeof(float));
+        pid->set_p(settings.value("p", PID_KP).toFloat());
+        pid->set_i(settings.value("i", PID_KI).toFloat());
+        pid->set_d(settings.value("d", PID_KD).toFloat());
+        pid->set_velocity_offset(settings.value("offset", PID_OFFSET).toFloat());
+        pid->set_velocity_multiplier(settings.value("v", PID_VEL_M).toFloat());
         settings.endGroup();
+    }
         break;
 
     default:
         break;
     }
 
+    if (!tc.IsInitialized()) {
+        qDebug() << "Telecommand not initialized";
+        qDebug() << QString(tc.InitializationErrorString().c_str());
+        return;
+    }
+
+
     if (this->outgoingSocket->state() != QTcpSocket::UnconnectedState) {
-        this->outgoingSocket->write(bytes->data(), bytes->size());
+        QByteArray byteArray(tc.SerializeAsString().c_str(), tc.ByteSize());
+        qDebug() << "Sending " << byteArray.size() << " bytes";
+        this->outgoingSocket->write(byteArray.data(), byteArray.size());
     }
     else {
         qDebug() << "Socket is not connected!";
@@ -653,18 +585,14 @@ void MainWindow::postData(TX_CONTENT_TYPE contentType)
     // READ THE RESPONSE
 
     //this->outgoingSocket->read(bytes->data(), bytes->size());
-
-    delete bytes;
 }
 
 
 void MainWindow::mapCell_clicked(QPoint coordinate)
 {
     this->goal = coordinate;
-    if (!this->autonomyEnabled) {
-        this->toggleAutonomy();
-    }
-    this->postData(ROUTE);
+    this->setAutonomy(true);
+    this->postData(lunabotics::Telecommand::DEFINE_ROUTE);
 }
 
 void MainWindow::mapCell_hovered(QPoint coordinate)
@@ -699,7 +627,7 @@ void MainWindow::on_actionPreferences_triggered()
     preferenceDialog->setWindowModality(Qt::WindowModal);
     if (preferenceDialog->exec() == QDialog::Accepted) {
         this->connectRobot();
-        this->postData(PID);
+        this->postData(lunabotics::Telecommand::ADJUST_PID);
     }
 }
 
@@ -717,125 +645,88 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_useLateralButton_clicked()
 {
     qDebug() << "Switching to lateral driving mode";
-    this->controlType = LATERAL;
-    this->postData(CTRL_MODE);
+    this->controlType = lunabotics::CRAB;
+    this->postData(lunabotics::Telecommand::STEERING_MODE);
 }
 
 void MainWindow::on_useSpotButton_clicked()
 {
     qDebug() << "Switching to spot driving mode";
-    this->controlType = TURN_IN_SPOT;
-    this->postData(CTRL_MODE);
+    this->controlType = lunabotics::TURN_IN_SPOT;
+    this->postData(lunabotics::Telecommand::STEERING_MODE);
 }
 
 void MainWindow::on_useAckermannButton_clicked()
 {
     qDebug() << "Switching to Ackermann driving mode";
-    this->controlType = ACKERMANN;
-    this->postData(CTRL_MODE);
+    this->controlType = lunabotics::ACKERMANN;
+    this->postData(lunabotics::Telecommand::STEERING_MODE);
 }
 
 void MainWindow::on_refreshMapButton_clicked()
 {
-    this->postData(MAP_REQUEST);
+    qDeleteAll(this->mapScene->items());
+    this->postData(lunabotics::Telecommand::REQUEST_MAP);
 }
 
 void MainWindow::on_resendParamsButton_clicked()
 {
     SleepSimulator sim;
-    this->postData(CTRL_MODE);
+    this->postData(lunabotics::Telecommand::STEERING_MODE);
     sim.sleep(1000);
-    this->postData(PID);
+    this->postData(lunabotics::Telecommand::ADJUST_PID);
     sim.sleep(1000);
-    this->postData(AUTONOMY);
+    this->postData(lunabotics::Telecommand::SET_AUTONOMY);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
-    if (event->text().compare("w", Qt::CaseSensitive) == 0) {
+    this->setAutonomy(false);
+    if (event->key() == Qt::Key_F5 || event->key() == Qt::Key_W) {
         this->drivingMask |= FORWARD;
         ui->driveForwardLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
-    else if (event->text().compare("a", Qt::CaseSensitive) == 0) {
+    else if (event->key() == Qt::Key_F6 || event->key() == Qt::Key_A) {
         this->drivingMask |= LEFT;
         ui->driveLeftLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
-    else if (event->text().compare("s", Qt::CaseSensitive) == 0) {
+    else if (event->key() == Qt::Key_F7 || event->key() == Qt::Key_S) {
         this->drivingMask |= BACKWARD;
         ui->driveBackLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
-    else if (event->text().compare("d", Qt::CaseSensitive) == 0) {
+    else if (event->key() == Qt::Key_F8 || event->key() == Qt::Key_D) {
         this->drivingMask |= RIGHT;
         ui->driveRightLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
     else {
         return;
     }
-    this->postData(STEERING);
-    if (this->autonomyEnabled) {
-        this->toggleAutonomy();
-    }
+    this->postData(lunabotics::Telecommand::TELEOPERATION);
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
-    if (event->text().compare("w", Qt::CaseSensitive) == 0) {
+    this->setAutonomy(false);
+    if (event->key() == Qt::Key_F5 || event->key() == Qt::Key_W) {
         this->drivingMask &= ~FORWARD;
         ui->driveForwardLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
-    else if (event->text().compare("a", Qt::CaseSensitive) == 0) {
+    else if (event->key() == Qt::Key_F6 || event->key() == Qt::Key_A) {
         this->drivingMask &= ~LEFT;
         ui->driveLeftLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
-    else if (event->text().compare("s", Qt::CaseSensitive) == 0) {
+    else if (event->key() == Qt::Key_F7 || event->key() == Qt::Key_S) {
         this->drivingMask &= ~BACKWARD;
         ui->driveBackLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
-    else if (event->text().compare("d", Qt::CaseSensitive) == 0) {
+    else if (event->key() == Qt::Key_F8 || event->key() == Qt::Key_D) {
         this->drivingMask &= ~RIGHT;
         ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
     else {
         return;
     }
-    this->postData(STEERING);
-    if (this->autonomyEnabled) {
-        this->toggleAutonomy();
-    }
-}
-
-double MainWindow::decodeDouble(char buffer[], int &pointer)
-{
-    BytesToDouble converter;
-    for (unsigned int i = 0; i < sizeof(double); i++) {
-        converter.bytes[i] = buffer[pointer++];
-    }
-    return converter.doubleValue;
-}
-
-uint8_t MainWindow::decodeByte(char buffer[], int &pointer)
-{
-    BytesToUint8 converter;
-    converter.bytes[0] = buffer[pointer++];
-    return converter.uint8Value;
-}
-
-int MainWindow::decodeInt(char buffer[], int &pointer)
-{
-    BytesToFloatInt converter;
-    for (unsigned int i = 0; i < sizeof(int); i++) {
-        converter.bytes[i] = buffer[pointer++];
-    }
-    return converter.intValue;
-}
-
-float MainWindow::decodeFloat(char buffer[], int &pointer)
-{
-    BytesToFloatInt converter;
-    for (unsigned int i = 0; i < sizeof(float); i++) {
-        converter.bytes[i] = buffer[pointer++];
-    }
-    return converter.floatValue;
+    this->postData(lunabotics::Telecommand::TELEOPERATION);
 }
 
 void MainWindow::on_removePathButton_clicked()

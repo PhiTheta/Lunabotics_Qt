@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     Twist.pb.cc \
     Telemetry.pb.cc \
     SteeringModeType.pb.cc \
-    Point.pb.cc
+    Point.pb.cc \
+    AllWheelControl.pb.cc
 
 HEADERS  += mainwindow.h \
     preferencedialog.h \
@@ -34,7 +35,8 @@ HEADERS  += mainwindow.h \
     Twist.pb.h \
     Telemetry.pb.h \
     SteeringModeType.pb.h \
-    Point.pb.h
+    Point.pb.h \
+    AllWheelControl.pb.h
 
 FORMS    += mainwindow.ui \
     preferencedialog.ui

@@ -7,6 +7,7 @@
 #include <QTcpServer>
 #include <QtGui>
 #include <QtCore>
+#include <QMutex>
 #include "laserscan.h"
 #include "Telecommand.pb.h"
 
@@ -52,10 +53,6 @@ private slots:
 
     void on_actionPreferences_triggered();
 
-    void on_lateralLinearSpeedCheckBox_clicked(bool checked);
-
-    void on_lateralDependentValueCheckBox_clicked(bool checked);
-
     void mapCell_clicked(QPoint coordinate);
     void mapCell_hovered(QPoint coordinate);
     void outSocketConnected();
@@ -71,7 +68,16 @@ private slots:
 
     void on_removePathButton_clicked();
 
+    void on_allWheelButton_clicked();
+
+    void on_forwardButton_clicked();
+
+    void on_backwardButton_clicked();
+
+    void on_stopButton_clicked();
+
 private:
+    QMutex socketMutex;
     Ui::MainWindow *ui;
     QTcpSocket *outgoingSocket;
     QTcpSocket *incomingSocket;

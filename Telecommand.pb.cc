@@ -62,7 +62,7 @@ void protobuf_AssignDesc_Telecommand_2eproto() {
       "Telecommand.proto");
   GOOGLE_CHECK(file != NULL);
   Telecommand_descriptor_ = file->message_type(0);
-  static const int Telecommand_offsets_[7] = {
+  static const int Telecommand_offsets_[8] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand, type_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand, teleoperation_data_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand, autonomy_data_),
@@ -70,6 +70,7 @@ void protobuf_AssignDesc_Telecommand_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand, define_route_data_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand, request_map_data_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand, adjust_pid_data_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand, all_wheel_control_data_),
   };
   Telecommand_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -295,43 +296,47 @@ void protobuf_AddDesc_Telecommand_2eproto() {
 
   ::lunabotics::protobuf_AddDesc_SteeringModeType_2eproto();
   ::lunabotics::protobuf_AddDesc_Point_2eproto();
+  ::lunabotics::protobuf_AddDesc_AllWheelControl_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\021Telecommand.proto\022\nlunabotics\032\026Steerin"
-    "gModeType.proto\032\013Point.proto\"\316\n\n\013Telecom"
-    "mand\022*\n\004type\030\001 \002(\0162\034.lunabotics.Telecomm"
-    "and.Type\022A\n\022teleoperation_data\030\002 \001(\0132%.l"
-    "unabotics.Telecommand.Teleoperation\0227\n\ra"
-    "utonomy_data\030\003 \001(\0132 .lunabotics.Telecomm"
-    "and.Autonomy\022@\n\022steering_mode_data\030\004 \001(\013"
-    "2$.lunabotics.Telecommand.SteeringMode\022>"
-    "\n\021define_route_data\030\005 \001(\0132#.lunabotics.T"
-    "elecommand.DefineRoute\022<\n\020request_map_da"
-    "ta\030\006 \001(\0132\".lunabotics.Telecommand.Reques"
-    "tMap\022:\n\017adjust_pid_data\030\007 \001(\0132!.lunaboti"
-    "cs.Telecommand.AdjustPID\032O\n\rTeleoperatio"
-    "n\022\017\n\007forward\030\001 \002(\010\022\020\n\010backward\030\002 \002(\010\022\014\n\004"
-    "left\030\003 \002(\010\022\r\n\005right\030\004 \002(\010\032\033\n\010Autonomy\022\017\n"
-    "\007enabled\030\001 \002(\010\032\330\003\n\014SteeringMode\022*\n\004type\030"
-    "\001 \002(\0162\034.lunabotics.SteeringModeType\022[\n\027a"
-    "ckermann_steering_data\030\002 \001(\0132:.lunabotic"
-    "s.Telecommand.SteeringMode.AckermannStee"
-    "ringData\022_\n\032turn_in_spot_steering_data\030\003"
-    " \001(\0132;.lunabotics.Telecommand.SteeringMo"
-    "de.TurnInSpotSteeringData\022Q\n\022crab_steeri"
-    "ng_data\030\004 \001(\01325.lunabotics.Telecommand.S"
-    "teeringMode.CrabSteeringData\032]\n\025Ackerman"
-    "nSteeringData\022!\n\023max_linear_velocity\030\001 \001"
-    "(\002:\0040.33\022!\n\025bezier_curve_segments\030\002 \001(\005:"
-    "\00220\032\030\n\026TurnInSpotSteeringData\032\022\n\020CrabSte"
-    "eringData\032m\n\013DefineRoute\022\037\n\004goal\030\001 \002(\0132\021"
-    ".lunabotics.Point\022\035\n\020heading_accuracy\030\002 "
-    "\001(\002:\0030.4\022\036\n\021position_accuracy\030\003 \001(\002:\0030.2"
-    "\032\014\n\nRequestMap\032b\n\tAdjustPID\022\t\n\001p\030\001 \002(\002\022\t"
-    "\n\001i\030\002 \002(\002\022\t\n\001d\030\003 \002(\002\022\027\n\017velocity_offset\030"
-    "\004 \002(\002\022\033\n\023velocity_multiplier\030\005 \002(\002\"q\n\004Ty"
-    "pe\022\021\n\rTELEOPERATION\020\001\022\020\n\014SET_AUTONOMY\020\002\022"
-    "\021\n\rSTEERING_MODE\020\003\022\020\n\014DEFINE_ROUTE\020\004\022\017\n\013"
-    "REQUEST_MAP\020\005\022\016\n\nADJUST_PID\020\006", 1429);
+    "gModeType.proto\032\013Point.proto\032\025AllWheelCo"
+    "ntrol.proto\"\237\013\n\013Telecommand\022*\n\004type\030\001 \002("
+    "\0162\034.lunabotics.Telecommand.Type\022A\n\022teleo"
+    "peration_data\030\002 \001(\0132%.lunabotics.Telecom"
+    "mand.Teleoperation\0227\n\rautonomy_data\030\003 \001("
+    "\0132 .lunabotics.Telecommand.Autonomy\022@\n\022s"
+    "teering_mode_data\030\004 \001(\0132$.lunabotics.Tel"
+    "ecommand.SteeringMode\022>\n\021define_route_da"
+    "ta\030\005 \001(\0132#.lunabotics.Telecommand.Define"
+    "Route\022<\n\020request_map_data\030\006 \001(\0132\".lunabo"
+    "tics.Telecommand.RequestMap\022:\n\017adjust_pi"
+    "d_data\030\007 \001(\0132!.lunabotics.Telecommand.Ad"
+    "justPID\022;\n\026all_wheel_control_data\030\010 \001(\0132"
+    "\033.lunabotics.AllWheelControl\032O\n\rTeleoper"
+    "ation\022\017\n\007forward\030\001 \002(\010\022\020\n\010backward\030\002 \002(\010"
+    "\022\014\n\004left\030\003 \002(\010\022\r\n\005right\030\004 \002(\010\032\033\n\010Autonom"
+    "y\022\017\n\007enabled\030\001 \002(\010\032\330\003\n\014SteeringMode\022*\n\004t"
+    "ype\030\001 \002(\0162\034.lunabotics.SteeringModeType\022"
+    "[\n\027ackermann_steering_data\030\002 \001(\0132:.lunab"
+    "otics.Telecommand.SteeringMode.Ackermann"
+    "SteeringData\022_\n\032turn_in_spot_steering_da"
+    "ta\030\003 \001(\0132;.lunabotics.Telecommand.Steeri"
+    "ngMode.TurnInSpotSteeringData\022Q\n\022crab_st"
+    "eering_data\030\004 \001(\01325.lunabotics.Telecomma"
+    "nd.SteeringMode.CrabSteeringData\032]\n\025Acke"
+    "rmannSteeringData\022!\n\023max_linear_velocity"
+    "\030\001 \001(\002:\0040.33\022!\n\025bezier_curve_segments\030\002 "
+    "\001(\005:\00220\032\030\n\026TurnInSpotSteeringData\032\022\n\020Cra"
+    "bSteeringData\032m\n\013DefineRoute\022\037\n\004goal\030\001 \002"
+    "(\0132\021.lunabotics.Point\022\035\n\020heading_accurac"
+    "y\030\002 \001(\002:\0030.4\022\036\n\021position_accuracy\030\003 \001(\002:"
+    "\0030.2\032\014\n\nRequestMap\032b\n\tAdjustPID\022\t\n\001p\030\001 \002"
+    "(\002\022\t\n\001i\030\002 \002(\002\022\t\n\001d\030\003 \002(\002\022\027\n\017velocity_off"
+    "set\030\004 \002(\002\022\033\n\023velocity_multiplier\030\005 \002(\002\"\204"
+    "\001\n\004Type\022\021\n\rTELEOPERATION\020\001\022\020\n\014SET_AUTONO"
+    "MY\020\002\022\021\n\rSTEERING_MODE\020\003\022\020\n\014DEFINE_ROUTE\020"
+    "\004\022\017\n\013REQUEST_MAP\020\005\022\016\n\nADJUST_PID\020\006\022\021\n\rAD"
+    "JUST_WHEELS\020\007", 1533);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Telecommand.proto", &protobuf_RegisterTypes);
   Telecommand::default_instance_ = new Telecommand();
@@ -378,6 +383,7 @@ bool Telecommand_Type_IsValid(int value) {
     case 4:
     case 5:
     case 6:
+    case 7:
       return true;
     default:
       return false;
@@ -391,6 +397,7 @@ const Telecommand_Type Telecommand::STEERING_MODE;
 const Telecommand_Type Telecommand::DEFINE_ROUTE;
 const Telecommand_Type Telecommand::REQUEST_MAP;
 const Telecommand_Type Telecommand::ADJUST_PID;
+const Telecommand_Type Telecommand::ADJUST_WHEELS;
 const Telecommand_Type Telecommand::Type_MIN;
 const Telecommand_Type Telecommand::Type_MAX;
 const int Telecommand::Type_ARRAYSIZE;
@@ -2647,6 +2654,7 @@ const int Telecommand::kSteeringModeDataFieldNumber;
 const int Telecommand::kDefineRouteDataFieldNumber;
 const int Telecommand::kRequestMapDataFieldNumber;
 const int Telecommand::kAdjustPidDataFieldNumber;
+const int Telecommand::kAllWheelControlDataFieldNumber;
 #endif  // !_MSC_VER
 
 Telecommand::Telecommand()
@@ -2661,6 +2669,7 @@ void Telecommand::InitAsDefaultInstance() {
   define_route_data_ = const_cast< ::lunabotics::Telecommand_DefineRoute*>(&::lunabotics::Telecommand_DefineRoute::default_instance());
   request_map_data_ = const_cast< ::lunabotics::Telecommand_RequestMap*>(&::lunabotics::Telecommand_RequestMap::default_instance());
   adjust_pid_data_ = const_cast< ::lunabotics::Telecommand_AdjustPID*>(&::lunabotics::Telecommand_AdjustPID::default_instance());
+  all_wheel_control_data_ = const_cast< ::lunabotics::AllWheelControl*>(&::lunabotics::AllWheelControl::default_instance());
 }
 
 Telecommand::Telecommand(const Telecommand& from)
@@ -2678,6 +2687,7 @@ void Telecommand::SharedCtor() {
   define_route_data_ = NULL;
   request_map_data_ = NULL;
   adjust_pid_data_ = NULL;
+  all_wheel_control_data_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -2693,6 +2703,7 @@ void Telecommand::SharedDtor() {
     delete define_route_data_;
     delete request_map_data_;
     delete adjust_pid_data_;
+    delete all_wheel_control_data_;
   }
 }
 
@@ -2737,6 +2748,9 @@ void Telecommand::Clear() {
     }
     if (has_adjust_pid_data()) {
       if (adjust_pid_data_ != NULL) adjust_pid_data_->::lunabotics::Telecommand_AdjustPID::Clear();
+    }
+    if (has_all_wheel_control_data()) {
+      if (all_wheel_control_data_ != NULL) all_wheel_control_data_->::lunabotics::AllWheelControl::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -2849,6 +2863,20 @@ bool Telecommand::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(66)) goto parse_all_wheel_control_data;
+        break;
+      }
+
+      // optional .lunabotics.AllWheelControl all_wheel_control_data = 8;
+      case 8: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_all_wheel_control_data:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_all_wheel_control_data()));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -2913,6 +2941,12 @@ void Telecommand::SerializeWithCachedSizes(
       7, this->adjust_pid_data(), output);
   }
 
+  // optional .lunabotics.AllWheelControl all_wheel_control_data = 8;
+  if (has_all_wheel_control_data()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      8, this->all_wheel_control_data(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -2967,6 +3001,13 @@ void Telecommand::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         7, this->adjust_pid_data(), target);
+  }
+
+  // optional .lunabotics.AllWheelControl all_wheel_control_data = 8;
+  if (has_all_wheel_control_data()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        8, this->all_wheel_control_data(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -3028,6 +3069,13 @@ int Telecommand::ByteSize() const {
           this->adjust_pid_data());
     }
 
+    // optional .lunabotics.AllWheelControl all_wheel_control_data = 8;
+    if (has_all_wheel_control_data()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->all_wheel_control_data());
+    }
+
   }
   if (!unknown_fields().empty()) {
     total_size +=
@@ -3076,6 +3124,9 @@ void Telecommand::MergeFrom(const Telecommand& from) {
     if (from.has_adjust_pid_data()) {
       mutable_adjust_pid_data()->::lunabotics::Telecommand_AdjustPID::MergeFrom(from.adjust_pid_data());
     }
+    if (from.has_all_wheel_control_data()) {
+      mutable_all_wheel_control_data()->::lunabotics::AllWheelControl::MergeFrom(from.all_wheel_control_data());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -3110,6 +3161,9 @@ bool Telecommand::IsInitialized() const {
   if (has_adjust_pid_data()) {
     if (!this->adjust_pid_data().IsInitialized()) return false;
   }
+  if (has_all_wheel_control_data()) {
+    if (!this->all_wheel_control_data().IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -3122,6 +3176,7 @@ void Telecommand::Swap(Telecommand* other) {
     std::swap(define_route_data_, other->define_route_data_);
     std::swap(request_map_data_, other->request_map_data_);
     std::swap(adjust_pid_data_, other->adjust_pid_data_);
+    std::swap(all_wheel_control_data_, other->all_wheel_control_data_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

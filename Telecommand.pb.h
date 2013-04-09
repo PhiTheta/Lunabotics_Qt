@@ -27,6 +27,7 @@
 #include <google/protobuf/unknown_field_set.h>
 #include "SteeringModeType.pb.h"
 #include "Point.pb.h"
+#include "AllWheelControl.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
@@ -53,11 +54,12 @@ enum Telecommand_Type {
   Telecommand_Type_STEERING_MODE = 3,
   Telecommand_Type_DEFINE_ROUTE = 4,
   Telecommand_Type_REQUEST_MAP = 5,
-  Telecommand_Type_ADJUST_PID = 6
+  Telecommand_Type_ADJUST_PID = 6,
+  Telecommand_Type_ADJUST_WHEELS = 7
 };
 bool Telecommand_Type_IsValid(int value);
 const Telecommand_Type Telecommand_Type_Type_MIN = Telecommand_Type_TELEOPERATION;
-const Telecommand_Type Telecommand_Type_Type_MAX = Telecommand_Type_ADJUST_PID;
+const Telecommand_Type Telecommand_Type_Type_MAX = Telecommand_Type_ADJUST_WHEELS;
 const int Telecommand_Type_Type_ARRAYSIZE = Telecommand_Type_Type_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* Telecommand_Type_descriptor();
@@ -988,6 +990,7 @@ class Telecommand : public ::google::protobuf::Message {
   static const Type DEFINE_ROUTE = Telecommand_Type_DEFINE_ROUTE;
   static const Type REQUEST_MAP = Telecommand_Type_REQUEST_MAP;
   static const Type ADJUST_PID = Telecommand_Type_ADJUST_PID;
+  static const Type ADJUST_WHEELS = Telecommand_Type_ADJUST_WHEELS;
   static inline bool Type_IsValid(int value) {
     return Telecommand_Type_IsValid(value);
   }
@@ -1072,6 +1075,15 @@ class Telecommand : public ::google::protobuf::Message {
   inline ::lunabotics::Telecommand_AdjustPID* release_adjust_pid_data();
   inline void set_allocated_adjust_pid_data(::lunabotics::Telecommand_AdjustPID* adjust_pid_data);
 
+  // optional .lunabotics.AllWheelControl all_wheel_control_data = 8;
+  inline bool has_all_wheel_control_data() const;
+  inline void clear_all_wheel_control_data();
+  static const int kAllWheelControlDataFieldNumber = 8;
+  inline const ::lunabotics::AllWheelControl& all_wheel_control_data() const;
+  inline ::lunabotics::AllWheelControl* mutable_all_wheel_control_data();
+  inline ::lunabotics::AllWheelControl* release_all_wheel_control_data();
+  inline void set_allocated_all_wheel_control_data(::lunabotics::AllWheelControl* all_wheel_control_data);
+
   // @@protoc_insertion_point(class_scope:lunabotics.Telecommand)
  private:
   inline void set_has_type();
@@ -1088,6 +1100,8 @@ class Telecommand : public ::google::protobuf::Message {
   inline void clear_has_request_map_data();
   inline void set_has_adjust_pid_data();
   inline void clear_has_adjust_pid_data();
+  inline void set_has_all_wheel_control_data();
+  inline void clear_has_all_wheel_control_data();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -1097,10 +1111,11 @@ class Telecommand : public ::google::protobuf::Message {
   ::lunabotics::Telecommand_DefineRoute* define_route_data_;
   ::lunabotics::Telecommand_RequestMap* request_map_data_;
   ::lunabotics::Telecommand_AdjustPID* adjust_pid_data_;
+  ::lunabotics::AllWheelControl* all_wheel_control_data_;
   int type_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(8 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telecommand_2eproto();
   friend void protobuf_AssignDesc_Telecommand_2eproto();
@@ -1883,6 +1898,44 @@ inline void Telecommand::set_allocated_adjust_pid_data(::lunabotics::Telecommand
     set_has_adjust_pid_data();
   } else {
     clear_has_adjust_pid_data();
+  }
+}
+
+// optional .lunabotics.AllWheelControl all_wheel_control_data = 8;
+inline bool Telecommand::has_all_wheel_control_data() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void Telecommand::set_has_all_wheel_control_data() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void Telecommand::clear_has_all_wheel_control_data() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void Telecommand::clear_all_wheel_control_data() {
+  if (all_wheel_control_data_ != NULL) all_wheel_control_data_->::lunabotics::AllWheelControl::Clear();
+  clear_has_all_wheel_control_data();
+}
+inline const ::lunabotics::AllWheelControl& Telecommand::all_wheel_control_data() const {
+  return all_wheel_control_data_ != NULL ? *all_wheel_control_data_ : *default_instance_->all_wheel_control_data_;
+}
+inline ::lunabotics::AllWheelControl* Telecommand::mutable_all_wheel_control_data() {
+  set_has_all_wheel_control_data();
+  if (all_wheel_control_data_ == NULL) all_wheel_control_data_ = new ::lunabotics::AllWheelControl;
+  return all_wheel_control_data_;
+}
+inline ::lunabotics::AllWheelControl* Telecommand::release_all_wheel_control_data() {
+  clear_has_all_wheel_control_data();
+  ::lunabotics::AllWheelControl* temp = all_wheel_control_data_;
+  all_wheel_control_data_ = NULL;
+  return temp;
+}
+inline void Telecommand::set_allocated_all_wheel_control_data(::lunabotics::AllWheelControl* all_wheel_control_data) {
+  delete all_wheel_control_data_;
+  all_wheel_control_data_ = all_wheel_control_data;
+  if (all_wheel_control_data) {
+    set_has_all_wheel_control_data();
+  } else {
+    clear_has_all_wheel_control_data();
   }
 }
 

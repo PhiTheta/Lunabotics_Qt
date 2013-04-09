@@ -12,3 +12,4 @@ genprotos "Twist.proto" $SRC_DIR $DST_DIR
 genprotos "SteeringModeType.proto" $SRC_DIR $DST_DIR
 genprotos "Telecommand.proto" $SRC_DIR $DST_DIR
 genprotos "Telemetry.proto" $SRC_DIR $DST_DIR
+genprotos "AllWheelControl.proto" $SRC_DIR $DST_DIR

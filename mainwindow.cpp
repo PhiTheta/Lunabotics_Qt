@@ -54,8 +54,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
-    ui->lateralLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
-    ui->lateralDependentValueEdit->setText(text.setNum(DEFAULT_LATERAL_SPEED_LIMIT));
 
     this->pathTableModel = new QStandardItemModel(0, 2, this); //2 Rows and 3 Columns
     this->pathTableModel->setHorizontalHeaderItem(0, new QStandardItem(QString("x")));
@@ -136,12 +134,16 @@ void MainWindow::setAutonomy(bool enabled)
 void MainWindow::setAutonomyLabel(bool enabled)
 {
     ui->autonomyLabel->setVisible(enabled);
+    QRect currentGeometry = ui->mainWidget->geometry();
     if (enabled) {
+        currentGeometry.setY(31);
         ui->autonomyButton->setText("Disable autonomy");
     }
     else {
+        currentGeometry.setY(0);
         ui->autonomyButton->setText("Enable autonomy");
     }
+    ui->mainWidget->setGeometry(currentGeometry);
 }
 
 
@@ -506,6 +508,8 @@ void MainWindow::serverStartRead()
 }
 void MainWindow::postData(lunabotics::Telecommand::Type contentType)
 {
+    this->socketMutex.lock();
+    qDebug() << "=======ENTERING=========";
     this->outgoingSocket->abort();
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("connection");
@@ -562,6 +566,23 @@ void MainWindow::postData(lunabotics::Telecommand::Type contentType)
     }
         break;
 
+    case lunabotics::Telecommand::ADJUST_WHEELS: {
+        lunabotics::AllWheelControl::Wheels *steering = tc.mutable_all_wheel_control_data()->mutable_steering();
+        lunabotics::AllWheelControl::Wheels *driving = tc.mutable_all_wheel_control_data()->mutable_driving();
+
+        steering->set_left_front(ui->lfSteeringEdit->text().toFloat());
+        steering->set_right_front(ui->rfSteeringEdit->text().toFloat());
+        steering->set_left_rear(ui->lrSteeringEdit->text().toFloat());
+        steering->set_right_rear(ui->rrSteeringEdit->text().toFloat());
+
+        driving->set_left_front(ui->lfDrivingEdit->text().toFloat());
+        driving->set_right_front(ui->rfDrivingEdit->text().toFloat());
+        driving->set_left_rear(ui->lrDrivingEdit->text().toFloat());
+        driving->set_right_rear(ui->rrDrivingEdit->text().toFloat());
+
+    }
+        break;
+
     default:
         break;
     }
@@ -576,15 +597,16 @@ void MainWindow::postData(lunabotics::Telecommand::Type contentType)
     if (this->outgoingSocket->state() != QTcpSocket::UnconnectedState) {
         QByteArray byteArray(tc.SerializeAsString().c_str(), tc.ByteSize());
         qDebug() << "Sending " << byteArray.size() << " bytes";
-        this->outgoingSocket->write(byteArray.data(), byteArray.size());
+        this->outgoingSocket->write(byteArray);
+        this->outgoingSocket->waitForDisconnected(1);
     }
     else {
         qDebug() << "Socket is not connected!";
     }
 
-    // READ THE RESPONSE
 
-    //this->outgoingSocket->read(bytes->data(), bytes->size());
+    qDebug() << "=======EXITING=========";
+    this->socketMutex.unlock();
 }
 
 
@@ -609,17 +631,6 @@ void MainWindow::outSocketDisconnected()
 {
     ui->outConnectionLabel->setText("Sending socket: disconnected");
 }
-
-void MainWindow::on_lateralLinearSpeedCheckBox_clicked(bool checked)
-{
-    ui->lateralLinearSpeedEdit->setEnabled(checked);
-}
-
-void MainWindow::on_lateralDependentValueCheckBox_clicked(bool checked)
-{
-    ui->lateralDependentValueEdit->setEnabled(checked);
-}
-
 
 void MainWindow::on_actionPreferences_triggered()
 {
@@ -686,20 +697,17 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
         this->drivingMask |= FORWARD;
         ui->driveForwardLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
-    else if (event->key() == Qt::Key_F6 || event->key() == Qt::Key_A) {
+    if (event->key() == Qt::Key_F6 || event->key() == Qt::Key_A) {
         this->drivingMask |= LEFT;
         ui->driveLeftLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
-    else if (event->key() == Qt::Key_F7 || event->key() == Qt::Key_S) {
+    if (event->key() == Qt::Key_F7 || event->key() == Qt::Key_S) {
         this->drivingMask |= BACKWARD;
         ui->driveBackLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
-    else if (event->key() == Qt::Key_F8 || event->key() == Qt::Key_D) {
+    if (event->key() == Qt::Key_F8 || event->key() == Qt::Key_D) {
         this->drivingMask |= RIGHT;
         ui->driveRightLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
-    }
-    else {
-        return;
     }
     this->postData(lunabotics::Telecommand::TELEOPERATION);
 }
@@ -711,20 +719,17 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
         this->drivingMask &= ~FORWARD;
         ui->driveForwardLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
-    else if (event->key() == Qt::Key_F6 || event->key() == Qt::Key_A) {
+    if (event->key() == Qt::Key_F6 || event->key() == Qt::Key_A) {
         this->drivingMask &= ~LEFT;
         ui->driveLeftLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
-    else if (event->key() == Qt::Key_F7 || event->key() == Qt::Key_S) {
+    if (event->key() == Qt::Key_F7 || event->key() == Qt::Key_S) {
         this->drivingMask &= ~BACKWARD;
         ui->driveBackLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
-    else if (event->key() == Qt::Key_F8 || event->key() == Qt::Key_D) {
+    if (event->key() == Qt::Key_F8 || event->key() == Qt::Key_D) {
         this->drivingMask &= ~RIGHT;
         ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
-    }
-    else {
-        return;
     }
     this->postData(lunabotics::Telecommand::TELEOPERATION);
 }
@@ -733,4 +738,40 @@ void MainWindow::on_removePathButton_clicked()
 {
     this->path->clear();
     this->redrawMap();
+}
+
+void MainWindow::on_allWheelButton_clicked()
+{
+    this->postData(lunabotics::Telecommand::ADJUST_WHEELS);
+}
+
+void MainWindow::on_forwardButton_clicked()
+{
+    ui->lfDrivingEdit->setText("1");
+    ui->rfDrivingEdit->setText("1");
+    ui->lrDrivingEdit->setText("1");
+    ui->rrDrivingEdit->setText("1");
+    this->postData(lunabotics::Telecommand::ADJUST_WHEELS);
+}
+
+void MainWindow::on_backwardButton_clicked()
+{
+    ui->lfDrivingEdit->setText("-1");
+    ui->rfDrivingEdit->setText("-1");
+    ui->lrDrivingEdit->setText("-1");
+    ui->rrDrivingEdit->setText("-1");
+    this->postData(lunabotics::Telecommand::ADJUST_WHEELS);
+}
+
+void MainWindow::on_stopButton_clicked()
+{
+    ui->lfDrivingEdit->setText("0");
+    ui->rfDrivingEdit->setText("0");
+    ui->lrDrivingEdit->setText("0");
+    ui->rrDrivingEdit->setText("0");
+    ui->lfSteeringEdit->setText("0");
+    ui->rfSteeringEdit->setText("0");
+    ui->lrSteeringEdit->setText("0");
+    ui->rrSteeringEdit->setText("0");
+    this->postData(lunabotics::Telecommand::ADJUST_WHEELS);
 }

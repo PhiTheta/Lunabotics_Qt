@@ -20,6 +20,9 @@
 
 #define OCCUPANCY_THRESHOLD     80
 
+#define LOCAL_PORT  44325
+#define REMOTE_PORT 44324
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -127,7 +130,7 @@ void MainWindow::setAutonomy(bool enabled)
             this->setAutonomy(false);
             qDebug() << "Disabling autonomy";
         }
-        this->postData(lunabotics::Telecommand::SET_AUTONOMY);
+        this->sendTelecommand(lunabotics::Telecommand::SET_AUTONOMY);
     }
 }
 
@@ -334,23 +337,17 @@ void MainWindow::connectRobot()
 
     connect(this->outgoingSocket, SIGNAL(connected()), this, SLOT(outSocketConnected()));
     connect(this->outgoingSocket, SIGNAL(disconnected()), this, SLOT(outSocketDisconnected()));
-    this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
+    this->outgoingSocket->connectToHost(settings.value("ip", CONN_OUTGOING_ADDR).toString(), REMOTE_PORT);
 
     if (!this->incomingServer) {
         this->incomingServer = new QTcpServer(this);
-        connect(this->incomingServer, SIGNAL(newConnection()), this, SLOT(serverAcceptConnection()));
+        connect(this->incomingServer, SIGNAL(newConnection()), this, SLOT(acceptConnection()));
     }
 
 
-    QHostAddress inAddr = QHostAddress::Any;
-    QString inIPString = settings.value("in_ip", CONN_INCOMING_ADDR).toString();
-    if (inIPString.compare("any") != 0) {
-        inAddr = QHostAddress(inIPString);
-    }
-
-
-    if (!this->incomingServer->listen(inAddr, settings.value("in_port", CONN_INCOMING_PORT).toInt())) {
-        qDebug() << "Failed to start listening for " << settings.value("in_ip", CONN_INCOMING_ADDR).toString();
+    QHostAddress addr = QHostAddress::Any;
+    if (!this->incomingServer->listen(addr, LOCAL_PORT)) {
+        qDebug() << "Failed to start listening";
     }
 
     settings.endGroup();
@@ -370,23 +367,21 @@ void MainWindow::disconnectRobot()
     }
 }
 
-void MainWindow::serverAcceptConnection()
+void MainWindow::acceptConnection()
 {
     this->incomingSocket = this->incomingServer->nextPendingConnection();
 
     if (this->incomingSocket) {
         qDebug() << "New connection";
-        connect(this->incomingSocket, SIGNAL(readyRead()), this, SLOT(serverStartRead()));
+        connect(this->incomingSocket, SIGNAL(readyRead()), this, SLOT(receiveTelemetry()));
     }
 }
 
-void MainWindow::serverStartRead()
+void MainWindow::receiveTelemetry()
 {
     qint64 bytesAvailable = this->incomingSocket->bytesAvailable();
     char *buffer = new char[bytesAvailable];
     this->incomingSocket->read(buffer, bytesAvailable);
-
-//    qDebug() << "Getting " << bytesAvailable << "bytes";
 
     lunabotics::Telemetry tm;
     if (!tm.ParseFromArray(buffer, bytesAvailable) || !tm.IsInitialized()) {
@@ -506,14 +501,14 @@ void MainWindow::serverStartRead()
     delete buffer;
 
 }
-void MainWindow::postData(lunabotics::Telecommand::Type contentType)
+void MainWindow::sendTelecommand(lunabotics::Telecommand::Type contentType)
 {
     this->socketMutex.lock();
     qDebug() << "=======ENTERING=========";
     this->outgoingSocket->abort();
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("connection");
-    this->outgoingSocket->connectToHost(settings.value("out_ip", CONN_OUTGOING_ADDR).toString(), settings.value("out_port", CONN_OUTGOING_PORT).toInt());
+    this->outgoingSocket->connectToHost(settings.value("ip", CONN_OUTGOING_ADDR).toString(), REMOTE_PORT);
     settings.endGroup();
 
     lunabotics::Telecommand tc;
@@ -614,7 +609,7 @@ void MainWindow::mapCell_clicked(QPoint coordinate)
 {
     this->goal = coordinate;
     this->setAutonomy(true);
-    this->postData(lunabotics::Telecommand::DEFINE_ROUTE);
+    this->sendTelecommand(lunabotics::Telecommand::DEFINE_ROUTE);
 }
 
 void MainWindow::mapCell_hovered(QPoint coordinate)
@@ -638,7 +633,7 @@ void MainWindow::on_actionPreferences_triggered()
     preferenceDialog->setWindowModality(Qt::WindowModal);
     if (preferenceDialog->exec() == QDialog::Accepted) {
         this->connectRobot();
-        this->postData(lunabotics::Telecommand::ADJUST_PID);
+        this->sendTelecommand(lunabotics::Telecommand::ADJUST_PID);
     }
 }
 
@@ -649,6 +644,7 @@ void MainWindow::on_autonomyButton_clicked()
 
 void MainWindow::on_actionExit_triggered()
 {
+    this->disconnectRobot();
     QApplication::quit();
 }
 
@@ -657,37 +653,37 @@ void MainWindow::on_useLateralButton_clicked()
 {
     qDebug() << "Switching to lateral driving mode";
     this->controlType = lunabotics::CRAB;
-    this->postData(lunabotics::Telecommand::STEERING_MODE);
+    this->sendTelecommand(lunabotics::Telecommand::STEERING_MODE);
 }
 
 void MainWindow::on_useSpotButton_clicked()
 {
     qDebug() << "Switching to spot driving mode";
     this->controlType = lunabotics::TURN_IN_SPOT;
-    this->postData(lunabotics::Telecommand::STEERING_MODE);
+    this->sendTelecommand(lunabotics::Telecommand::STEERING_MODE);
 }
 
 void MainWindow::on_useAckermannButton_clicked()
 {
     qDebug() << "Switching to Ackermann driving mode";
     this->controlType = lunabotics::ACKERMANN;
-    this->postData(lunabotics::Telecommand::STEERING_MODE);
+    this->sendTelecommand(lunabotics::Telecommand::STEERING_MODE);
 }
 
 void MainWindow::on_refreshMapButton_clicked()
 {
     qDeleteAll(this->mapScene->items());
-    this->postData(lunabotics::Telecommand::REQUEST_MAP);
+    this->sendTelecommand(lunabotics::Telecommand::REQUEST_MAP);
 }
 
 void MainWindow::on_resendParamsButton_clicked()
 {
     SleepSimulator sim;
-    this->postData(lunabotics::Telecommand::STEERING_MODE);
+    this->sendTelecommand(lunabotics::Telecommand::STEERING_MODE);
     sim.sleep(1000);
-    this->postData(lunabotics::Telecommand::ADJUST_PID);
+    this->sendTelecommand(lunabotics::Telecommand::ADJUST_PID);
     sim.sleep(1000);
-    this->postData(lunabotics::Telecommand::SET_AUTONOMY);
+    this->sendTelecommand(lunabotics::Telecommand::SET_AUTONOMY);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -709,7 +705,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
         this->drivingMask |= RIGHT;
         ui->driveRightLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
     }
-    this->postData(lunabotics::Telecommand::TELEOPERATION);
+    this->sendTelecommand(lunabotics::Telecommand::TELEOPERATION);
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
@@ -731,7 +727,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
         this->drivingMask &= ~RIGHT;
         ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
     }
-    this->postData(lunabotics::Telecommand::TELEOPERATION);
+    this->sendTelecommand(lunabotics::Telecommand::TELEOPERATION);
 }
 
 void MainWindow::on_removePathButton_clicked()
@@ -742,7 +738,7 @@ void MainWindow::on_removePathButton_clicked()
 
 void MainWindow::on_allWheelButton_clicked()
 {
-    this->postData(lunabotics::Telecommand::ADJUST_WHEELS);
+    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }
 
 void MainWindow::on_forwardButton_clicked()
@@ -751,7 +747,7 @@ void MainWindow::on_forwardButton_clicked()
     ui->rfDrivingEdit->setText("1");
     ui->lrDrivingEdit->setText("1");
     ui->rrDrivingEdit->setText("1");
-    this->postData(lunabotics::Telecommand::ADJUST_WHEELS);
+    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }
 
 void MainWindow::on_backwardButton_clicked()
@@ -760,7 +756,7 @@ void MainWindow::on_backwardButton_clicked()
     ui->rfDrivingEdit->setText("-1");
     ui->lrDrivingEdit->setText("-1");
     ui->rrDrivingEdit->setText("-1");
-    this->postData(lunabotics::Telecommand::ADJUST_WHEELS);
+    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }
 
 void MainWindow::on_stopButton_clicked()
@@ -773,5 +769,5 @@ void MainWindow::on_stopButton_clicked()
     ui->rfSteeringEdit->setText("0");
     ui->lrSteeringEdit->setText("0");
     ui->rrSteeringEdit->setText("0");
-    this->postData(lunabotics::Telecommand::ADJUST_WHEELS);
+    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }

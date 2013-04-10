@@ -48,8 +48,8 @@ private slots:
     void on_useSpotButton_clicked();
 
     void on_useAckermannButton_clicked();
-    void serverAcceptConnection();
-    void serverStartRead();
+    void acceptConnection();
+    void receiveTelemetry();
 
     void on_actionPreferences_triggered();
 
@@ -114,7 +114,7 @@ private:
     void rightAction();
     void forwardAction();
     void backAction();
-    void postData(lunabotics::Telecommand::Type contentType);
+    void sendTelecommand(lunabotics::Telecommand::Type contentType);
     void connectRobot();
     void disconnectRobot();
     void redrawMap();

@@ -771,3 +771,57 @@ void MainWindow::on_stopButton_clicked()
     ui->rrSteeringEdit->setText("0");
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }
+
+void MainWindow::on_inwardButton_clicked()
+{
+    ui->lfDrivingEdit->setText("0");
+    ui->rfDrivingEdit->setText("0");
+    ui->lrDrivingEdit->setText("0");
+    ui->rrDrivingEdit->setText("0");
+    ui->lfSteeringEdit->setText("1.57");
+    ui->rfSteeringEdit->setText("-1.57");
+    ui->lrSteeringEdit->setText("-1.57");
+    ui->rrSteeringEdit->setText("1.57");
+    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
+
+}
+
+void MainWindow::on_outwardButton_clicked()
+{
+    ui->lfDrivingEdit->setText("0");
+    ui->rfDrivingEdit->setText("0");
+    ui->lrDrivingEdit->setText("0");
+    ui->rrDrivingEdit->setText("0");
+    ui->lfSteeringEdit->setText("-1.57");
+    ui->rfSteeringEdit->setText("1.57");
+    ui->lrSteeringEdit->setText("1.57");
+    ui->rrSteeringEdit->setText("-1.57");
+    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
+}
+
+void MainWindow::on_leftButton_clicked()
+{
+    ui->lfDrivingEdit->setText("-1");
+    ui->rfDrivingEdit->setText("1");
+    ui->lrDrivingEdit->setText("1");
+    ui->rrDrivingEdit->setText("-1");
+    ui->lfSteeringEdit->setText("0");
+    ui->rfSteeringEdit->setText("0");
+    ui->lrSteeringEdit->setText("0");
+    ui->rrSteeringEdit->setText("0");
+    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
+
+}
+
+void MainWindow::on_rightButton_clicked()
+{
+    ui->lfDrivingEdit->setText("1");
+    ui->rfDrivingEdit->setText("-1");
+    ui->lrDrivingEdit->setText("-1");
+    ui->rrDrivingEdit->setText("1");
+    ui->lfSteeringEdit->setText("0");
+    ui->rfSteeringEdit->setText("0");
+    ui->lrSteeringEdit->setText("0");
+    ui->rrSteeringEdit->setText("0");
+    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
+}

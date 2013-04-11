@@ -76,6 +76,14 @@ private slots:
 
     void on_stopButton_clicked();
 
+    void on_inwardButton_clicked();
+
+    void on_outwardButton_clicked();
+
+    void on_leftButton_clicked();
+
+    void on_rightButton_clicked();
+
 private:
     QMutex socketMutex;
     Ui::MainWindow *ui;

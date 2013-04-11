@@ -711,20 +711,6 @@
         <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
       </widget>
-      <zorder>yErrLabel</zorder>
-      <zorder>yErrTitleLabel</zorder>
-      <zorder>closestTrajectoryPointTitleLabel</zorder>
-      <zorder>closestTrajectoryXLabel</zorder>
-      <zorder>transformedReferenceXLabel</zorder>
-      <zorder>localTrajectoryPointTitleLabel</zorder>
-      <zorder>localReferencePointTitleLabel</zorder>
-      <zorder>transformedTrajectoryXLabel</zorder>
-      <zorder>localFrameTitleLabel</zorder>
-      <zorder>closestTrajectoryYLabel</zorder>
-      <zorder>transformedTrajectoryYLabel</zorder>
-      <zorder>transformedReferenceYLabel</zorder>
-      <zorder>mechanicsGraphicsView</zorder>
-      <zorder>leftSeparatorLine</zorder>
      </widget>
      <widget class="QLabel" name="posYLabel">
       <property name="geometry">
@@ -843,37 +829,6 @@
        <string>Ackermann</string>
       </property>
      </widget>
-     <zorder>telemetryTitleLabel</zorder>
-     <zorder>orientationTitleLabel</zorder>
-     <zorder>vXLabel</zorder>
-     <zorder>positionTitleLabel</zorder>
-     <zorder>linearSpeedTitleLabel</zorder>
-     <zorder>pidGroupBox</zorder>
-     <zorder>posYLabel</zorder>
-     <zorder>orLabel</zorder>
-     <zorder>angularSpeedTitleLabel</zorder>
-     <zorder>wZLabel</zorder>
-     <zorder>posXLabel</zorder>
-     <zorder>controlModeTitleLabel</zorder>
-     <zorder>autonomyLabel</zorder>
-     <zorder>posYTitleLabel</zorder>
-     <zorder>posXTitleLabel</zorder>
-     <zorder>controlModeLabel</zorder>
-     <zorder>telemetryTitleLabel</zorder>
-     <zorder>orientationTitleLabel</zorder>
-     <zorder>vXLabel</zorder>
-     <zorder>positionTitleLabel</zorder>
-     <zorder>linearSpeedTitleLabel</zorder>
-     <zorder>pidGroupBox</zorder>
-     <zorder>posYLabel</zorder>
-     <zorder>orLabel</zorder>
-     <zorder>angularSpeedTitleLabel</zorder>
-     <zorder>wZLabel</zorder>
-     <zorder>posXLabel</zorder>
-     <zorder>controlModeTitleLabel</zorder>
-     <zorder>posYTitleLabel</zorder>
-     <zorder>posXTitleLabel</zorder>
-     <zorder>controlModeLabel</zorder>
     </widget>
     <widget class="Line" name="rightSeparatorLine">
      <property name="geometry">
@@ -1016,7 +971,7 @@
       <property name="geometry">
        <rect>
         <x>210</x>
-        <y>470</y>
+        <y>550</y>
         <width>81</width>
         <height>32</height>
        </rect>
@@ -1307,7 +1262,7 @@
       <property name="geometry">
        <rect>
         <x>210</x>
-        <y>440</y>
+        <y>400</y>
         <width>81</width>
         <height>32</height>
        </rect>
@@ -1375,7 +1330,7 @@
       <property name="geometry">
        <rect>
         <x>210</x>
-        <y>410</y>
+        <y>370</y>
         <width>81</width>
         <height>32</height>
        </rect>
@@ -1402,6 +1357,58 @@
       </property>
       <property name="text">
        <string>Control:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="inwardButton">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>430</y>
+        <width>81</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Inward</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="outwardButton">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>460</y>
+        <width>81</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Outward</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="leftButton">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>490</y>
+        <width>81</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Left</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="rightButton">
+      <property name="geometry">
+       <rect>
+        <x>210</x>
+        <y>520</y>
+        <width>81</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Right</string>
       </property>
      </widget>
     </widget>

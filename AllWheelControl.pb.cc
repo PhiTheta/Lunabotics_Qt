@@ -26,6 +26,14 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* AllWheelControl_Wheels_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   AllWheelControl_Wheels_reflection_ = NULL;
+const ::google::protobuf::Descriptor* AllWheelControl_ExplicitControl_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  AllWheelControl_ExplicitControl_reflection_ = NULL;
+const ::google::protobuf::Descriptor* AllWheelControl_PredefinedControl_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  AllWheelControl_PredefinedControl_reflection_ = NULL;
+const ::google::protobuf::EnumDescriptor* AllWheelControl_AllWheelControlType_descriptor_ = NULL;
+const ::google::protobuf::EnumDescriptor* AllWheelControl_PredefinedControlType_descriptor_ = NULL;
 
 }  // namespace
 
@@ -37,9 +45,10 @@ void protobuf_AssignDesc_AllWheelControl_2eproto() {
       "AllWheelControl.proto");
   GOOGLE_CHECK(file != NULL);
   AllWheelControl_descriptor_ = file->message_type(0);
-  static const int AllWheelControl_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl, steering_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl, driving_),
+  static const int AllWheelControl_offsets_[3] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl, all_wheel_type_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl, explicit_data_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl, predefined_data_),
   };
   AllWheelControl_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -70,6 +79,39 @@ void protobuf_AssignDesc_AllWheelControl_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(AllWheelControl_Wheels));
+  AllWheelControl_ExplicitControl_descriptor_ = AllWheelControl_descriptor_->nested_type(1);
+  static const int AllWheelControl_ExplicitControl_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_ExplicitControl, steering_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_ExplicitControl, driving_),
+  };
+  AllWheelControl_ExplicitControl_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      AllWheelControl_ExplicitControl_descriptor_,
+      AllWheelControl_ExplicitControl::default_instance_,
+      AllWheelControl_ExplicitControl_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_ExplicitControl, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_ExplicitControl, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(AllWheelControl_ExplicitControl));
+  AllWheelControl_PredefinedControl_descriptor_ = AllWheelControl_descriptor_->nested_type(2);
+  static const int AllWheelControl_PredefinedControl_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_PredefinedControl, command_),
+  };
+  AllWheelControl_PredefinedControl_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      AllWheelControl_PredefinedControl_descriptor_,
+      AllWheelControl_PredefinedControl::default_instance_,
+      AllWheelControl_PredefinedControl_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_PredefinedControl, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_PredefinedControl, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(AllWheelControl_PredefinedControl));
+  AllWheelControl_AllWheelControlType_descriptor_ = AllWheelControl_descriptor_->enum_type(0);
+  AllWheelControl_PredefinedControlType_descriptor_ = AllWheelControl_descriptor_->enum_type(1);
 }
 
 namespace {
@@ -86,6 +128,10 @@ void protobuf_RegisterTypes(const ::std::string&) {
     AllWheelControl_descriptor_, &AllWheelControl::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     AllWheelControl_Wheels_descriptor_, &AllWheelControl_Wheels::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    AllWheelControl_ExplicitControl_descriptor_, &AllWheelControl_ExplicitControl::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    AllWheelControl_PredefinedControl_descriptor_, &AllWheelControl_PredefinedControl::default_instance());
 }
 
 }  // namespace
@@ -95,6 +141,10 @@ void protobuf_ShutdownFile_AllWheelControl_2eproto() {
   delete AllWheelControl_reflection_;
   delete AllWheelControl_Wheels::default_instance_;
   delete AllWheelControl_Wheels_reflection_;
+  delete AllWheelControl_ExplicitControl::default_instance_;
+  delete AllWheelControl_ExplicitControl_reflection_;
+  delete AllWheelControl_PredefinedControl::default_instance_;
+  delete AllWheelControl_PredefinedControl_reflection_;
 }
 
 void protobuf_AddDesc_AllWheelControl_2eproto() {
@@ -104,19 +154,35 @@ void protobuf_AddDesc_AllWheelControl_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\025AllWheelControl.proto\022\nlunabotics\"\326\001\n\017"
-    "AllWheelControl\0224\n\010steering\030\001 \002(\0132\".luna"
-    "botics.AllWheelControl.Wheels\0223\n\007driving"
-    "\030\002 \002(\0132\".lunabotics.AllWheelControl.Whee"
-    "ls\032X\n\006Wheels\022\022\n\nleft_front\030\001 \002(\002\022\023\n\013righ"
-    "t_front\030\002 \002(\002\022\021\n\tleft_rear\030\003 \002(\002\022\022\n\nrigh"
-    "t_rear\030\004 \002(\002", 252);
+    "\n\025AllWheelControl.proto\022\nlunabotics\"\253\005\n\017"
+    "AllWheelControl\022G\n\016all_wheel_type\030\001 \002(\0162"
+    "/.lunabotics.AllWheelControl.AllWheelCon"
+    "trolType\022B\n\rexplicit_data\030\002 \001(\0132+.lunabo"
+    "tics.AllWheelControl.ExplicitControl\022F\n\017"
+    "predefined_data\030\003 \001(\0132-.lunabotics.AllWh"
+    "eelControl.PredefinedControl\032X\n\006Wheels\022\022"
+    "\n\nleft_front\030\001 \002(\002\022\023\n\013right_front\030\002 \002(\002\022"
+    "\021\n\tleft_rear\030\003 \002(\002\022\022\n\nright_rear\030\004 \002(\002\032|"
+    "\n\017ExplicitControl\0224\n\010steering\030\001 \002(\0132\".lu"
+    "nabotics.AllWheelControl.Wheels\0223\n\007drivi"
+    "ng\030\002 \002(\0132\".lunabotics.AllWheelControl.Wh"
+    "eels\032W\n\021PredefinedControl\022B\n\007command\030\001 \002"
+    "(\01621.lunabotics.AllWheelControl.Predefin"
+    "edControlType\"3\n\023AllWheelControlType\022\014\n\010"
+    "EXPLICIT\020\001\022\016\n\nPREDEFINED\020\002\"]\n\025Predefined"
+    "ControlType\022\r\n\tCRAB_LEFT\020\001\022\016\n\nCRAB_RIGHT"
+    "\020\002\022\021\n\rWHEELS_INWARD\020\003\022\022\n\016WHEELS_OUTWARD\020"
+    "\004", 721);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "AllWheelControl.proto", &protobuf_RegisterTypes);
   AllWheelControl::default_instance_ = new AllWheelControl();
   AllWheelControl_Wheels::default_instance_ = new AllWheelControl_Wheels();
+  AllWheelControl_ExplicitControl::default_instance_ = new AllWheelControl_ExplicitControl();
+  AllWheelControl_PredefinedControl::default_instance_ = new AllWheelControl_PredefinedControl();
   AllWheelControl::default_instance_->InitAsDefaultInstance();
   AllWheelControl_Wheels::default_instance_->InitAsDefaultInstance();
+  AllWheelControl_ExplicitControl::default_instance_->InitAsDefaultInstance();
+  AllWheelControl_PredefinedControl::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_AllWheelControl_2eproto);
 }
 
@@ -129,6 +195,52 @@ struct StaticDescriptorInitializer_AllWheelControl_2eproto {
 
 // ===================================================================
 
+const ::google::protobuf::EnumDescriptor* AllWheelControl_AllWheelControlType_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return AllWheelControl_AllWheelControlType_descriptor_;
+}
+bool AllWheelControl_AllWheelControlType_IsValid(int value) {
+  switch(value) {
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#ifndef _MSC_VER
+const AllWheelControl_AllWheelControlType AllWheelControl::EXPLICIT;
+const AllWheelControl_AllWheelControlType AllWheelControl::PREDEFINED;
+const AllWheelControl_AllWheelControlType AllWheelControl::AllWheelControlType_MIN;
+const AllWheelControl_AllWheelControlType AllWheelControl::AllWheelControlType_MAX;
+const int AllWheelControl::AllWheelControlType_ARRAYSIZE;
+#endif  // _MSC_VER
+const ::google::protobuf::EnumDescriptor* AllWheelControl_PredefinedControlType_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return AllWheelControl_PredefinedControlType_descriptor_;
+}
+bool AllWheelControl_PredefinedControlType_IsValid(int value) {
+  switch(value) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#ifndef _MSC_VER
+const AllWheelControl_PredefinedControlType AllWheelControl::CRAB_LEFT;
+const AllWheelControl_PredefinedControlType AllWheelControl::CRAB_RIGHT;
+const AllWheelControl_PredefinedControlType AllWheelControl::WHEELS_INWARD;
+const AllWheelControl_PredefinedControlType AllWheelControl::WHEELS_OUTWARD;
+const AllWheelControl_PredefinedControlType AllWheelControl::PredefinedControlType_MIN;
+const AllWheelControl_PredefinedControlType AllWheelControl::PredefinedControlType_MAX;
+const int AllWheelControl::PredefinedControlType_ARRAYSIZE;
+#endif  // _MSC_VER
 #ifndef _MSC_VER
 const int AllWheelControl_Wheels::kLeftFrontFieldNumber;
 const int AllWheelControl_Wheels::kRightFrontFieldNumber;
@@ -451,66 +563,66 @@ void AllWheelControl_Wheels::Swap(AllWheelControl_Wheels* other) {
 // -------------------------------------------------------------------
 
 #ifndef _MSC_VER
-const int AllWheelControl::kSteeringFieldNumber;
-const int AllWheelControl::kDrivingFieldNumber;
+const int AllWheelControl_ExplicitControl::kSteeringFieldNumber;
+const int AllWheelControl_ExplicitControl::kDrivingFieldNumber;
 #endif  // !_MSC_VER
 
-AllWheelControl::AllWheelControl()
+AllWheelControl_ExplicitControl::AllWheelControl_ExplicitControl()
   : ::google::protobuf::Message() {
   SharedCtor();
 }
 
-void AllWheelControl::InitAsDefaultInstance() {
+void AllWheelControl_ExplicitControl::InitAsDefaultInstance() {
   steering_ = const_cast< ::lunabotics::AllWheelControl_Wheels*>(&::lunabotics::AllWheelControl_Wheels::default_instance());
   driving_ = const_cast< ::lunabotics::AllWheelControl_Wheels*>(&::lunabotics::AllWheelControl_Wheels::default_instance());
 }
 
-AllWheelControl::AllWheelControl(const AllWheelControl& from)
+AllWheelControl_ExplicitControl::AllWheelControl_ExplicitControl(const AllWheelControl_ExplicitControl& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
 }
 
-void AllWheelControl::SharedCtor() {
+void AllWheelControl_ExplicitControl::SharedCtor() {
   _cached_size_ = 0;
   steering_ = NULL;
   driving_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-AllWheelControl::~AllWheelControl() {
+AllWheelControl_ExplicitControl::~AllWheelControl_ExplicitControl() {
   SharedDtor();
 }
 
-void AllWheelControl::SharedDtor() {
+void AllWheelControl_ExplicitControl::SharedDtor() {
   if (this != default_instance_) {
     delete steering_;
     delete driving_;
   }
 }
 
-void AllWheelControl::SetCachedSize(int size) const {
+void AllWheelControl_ExplicitControl::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* AllWheelControl::descriptor() {
+const ::google::protobuf::Descriptor* AllWheelControl_ExplicitControl::descriptor() {
   protobuf_AssignDescriptorsOnce();
-  return AllWheelControl_descriptor_;
+  return AllWheelControl_ExplicitControl_descriptor_;
 }
 
-const AllWheelControl& AllWheelControl::default_instance() {
+const AllWheelControl_ExplicitControl& AllWheelControl_ExplicitControl::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_AllWheelControl_2eproto();
   return *default_instance_;
 }
 
-AllWheelControl* AllWheelControl::default_instance_ = NULL;
+AllWheelControl_ExplicitControl* AllWheelControl_ExplicitControl::default_instance_ = NULL;
 
-AllWheelControl* AllWheelControl::New() const {
-  return new AllWheelControl;
+AllWheelControl_ExplicitControl* AllWheelControl_ExplicitControl::New() const {
+  return new AllWheelControl_ExplicitControl;
 }
 
-void AllWheelControl::Clear() {
+void AllWheelControl_ExplicitControl::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (has_steering()) {
       if (steering_ != NULL) steering_->::lunabotics::AllWheelControl_Wheels::Clear();
@@ -523,7 +635,7 @@ void AllWheelControl::Clear() {
   mutable_unknown_fields()->Clear();
 }
 
-bool AllWheelControl::MergePartialFromCodedStream(
+bool AllWheelControl_ExplicitControl::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
@@ -572,7 +684,7 @@ bool AllWheelControl::MergePartialFromCodedStream(
 #undef DO_
 }
 
-void AllWheelControl::SerializeWithCachedSizes(
+void AllWheelControl_ExplicitControl::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // required .lunabotics.AllWheelControl.Wheels steering = 1;
   if (has_steering()) {
@@ -592,7 +704,7 @@ void AllWheelControl::SerializeWithCachedSizes(
   }
 }
 
-::google::protobuf::uint8* AllWheelControl::SerializeWithCachedSizesToArray(
+::google::protobuf::uint8* AllWheelControl_ExplicitControl::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // required .lunabotics.AllWheelControl.Wheels steering = 1;
   if (has_steering()) {
@@ -615,7 +727,7 @@ void AllWheelControl::SerializeWithCachedSizes(
   return target;
 }
 
-int AllWheelControl::ByteSize() const {
+int AllWheelControl_ExplicitControl::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
@@ -645,6 +757,528 @@ int AllWheelControl::ByteSize() const {
   return total_size;
 }
 
+void AllWheelControl_ExplicitControl::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const AllWheelControl_ExplicitControl* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const AllWheelControl_ExplicitControl*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void AllWheelControl_ExplicitControl::MergeFrom(const AllWheelControl_ExplicitControl& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_steering()) {
+      mutable_steering()->::lunabotics::AllWheelControl_Wheels::MergeFrom(from.steering());
+    }
+    if (from.has_driving()) {
+      mutable_driving()->::lunabotics::AllWheelControl_Wheels::MergeFrom(from.driving());
+    }
+  }
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void AllWheelControl_ExplicitControl::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void AllWheelControl_ExplicitControl::CopyFrom(const AllWheelControl_ExplicitControl& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AllWheelControl_ExplicitControl::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  if (has_steering()) {
+    if (!this->steering().IsInitialized()) return false;
+  }
+  if (has_driving()) {
+    if (!this->driving().IsInitialized()) return false;
+  }
+  return true;
+}
+
+void AllWheelControl_ExplicitControl::Swap(AllWheelControl_ExplicitControl* other) {
+  if (other != this) {
+    std::swap(steering_, other->steering_);
+    std::swap(driving_, other->driving_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata AllWheelControl_ExplicitControl::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = AllWheelControl_ExplicitControl_descriptor_;
+  metadata.reflection = AllWheelControl_ExplicitControl_reflection_;
+  return metadata;
+}
+
+
+// -------------------------------------------------------------------
+
+#ifndef _MSC_VER
+const int AllWheelControl_PredefinedControl::kCommandFieldNumber;
+#endif  // !_MSC_VER
+
+AllWheelControl_PredefinedControl::AllWheelControl_PredefinedControl()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+}
+
+void AllWheelControl_PredefinedControl::InitAsDefaultInstance() {
+}
+
+AllWheelControl_PredefinedControl::AllWheelControl_PredefinedControl(const AllWheelControl_PredefinedControl& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void AllWheelControl_PredefinedControl::SharedCtor() {
+  _cached_size_ = 0;
+  command_ = 1;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+AllWheelControl_PredefinedControl::~AllWheelControl_PredefinedControl() {
+  SharedDtor();
+}
+
+void AllWheelControl_PredefinedControl::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void AllWheelControl_PredefinedControl::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* AllWheelControl_PredefinedControl::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return AllWheelControl_PredefinedControl_descriptor_;
+}
+
+const AllWheelControl_PredefinedControl& AllWheelControl_PredefinedControl::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_AllWheelControl_2eproto();
+  return *default_instance_;
+}
+
+AllWheelControl_PredefinedControl* AllWheelControl_PredefinedControl::default_instance_ = NULL;
+
+AllWheelControl_PredefinedControl* AllWheelControl_PredefinedControl::New() const {
+  return new AllWheelControl_PredefinedControl;
+}
+
+void AllWheelControl_PredefinedControl::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    command_ = 1;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool AllWheelControl_PredefinedControl::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required .lunabotics.AllWheelControl.PredefinedControlType command = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::lunabotics::AllWheelControl_PredefinedControlType_IsValid(value)) {
+            set_command(static_cast< ::lunabotics::AllWheelControl_PredefinedControlType >(value));
+          } else {
+            mutable_unknown_fields()->AddVarint(1, value);
+          }
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void AllWheelControl_PredefinedControl::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required .lunabotics.AllWheelControl.PredefinedControlType command = 1;
+  if (has_command()) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      1, this->command(), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+}
+
+::google::protobuf::uint8* AllWheelControl_PredefinedControl::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // required .lunabotics.AllWheelControl.PredefinedControlType command = 1;
+  if (has_command()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      1, this->command(), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  return target;
+}
+
+int AllWheelControl_PredefinedControl::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required .lunabotics.AllWheelControl.PredefinedControlType command = 1;
+    if (has_command()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::EnumSize(this->command());
+    }
+
+  }
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void AllWheelControl_PredefinedControl::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const AllWheelControl_PredefinedControl* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const AllWheelControl_PredefinedControl*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void AllWheelControl_PredefinedControl::MergeFrom(const AllWheelControl_PredefinedControl& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_command()) {
+      set_command(from.command());
+    }
+  }
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void AllWheelControl_PredefinedControl::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void AllWheelControl_PredefinedControl::CopyFrom(const AllWheelControl_PredefinedControl& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AllWheelControl_PredefinedControl::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+
+  return true;
+}
+
+void AllWheelControl_PredefinedControl::Swap(AllWheelControl_PredefinedControl* other) {
+  if (other != this) {
+    std::swap(command_, other->command_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata AllWheelControl_PredefinedControl::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = AllWheelControl_PredefinedControl_descriptor_;
+  metadata.reflection = AllWheelControl_PredefinedControl_reflection_;
+  return metadata;
+}
+
+
+// -------------------------------------------------------------------
+
+#ifndef _MSC_VER
+const int AllWheelControl::kAllWheelTypeFieldNumber;
+const int AllWheelControl::kExplicitDataFieldNumber;
+const int AllWheelControl::kPredefinedDataFieldNumber;
+#endif  // !_MSC_VER
+
+AllWheelControl::AllWheelControl()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+}
+
+void AllWheelControl::InitAsDefaultInstance() {
+  explicit_data_ = const_cast< ::lunabotics::AllWheelControl_ExplicitControl*>(&::lunabotics::AllWheelControl_ExplicitControl::default_instance());
+  predefined_data_ = const_cast< ::lunabotics::AllWheelControl_PredefinedControl*>(&::lunabotics::AllWheelControl_PredefinedControl::default_instance());
+}
+
+AllWheelControl::AllWheelControl(const AllWheelControl& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void AllWheelControl::SharedCtor() {
+  _cached_size_ = 0;
+  all_wheel_type_ = 1;
+  explicit_data_ = NULL;
+  predefined_data_ = NULL;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+AllWheelControl::~AllWheelControl() {
+  SharedDtor();
+}
+
+void AllWheelControl::SharedDtor() {
+  if (this != default_instance_) {
+    delete explicit_data_;
+    delete predefined_data_;
+  }
+}
+
+void AllWheelControl::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* AllWheelControl::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return AllWheelControl_descriptor_;
+}
+
+const AllWheelControl& AllWheelControl::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_AllWheelControl_2eproto();
+  return *default_instance_;
+}
+
+AllWheelControl* AllWheelControl::default_instance_ = NULL;
+
+AllWheelControl* AllWheelControl::New() const {
+  return new AllWheelControl;
+}
+
+void AllWheelControl::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    all_wheel_type_ = 1;
+    if (has_explicit_data()) {
+      if (explicit_data_ != NULL) explicit_data_->::lunabotics::AllWheelControl_ExplicitControl::Clear();
+    }
+    if (has_predefined_data()) {
+      if (predefined_data_ != NULL) predefined_data_->::lunabotics::AllWheelControl_PredefinedControl::Clear();
+    }
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool AllWheelControl::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required .lunabotics.AllWheelControl.AllWheelControlType all_wheel_type = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          if (::lunabotics::AllWheelControl_AllWheelControlType_IsValid(value)) {
+            set_all_wheel_type(static_cast< ::lunabotics::AllWheelControl_AllWheelControlType >(value));
+          } else {
+            mutable_unknown_fields()->AddVarint(1, value);
+          }
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(18)) goto parse_explicit_data;
+        break;
+      }
+
+      // optional .lunabotics.AllWheelControl.ExplicitControl explicit_data = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_explicit_data:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_explicit_data()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(26)) goto parse_predefined_data;
+        break;
+      }
+
+      // optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
+      case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_predefined_data:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_predefined_data()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void AllWheelControl::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required .lunabotics.AllWheelControl.AllWheelControlType all_wheel_type = 1;
+  if (has_all_wheel_type()) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      1, this->all_wheel_type(), output);
+  }
+
+  // optional .lunabotics.AllWheelControl.ExplicitControl explicit_data = 2;
+  if (has_explicit_data()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      2, this->explicit_data(), output);
+  }
+
+  // optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
+  if (has_predefined_data()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      3, this->predefined_data(), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+}
+
+::google::protobuf::uint8* AllWheelControl::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // required .lunabotics.AllWheelControl.AllWheelControlType all_wheel_type = 1;
+  if (has_all_wheel_type()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      1, this->all_wheel_type(), target);
+  }
+
+  // optional .lunabotics.AllWheelControl.ExplicitControl explicit_data = 2;
+  if (has_explicit_data()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        2, this->explicit_data(), target);
+  }
+
+  // optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
+  if (has_predefined_data()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        3, this->predefined_data(), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  return target;
+}
+
+int AllWheelControl::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required .lunabotics.AllWheelControl.AllWheelControlType all_wheel_type = 1;
+    if (has_all_wheel_type()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::EnumSize(this->all_wheel_type());
+    }
+
+    // optional .lunabotics.AllWheelControl.ExplicitControl explicit_data = 2;
+    if (has_explicit_data()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->explicit_data());
+    }
+
+    // optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
+    if (has_predefined_data()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->predefined_data());
+    }
+
+  }
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
 void AllWheelControl::MergeFrom(const ::google::protobuf::Message& from) {
   GOOGLE_CHECK_NE(&from, this);
   const AllWheelControl* source =
@@ -660,11 +1294,14 @@ void AllWheelControl::MergeFrom(const ::google::protobuf::Message& from) {
 void AllWheelControl::MergeFrom(const AllWheelControl& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_steering()) {
-      mutable_steering()->::lunabotics::AllWheelControl_Wheels::MergeFrom(from.steering());
+    if (from.has_all_wheel_type()) {
+      set_all_wheel_type(from.all_wheel_type());
     }
-    if (from.has_driving()) {
-      mutable_driving()->::lunabotics::AllWheelControl_Wheels::MergeFrom(from.driving());
+    if (from.has_explicit_data()) {
+      mutable_explicit_data()->::lunabotics::AllWheelControl_ExplicitControl::MergeFrom(from.explicit_data());
+    }
+    if (from.has_predefined_data()) {
+      mutable_predefined_data()->::lunabotics::AllWheelControl_PredefinedControl::MergeFrom(from.predefined_data());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -683,21 +1320,22 @@ void AllWheelControl::CopyFrom(const AllWheelControl& from) {
 }
 
 bool AllWheelControl::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
-  if (has_steering()) {
-    if (!this->steering().IsInitialized()) return false;
+  if (has_explicit_data()) {
+    if (!this->explicit_data().IsInitialized()) return false;
   }
-  if (has_driving()) {
-    if (!this->driving().IsInitialized()) return false;
+  if (has_predefined_data()) {
+    if (!this->predefined_data().IsInitialized()) return false;
   }
   return true;
 }
 
 void AllWheelControl::Swap(AllWheelControl* other) {
   if (other != this) {
-    std::swap(steering_, other->steering_);
-    std::swap(driving_, other->driving_);
+    std::swap(all_wheel_type_, other->all_wheel_type_);
+    std::swap(explicit_data_, other->explicit_data_);
+    std::swap(predefined_data_, other->predefined_data_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

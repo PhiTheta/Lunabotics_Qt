@@ -109,6 +109,8 @@ private:
     lunabotics::SteeringModeType robotControlType;
     QStandardItemModel *pathTableModel;
     LaserScan laserScan;
+    lunabotics::AllWheelControl::AllWheelControlType allWheelControlType;
+    lunabotics::AllWheelControl::PredefinedControlType predefinedControlType;
 
     int mapViewportWidth;
     int mapViewportHeight;

@@ -562,19 +562,29 @@ void MainWindow::sendTelecommand(lunabotics::Telecommand::Type contentType)
         break;
 
     case lunabotics::Telecommand::ADJUST_WHEELS: {
-        lunabotics::AllWheelControl::Wheels *steering = tc.mutable_all_wheel_control_data()->mutable_steering();
-        lunabotics::AllWheelControl::Wheels *driving = tc.mutable_all_wheel_control_data()->mutable_driving();
+        tc.mutable_all_wheel_control_data()->set_all_wheel_type(this->allWheelControlType);
+        switch (this->allWheelControlType) {
+        case lunabotics::AllWheelControl::EXPLICIT: {
+            lunabotics::AllWheelControl::Wheels *steering = tc.mutable_all_wheel_control_data()->mutable_explicit_data()->mutable_steering();
+            lunabotics::AllWheelControl::Wheels *driving = tc.mutable_all_wheel_control_data()->mutable_explicit_data()->mutable_driving();
 
-        steering->set_left_front(ui->lfSteeringEdit->text().toFloat());
-        steering->set_right_front(ui->rfSteeringEdit->text().toFloat());
-        steering->set_left_rear(ui->lrSteeringEdit->text().toFloat());
-        steering->set_right_rear(ui->rrSteeringEdit->text().toFloat());
+            steering->set_left_front(ui->lfSteeringEdit->text().toFloat());
+            steering->set_right_front(ui->rfSteeringEdit->text().toFloat());
+            steering->set_left_rear(ui->lrSteeringEdit->text().toFloat());
+            steering->set_right_rear(ui->rrSteeringEdit->text().toFloat());
 
-        driving->set_left_front(ui->lfDrivingEdit->text().toFloat());
-        driving->set_right_front(ui->rfDrivingEdit->text().toFloat());
-        driving->set_left_rear(ui->lrDrivingEdit->text().toFloat());
-        driving->set_right_rear(ui->rrDrivingEdit->text().toFloat());
+            driving->set_left_front(ui->lfDrivingEdit->text().toFloat());
+            driving->set_right_front(ui->rfDrivingEdit->text().toFloat());
+            driving->set_left_rear(ui->lrDrivingEdit->text().toFloat());
+            driving->set_right_rear(ui->rrDrivingEdit->text().toFloat());
+        }
+            break;
 
+        case lunabotics::AllWheelControl::PREDEFINED: {
+            tc.mutable_all_wheel_control_data()->mutable_predefined_data()->set_command(this->predefinedControlType);
+        }
+        }
+        break;
     }
         break;
 
@@ -747,6 +757,11 @@ void MainWindow::on_forwardButton_clicked()
     ui->rfDrivingEdit->setText("1");
     ui->lrDrivingEdit->setText("1");
     ui->rrDrivingEdit->setText("1");
+    ui->lfSteeringEdit->setText("0");
+    ui->rfSteeringEdit->setText("0");
+    ui->lrSteeringEdit->setText("0");
+    ui->rrSteeringEdit->setText("0");
+    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }
 
@@ -756,6 +771,11 @@ void MainWindow::on_backwardButton_clicked()
     ui->rfDrivingEdit->setText("-1");
     ui->lrDrivingEdit->setText("-1");
     ui->rrDrivingEdit->setText("-1");
+    ui->lfSteeringEdit->setText("0");
+    ui->rfSteeringEdit->setText("0");
+    ui->lrSteeringEdit->setText("0");
+    ui->rrSteeringEdit->setText("0");
+    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }
 
@@ -769,6 +789,7 @@ void MainWindow::on_stopButton_clicked()
     ui->rfSteeringEdit->setText("0");
     ui->lrSteeringEdit->setText("0");
     ui->rrSteeringEdit->setText("0");
+    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }
 
@@ -782,6 +803,7 @@ void MainWindow::on_inwardButton_clicked()
     ui->rfSteeringEdit->setText("-1.57");
     ui->lrSteeringEdit->setText("-1.57");
     ui->rrSteeringEdit->setText("1.57");
+    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 
 }
@@ -796,32 +818,21 @@ void MainWindow::on_outwardButton_clicked()
     ui->rfSteeringEdit->setText("1.57");
     ui->lrSteeringEdit->setText("1.57");
     ui->rrSteeringEdit->setText("-1.57");
+    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }
 
 void MainWindow::on_leftButton_clicked()
 {
-    ui->lfDrivingEdit->setText("-1");
-    ui->rfDrivingEdit->setText("1");
-    ui->lrDrivingEdit->setText("1");
-    ui->rrDrivingEdit->setText("-1");
-    ui->lfSteeringEdit->setText("0");
-    ui->rfSteeringEdit->setText("0");
-    ui->lrSteeringEdit->setText("0");
-    ui->rrSteeringEdit->setText("0");
+    this->allWheelControlType = lunabotics::AllWheelControl::PREDEFINED;
+    this->predefinedControlType = lunabotics::AllWheelControl::CRAB_LEFT;
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 
 }
 
 void MainWindow::on_rightButton_clicked()
 {
-    ui->lfDrivingEdit->setText("1");
-    ui->rfDrivingEdit->setText("-1");
-    ui->lrDrivingEdit->setText("-1");
-    ui->rrDrivingEdit->setText("1");
-    ui->lfSteeringEdit->setText("0");
-    ui->rfSteeringEdit->setText("0");
-    ui->lrSteeringEdit->setText("0");
-    ui->rrSteeringEdit->setText("0");
+    this->allWheelControlType = lunabotics::AllWheelControl::PREDEFINED;
+    this->predefinedControlType = lunabotics::AllWheelControl::CRAB_RIGHT;
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }

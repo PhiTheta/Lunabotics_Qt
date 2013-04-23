@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1024</width>
-    <height>648</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -65,7 +65,7 @@
       <x>0</x>
       <y>0</y>
       <width>1021</width>
-      <height>601</height>
+      <height>661</height>
      </rect>
     </property>
     <widget class="Line" name="leftSeparatorLine">
@@ -446,7 +446,7 @@
        <x>330</x>
        <y>20</y>
        <width>221</width>
-       <height>501</height>
+       <height>641</height>
       </rect>
      </property>
      <widget class="QLabel" name="telemetryTitleLabel">
@@ -852,10 +852,10 @@
     <widget class="QWidget" name="controlWidget" native="true">
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>30</x>
        <y>10</y>
        <width>301</width>
-       <height>601</height>
+       <height>651</height>
       </rect>
      </property>
      <property name="autoFillBackground">
@@ -879,19 +879,6 @@
       </property>
       <property name="text">
        <string>Drive:</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_2">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>390</y>
-        <width>21</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>RF</string>
       </property>
      </widget>
      <widget class="QLabel" name="driveForwardLabel">
@@ -955,78 +942,6 @@
       </property>
       <property name="text">
        <string>Enable Autonomy</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lrSteeringEdit">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>480</y>
-        <width>31</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="stopButton">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>550</y>
-        <width>81</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Stop</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="allWheelButton">
-      <property name="geometry">
-       <rect>
-        <x>40</x>
-        <y>520</y>
-        <width>114</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Send</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>390</y>
-        <width>31</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>LF</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_4">
-      <property name="geometry">
-       <rect>
-        <x>150</x>
-        <y>460</y>
-        <width>31</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>RR</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="lrDrivingEdit">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>480</y>
-        <width>31</width>
-        <height>22</height>
-       </rect>
       </property>
      </widget>
      <widget class="QTabWidget" name="controlModesTabs">
@@ -1157,69 +1072,6 @@
        </widget>
       </widget>
      </widget>
-     <widget class="QLineEdit" name="lfSteeringEdit">
-      <property name="geometry">
-       <rect>
-        <x>20</x>
-        <y>410</y>
-        <width>31</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="rfSteeringEdit">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>410</y>
-        <width>31</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_3">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>460</y>
-        <width>31</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>LR</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="label_5">
-      <property name="geometry">
-       <rect>
-        <x>30</x>
-        <y>370</y>
-        <width>171</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Explicit Wheel Control:</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="rrSteeringEdit">
-      <property name="geometry">
-       <rect>
-        <x>120</x>
-        <y>480</y>
-        <width>31</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QPushButton" name="resendParamsButton">
       <property name="geometry">
        <rect>
@@ -1258,29 +1110,6 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="backwardButton">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>400</y>
-        <width>81</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Backward</string>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="rrDrivingEdit">
-      <property name="geometry">
-       <rect>
-        <x>160</x>
-        <y>480</y>
-        <width>31</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QLabel" name="driveLeftLabel">
       <property name="geometry">
        <rect>
@@ -1306,39 +1135,6 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLineEdit" name="lfDrivingEdit">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>410</y>
-        <width>31</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="rfDrivingEdit">
-      <property name="geometry">
-       <rect>
-        <x>160</x>
-        <y>410</y>
-        <width>31</width>
-        <height>22</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="forwardButton">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>370</y>
-        <width>81</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Forward</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="controlModesTitleLabel">
       <property name="geometry">
        <rect>
@@ -1359,58 +1155,325 @@
        <string>Control:</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="inwardButton">
+     <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>210</x>
-        <y>430</y>
-        <width>81</width>
-        <height>32</height>
+        <x>-40</x>
+        <y>780</y>
+        <width>21</width>
+        <height>16</height>
        </rect>
       </property>
       <property name="text">
-       <string>Inward</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="outwardButton">
-      <property name="geometry">
-       <rect>
-        <x>210</x>
-        <y>460</y>
-        <width>81</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Outward</string>
+       <string>RF</string>
       </property>
      </widget>
      <widget class="QPushButton" name="leftButton">
       <property name="geometry">
        <rect>
-        <x>210</x>
-        <y>490</y>
-        <width>81</width>
+        <x>10</x>
+        <y>820</y>
+        <width>91</width>
         <height>32</height>
        </rect>
       </property>
       <property name="text">
-       <string>Left</string>
+       <string>Crab Left</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lrSteeringEdit">
+      <property name="geometry">
+       <rect>
+        <x>-170</x>
+        <y>870</y>
+        <width>31</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="rrDrivingEdit">
+      <property name="geometry">
+       <rect>
+        <x>-30</x>
+        <y>870</y>
+        <width>31</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="rrSteeringEdit">
+      <property name="geometry">
+       <rect>
+        <x>-70</x>
+        <y>870</y>
+        <width>31</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>-140</x>
+        <y>780</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>LF</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="turnLeftButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>880</y>
+        <width>91</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Turn CCW</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>-140</x>
+        <y>850</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>LR</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="forwardButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>760</y>
+        <width>91</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Forward</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lrDrivingEdit">
+      <property name="geometry">
+       <rect>
+        <x>-130</x>
+        <y>870</y>
+        <width>31</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="turnRightButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>910</y>
+        <width>91</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Turn CW</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="allWheelButton">
+      <property name="geometry">
+       <rect>
+        <x>-150</x>
+        <y>910</y>
+        <width>114</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Send</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lfDrivingEdit">
+      <property name="geometry">
+       <rect>
+        <x>-130</x>
+        <y>800</y>
+        <width>31</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>-40</x>
+        <y>850</y>
+        <width>31</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>RR</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="rfSteeringEdit">
+      <property name="geometry">
+       <rect>
+        <x>-70</x>
+        <y>800</y>
+        <width>31</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="backwardButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>790</y>
+        <width>91</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Backward</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lfSteeringEdit">
+      <property name="geometry">
+       <rect>
+        <x>-170</x>
+        <y>800</y>
+        <width>31</width>
+        <height>22</height>
+       </rect>
       </property>
      </widget>
      <widget class="QPushButton" name="rightButton">
       <property name="geometry">
        <rect>
-        <x>210</x>
-        <y>520</y>
+        <x>10</x>
+        <y>850</y>
+        <width>91</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Crab Right</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="rfDrivingEdit">
+      <property name="geometry">
+       <rect>
+        <x>-30</x>
+        <y>800</y>
+        <width>31</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="stopButton">
+      <property name="geometry">
+       <rect>
+        <x>-130</x>
+        <y>940</y>
         <width>81</width>
         <height>32</height>
        </rect>
       </property>
       <property name="text">
-       <string>Right</string>
+       <string>Stop</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="allWheelControlButton">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>370</y>
+        <width>211</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>All-wheel control panel</string>
+      </property>
+     </widget>
+     <zorder>driveTitleLabel</zorder>
+     <zorder>driveForwardLabel</zorder>
+     <zorder>driveRightLabel</zorder>
+     <zorder>autonomyButton</zorder>
+     <zorder>controlModesTabs</zorder>
+     <zorder>resendParamsButton</zorder>
+     <zorder>driveBackLabel</zorder>
+     <zorder>driveLeftLabel</zorder>
+     <zorder>controlModesTitleLabel</zorder>
+     <zorder>label_2</zorder>
+     <zorder>leftButton</zorder>
+     <zorder>lrSteeringEdit</zorder>
+     <zorder>rrDrivingEdit</zorder>
+     <zorder>rrSteeringEdit</zorder>
+     <zorder>label</zorder>
+     <zorder>turnLeftButton</zorder>
+     <zorder>label_3</zorder>
+     <zorder>forwardButton</zorder>
+     <zorder>lrDrivingEdit</zorder>
+     <zorder>turnRightButton</zorder>
+     <zorder>allWheelButton</zorder>
+     <zorder>lfDrivingEdit</zorder>
+     <zorder>label_4</zorder>
+     <zorder>rfSteeringEdit</zorder>
+     <zorder>backwardButton</zorder>
+     <zorder>lfSteeringEdit</zorder>
+     <zorder>rightButton</zorder>
+     <zorder>rfDrivingEdit</zorder>
+     <zorder>stopButton</zorder>
+     <zorder>label_2</zorder>
+     <zorder>leftButton</zorder>
+     <zorder>lrSteeringEdit</zorder>
+     <zorder>rrDrivingEdit</zorder>
+     <zorder>rrSteeringEdit</zorder>
+     <zorder>label</zorder>
+     <zorder>turnLeftButton</zorder>
+     <zorder>label_3</zorder>
+     <zorder>forwardButton</zorder>
+     <zorder>lrDrivingEdit</zorder>
+     <zorder>turnRightButton</zorder>
+     <zorder>allWheelButton</zorder>
+     <zorder>lfDrivingEdit</zorder>
+     <zorder>label_4</zorder>
+     <zorder>rfSteeringEdit</zorder>
+     <zorder>backwardButton</zorder>
+     <zorder>lfSteeringEdit</zorder>
+     <zorder>rightButton</zorder>
+     <zorder>rfDrivingEdit</zorder>
+     <zorder>stopButton</zorder>
+     <zorder>label_2</zorder>
+     <zorder>leftButton</zorder>
+     <zorder>lrSteeringEdit</zorder>
+     <zorder>rrDrivingEdit</zorder>
+     <zorder>rrSteeringEdit</zorder>
+     <zorder>label</zorder>
+     <zorder>turnLeftButton</zorder>
+     <zorder>label_3</zorder>
+     <zorder>forwardButton</zorder>
+     <zorder>lrDrivingEdit</zorder>
+     <zorder>turnRightButton</zorder>
+     <zorder>allWheelButton</zorder>
+     <zorder>lfDrivingEdit</zorder>
+     <zorder>label_4</zorder>
+     <zorder>rfSteeringEdit</zorder>
+     <zorder>backwardButton</zorder>
+     <zorder>lfSteeringEdit</zorder>
+     <zorder>rightButton</zorder>
+     <zorder>rfDrivingEdit</zorder>
+     <zorder>stopButton</zorder>
+     <zorder>allWheelControlButton</zorder>
     </widget>
    </widget>
    <zorder>mainWidget</zorder>

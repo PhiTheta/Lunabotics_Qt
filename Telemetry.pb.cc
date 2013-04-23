@@ -49,11 +49,12 @@ void protobuf_AssignDesc_Telemetry_2eproto() {
       "Telemetry.proto");
   GOOGLE_CHECK(file != NULL);
   Telemetry_descriptor_ = file->message_type(0);
-  static const int Telemetry_offsets_[4] = {
+  static const int Telemetry_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry, state_data_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry, world_data_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry, path_data_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry, laser_scan_data_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry, all_wheel_state_),
   };
   Telemetry_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -205,32 +206,35 @@ void protobuf_AddDesc_Telemetry_2eproto() {
   ::lunabotics::protobuf_AddDesc_SteeringModeType_2eproto();
   ::lunabotics::protobuf_AddDesc_Point_2eproto();
   ::lunabotics::protobuf_AddDesc_Twist_2eproto();
+  ::lunabotics::protobuf_AddDesc_AllWheelState_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\017Telemetry.proto\022\nlunabotics\032\026SteeringM"
-    "odeType.proto\032\013Point.proto\032\013Twist.proto\""
-    "\374\006\n\tTelemetry\022/\n\nstate_data\030\002 \001(\0132\033.luna"
-    "botics.Telemetry.State\022/\n\nworld_data\030\003 \001"
-    "(\0132\033.lunabotics.Telemetry.World\022-\n\tpath_"
-    "data\030\004 \001(\0132\032.lunabotics.Telemetry.Path\0228"
-    "\n\017laser_scan_data\030\005 \001(\0132\037.lunabotics.Tel"
-    "emetry.LaserScan\032\237\004\n\005State\022#\n\010position\030\001"
-    " \002(\0132\021.lunabotics.Point\022\017\n\007heading\030\002 \002(\002"
-    "\022%\n\nvelocities\030\003 \002(\0132\021.lunabotics.Twist\022"
-    "3\n\rsteering_mode\030\004 \002(\0162\034.lunabotics.Stee"
-    "ringModeType\022\030\n\020autonomy_enabled\030\005 \002(\010\022\031"
-    "\n\021next_waypoint_idx\030\006 \001(\005\022K\n\023ackermann_t"
-    "elemetry\030\007 \001(\0132..lunabotics.Telemetry.St"
-    "ate.AckermannTelemetry\032\201\002\n\022AckermannTele"
-    "metry\022\021\n\tpid_error\030\001 \002(\002\0223\n\030closest_traj"
-    "ectory_point\030\002 \002(\0132\021.lunabotics.Point\0220\n"
-    "\025velocity_vector_point\030\003 \002(\0132\021.lunabotic"
-    "s.Point\0229\n\036closest_trajectory_local_poin"
-    "t\030\004 \002(\0132\021.lunabotics.Point\0226\n\033velocity_v"
-    "ector_local_point\030\005 \002(\0132\021.lunabotics.Poi"
-    "nt\032H\n\005World\022\r\n\005width\030\001 \002(\005\022\016\n\006height\030\002 \002"
-    "(\005\022\022\n\nresolution\030\003 \002(\002\022\014\n\004cell\030\004 \003(\005\032+\n\004"
-    "Path\022#\n\010position\030\001 \003(\0132\021.lunabotics.Poin"
-    "t\032\013\n\tLaserScan", 974);
+    "odeType.proto\032\013Point.proto\032\013Twist.proto\032"
+    "\023AllWheelState.proto\"\264\007\n\tTelemetry\022/\n\nst"
+    "ate_data\030\002 \001(\0132\033.lunabotics.Telemetry.St"
+    "ate\022/\n\nworld_data\030\003 \001(\0132\033.lunabotics.Tel"
+    "emetry.World\022-\n\tpath_data\030\004 \001(\0132\032.lunabo"
+    "tics.Telemetry.Path\0228\n\017laser_scan_data\030\005"
+    " \001(\0132\037.lunabotics.Telemetry.LaserScan\0222\n"
+    "\017all_wheel_state\030\006 \001(\0132\031.lunabotics.AllW"
+    "heelState\032\237\004\n\005State\022#\n\010position\030\001 \002(\0132\021."
+    "lunabotics.Point\022\017\n\007heading\030\002 \002(\002\022%\n\nvel"
+    "ocities\030\003 \002(\0132\021.lunabotics.Twist\0223\n\rstee"
+    "ring_mode\030\004 \002(\0162\034.lunabotics.SteeringMod"
+    "eType\022\030\n\020autonomy_enabled\030\005 \002(\010\022\031\n\021next_"
+    "waypoint_idx\030\006 \001(\005\022K\n\023ackermann_telemetr"
+    "y\030\007 \001(\0132..lunabotics.Telemetry.State.Ack"
+    "ermannTelemetry\032\201\002\n\022AckermannTelemetry\022\021"
+    "\n\tpid_error\030\001 \002(\002\0223\n\030closest_trajectory_"
+    "point\030\002 \002(\0132\021.lunabotics.Point\0220\n\025veloci"
+    "ty_vector_point\030\003 \002(\0132\021.lunabotics.Point"
+    "\0229\n\036closest_trajectory_local_point\030\004 \002(\013"
+    "2\021.lunabotics.Point\0226\n\033velocity_vector_l"
+    "ocal_point\030\005 \002(\0132\021.lunabotics.Point\032L\n\005W"
+    "orld\022\r\n\005width\030\001 \002(\005\022\016\n\006height\030\002 \002(\005\022\022\n\nr"
+    "esolution\030\003 \002(\002\022\020\n\004cell\030\004 \003(\005B\002\020\001\032+\n\004Pat"
+    "h\022#\n\010position\030\001 \003(\0132\021.lunabotics.Point\032\013"
+    "\n\tLaserScan", 1051);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Telemetry.proto", &protobuf_RegisterTypes);
   Telemetry::default_instance_ = new Telemetry();
@@ -1250,28 +1254,27 @@ bool Telemetry_World::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(32)) goto parse_cell;
+        if (input->ExpectTag(34)) goto parse_cell;
         break;
       }
 
-      // repeated int32 cell = 4;
+      // repeated int32 cell = 4 [packed = true];
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_cell:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 32, input, this->mutable_cell())));
-        } else if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag)
-                   == ::google::protobuf::internal::WireFormatLite::
-                      WIRETYPE_LENGTH_DELIMITED) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitiveNoInline<
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPackedPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, this->mutable_cell())));
+        } else if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag)
+                   == ::google::protobuf::internal::WireFormatLite::
+                      WIRETYPE_VARINT) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 1, 34, input, this->mutable_cell())));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(32)) goto parse_cell;
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -1309,10 +1312,14 @@ void Telemetry_World::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->resolution(), output);
   }
 
-  // repeated int32 cell = 4;
+  // repeated int32 cell = 4 [packed = true];
+  if (this->cell_size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteTag(4, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    output->WriteVarint32(_cell_cached_byte_size_);
+  }
   for (int i = 0; i < this->cell_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(
-      4, this->cell(i), output);
+    ::google::protobuf::internal::WireFormatLite::WriteInt32NoTag(
+      this->cell(i), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -1338,10 +1345,18 @@ void Telemetry_World::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->resolution(), target);
   }
 
-  // repeated int32 cell = 4;
+  // repeated int32 cell = 4 [packed = true];
+  if (this->cell_size() > 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
+      4,
+      ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
+      target);
+    target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
+      _cell_cached_byte_size_, target);
+  }
   for (int i = 0; i < this->cell_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteInt32ToArray(4, this->cell(i), target);
+      WriteInt32NoTagToArray(this->cell(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -1375,14 +1390,21 @@ int Telemetry_World::ByteSize() const {
     }
 
   }
-  // repeated int32 cell = 4;
+  // repeated int32 cell = 4 [packed = true];
   {
     int data_size = 0;
     for (int i = 0; i < this->cell_size(); i++) {
       data_size += ::google::protobuf::internal::WireFormatLite::
         Int32Size(this->cell(i));
     }
-    total_size += 1 * this->cell_size() + data_size;
+    if (data_size > 0) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(data_size);
+    }
+    GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+    _cell_cached_byte_size_ = data_size;
+    GOOGLE_SAFE_CONCURRENT_WRITES_END();
+    total_size += data_size;
   }
 
   if (!unknown_fields().empty()) {
@@ -1833,6 +1855,7 @@ const int Telemetry::kStateDataFieldNumber;
 const int Telemetry::kWorldDataFieldNumber;
 const int Telemetry::kPathDataFieldNumber;
 const int Telemetry::kLaserScanDataFieldNumber;
+const int Telemetry::kAllWheelStateFieldNumber;
 #endif  // !_MSC_VER
 
 Telemetry::Telemetry()
@@ -1845,6 +1868,7 @@ void Telemetry::InitAsDefaultInstance() {
   world_data_ = const_cast< ::lunabotics::Telemetry_World*>(&::lunabotics::Telemetry_World::default_instance());
   path_data_ = const_cast< ::lunabotics::Telemetry_Path*>(&::lunabotics::Telemetry_Path::default_instance());
   laser_scan_data_ = const_cast< ::lunabotics::Telemetry_LaserScan*>(&::lunabotics::Telemetry_LaserScan::default_instance());
+  all_wheel_state_ = const_cast< ::lunabotics::AllWheelState*>(&::lunabotics::AllWheelState::default_instance());
 }
 
 Telemetry::Telemetry(const Telemetry& from)
@@ -1859,6 +1883,7 @@ void Telemetry::SharedCtor() {
   world_data_ = NULL;
   path_data_ = NULL;
   laser_scan_data_ = NULL;
+  all_wheel_state_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1872,6 +1897,7 @@ void Telemetry::SharedDtor() {
     delete world_data_;
     delete path_data_;
     delete laser_scan_data_;
+    delete all_wheel_state_;
   }
 }
 
@@ -1909,6 +1935,9 @@ void Telemetry::Clear() {
     }
     if (has_laser_scan_data()) {
       if (laser_scan_data_ != NULL) laser_scan_data_->::lunabotics::Telemetry_LaserScan::Clear();
+    }
+    if (has_all_wheel_state()) {
+      if (all_wheel_state_ != NULL) all_wheel_state_->::lunabotics::AllWheelState::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -1972,6 +2001,20 @@ bool Telemetry::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(50)) goto parse_all_wheel_state;
+        break;
+      }
+
+      // optional .lunabotics.AllWheelState all_wheel_state = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_all_wheel_state:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_all_wheel_state()));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -2018,6 +2061,12 @@ void Telemetry::SerializeWithCachedSizes(
       5, this->laser_scan_data(), output);
   }
 
+  // optional .lunabotics.AllWheelState all_wheel_state = 6;
+  if (has_all_wheel_state()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      6, this->all_wheel_state(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -2052,6 +2101,13 @@ void Telemetry::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         5, this->laser_scan_data(), target);
+  }
+
+  // optional .lunabotics.AllWheelState all_wheel_state = 6;
+  if (has_all_wheel_state()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        6, this->all_wheel_state(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -2093,6 +2149,13 @@ int Telemetry::ByteSize() const {
           this->laser_scan_data());
     }
 
+    // optional .lunabotics.AllWheelState all_wheel_state = 6;
+    if (has_all_wheel_state()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->all_wheel_state());
+    }
+
   }
   if (!unknown_fields().empty()) {
     total_size +=
@@ -2132,6 +2195,9 @@ void Telemetry::MergeFrom(const Telemetry& from) {
     if (from.has_laser_scan_data()) {
       mutable_laser_scan_data()->::lunabotics::Telemetry_LaserScan::MergeFrom(from.laser_scan_data());
     }
+    if (from.has_all_wheel_state()) {
+      mutable_all_wheel_state()->::lunabotics::AllWheelState::MergeFrom(from.all_wheel_state());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -2159,6 +2225,9 @@ bool Telemetry::IsInitialized() const {
   if (has_path_data()) {
     if (!this->path_data().IsInitialized()) return false;
   }
+  if (has_all_wheel_state()) {
+    if (!this->all_wheel_state().IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -2168,6 +2237,7 @@ void Telemetry::Swap(Telemetry* other) {
     std::swap(world_data_, other->world_data_);
     std::swap(path_data_, other->path_data_);
     std::swap(laser_scan_data_, other->laser_scan_data_);
+    std::swap(all_wheel_state_, other->all_wheel_state_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

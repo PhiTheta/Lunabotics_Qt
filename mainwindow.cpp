@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
+    this->allWheelPanel = NULL;
+
     this->outgoingSocket = NULL;
     this->incomingServer = NULL;
     this->incomingSocket = NULL;
@@ -110,6 +112,7 @@ MainWindow::~MainWindow()
     delete this->localFrameScene;
     delete this->occupancyGrid;
     delete this->path;
+    delete this->allWheelPanel;
 }
 
 
@@ -493,6 +496,13 @@ void MainWindow::receiveTelemetry()
         if (tm.has_laser_scan_data()) {
         }
 
+        if (tm.has_all_wheel_state()) {
+            const lunabotics::AllWheelState::Wheels steering = tm.all_wheel_state().steering();
+            const lunabotics::AllWheelState::Wheels driving = tm.all_wheel_state().driving();
+            emit allWheelStateUpdated(steering.left_front(), steering.right_front(), steering.left_rear(), steering.right_rear(), driving.left_front(), driving.right_front(), driving.left_rear(), driving.right_rear());
+        }
+
+
         if (renderMap) {
             this->redrawMap();
         }
@@ -565,18 +575,18 @@ void MainWindow::sendTelecommand(lunabotics::Telecommand::Type contentType)
         tc.mutable_all_wheel_control_data()->set_all_wheel_type(this->allWheelControlType);
         switch (this->allWheelControlType) {
         case lunabotics::AllWheelControl::EXPLICIT: {
-            lunabotics::AllWheelControl::Wheels *steering = tc.mutable_all_wheel_control_data()->mutable_explicit_data()->mutable_steering();
-            lunabotics::AllWheelControl::Wheels *driving = tc.mutable_all_wheel_control_data()->mutable_explicit_data()->mutable_driving();
+            lunabotics::AllWheelState::Wheels *steering = tc.mutable_all_wheel_control_data()->mutable_explicit_data()->mutable_steering();
+            lunabotics::AllWheelState::Wheels *driving = tc.mutable_all_wheel_control_data()->mutable_explicit_data()->mutable_driving();
 
-            steering->set_left_front(ui->lfSteeringEdit->text().toFloat());
-            steering->set_right_front(ui->rfSteeringEdit->text().toFloat());
-            steering->set_left_rear(ui->lrSteeringEdit->text().toFloat());
-            steering->set_right_rear(ui->rrSteeringEdit->text().toFloat());
+            steering->set_left_front(this->slf);
+            steering->set_right_front(this->srf);
+            steering->set_left_rear(this->slr);
+            steering->set_right_rear(this->srr);
 
-            driving->set_left_front(ui->lfDrivingEdit->text().toFloat());
-            driving->set_right_front(ui->rfDrivingEdit->text().toFloat());
-            driving->set_left_rear(ui->lrDrivingEdit->text().toFloat());
-            driving->set_right_rear(ui->rrDrivingEdit->text().toFloat());
+            driving->set_left_front(this->dlf);
+            driving->set_right_front(this->drf);
+            driving->set_left_rear(this->dlr);
+            driving->set_right_rear(this->drr);
         }
             break;
 
@@ -746,93 +756,51 @@ void MainWindow::on_removePathButton_clicked()
     this->redrawMap();
 }
 
-void MainWindow::on_allWheelButton_clicked()
-{
-    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
-}
-
-void MainWindow::on_forwardButton_clicked()
-{
-    ui->lfDrivingEdit->setText("1");
-    ui->rfDrivingEdit->setText("1");
-    ui->lrDrivingEdit->setText("1");
-    ui->rrDrivingEdit->setText("1");
-    ui->lfSteeringEdit->setText("0");
-    ui->rfSteeringEdit->setText("0");
-    ui->lrSteeringEdit->setText("0");
-    ui->rrSteeringEdit->setText("0");
-    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
-    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
-}
-
-void MainWindow::on_backwardButton_clicked()
-{
-    ui->lfDrivingEdit->setText("-1");
-    ui->rfDrivingEdit->setText("-1");
-    ui->lrDrivingEdit->setText("-1");
-    ui->rrDrivingEdit->setText("-1");
-    ui->lfSteeringEdit->setText("0");
-    ui->rfSteeringEdit->setText("0");
-    ui->lrSteeringEdit->setText("0");
-    ui->rrSteeringEdit->setText("0");
-    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
-    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
-}
-
-void MainWindow::on_stopButton_clicked()
-{
-    ui->lfDrivingEdit->setText("0");
-    ui->rfDrivingEdit->setText("0");
-    ui->lrDrivingEdit->setText("0");
-    ui->rrDrivingEdit->setText("0");
-    ui->lfSteeringEdit->setText("0");
-    ui->rfSteeringEdit->setText("0");
-    ui->lrSteeringEdit->setText("0");
-    ui->rrSteeringEdit->setText("0");
-    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
-    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
-}
-
-void MainWindow::on_inwardButton_clicked()
-{
-    ui->lfDrivingEdit->setText("0");
-    ui->rfDrivingEdit->setText("0");
-    ui->lrDrivingEdit->setText("0");
-    ui->rrDrivingEdit->setText("0");
-    ui->lfSteeringEdit->setText("1.57");
-    ui->rfSteeringEdit->setText("-1.57");
-    ui->lrSteeringEdit->setText("-1.57");
-    ui->rrSteeringEdit->setText("1.57");
-    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
-    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
-
-}
-
-void MainWindow::on_outwardButton_clicked()
-{
-    ui->lfDrivingEdit->setText("0");
-    ui->rfDrivingEdit->setText("0");
-    ui->lrDrivingEdit->setText("0");
-    ui->rrDrivingEdit->setText("0");
-    ui->lfSteeringEdit->setText("-1.57");
-    ui->rfSteeringEdit->setText("1.57");
-    ui->lrSteeringEdit->setText("1.57");
-    ui->rrSteeringEdit->setText("-1.57");
-    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
-    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
-}
-
-void MainWindow::on_leftButton_clicked()
+void MainWindow::predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType controlType)
 {
     this->allWheelControlType = lunabotics::AllWheelControl::PREDEFINED;
-    this->predefinedControlType = lunabotics::AllWheelControl::CRAB_LEFT;
+    this->predefinedControlType = controlType;
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
-
 }
 
-void MainWindow::on_rightButton_clicked()
+void MainWindow::explicitControlSelected(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr)
 {
-    this->allWheelControlType = lunabotics::AllWheelControl::PREDEFINED;
-    this->predefinedControlType = lunabotics::AllWheelControl::CRAB_RIGHT;
+    this->slf = slf;
+    this->srf = srf;
+    this->slr = slr;
+    this->srr = srr;
+    this->dlf = dlf;
+    this->drf = drf;
+    this->dlr = dlr;
+    this->drr = drr;
+    this->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
+}
+
+void MainWindow::on_allWheelControlButton_clicked()
+{
+    if (!this->allWheelPanel) {
+        qDebug() << "Opening ALl Wheel Panel";
+        this->allWheelPanel = new AllWheelForm();
+        connect(this->allWheelPanel, SIGNAL(predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType)), this, SLOT(predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType)));
+        connect(this->allWheelPanel, SIGNAL(explicitControlSelected(float,float,float,float,float,float,float,float)), this, SLOT(explicitControlSelected(float,float,float,float,float,float,float,float)));
+        connect(this->allWheelPanel, SIGNAL(closing()), this, SLOT(nullifyAllWheelPanel()));
+        connect(this, SIGNAL(allWheelStateUpdated(float,float,float,float,float,float,float,float)), this->allWheelPanel, SLOT(allWheelStateUpdated(float,float,float,float,float,float,float,float)));
+
+        this->allWheelPanel->show();
+    }
+    else {
+        qDebug() << "Bringing ALl Wheel Panel to front";
+        this->allWheelPanel->setWindowState( (windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+        this->allWheelPanel->raise();  // for MacOS
+        this->allWheelPanel->activateWindow(); // for Windows
+    }
+}
+
+void MainWindow::nullifyAllWheelPanel()
+{
+    qDebug() << "Close signal got";
+    if (this->allWheelPanel) {
+        delete this->allWheelPanel; this->allWheelPanel = NULL;
+    }
 }

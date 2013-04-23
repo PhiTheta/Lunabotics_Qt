@@ -25,6 +25,7 @@
 #include <google/protobuf/extension_set.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "AllWheelState.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
@@ -35,8 +36,6 @@ void protobuf_AssignDesc_AllWheelControl_2eproto();
 void protobuf_ShutdownFile_AllWheelControl_2eproto();
 
 class AllWheelControl;
-class AllWheelControl_Wheels;
-class AllWheelControl_ExplicitControl;
 class AllWheelControl_PredefinedControl;
 
 enum AllWheelControl_AllWheelControlType {
@@ -59,14 +58,16 @@ inline bool AllWheelControl_AllWheelControlType_Parse(
     AllWheelControl_AllWheelControlType_descriptor(), name, value);
 }
 enum AllWheelControl_PredefinedControlType {
-  AllWheelControl_PredefinedControlType_CRAB_LEFT = 1,
-  AllWheelControl_PredefinedControlType_CRAB_RIGHT = 2,
-  AllWheelControl_PredefinedControlType_WHEELS_INWARD = 3,
-  AllWheelControl_PredefinedControlType_WHEELS_OUTWARD = 4
+  AllWheelControl_PredefinedControlType_DRIVE_FORWARD = 1,
+  AllWheelControl_PredefinedControlType_DRIVE_BACKWARD = 2,
+  AllWheelControl_PredefinedControlType_CRAB_LEFT = 3,
+  AllWheelControl_PredefinedControlType_CRAB_RIGHT = 4,
+  AllWheelControl_PredefinedControlType_TURN_CW = 5,
+  AllWheelControl_PredefinedControlType_TURN_CCW = 6
 };
 bool AllWheelControl_PredefinedControlType_IsValid(int value);
-const AllWheelControl_PredefinedControlType AllWheelControl_PredefinedControlType_PredefinedControlType_MIN = AllWheelControl_PredefinedControlType_CRAB_LEFT;
-const AllWheelControl_PredefinedControlType AllWheelControl_PredefinedControlType_PredefinedControlType_MAX = AllWheelControl_PredefinedControlType_WHEELS_OUTWARD;
+const AllWheelControl_PredefinedControlType AllWheelControl_PredefinedControlType_PredefinedControlType_MIN = AllWheelControl_PredefinedControlType_DRIVE_FORWARD;
+const AllWheelControl_PredefinedControlType AllWheelControl_PredefinedControlType_PredefinedControlType_MAX = AllWheelControl_PredefinedControlType_TURN_CCW;
 const int AllWheelControl_PredefinedControlType_PredefinedControlType_ARRAYSIZE = AllWheelControl_PredefinedControlType_PredefinedControlType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* AllWheelControl_PredefinedControlType_descriptor();
@@ -80,214 +81,6 @@ inline bool AllWheelControl_PredefinedControlType_Parse(
     AllWheelControl_PredefinedControlType_descriptor(), name, value);
 }
 // ===================================================================
-
-class AllWheelControl_Wheels : public ::google::protobuf::Message {
- public:
-  AllWheelControl_Wheels();
-  virtual ~AllWheelControl_Wheels();
-
-  AllWheelControl_Wheels(const AllWheelControl_Wheels& from);
-
-  inline AllWheelControl_Wheels& operator=(const AllWheelControl_Wheels& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const AllWheelControl_Wheels& default_instance();
-
-  void Swap(AllWheelControl_Wheels* other);
-
-  // implements Message ----------------------------------------------
-
-  AllWheelControl_Wheels* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const AllWheelControl_Wheels& from);
-  void MergeFrom(const AllWheelControl_Wheels& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // required float left_front = 1;
-  inline bool has_left_front() const;
-  inline void clear_left_front();
-  static const int kLeftFrontFieldNumber = 1;
-  inline float left_front() const;
-  inline void set_left_front(float value);
-
-  // required float right_front = 2;
-  inline bool has_right_front() const;
-  inline void clear_right_front();
-  static const int kRightFrontFieldNumber = 2;
-  inline float right_front() const;
-  inline void set_right_front(float value);
-
-  // required float left_rear = 3;
-  inline bool has_left_rear() const;
-  inline void clear_left_rear();
-  static const int kLeftRearFieldNumber = 3;
-  inline float left_rear() const;
-  inline void set_left_rear(float value);
-
-  // required float right_rear = 4;
-  inline bool has_right_rear() const;
-  inline void clear_right_rear();
-  static const int kRightRearFieldNumber = 4;
-  inline float right_rear() const;
-  inline void set_right_rear(float value);
-
-  // @@protoc_insertion_point(class_scope:lunabotics.AllWheelControl.Wheels)
- private:
-  inline void set_has_left_front();
-  inline void clear_has_left_front();
-  inline void set_has_right_front();
-  inline void clear_has_right_front();
-  inline void set_has_left_rear();
-  inline void clear_has_left_rear();
-  inline void set_has_right_rear();
-  inline void clear_has_right_rear();
-
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-
-  float left_front_;
-  float right_front_;
-  float left_rear_;
-  float right_rear_;
-
-  mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
-
-  friend void  protobuf_AddDesc_AllWheelControl_2eproto();
-  friend void protobuf_AssignDesc_AllWheelControl_2eproto();
-  friend void protobuf_ShutdownFile_AllWheelControl_2eproto();
-
-  void InitAsDefaultInstance();
-  static AllWheelControl_Wheels* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class AllWheelControl_ExplicitControl : public ::google::protobuf::Message {
- public:
-  AllWheelControl_ExplicitControl();
-  virtual ~AllWheelControl_ExplicitControl();
-
-  AllWheelControl_ExplicitControl(const AllWheelControl_ExplicitControl& from);
-
-  inline AllWheelControl_ExplicitControl& operator=(const AllWheelControl_ExplicitControl& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const AllWheelControl_ExplicitControl& default_instance();
-
-  void Swap(AllWheelControl_ExplicitControl* other);
-
-  // implements Message ----------------------------------------------
-
-  AllWheelControl_ExplicitControl* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const AllWheelControl_ExplicitControl& from);
-  void MergeFrom(const AllWheelControl_ExplicitControl& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // required .lunabotics.AllWheelControl.Wheels steering = 1;
-  inline bool has_steering() const;
-  inline void clear_steering();
-  static const int kSteeringFieldNumber = 1;
-  inline const ::lunabotics::AllWheelControl_Wheels& steering() const;
-  inline ::lunabotics::AllWheelControl_Wheels* mutable_steering();
-  inline ::lunabotics::AllWheelControl_Wheels* release_steering();
-  inline void set_allocated_steering(::lunabotics::AllWheelControl_Wheels* steering);
-
-  // required .lunabotics.AllWheelControl.Wheels driving = 2;
-  inline bool has_driving() const;
-  inline void clear_driving();
-  static const int kDrivingFieldNumber = 2;
-  inline const ::lunabotics::AllWheelControl_Wheels& driving() const;
-  inline ::lunabotics::AllWheelControl_Wheels* mutable_driving();
-  inline ::lunabotics::AllWheelControl_Wheels* release_driving();
-  inline void set_allocated_driving(::lunabotics::AllWheelControl_Wheels* driving);
-
-  // @@protoc_insertion_point(class_scope:lunabotics.AllWheelControl.ExplicitControl)
- private:
-  inline void set_has_steering();
-  inline void clear_has_steering();
-  inline void set_has_driving();
-  inline void clear_has_driving();
-
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-
-  ::lunabotics::AllWheelControl_Wheels* steering_;
-  ::lunabotics::AllWheelControl_Wheels* driving_;
-
-  mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
-
-  friend void  protobuf_AddDesc_AllWheelControl_2eproto();
-  friend void protobuf_AssignDesc_AllWheelControl_2eproto();
-  friend void protobuf_ShutdownFile_AllWheelControl_2eproto();
-
-  void InitAsDefaultInstance();
-  static AllWheelControl_ExplicitControl* default_instance_;
-};
-// -------------------------------------------------------------------
 
 class AllWheelControl_PredefinedControl : public ::google::protobuf::Message {
  public:
@@ -423,8 +216,6 @@ class AllWheelControl : public ::google::protobuf::Message {
 
   // nested types ----------------------------------------------------
 
-  typedef AllWheelControl_Wheels Wheels;
-  typedef AllWheelControl_ExplicitControl ExplicitControl;
   typedef AllWheelControl_PredefinedControl PredefinedControl;
 
   typedef AllWheelControl_AllWheelControlType AllWheelControlType;
@@ -452,10 +243,12 @@ class AllWheelControl : public ::google::protobuf::Message {
   }
 
   typedef AllWheelControl_PredefinedControlType PredefinedControlType;
+  static const PredefinedControlType DRIVE_FORWARD = AllWheelControl_PredefinedControlType_DRIVE_FORWARD;
+  static const PredefinedControlType DRIVE_BACKWARD = AllWheelControl_PredefinedControlType_DRIVE_BACKWARD;
   static const PredefinedControlType CRAB_LEFT = AllWheelControl_PredefinedControlType_CRAB_LEFT;
   static const PredefinedControlType CRAB_RIGHT = AllWheelControl_PredefinedControlType_CRAB_RIGHT;
-  static const PredefinedControlType WHEELS_INWARD = AllWheelControl_PredefinedControlType_WHEELS_INWARD;
-  static const PredefinedControlType WHEELS_OUTWARD = AllWheelControl_PredefinedControlType_WHEELS_OUTWARD;
+  static const PredefinedControlType TURN_CW = AllWheelControl_PredefinedControlType_TURN_CW;
+  static const PredefinedControlType TURN_CCW = AllWheelControl_PredefinedControlType_TURN_CCW;
   static inline bool PredefinedControlType_IsValid(int value) {
     return AllWheelControl_PredefinedControlType_IsValid(value);
   }
@@ -486,14 +279,14 @@ class AllWheelControl : public ::google::protobuf::Message {
   inline ::lunabotics::AllWheelControl_AllWheelControlType all_wheel_type() const;
   inline void set_all_wheel_type(::lunabotics::AllWheelControl_AllWheelControlType value);
 
-  // optional .lunabotics.AllWheelControl.ExplicitControl explicit_data = 2;
+  // optional .lunabotics.AllWheelState explicit_data = 2;
   inline bool has_explicit_data() const;
   inline void clear_explicit_data();
   static const int kExplicitDataFieldNumber = 2;
-  inline const ::lunabotics::AllWheelControl_ExplicitControl& explicit_data() const;
-  inline ::lunabotics::AllWheelControl_ExplicitControl* mutable_explicit_data();
-  inline ::lunabotics::AllWheelControl_ExplicitControl* release_explicit_data();
-  inline void set_allocated_explicit_data(::lunabotics::AllWheelControl_ExplicitControl* explicit_data);
+  inline const ::lunabotics::AllWheelState& explicit_data() const;
+  inline ::lunabotics::AllWheelState* mutable_explicit_data();
+  inline ::lunabotics::AllWheelState* release_explicit_data();
+  inline void set_allocated_explicit_data(::lunabotics::AllWheelState* explicit_data);
 
   // optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
   inline bool has_predefined_data() const;
@@ -515,7 +308,7 @@ class AllWheelControl : public ::google::protobuf::Message {
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::AllWheelControl_ExplicitControl* explicit_data_;
+  ::lunabotics::AllWheelState* explicit_data_;
   ::lunabotics::AllWheelControl_PredefinedControl* predefined_data_;
   int all_wheel_type_;
 
@@ -533,178 +326,6 @@ class AllWheelControl : public ::google::protobuf::Message {
 
 
 // ===================================================================
-
-// AllWheelControl_Wheels
-
-// required float left_front = 1;
-inline bool AllWheelControl_Wheels::has_left_front() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void AllWheelControl_Wheels::set_has_left_front() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void AllWheelControl_Wheels::clear_has_left_front() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void AllWheelControl_Wheels::clear_left_front() {
-  left_front_ = 0;
-  clear_has_left_front();
-}
-inline float AllWheelControl_Wheels::left_front() const {
-  return left_front_;
-}
-inline void AllWheelControl_Wheels::set_left_front(float value) {
-  set_has_left_front();
-  left_front_ = value;
-}
-
-// required float right_front = 2;
-inline bool AllWheelControl_Wheels::has_right_front() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void AllWheelControl_Wheels::set_has_right_front() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void AllWheelControl_Wheels::clear_has_right_front() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void AllWheelControl_Wheels::clear_right_front() {
-  right_front_ = 0;
-  clear_has_right_front();
-}
-inline float AllWheelControl_Wheels::right_front() const {
-  return right_front_;
-}
-inline void AllWheelControl_Wheels::set_right_front(float value) {
-  set_has_right_front();
-  right_front_ = value;
-}
-
-// required float left_rear = 3;
-inline bool AllWheelControl_Wheels::has_left_rear() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void AllWheelControl_Wheels::set_has_left_rear() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void AllWheelControl_Wheels::clear_has_left_rear() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void AllWheelControl_Wheels::clear_left_rear() {
-  left_rear_ = 0;
-  clear_has_left_rear();
-}
-inline float AllWheelControl_Wheels::left_rear() const {
-  return left_rear_;
-}
-inline void AllWheelControl_Wheels::set_left_rear(float value) {
-  set_has_left_rear();
-  left_rear_ = value;
-}
-
-// required float right_rear = 4;
-inline bool AllWheelControl_Wheels::has_right_rear() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-inline void AllWheelControl_Wheels::set_has_right_rear() {
-  _has_bits_[0] |= 0x00000008u;
-}
-inline void AllWheelControl_Wheels::clear_has_right_rear() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-inline void AllWheelControl_Wheels::clear_right_rear() {
-  right_rear_ = 0;
-  clear_has_right_rear();
-}
-inline float AllWheelControl_Wheels::right_rear() const {
-  return right_rear_;
-}
-inline void AllWheelControl_Wheels::set_right_rear(float value) {
-  set_has_right_rear();
-  right_rear_ = value;
-}
-
-// -------------------------------------------------------------------
-
-// AllWheelControl_ExplicitControl
-
-// required .lunabotics.AllWheelControl.Wheels steering = 1;
-inline bool AllWheelControl_ExplicitControl::has_steering() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void AllWheelControl_ExplicitControl::set_has_steering() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void AllWheelControl_ExplicitControl::clear_has_steering() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void AllWheelControl_ExplicitControl::clear_steering() {
-  if (steering_ != NULL) steering_->::lunabotics::AllWheelControl_Wheels::Clear();
-  clear_has_steering();
-}
-inline const ::lunabotics::AllWheelControl_Wheels& AllWheelControl_ExplicitControl::steering() const {
-  return steering_ != NULL ? *steering_ : *default_instance_->steering_;
-}
-inline ::lunabotics::AllWheelControl_Wheels* AllWheelControl_ExplicitControl::mutable_steering() {
-  set_has_steering();
-  if (steering_ == NULL) steering_ = new ::lunabotics::AllWheelControl_Wheels;
-  return steering_;
-}
-inline ::lunabotics::AllWheelControl_Wheels* AllWheelControl_ExplicitControl::release_steering() {
-  clear_has_steering();
-  ::lunabotics::AllWheelControl_Wheels* temp = steering_;
-  steering_ = NULL;
-  return temp;
-}
-inline void AllWheelControl_ExplicitControl::set_allocated_steering(::lunabotics::AllWheelControl_Wheels* steering) {
-  delete steering_;
-  steering_ = steering;
-  if (steering) {
-    set_has_steering();
-  } else {
-    clear_has_steering();
-  }
-}
-
-// required .lunabotics.AllWheelControl.Wheels driving = 2;
-inline bool AllWheelControl_ExplicitControl::has_driving() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void AllWheelControl_ExplicitControl::set_has_driving() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void AllWheelControl_ExplicitControl::clear_has_driving() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void AllWheelControl_ExplicitControl::clear_driving() {
-  if (driving_ != NULL) driving_->::lunabotics::AllWheelControl_Wheels::Clear();
-  clear_has_driving();
-}
-inline const ::lunabotics::AllWheelControl_Wheels& AllWheelControl_ExplicitControl::driving() const {
-  return driving_ != NULL ? *driving_ : *default_instance_->driving_;
-}
-inline ::lunabotics::AllWheelControl_Wheels* AllWheelControl_ExplicitControl::mutable_driving() {
-  set_has_driving();
-  if (driving_ == NULL) driving_ = new ::lunabotics::AllWheelControl_Wheels;
-  return driving_;
-}
-inline ::lunabotics::AllWheelControl_Wheels* AllWheelControl_ExplicitControl::release_driving() {
-  clear_has_driving();
-  ::lunabotics::AllWheelControl_Wheels* temp = driving_;
-  driving_ = NULL;
-  return temp;
-}
-inline void AllWheelControl_ExplicitControl::set_allocated_driving(::lunabotics::AllWheelControl_Wheels* driving) {
-  delete driving_;
-  driving_ = driving;
-  if (driving) {
-    set_has_driving();
-  } else {
-    clear_has_driving();
-  }
-}
-
-// -------------------------------------------------------------------
 
 // AllWheelControl_PredefinedControl
 
@@ -758,7 +379,7 @@ inline void AllWheelControl::set_all_wheel_type(::lunabotics::AllWheelControl_Al
   all_wheel_type_ = value;
 }
 
-// optional .lunabotics.AllWheelControl.ExplicitControl explicit_data = 2;
+// optional .lunabotics.AllWheelState explicit_data = 2;
 inline bool AllWheelControl::has_explicit_data() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -769,24 +390,24 @@ inline void AllWheelControl::clear_has_explicit_data() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void AllWheelControl::clear_explicit_data() {
-  if (explicit_data_ != NULL) explicit_data_->::lunabotics::AllWheelControl_ExplicitControl::Clear();
+  if (explicit_data_ != NULL) explicit_data_->::lunabotics::AllWheelState::Clear();
   clear_has_explicit_data();
 }
-inline const ::lunabotics::AllWheelControl_ExplicitControl& AllWheelControl::explicit_data() const {
+inline const ::lunabotics::AllWheelState& AllWheelControl::explicit_data() const {
   return explicit_data_ != NULL ? *explicit_data_ : *default_instance_->explicit_data_;
 }
-inline ::lunabotics::AllWheelControl_ExplicitControl* AllWheelControl::mutable_explicit_data() {
+inline ::lunabotics::AllWheelState* AllWheelControl::mutable_explicit_data() {
   set_has_explicit_data();
-  if (explicit_data_ == NULL) explicit_data_ = new ::lunabotics::AllWheelControl_ExplicitControl;
+  if (explicit_data_ == NULL) explicit_data_ = new ::lunabotics::AllWheelState;
   return explicit_data_;
 }
-inline ::lunabotics::AllWheelControl_ExplicitControl* AllWheelControl::release_explicit_data() {
+inline ::lunabotics::AllWheelState* AllWheelControl::release_explicit_data() {
   clear_has_explicit_data();
-  ::lunabotics::AllWheelControl_ExplicitControl* temp = explicit_data_;
+  ::lunabotics::AllWheelState* temp = explicit_data_;
   explicit_data_ = NULL;
   return temp;
 }
-inline void AllWheelControl::set_allocated_explicit_data(::lunabotics::AllWheelControl_ExplicitControl* explicit_data) {
+inline void AllWheelControl::set_allocated_explicit_data(::lunabotics::AllWheelState* explicit_data) {
   delete explicit_data_;
   explicit_data_ = explicit_data;
   if (explicit_data) {

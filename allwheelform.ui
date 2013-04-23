@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AllWheelForm</class>
+ <widget class="QWidget" name="AllWheelForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>442</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>All-Wheel Steering</string>
+  </property>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>35</x>
+     <y>250</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;</string>
+   </property>
+   <property name="text">
+    <string>LR</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="rightButton">
+   <property name="geometry">
+    <rect>
+     <x>305</x>
+     <y>130</y>
+     <width>121</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Crab Right</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="rrDrivingEdit">
+   <property name="geometry">
+    <rect>
+     <x>255</x>
+     <y>290</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="allWheelButton">
+   <property name="geometry">
+    <rect>
+     <x>148</x>
+     <y>330</y>
+     <width>121</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Send</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="rfSteeringEdit">
+   <property name="geometry">
+    <rect>
+     <x>185</x>
+     <y>80</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>55</x>
+     <y>10</y>
+     <width>171</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Explicit Wheel Control:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>25</x>
+     <y>60</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;</string>
+   </property>
+   <property name="text">
+    <string>LF</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lfSteeringEdit">
+   <property name="geometry">
+    <rect>
+     <x>65</x>
+     <y>90</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="backwardButton">
+   <property name="geometry">
+    <rect>
+     <x>305</x>
+     <y>70</y>
+     <width>121</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Drive Back</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="forwardButton">
+   <property name="geometry">
+    <rect>
+     <x>305</x>
+     <y>40</y>
+     <width>121</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Drive Forward</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>225</x>
+     <y>50</y>
+     <width>21</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;</string>
+   </property>
+   <property name="text">
+    <string>RF</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="rrSteeringEdit">
+   <property name="geometry">
+    <rect>
+     <x>185</x>
+     <y>290</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="leftButton">
+   <property name="geometry">
+    <rect>
+     <x>305</x>
+     <y>100</y>
+     <width>121</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Crab Left</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>225</x>
+     <y>240</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;</string>
+   </property>
+   <property name="text">
+    <string>RR</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lfDrivingEdit">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>90</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>295</x>
+     <y>10</y>
+     <width>171</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Predefined actions:</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="turnLeftButton">
+   <property name="geometry">
+    <rect>
+     <x>305</x>
+     <y>160</y>
+     <width>121</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Turn CCW</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lrSteeringEdit">
+   <property name="geometry">
+    <rect>
+     <x>85</x>
+     <y>290</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="stopButton">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>330</y>
+     <width>131</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Stop</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="turnRightButton">
+   <property name="geometry">
+    <rect>
+     <x>305</x>
+     <y>190</y>
+     <width>121</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Turn CW</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="rfDrivingEdit">
+   <property name="geometry">
+    <rect>
+     <x>245</x>
+     <y>80</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_6">
+   <property name="geometry">
+    <rect>
+     <x>25</x>
+     <y>60</y>
+     <width>241</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="LunaGUIResources.qrc">:/images/gazebo.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lrDrivingEdit">
+   <property name="geometry">
+    <rect>
+     <x>15</x>
+     <y>290</y>
+     <width>31</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>40</y>
+     <width>191</width>
+     <height>391</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background: transparent</string>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="interactive">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>360</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Platfotm state:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>380</y>
+     <width>62</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Steering:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>380</y>
+     <width>62</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Driving:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="slfLabel">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>400</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>? Rad</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="slrLabel">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>420</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>? Rad</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="srfLabel">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>400</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>? Rad</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="srrLabel">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>420</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>? Rad</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="drfLabel">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>400</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>? Rad/s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="drrLabel">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>420</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>? Rad/s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dlfLabel">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>400</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>? Rad/s</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dlrLabel">
+   <property name="geometry">
+    <rect>
+     <x>260</x>
+     <y>420</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>? Rad/s</string>
+   </property>
+  </widget>
+  <zorder>label_6</zorder>
+  <zorder>label_3</zorder>
+  <zorder>rightButton</zorder>
+  <zorder>rrDrivingEdit</zorder>
+  <zorder>allWheelButton</zorder>
+  <zorder>rfSteeringEdit</zorder>
+  <zorder>label_5</zorder>
+  <zorder>label</zorder>
+  <zorder>lfSteeringEdit</zorder>
+  <zorder>backwardButton</zorder>
+  <zorder>forwardButton</zorder>
+  <zorder>label_2</zorder>
+  <zorder>rrSteeringEdit</zorder>
+  <zorder>leftButton</zorder>
+  <zorder>label_4</zorder>
+  <zorder>lfDrivingEdit</zorder>
+  <zorder>label_7</zorder>
+  <zorder>turnLeftButton</zorder>
+  <zorder>lrSteeringEdit</zorder>
+  <zorder>stopButton</zorder>
+  <zorder>turnRightButton</zorder>
+  <zorder>rfDrivingEdit</zorder>
+  <zorder>lrDrivingEdit</zorder>
+  <zorder>graphicsView</zorder>
+  <zorder>label_8</zorder>
+  <zorder>label_9</zorder>
+  <zorder>label_10</zorder>
+  <zorder>slfLabel</zorder>
+  <zorder>slrLabel</zorder>
+  <zorder>srfLabel</zorder>
+  <zorder>srrLabel</zorder>
+  <zorder>drfLabel</zorder>
+  <zorder>drrLabel</zorder>
+  <zorder>dlfLabel</zorder>
+  <zorder>dlrLabel</zorder>
+ </widget>
+ <resources>
+  <include location="LunaGUIResources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

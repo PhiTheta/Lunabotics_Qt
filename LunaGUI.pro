@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     Telemetry.pb.cc \
     SteeringModeType.pb.cc \
     Point.pb.cc \
-    AllWheelControl.pb.cc
+    AllWheelControl.pb.cc \
+    allwheelform.cpp \
+    AllWheelState.pb.cc
 
 HEADERS  += mainwindow.h \
     preferencedialog.h \
@@ -36,10 +38,13 @@ HEADERS  += mainwindow.h \
     Telemetry.pb.h \
     SteeringModeType.pb.h \
     Point.pb.h \
-    AllWheelControl.pb.h
+    AllWheelControl.pb.h \
+    allwheelform.h \
+    AllWheelState.pb.h
 
 FORMS    += mainwindow.ui \
-    preferencedialog.ui
+    preferencedialog.ui \
+    allwheelform.ui
 
 RESOURCES += \
     LunaGUIResources.qrc

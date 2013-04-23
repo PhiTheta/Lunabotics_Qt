@@ -27,6 +27,7 @@
 #include "SteeringModeType.pb.h"
 #include "Point.pb.h"
 #include "Twist.pb.h"
+#include "AllWheelState.pb.h"
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
@@ -400,7 +401,7 @@ class Telemetry_World : public ::google::protobuf::Message {
   inline float resolution() const;
   inline void set_resolution(float value);
 
-  // repeated int32 cell = 4;
+  // repeated int32 cell = 4 [packed = true];
   inline int cell_size() const;
   inline void clear_cell();
   static const int kCellFieldNumber = 4;
@@ -426,6 +427,7 @@ class Telemetry_World : public ::google::protobuf::Message {
   ::google::protobuf::int32 width_;
   ::google::protobuf::int32 height_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > cell_;
+  mutable int _cell_cached_byte_size_;
   float resolution_;
 
   mutable int _cached_size_;
@@ -692,6 +694,15 @@ class Telemetry : public ::google::protobuf::Message {
   inline ::lunabotics::Telemetry_LaserScan* release_laser_scan_data();
   inline void set_allocated_laser_scan_data(::lunabotics::Telemetry_LaserScan* laser_scan_data);
 
+  // optional .lunabotics.AllWheelState all_wheel_state = 6;
+  inline bool has_all_wheel_state() const;
+  inline void clear_all_wheel_state();
+  static const int kAllWheelStateFieldNumber = 6;
+  inline const ::lunabotics::AllWheelState& all_wheel_state() const;
+  inline ::lunabotics::AllWheelState* mutable_all_wheel_state();
+  inline ::lunabotics::AllWheelState* release_all_wheel_state();
+  inline void set_allocated_all_wheel_state(::lunabotics::AllWheelState* all_wheel_state);
+
   // @@protoc_insertion_point(class_scope:lunabotics.Telemetry)
  private:
   inline void set_has_state_data();
@@ -702,6 +713,8 @@ class Telemetry : public ::google::protobuf::Message {
   inline void clear_has_path_data();
   inline void set_has_laser_scan_data();
   inline void clear_has_laser_scan_data();
+  inline void set_has_all_wheel_state();
+  inline void clear_has_all_wheel_state();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -709,9 +722,10 @@ class Telemetry : public ::google::protobuf::Message {
   ::lunabotics::Telemetry_World* world_data_;
   ::lunabotics::Telemetry_Path* path_data_;
   ::lunabotics::Telemetry_LaserScan* laser_scan_data_;
+  ::lunabotics::AllWheelState* all_wheel_state_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telemetry_2eproto();
   friend void protobuf_AssignDesc_Telemetry_2eproto();
@@ -1178,7 +1192,7 @@ inline void Telemetry_World::set_resolution(float value) {
   resolution_ = value;
 }
 
-// repeated int32 cell = 4;
+// repeated int32 cell = 4 [packed = true];
 inline int Telemetry_World::cell_size() const {
   return cell_.size();
 }
@@ -1389,6 +1403,44 @@ inline void Telemetry::set_allocated_laser_scan_data(::lunabotics::Telemetry_Las
     set_has_laser_scan_data();
   } else {
     clear_has_laser_scan_data();
+  }
+}
+
+// optional .lunabotics.AllWheelState all_wheel_state = 6;
+inline bool Telemetry::has_all_wheel_state() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void Telemetry::set_has_all_wheel_state() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void Telemetry::clear_has_all_wheel_state() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void Telemetry::clear_all_wheel_state() {
+  if (all_wheel_state_ != NULL) all_wheel_state_->::lunabotics::AllWheelState::Clear();
+  clear_has_all_wheel_state();
+}
+inline const ::lunabotics::AllWheelState& Telemetry::all_wheel_state() const {
+  return all_wheel_state_ != NULL ? *all_wheel_state_ : *default_instance_->all_wheel_state_;
+}
+inline ::lunabotics::AllWheelState* Telemetry::mutable_all_wheel_state() {
+  set_has_all_wheel_state();
+  if (all_wheel_state_ == NULL) all_wheel_state_ = new ::lunabotics::AllWheelState;
+  return all_wheel_state_;
+}
+inline ::lunabotics::AllWheelState* Telemetry::release_all_wheel_state() {
+  clear_has_all_wheel_state();
+  ::lunabotics::AllWheelState* temp = all_wheel_state_;
+  all_wheel_state_ = NULL;
+  return temp;
+}
+inline void Telemetry::set_allocated_all_wheel_state(::lunabotics::AllWheelState* all_wheel_state) {
+  delete all_wheel_state_;
+  all_wheel_state_ = all_wheel_state;
+  if (all_wheel_state) {
+    set_has_all_wheel_state();
+  } else {
+    clear_has_all_wheel_state();
   }
 }
 

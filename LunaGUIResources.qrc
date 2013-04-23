@@ -3,5 +3,6 @@
         <file>rover.png</file>
         <file>bender.icns</file>
         <file>robot.png</file>
+        <file>gazebo.png</file>
     </qresource>
 </RCC>

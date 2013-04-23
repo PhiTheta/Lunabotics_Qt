@@ -1,6 +1,7 @@
 import "SteeringModeType.proto";
 import "Point.proto";
 import "Twist.proto";
+import "AllWheelState.proto";
 
 package lunabotics;
 
@@ -28,7 +29,7 @@ message Telemetry {
                 required int32 width = 1;
                 required int32 height = 2;
                 required float resolution = 3;
-                repeated int32 cell = 4;
+                repeated int32 cell = 4 [packed = true];
     }
     optional World world_data = 3;
 
@@ -40,4 +41,6 @@ message Telemetry {
     message LaserScan {
     }
     optional LaserScan laser_scan_data = 5;
+
+    optional AllWheelState all_wheel_state = 6;
 }

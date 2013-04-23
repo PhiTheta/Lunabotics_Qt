@@ -10,8 +10,7 @@
 #include <QMutex>
 #include "laserscan.h"
 #include "Telecommand.pb.h"
-
-#define BUFFER_SIZE 256
+#include "allwheelform.h"
 
 namespace Ui {
 class MainWindow;
@@ -37,6 +36,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+signals:
+    void allWheelStateUpdated(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr);
+
 protected:
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -53,6 +55,10 @@ private slots:
 
     void on_actionPreferences_triggered();
 
+    void predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType controlType);
+    void explicitControlSelected(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr);
+    void nullifyAllWheelPanel();
+
     void mapCell_clicked(QPoint coordinate);
     void mapCell_hovered(QPoint coordinate);
     void outSocketConnected();
@@ -68,21 +74,7 @@ private slots:
 
     void on_removePathButton_clicked();
 
-    void on_allWheelButton_clicked();
-
-    void on_forwardButton_clicked();
-
-    void on_backwardButton_clicked();
-
-    void on_stopButton_clicked();
-
-    void on_inwardButton_clicked();
-
-    void on_outwardButton_clicked();
-
-    void on_leftButton_clicked();
-
-    void on_rightButton_clicked();
+    void on_allWheelControlButton_clicked();
 
 private:
     QMutex socketMutex;
@@ -135,6 +127,18 @@ private:
     bool autonomyEnabled;
     lunabotics::SteeringModeType controlType;
     STEERING_CMDS drivingMask;
+
+    AllWheelForm *allWheelPanel;
+
+    //All wheel steering control cache
+    float slf;
+    float srf;
+    float slr;
+    float srr;
+    float dlf;
+    float drf;
+    float dlr;
+    float drr;
 };
 
 #endif // MAINWINDOW_H

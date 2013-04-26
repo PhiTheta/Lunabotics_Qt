@@ -22,10 +22,13 @@ public:
 signals:
     void predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType controlType);
     void explicitControlSelected(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr);
+    void ICRControlSelected(QPointF ICR, float velocity);
     void closing();
 
 private slots:
     void allWheelStateUpdated(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr);
+    void ICRUpdated(QPointF ICR);
+    void updateJoints(QPointF leftFront, QPointF rightFront, QPointF leftRear, QPointF rightRear);
 
     void on_turnRightButton_clicked();
 
@@ -43,6 +46,8 @@ private slots:
 
     void on_stopButton_clicked();
 
+    void on_sendICRButton_clicked();
+
 private:
     Ui::AllWheelForm *ui;
     QGraphicsScene *robotSketchScene;
@@ -52,6 +57,9 @@ private:
     QGraphicsRectItem *rightRearWheel;
     QGraphicsRectItem *frontWheel;
     QGraphicsRectItem *rearWheel;
+    QGraphicsRectItem *verticalICR;
+    QGraphicsRectItem *horizontalICR;
+    QGraphicsRectItem *baseLink;
 
     QTransform leftFrontTransform;
     QTransform rightFrontTransform;
@@ -61,6 +69,7 @@ private:
     QTransform rearTransform;
 
     void redrawSketch();
+    void createGrphicItems();
 
     //All wheel steering state
     float slf;
@@ -71,6 +80,13 @@ private:
     float drf;
     float dlr;
     float drr;
+    QPointF ICR;
+    QPointF leftFront;
+    QPointF rightFront;
+    QPointF leftRear;
+    QPointF rightRear;
+    bool jointPositionsAcquired;
+    bool graphicItemsCreated;
 };
 
 #endif // ALLWHEELFORM_H

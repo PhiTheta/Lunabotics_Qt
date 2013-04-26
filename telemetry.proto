@@ -13,6 +13,7 @@ message Telemetry {
                 required SteeringModeType steering_mode = 4;
                 required bool autonomy_enabled = 5;
                 optional int32 next_waypoint_idx = 6;
+                optional Point icr = 7;
 
                 message AckermannTelemetry {
                         required float pid_error = 1;
@@ -21,7 +22,7 @@ message Telemetry {
                         required Point closest_trajectory_local_point = 4;
                         required Point velocity_vector_local_point = 5;
                 }
-                optional AckermannTelemetry ackermann_telemetry = 7;
+                optional AckermannTelemetry ackermann_telemetry = 8;
     }
     optional State state_data = 2;
 
@@ -43,4 +44,12 @@ message Telemetry {
     optional LaserScan laser_scan_data = 5;
 
     optional AllWheelState all_wheel_state = 6;
+
+    message JointPositions {
+                required Point left_front = 1;
+                required Point left_rear = 2;
+                required Point right_front = 3;
+                required Point right_rear = 4;
+    }
+    optional JointPositions joints_data = 7;
 }

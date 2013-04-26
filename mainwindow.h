@@ -38,6 +38,8 @@ public:
 
 signals:
     void allWheelStateUpdated(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr);
+    void ICRUpdated(QPointF ICR);
+    void jointPositionsUpdated(QPointF leftFront, QPointF rightFront, QPointF leftRear, QPointF rightRear);
 
 protected:
     void keyPressEvent(QKeyEvent* event);
@@ -57,6 +59,7 @@ private slots:
 
     void predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType controlType);
     void explicitControlSelected(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr);
+    void ICRControlSelected(QPointF ICR, float velocity);
     void nullifyAllWheelPanel();
 
     void mapCell_clicked(QPoint coordinate);
@@ -139,6 +142,15 @@ private:
     float drf;
     float dlr;
     float drr;
+
+    QPointF ICR;
+    float ICRVelocity;
+
+    QPointF leftFrontJoint;
+    QPointF rightFrontJoint;
+    QPointF leftRearJoint;
+    QPointF rightRearJoint;
+    bool jointPositionsAcquired;
 };
 
 #endif // MAINWINDOW_H

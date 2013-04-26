@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
+    this->jointPositionsAcquired = false;
 
     ui->setupUi(this);
 
@@ -299,19 +300,6 @@ void MainWindow::redrawMap()
 
 
 
-        //Draw bezier curves
-
-//        QPainter painter(this);
-//        painter.setRenderHint(QPainter::Antialiasing, true);
-
-//        QPainterPath path;
-//        path.moveTo(80, 320);
-//        path.cubicTo(200, 80, 320, 80, 480, 320);
-
-//        painter.setPen(QPen(Qt::black, 8));
-//        painter.drawPath(path);
-
-
     }
 }
 
@@ -414,6 +402,10 @@ void MainWindow::receiveTelemetry()
                 this->nextWaypointIdx = state.next_waypoint_idx()-1;
             }
 
+            if (state.has_icr()) {
+                emit ICRUpdated(QPointF(state.icr().x(), state.icr().y()));
+            }
+
             if (state.has_ackermann_telemetry()) {
 
                 const lunabotics::Telemetry::State::AckermannTelemetry params = state.ackermann_telemetry();
@@ -502,6 +494,24 @@ void MainWindow::receiveTelemetry()
             emit allWheelStateUpdated(steering.left_front(), steering.right_front(), steering.left_rear(), steering.right_rear(), driving.left_front(), driving.right_front(), driving.left_rear(), driving.right_rear());
         }
 
+        if (tm.has_joints_data()) {
+            if (!this->jointPositionsAcquired) {
+                const lunabotics::Point p1 = tm.joints_data().left_front();
+                this->leftFrontJoint.setX(p1.x());
+                this->leftFrontJoint.setY(p1.y());
+                const lunabotics::Point p2 = tm.joints_data().right_front();
+                this->rightFrontJoint.setX(p2.x());
+                this->rightFrontJoint.setY(p2.y());
+                const lunabotics::Point p3 = tm.joints_data().left_rear();
+                this->leftRearJoint.setX(p3.x());
+                this->leftRearJoint.setY(p3.y());
+                const lunabotics::Point p4 = tm.joints_data().right_rear();
+                this->rightRearJoint.setX(p4.x());
+                this->rightRearJoint.setY(p4.y());
+                this->jointPositionsAcquired = true;
+                emit jointPositionsUpdated(this->leftFrontJoint, this->rightFrontJoint, this->leftRearJoint, this->rightRearJoint);
+            }
+        }
 
         if (renderMap) {
             this->redrawMap();
@@ -593,8 +603,15 @@ void MainWindow::sendTelecommand(lunabotics::Telecommand::Type contentType)
         case lunabotics::AllWheelControl::PREDEFINED: {
             tc.mutable_all_wheel_control_data()->mutable_predefined_data()->set_command(this->predefinedControlType);
         }
+            break;
+
+        case lunabotics::AllWheelControl::ICR: {
+            tc.mutable_all_wheel_control_data()->mutable_icr_data()->mutable_icr()->set_x(this->ICR.x());
+            tc.mutable_all_wheel_control_data()->mutable_icr_data()->mutable_icr()->set_y(this->ICR.y());
+            tc.mutable_all_wheel_control_data()->mutable_icr_data()->set_velocity(this->ICRVelocity);
         }
-        break;
+            break;
+        }
     }
         break;
 
@@ -605,20 +622,18 @@ void MainWindow::sendTelecommand(lunabotics::Telecommand::Type contentType)
     if (!tc.IsInitialized()) {
         qDebug() << "Telecommand not initialized";
         qDebug() << QString(tc.InitializationErrorString().c_str());
-        return;
-    }
-
-
-    if (this->outgoingSocket->state() != QTcpSocket::UnconnectedState) {
-        QByteArray byteArray(tc.SerializeAsString().c_str(), tc.ByteSize());
-        qDebug() << "Sending " << byteArray.size() << " bytes";
-        this->outgoingSocket->write(byteArray);
-        this->outgoingSocket->waitForDisconnected(1);
     }
     else {
-        qDebug() << "Socket is not connected!";
+        if (this->outgoingSocket->state() != QTcpSocket::UnconnectedState) {
+            QByteArray byteArray(tc.SerializeAsString().c_str(), tc.ByteSize());
+            qDebug() << "Sending " << byteArray.size() << " bytes";
+            this->outgoingSocket->write(byteArray);
+            this->outgoingSocket->waitForDisconnected(1);
+        }
+        else {
+            qDebug() << "Socket is not connected!";
+        }
     }
-
 
     qDebug() << "=======EXITING=========";
     this->socketMutex.unlock();
@@ -777,6 +792,14 @@ void MainWindow::explicitControlSelected(float slf, float srf, float slr, float 
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }
 
+void MainWindow::ICRControlSelected(QPointF ICR, float velocity)
+{
+    this->ICR = ICR;
+    this->ICRVelocity = velocity;
+    this->allWheelControlType = lunabotics::AllWheelControl::ICR;
+    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
+}
+
 void MainWindow::on_allWheelControlButton_clicked()
 {
     if (!this->allWheelPanel) {
@@ -784,10 +807,17 @@ void MainWindow::on_allWheelControlButton_clicked()
         this->allWheelPanel = new AllWheelForm();
         connect(this->allWheelPanel, SIGNAL(predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType)), this, SLOT(predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType)));
         connect(this->allWheelPanel, SIGNAL(explicitControlSelected(float,float,float,float,float,float,float,float)), this, SLOT(explicitControlSelected(float,float,float,float,float,float,float,float)));
+        connect(this->allWheelPanel, SIGNAL(ICRControlSelected(QPointF,float)), this, SLOT(ICRControlSelected(QPointF,float)));
         connect(this->allWheelPanel, SIGNAL(closing()), this, SLOT(nullifyAllWheelPanel()));
         connect(this, SIGNAL(allWheelStateUpdated(float,float,float,float,float,float,float,float)), this->allWheelPanel, SLOT(allWheelStateUpdated(float,float,float,float,float,float,float,float)));
+        connect(this, SIGNAL(ICRUpdated(QPointF)), this->allWheelPanel, SLOT(ICRUpdated(QPointF)));
+        connect(this, SIGNAL(jointPositionsUpdated(QPointF,QPointF,QPointF,QPointF)), this->allWheelPanel, SLOT(updateJoints(QPointF,QPointF,QPointF,QPointF)));
 
         this->allWheelPanel->show();
+
+        if (this->jointPositionsAcquired) {
+            emit jointPositionsUpdated(this->leftFrontJoint, this->rightFrontJoint, this->leftRearJoint, this->rightRearJoint);
+        }
     }
     else {
         qDebug() << "Bringing ALl Wheel Panel to front";

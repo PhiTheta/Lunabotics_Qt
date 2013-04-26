@@ -93,7 +93,7 @@
        <x>570</x>
        <y>10</y>
        <width>451</width>
-       <height>541</height>
+       <height>641</height>
       </rect>
      </property>
      <widget class="QTableView" name="pathTableView">
@@ -296,10 +296,10 @@
      <widget class="QGraphicsView" name="localFrameView">
       <property name="geometry">
        <rect>
-        <x>310</x>
-        <y>420</y>
-        <width>161</width>
-        <height>81</height>
+        <x>30</x>
+        <y>450</y>
+        <width>371</width>
+        <height>91</height>
        </rect>
       </property>
       <property name="cursor" stdset="0">
@@ -1404,76 +1404,6 @@
        <string>All-wheel control panel</string>
       </property>
      </widget>
-     <zorder>driveTitleLabel</zorder>
-     <zorder>driveForwardLabel</zorder>
-     <zorder>driveRightLabel</zorder>
-     <zorder>autonomyButton</zorder>
-     <zorder>controlModesTabs</zorder>
-     <zorder>resendParamsButton</zorder>
-     <zorder>driveBackLabel</zorder>
-     <zorder>driveLeftLabel</zorder>
-     <zorder>controlModesTitleLabel</zorder>
-     <zorder>label_2</zorder>
-     <zorder>leftButton</zorder>
-     <zorder>lrSteeringEdit</zorder>
-     <zorder>rrDrivingEdit</zorder>
-     <zorder>rrSteeringEdit</zorder>
-     <zorder>label</zorder>
-     <zorder>turnLeftButton</zorder>
-     <zorder>label_3</zorder>
-     <zorder>forwardButton</zorder>
-     <zorder>lrDrivingEdit</zorder>
-     <zorder>turnRightButton</zorder>
-     <zorder>allWheelButton</zorder>
-     <zorder>lfDrivingEdit</zorder>
-     <zorder>label_4</zorder>
-     <zorder>rfSteeringEdit</zorder>
-     <zorder>backwardButton</zorder>
-     <zorder>lfSteeringEdit</zorder>
-     <zorder>rightButton</zorder>
-     <zorder>rfDrivingEdit</zorder>
-     <zorder>stopButton</zorder>
-     <zorder>label_2</zorder>
-     <zorder>leftButton</zorder>
-     <zorder>lrSteeringEdit</zorder>
-     <zorder>rrDrivingEdit</zorder>
-     <zorder>rrSteeringEdit</zorder>
-     <zorder>label</zorder>
-     <zorder>turnLeftButton</zorder>
-     <zorder>label_3</zorder>
-     <zorder>forwardButton</zorder>
-     <zorder>lrDrivingEdit</zorder>
-     <zorder>turnRightButton</zorder>
-     <zorder>allWheelButton</zorder>
-     <zorder>lfDrivingEdit</zorder>
-     <zorder>label_4</zorder>
-     <zorder>rfSteeringEdit</zorder>
-     <zorder>backwardButton</zorder>
-     <zorder>lfSteeringEdit</zorder>
-     <zorder>rightButton</zorder>
-     <zorder>rfDrivingEdit</zorder>
-     <zorder>stopButton</zorder>
-     <zorder>label_2</zorder>
-     <zorder>leftButton</zorder>
-     <zorder>lrSteeringEdit</zorder>
-     <zorder>rrDrivingEdit</zorder>
-     <zorder>rrSteeringEdit</zorder>
-     <zorder>label</zorder>
-     <zorder>turnLeftButton</zorder>
-     <zorder>label_3</zorder>
-     <zorder>forwardButton</zorder>
-     <zorder>lrDrivingEdit</zorder>
-     <zorder>turnRightButton</zorder>
-     <zorder>allWheelButton</zorder>
-     <zorder>lfDrivingEdit</zorder>
-     <zorder>label_4</zorder>
-     <zorder>rfSteeringEdit</zorder>
-     <zorder>backwardButton</zorder>
-     <zorder>lfSteeringEdit</zorder>
-     <zorder>rightButton</zorder>
-     <zorder>rfDrivingEdit</zorder>
-     <zorder>stopButton</zorder>
-     <zorder>allWheelControlButton</zorder>
     </widget>
    </widget>
    <zorder>mainWidget</zorder>

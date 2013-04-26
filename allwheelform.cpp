@@ -5,8 +5,6 @@
 
 #define WHEEL_W 10
 #define WHEEL_H 20
-#define LEFT_WHEEL_ORIG   -50
-#define TOP_WHEEL_ORIG    -60
 #define OFFSET  30
 #define THICKNESS   20
 
@@ -14,67 +12,15 @@ AllWheelForm::AllWheelForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::AllWheelForm)
 {
+    this->jointPositionsAcquired = false;
     ui->setupUi(this);
     this->robotSketchScene = new QGraphicsScene(this);
     ui->graphicsView->setScene(this->robotSketchScene);
 
-    QPen blackPen(Qt::black);
-    QPen redPen(Qt::red);
-    QBrush blackBrush(Qt::black);
-    QBrush transparentBrush(Qt::transparent);
-    this->robotSketchScene->addLine(0, -10, 0, 10, redPen);
-    this->robotSketchScene->addLine(-10, 0, 10, 0, redPen);
+    this->ICR.setX(0);
+    this->ICR.setY(0);
 
-
-    this->robotSketchScene->addRect(LEFT_WHEEL_ORIG, TOP_WHEEL_ORIG, (-LEFT_WHEEL_ORIG)*2, (-TOP_WHEEL_ORIG)*2, blackPen, transparentBrush);
-    qreal offset = (-TOP_WHEEL_ORIG)*2+OFFSET;
-    this->robotSketchScene->addRect(LEFT_WHEEL_ORIG, (-TOP_WHEEL_ORIG)*2+OFFSET, (-LEFT_WHEEL_ORIG)*2, THICKNESS, blackPen, transparentBrush);
-    this->robotSketchScene->addEllipse(LEFT_WHEEL_ORIG-WHEEL_H/2, offset+THICKNESS/2, WHEEL_H, WHEEL_H, blackPen, transparentBrush);
-    this->robotSketchScene->addEllipse(-LEFT_WHEEL_ORIG-WHEEL_H/2, offset+THICKNESS/2, WHEEL_H, WHEEL_H, blackPen, transparentBrush);
-
-
-    this->leftFrontWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
-    this->rightFrontWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
-    this->leftRearWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
-    this->rightRearWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
-
-    this->leftFrontWheel->setBrush(blackBrush);
-    this->leftFrontWheel->setPen(blackPen);
-    this->rightFrontWheel->setBrush(blackBrush);
-    this->rightFrontWheel->setPen(blackPen);
-    this->leftRearWheel->setBrush(blackBrush);
-    this->leftRearWheel->setPen(blackPen);
-    this->rightRearWheel->setBrush(blackBrush);
-    this->rightRearWheel->setPen(blackPen);
-
-    this->robotSketchScene->addItem(this->leftFrontWheel);
-    this->robotSketchScene->addItem(this->rightFrontWheel);
-    this->robotSketchScene->addItem(this->leftRearWheel);
-    this->robotSketchScene->addItem(this->rightRearWheel);
-
-    this->leftFrontTransform.translate(LEFT_WHEEL_ORIG, TOP_WHEEL_ORIG);
-    this->leftFrontWheel->setTransform(this->leftFrontTransform);
-    this->rightFrontTransform.translate(-LEFT_WHEEL_ORIG, TOP_WHEEL_ORIG);
-    this->rightFrontWheel->setTransform(this->rightFrontTransform);
-    this->leftRearTransform.translate(LEFT_WHEEL_ORIG, -TOP_WHEEL_ORIG);
-    this->leftRearWheel->setTransform(this->leftRearTransform);
-    this->rightRearTransform.translate(-LEFT_WHEEL_ORIG, -TOP_WHEEL_ORIG);
-    this->rightRearWheel->setTransform(this->rightRearTransform);
-
-
-    this->frontWheel = new QGraphicsRectItem(-WHEEL_H/2+5, -WHEEL_H/2+5, WHEEL_H-10, WHEEL_H-10);
-    this->rearWheel = new QGraphicsRectItem(-WHEEL_H/2+5, -WHEEL_H/2+5, WHEEL_H-10, WHEEL_H-10);
-    this->frontWheel->setBrush(blackBrush);
-    this->frontWheel->setPen(redPen);
-    this->rearWheel->setBrush(blackBrush);
-    this->rearWheel->setPen(redPen);
-    this->robotSketchScene->addItem(this->frontWheel);
-    this->robotSketchScene->addItem(this->rearWheel);
-
-    this->frontTransform.translate(-LEFT_WHEEL_ORIG, offset+THICKNESS);
-    this->frontWheel->setTransform(this->frontTransform);
-    this->rearTransform.translate(LEFT_WHEEL_ORIG, offset+THICKNESS);
-    this->rearWheel->setTransform(this->rearTransform);
+    this->createGrphicItems();
 }
 
 AllWheelForm::~AllWheelForm()
@@ -85,27 +31,127 @@ AllWheelForm::~AllWheelForm()
     delete this->robotSketchScene;
 }
 
+void AllWheelForm::createGrphicItems()
+{
+    if (!this->graphicItemsCreated && this->jointPositionsAcquired) {
+
+        QPen blackPen(Qt::black);
+        QPen redPen(Qt::red);
+        QBrush blackBrush(Qt::black);
+        QBrush transparentBrush(Qt::transparent);
+
+        qreal leftTopX = -this->leftFront.y()*100;
+        qreal leftTopY = -this->leftFront.x()*100;
+        qreal rightTopX = -this->rightFront.y()*100;
+        qreal rightTopY = -this->rightFront.x()*100;
+        qreal leftBottomX = -this->leftRear.y()*100;
+        qreal leftBottomY = -this->leftRear.x()*100;
+        qreal rightBottomX = -this->rightRear.y()*100;
+        qreal rightBottomY = -this->rightRear.x()*100;
+
+        qDebug() << "lf " << leftTopX << "," << leftTopY;
+        qDebug() << "rf " << rightTopX << "," << rightTopY;
+        qDebug() << "lr " << leftBottomX << "," << leftBottomY;
+        qDebug() << "rr " << rightBottomX << "," << rightBottomY;
+
+
+        this->baseLink = new QGraphicsRectItem(leftTopX, leftTopY, rightTopX-leftTopX, rightBottomY-rightTopY);
+        this->baseLink->setBrush(transparentBrush);
+        this->baseLink->setPen(blackPen);
+        this->robotSketchScene->addItem(this->baseLink);
+
+        this->verticalICR = new QGraphicsRectItem(0, -10, 1, 20);
+        this->verticalICR->setPen(redPen);
+        this->horizontalICR = new QGraphicsRectItem(-10, 0, 20, 1);
+        this->horizontalICR->setPen(redPen);
+        this->robotSketchScene->addItem(this->horizontalICR);
+        this->robotSketchScene->addItem(this->verticalICR);
+
+        qreal offset = rightBottomY+OFFSET;
+        this->robotSketchScene->addRect(leftTopX, leftBottomY+OFFSET, rightTopX-leftTopX, THICKNESS, blackPen, transparentBrush);
+        this->robotSketchScene->addEllipse(leftTopX-WHEEL_H/2, offset+THICKNESS/2, WHEEL_H, WHEEL_H, blackPen, transparentBrush);
+        this->robotSketchScene->addEllipse(rightBottomX-WHEEL_H/2, offset+THICKNESS/2, WHEEL_H, WHEEL_H, blackPen, transparentBrush);
+
+
+        this->leftFrontWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
+        this->rightFrontWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
+        this->leftRearWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
+        this->rightRearWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
+
+        this->leftFrontWheel->setBrush(blackBrush);
+        this->leftFrontWheel->setPen(blackPen);
+        this->rightFrontWheel->setBrush(blackBrush);
+        this->rightFrontWheel->setPen(blackPen);
+        this->leftRearWheel->setBrush(blackBrush);
+        this->leftRearWheel->setPen(blackPen);
+        this->rightRearWheel->setBrush(blackBrush);
+        this->rightRearWheel->setPen(blackPen);
+
+        this->robotSketchScene->addItem(this->leftFrontWheel);
+        this->robotSketchScene->addItem(this->rightFrontWheel);
+        this->robotSketchScene->addItem(this->leftRearWheel);
+        this->robotSketchScene->addItem(this->rightRearWheel);
+
+        this->leftFrontTransform.translate(leftTopX, leftTopY);
+        this->leftFrontWheel->setTransform(this->leftFrontTransform);
+        this->rightFrontTransform.translate(rightTopX, rightTopY);
+        this->rightFrontWheel->setTransform(this->rightFrontTransform);
+        this->leftRearTransform.translate(leftBottomX, leftBottomY);
+        this->leftRearWheel->setTransform(this->leftRearTransform);
+        this->rightRearTransform.translate(rightBottomX, rightBottomY);
+        this->rightRearWheel->setTransform(this->rightRearTransform);
+
+
+        this->frontWheel = new QGraphicsRectItem(-WHEEL_H/2+5, -WHEEL_H/2+5, WHEEL_H-10, WHEEL_H-10);
+        this->rearWheel = new QGraphicsRectItem(-WHEEL_H/2+5, -WHEEL_H/2+5, WHEEL_H-10, WHEEL_H-10);
+        this->frontWheel->setBrush(blackBrush);
+        this->frontWheel->setPen(redPen);
+        this->rearWheel->setBrush(blackBrush);
+        this->rearWheel->setPen(redPen);
+        this->robotSketchScene->addItem(this->frontWheel);
+        this->robotSketchScene->addItem(this->rearWheel);
+
+        this->frontTransform.translate(rightBottomX, offset+THICKNESS);
+        this->frontWheel->setTransform(this->frontTransform);
+        this->rearTransform.translate(leftBottomX, offset+THICKNESS);
+        this->rearWheel->setTransform(this->rearTransform);
+
+        this->graphicItemsCreated = true;
+    }
+}
+
 void AllWheelForm::redrawSketch()
 {
-    QTransform t;
-    t = this->leftFrontTransform;
-    t.rotateRadians(-slf);
-    this->leftFrontWheel->setTransform(t);
-    t = this->rightFrontTransform;
-    t.rotateRadians(-srf);
-    this->rightFrontWheel->setTransform(t);
-    t = this->leftRearTransform;
-    t.rotateRadians(-slr);
-    this->leftRearWheel->setTransform(t);
-    t = this->rightRearTransform;
-    t.rotateRadians(-srr);
-    this->rightRearWheel->setTransform(t);
-    t = this->frontWheel->transform();
-    t.rotateRadians(dlf);
-    this->frontWheel->setTransform(t);
-    t = this->rearWheel->transform();
-    t.rotateRadians(-dlr);
-    this->rearWheel->setTransform(t);
+    if (!this->graphicItemsCreated) {
+        this->createGrphicItems();
+    }
+    else {
+        QTransform t;
+        t = this->leftFrontTransform;
+        t.rotateRadians(-slf);
+        this->leftFrontWheel->setTransform(t);
+        t = this->rightFrontTransform;
+        t.rotateRadians(-srf);
+        this->rightFrontWheel->setTransform(t);
+        t = this->leftRearTransform;
+        t.rotateRadians(-slr);
+        this->leftRearWheel->setTransform(t);
+        t = this->rightRearTransform;
+        t.rotateRadians(-srr);
+        this->rightRearWheel->setTransform(t);
+        t = this->frontWheel->transform();
+        t.rotateRadians(dlf);
+        this->frontWheel->setTransform(t);
+        t = this->rearWheel->transform();
+        t.rotateRadians(-dlr);
+        this->rearWheel->setTransform(t);
+        t.reset();
+        qreal x = this->ICR.x()*100;
+        qreal y = this->ICR.y()*-100;
+        t.translate(x,y);
+        this->verticalICR->setTransform(t);
+        this->horizontalICR->setTransform(t);
+    }
 }
 
 void AllWheelForm::on_allWheelButton_clicked()
@@ -187,5 +233,26 @@ void AllWheelForm::allWheelStateUpdated(float slf, float srf, float slr, float s
     this->drf = drf;
     this->dlr = dlr;
     this->drr = drr;
+    this->redrawSketch();
+}
+
+void AllWheelForm::ICRUpdated(QPointF ICR) {
+    this->ICR = ICR;
+    ui->ICRLabel->setText(QString("%1,%2 m").arg(QString::number(ICR.x(), 'f', 2)).arg(QString::number(ICR.y(), 'f', 2)));
+    this->redrawSketch();
+}
+
+void AllWheelForm::on_sendICRButton_clicked()
+{
+    emit ICRControlSelected(QPointF(ui->ICRXEdit->text().toFloat(), ui->ICRYEdit->text().toFloat()), ui->velocityEdit->text().toFloat());
+}
+
+void AllWheelForm::updateJoints(QPointF leftFront, QPointF rightFront, QPointF leftRear, QPointF rightRear)
+{
+    this->leftFront = leftFront;
+    this->leftRear = leftRear;
+    this->rightFront = rightFront;
+    this->rightRear = rightRear;
+    this->jointPositionsAcquired = true;
     this->redrawSketch();
 }

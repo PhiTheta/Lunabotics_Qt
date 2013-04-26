@@ -26,6 +26,9 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* AllWheelControl_PredefinedControl_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   AllWheelControl_PredefinedControl_reflection_ = NULL;
+const ::google::protobuf::Descriptor* AllWheelControl_ICRControl_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  AllWheelControl_ICRControl_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* AllWheelControl_AllWheelControlType_descriptor_ = NULL;
 const ::google::protobuf::EnumDescriptor* AllWheelControl_PredefinedControlType_descriptor_ = NULL;
 
@@ -39,10 +42,11 @@ void protobuf_AssignDesc_AllWheelControl_2eproto() {
       "AllWheelControl.proto");
   GOOGLE_CHECK(file != NULL);
   AllWheelControl_descriptor_ = file->message_type(0);
-  static const int AllWheelControl_offsets_[3] = {
+  static const int AllWheelControl_offsets_[4] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl, all_wheel_type_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl, explicit_data_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl, predefined_data_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl, icr_data_),
   };
   AllWheelControl_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -70,6 +74,22 @@ void protobuf_AssignDesc_AllWheelControl_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(AllWheelControl_PredefinedControl));
+  AllWheelControl_ICRControl_descriptor_ = AllWheelControl_descriptor_->nested_type(1);
+  static const int AllWheelControl_ICRControl_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_ICRControl, icr_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_ICRControl, velocity_),
+  };
+  AllWheelControl_ICRControl_reflection_ =
+    new ::google::protobuf::internal::GeneratedMessageReflection(
+      AllWheelControl_ICRControl_descriptor_,
+      AllWheelControl_ICRControl::default_instance_,
+      AllWheelControl_ICRControl_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_ICRControl, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AllWheelControl_ICRControl, _unknown_fields_),
+      -1,
+      ::google::protobuf::DescriptorPool::generated_pool(),
+      ::google::protobuf::MessageFactory::generated_factory(),
+      sizeof(AllWheelControl_ICRControl));
   AllWheelControl_AllWheelControlType_descriptor_ = AllWheelControl_descriptor_->enum_type(0);
   AllWheelControl_PredefinedControlType_descriptor_ = AllWheelControl_descriptor_->enum_type(1);
 }
@@ -88,6 +108,8 @@ void protobuf_RegisterTypes(const ::std::string&) {
     AllWheelControl_descriptor_, &AllWheelControl::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     AllWheelControl_PredefinedControl_descriptor_, &AllWheelControl_PredefinedControl::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+    AllWheelControl_ICRControl_descriptor_, &AllWheelControl_ICRControl::default_instance());
 }
 
 }  // namespace
@@ -97,6 +119,8 @@ void protobuf_ShutdownFile_AllWheelControl_2eproto() {
   delete AllWheelControl_reflection_;
   delete AllWheelControl_PredefinedControl::default_instance_;
   delete AllWheelControl_PredefinedControl_reflection_;
+  delete AllWheelControl_ICRControl::default_instance_;
+  delete AllWheelControl_ICRControl_reflection_;
 }
 
 void protobuf_AddDesc_AllWheelControl_2eproto() {
@@ -106,27 +130,33 @@ void protobuf_AddDesc_AllWheelControl_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::lunabotics::protobuf_AddDesc_AllWheelState_2eproto();
+  ::lunabotics::protobuf_AddDesc_Point_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\025AllWheelControl.proto\022\nlunabotics\032\023All"
-    "WheelState.proto\"\334\003\n\017AllWheelControl\022G\n\016"
-    "all_wheel_type\030\001 \002(\0162/.lunabotics.AllWhe"
-    "elControl.AllWheelControlType\0220\n\rexplici"
-    "t_data\030\002 \001(\0132\031.lunabotics.AllWheelState\022"
-    "F\n\017predefined_data\030\003 \001(\0132-.lunabotics.Al"
-    "lWheelControl.PredefinedControl\032W\n\021Prede"
-    "finedControl\022B\n\007command\030\001 \002(\01621.lunaboti"
-    "cs.AllWheelControl.PredefinedControlType"
-    "\"3\n\023AllWheelControlType\022\014\n\010EXPLICIT\020\001\022\016\n"
-    "\nPREDEFINED\020\002\"x\n\025PredefinedControlType\022\021"
-    "\n\rDRIVE_FORWARD\020\001\022\022\n\016DRIVE_BACKWARD\020\002\022\r\n"
-    "\tCRAB_LEFT\020\003\022\016\n\nCRAB_RIGHT\020\004\022\013\n\007TURN_CW\020"
-    "\005\022\014\n\010TURN_CCW\020\006", 535);
+    "WheelState.proto\032\013Point.proto\"\337\004\n\017AllWhe"
+    "elControl\022G\n\016all_wheel_type\030\001 \002(\0162/.luna"
+    "botics.AllWheelControl.AllWheelControlTy"
+    "pe\0220\n\rexplicit_data\030\002 \001(\0132\031.lunabotics.A"
+    "llWheelState\022F\n\017predefined_data\030\003 \001(\0132-."
+    "lunabotics.AllWheelControl.PredefinedCon"
+    "trol\0228\n\010icr_data\030\004 \001(\0132&.lunabotics.AllW"
+    "heelControl.ICRControl\032W\n\021PredefinedCont"
+    "rol\022B\n\007command\030\001 \002(\01621.lunabotics.AllWhe"
+    "elControl.PredefinedControlType\032>\n\nICRCo"
+    "ntrol\022\036\n\003icr\030\001 \002(\0132\021.lunabotics.Point\022\020\n"
+    "\010velocity\030\002 \002(\002\"<\n\023AllWheelControlType\022\014"
+    "\n\010EXPLICIT\020\001\022\016\n\nPREDEFINED\020\002\022\007\n\003ICR\020\003\"x\n"
+    "\025PredefinedControlType\022\021\n\rDRIVE_FORWARD\020"
+    "\001\022\022\n\016DRIVE_BACKWARD\020\002\022\r\n\tCRAB_LEFT\020\003\022\016\n\n"
+    "CRAB_RIGHT\020\004\022\013\n\007TURN_CW\020\005\022\014\n\010TURN_CCW\020\006", 679);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "AllWheelControl.proto", &protobuf_RegisterTypes);
   AllWheelControl::default_instance_ = new AllWheelControl();
   AllWheelControl_PredefinedControl::default_instance_ = new AllWheelControl_PredefinedControl();
+  AllWheelControl_ICRControl::default_instance_ = new AllWheelControl_ICRControl();
   AllWheelControl::default_instance_->InitAsDefaultInstance();
   AllWheelControl_PredefinedControl::default_instance_->InitAsDefaultInstance();
+  AllWheelControl_ICRControl::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_AllWheelControl_2eproto);
 }
 
@@ -147,6 +177,7 @@ bool AllWheelControl_AllWheelControlType_IsValid(int value) {
   switch(value) {
     case 1:
     case 2:
+    case 3:
       return true;
     default:
       return false;
@@ -156,6 +187,7 @@ bool AllWheelControl_AllWheelControlType_IsValid(int value) {
 #ifndef _MSC_VER
 const AllWheelControl_AllWheelControlType AllWheelControl::EXPLICIT;
 const AllWheelControl_AllWheelControlType AllWheelControl::PREDEFINED;
+const AllWheelControl_AllWheelControlType AllWheelControl::ICR;
 const AllWheelControl_AllWheelControlType AllWheelControl::AllWheelControlType_MIN;
 const AllWheelControl_AllWheelControlType AllWheelControl::AllWheelControlType_MAX;
 const int AllWheelControl::AllWheelControlType_ARRAYSIZE;
@@ -405,9 +437,265 @@ void AllWheelControl_PredefinedControl::Swap(AllWheelControl_PredefinedControl* 
 // -------------------------------------------------------------------
 
 #ifndef _MSC_VER
+const int AllWheelControl_ICRControl::kIcrFieldNumber;
+const int AllWheelControl_ICRControl::kVelocityFieldNumber;
+#endif  // !_MSC_VER
+
+AllWheelControl_ICRControl::AllWheelControl_ICRControl()
+  : ::google::protobuf::Message() {
+  SharedCtor();
+}
+
+void AllWheelControl_ICRControl::InitAsDefaultInstance() {
+  icr_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
+}
+
+AllWheelControl_ICRControl::AllWheelControl_ICRControl(const AllWheelControl_ICRControl& from)
+  : ::google::protobuf::Message() {
+  SharedCtor();
+  MergeFrom(from);
+}
+
+void AllWheelControl_ICRControl::SharedCtor() {
+  _cached_size_ = 0;
+  icr_ = NULL;
+  velocity_ = 0;
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+}
+
+AllWheelControl_ICRControl::~AllWheelControl_ICRControl() {
+  SharedDtor();
+}
+
+void AllWheelControl_ICRControl::SharedDtor() {
+  if (this != default_instance_) {
+    delete icr_;
+  }
+}
+
+void AllWheelControl_ICRControl::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* AllWheelControl_ICRControl::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return AllWheelControl_ICRControl_descriptor_;
+}
+
+const AllWheelControl_ICRControl& AllWheelControl_ICRControl::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_AllWheelControl_2eproto();
+  return *default_instance_;
+}
+
+AllWheelControl_ICRControl* AllWheelControl_ICRControl::default_instance_ = NULL;
+
+AllWheelControl_ICRControl* AllWheelControl_ICRControl::New() const {
+  return new AllWheelControl_ICRControl;
+}
+
+void AllWheelControl_ICRControl::Clear() {
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (has_icr()) {
+      if (icr_ != NULL) icr_->::lunabotics::Point::Clear();
+    }
+    velocity_ = 0;
+  }
+  ::memset(_has_bits_, 0, sizeof(_has_bits_));
+  mutable_unknown_fields()->Clear();
+}
+
+bool AllWheelControl_ICRControl::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+  ::google::protobuf::uint32 tag;
+  while ((tag = input->ReadTag()) != 0) {
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // required .lunabotics.Point icr = 1;
+      case 1: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_icr()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(21)) goto parse_velocity;
+        break;
+      }
+
+      // required float velocity = 2;
+      case 2: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_velocity:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &velocity_)));
+          set_has_velocity();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectAtEnd()) return true;
+        break;
+      }
+
+      default: {
+      handle_uninterpreted:
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          return true;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+  return true;
+#undef DO_
+}
+
+void AllWheelControl_ICRControl::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // required .lunabotics.Point icr = 1;
+  if (has_icr()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      1, this->icr(), output);
+  }
+
+  // required float velocity = 2;
+  if (has_velocity()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->velocity(), output);
+  }
+
+  if (!unknown_fields().empty()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        unknown_fields(), output);
+  }
+}
+
+::google::protobuf::uint8* AllWheelControl_ICRControl::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // required .lunabotics.Point icr = 1;
+  if (has_icr()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        1, this->icr(), target);
+  }
+
+  // required float velocity = 2;
+  if (has_velocity()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->velocity(), target);
+  }
+
+  if (!unknown_fields().empty()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        unknown_fields(), target);
+  }
+  return target;
+}
+
+int AllWheelControl_ICRControl::ByteSize() const {
+  int total_size = 0;
+
+  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    // required .lunabotics.Point icr = 1;
+    if (has_icr()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->icr());
+    }
+
+    // required float velocity = 2;
+    if (has_velocity()) {
+      total_size += 1 + 4;
+    }
+
+  }
+  if (!unknown_fields().empty()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        unknown_fields());
+  }
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void AllWheelControl_ICRControl::MergeFrom(const ::google::protobuf::Message& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  const AllWheelControl_ICRControl* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const AllWheelControl_ICRControl*>(
+      &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void AllWheelControl_ICRControl::MergeFrom(const AllWheelControl_ICRControl& from) {
+  GOOGLE_CHECK_NE(&from, this);
+  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+    if (from.has_icr()) {
+      mutable_icr()->::lunabotics::Point::MergeFrom(from.icr());
+    }
+    if (from.has_velocity()) {
+      set_velocity(from.velocity());
+    }
+  }
+  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+}
+
+void AllWheelControl_ICRControl::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void AllWheelControl_ICRControl::CopyFrom(const AllWheelControl_ICRControl& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AllWheelControl_ICRControl::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+
+  if (has_icr()) {
+    if (!this->icr().IsInitialized()) return false;
+  }
+  return true;
+}
+
+void AllWheelControl_ICRControl::Swap(AllWheelControl_ICRControl* other) {
+  if (other != this) {
+    std::swap(icr_, other->icr_);
+    std::swap(velocity_, other->velocity_);
+    std::swap(_has_bits_[0], other->_has_bits_[0]);
+    _unknown_fields_.Swap(&other->_unknown_fields_);
+    std::swap(_cached_size_, other->_cached_size_);
+  }
+}
+
+::google::protobuf::Metadata AllWheelControl_ICRControl::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = AllWheelControl_ICRControl_descriptor_;
+  metadata.reflection = AllWheelControl_ICRControl_reflection_;
+  return metadata;
+}
+
+
+// -------------------------------------------------------------------
+
+#ifndef _MSC_VER
 const int AllWheelControl::kAllWheelTypeFieldNumber;
 const int AllWheelControl::kExplicitDataFieldNumber;
 const int AllWheelControl::kPredefinedDataFieldNumber;
+const int AllWheelControl::kIcrDataFieldNumber;
 #endif  // !_MSC_VER
 
 AllWheelControl::AllWheelControl()
@@ -418,6 +706,7 @@ AllWheelControl::AllWheelControl()
 void AllWheelControl::InitAsDefaultInstance() {
   explicit_data_ = const_cast< ::lunabotics::AllWheelState*>(&::lunabotics::AllWheelState::default_instance());
   predefined_data_ = const_cast< ::lunabotics::AllWheelControl_PredefinedControl*>(&::lunabotics::AllWheelControl_PredefinedControl::default_instance());
+  icr_data_ = const_cast< ::lunabotics::AllWheelControl_ICRControl*>(&::lunabotics::AllWheelControl_ICRControl::default_instance());
 }
 
 AllWheelControl::AllWheelControl(const AllWheelControl& from)
@@ -431,6 +720,7 @@ void AllWheelControl::SharedCtor() {
   all_wheel_type_ = 1;
   explicit_data_ = NULL;
   predefined_data_ = NULL;
+  icr_data_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -442,6 +732,7 @@ void AllWheelControl::SharedDtor() {
   if (this != default_instance_) {
     delete explicit_data_;
     delete predefined_data_;
+    delete icr_data_;
   }
 }
 
@@ -474,6 +765,9 @@ void AllWheelControl::Clear() {
     }
     if (has_predefined_data()) {
       if (predefined_data_ != NULL) predefined_data_->::lunabotics::AllWheelControl_PredefinedControl::Clear();
+    }
+    if (has_icr_data()) {
+      if (icr_data_ != NULL) icr_data_->::lunabotics::AllWheelControl_ICRControl::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -530,6 +824,20 @@ bool AllWheelControl::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
+        if (input->ExpectTag(34)) goto parse_icr_data;
+        break;
+      }
+
+      // optional .lunabotics.AllWheelControl.ICRControl icr_data = 4;
+      case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_icr_data:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_icr_data()));
+        } else {
+          goto handle_uninterpreted;
+        }
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -570,6 +878,12 @@ void AllWheelControl::SerializeWithCachedSizes(
       3, this->predefined_data(), output);
   }
 
+  // optional .lunabotics.AllWheelControl.ICRControl icr_data = 4;
+  if (has_icr_data()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      4, this->icr_data(), output);
+  }
+
   if (!unknown_fields().empty()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
@@ -596,6 +910,13 @@ void AllWheelControl::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         3, this->predefined_data(), target);
+  }
+
+  // optional .lunabotics.AllWheelControl.ICRControl icr_data = 4;
+  if (has_icr_data()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        4, this->icr_data(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -627,6 +948,13 @@ int AllWheelControl::ByteSize() const {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->predefined_data());
+    }
+
+    // optional .lunabotics.AllWheelControl.ICRControl icr_data = 4;
+    if (has_icr_data()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->icr_data());
     }
 
   }
@@ -665,6 +993,9 @@ void AllWheelControl::MergeFrom(const AllWheelControl& from) {
     if (from.has_predefined_data()) {
       mutable_predefined_data()->::lunabotics::AllWheelControl_PredefinedControl::MergeFrom(from.predefined_data());
     }
+    if (from.has_icr_data()) {
+      mutable_icr_data()->::lunabotics::AllWheelControl_ICRControl::MergeFrom(from.icr_data());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -690,6 +1021,9 @@ bool AllWheelControl::IsInitialized() const {
   if (has_predefined_data()) {
     if (!this->predefined_data().IsInitialized()) return false;
   }
+  if (has_icr_data()) {
+    if (!this->icr_data().IsInitialized()) return false;
+  }
   return true;
 }
 
@@ -698,6 +1032,7 @@ void AllWheelControl::Swap(AllWheelControl* other) {
     std::swap(all_wheel_type_, other->all_wheel_type_);
     std::swap(explicit_data_, other->explicit_data_);
     std::swap(predefined_data_, other->predefined_data_);
+    std::swap(icr_data_, other->icr_data_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

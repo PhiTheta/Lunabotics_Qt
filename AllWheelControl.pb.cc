@@ -133,7 +133,7 @@ void protobuf_AddDesc_AllWheelControl_2eproto() {
   ::lunabotics::protobuf_AddDesc_Point_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\025AllWheelControl.proto\022\nlunabotics\032\023All"
-    "WheelState.proto\032\013Point.proto\"\337\004\n\017AllWhe"
+    "WheelState.proto\032\013Point.proto\"\352\004\n\017AllWhe"
     "elControl\022G\n\016all_wheel_type\030\001 \002(\0162/.luna"
     "botics.AllWheelControl.AllWheelControlTy"
     "pe\0220\n\rexplicit_data\030\002 \001(\0132\031.lunabotics.A"
@@ -145,10 +145,11 @@ void protobuf_AddDesc_AllWheelControl_2eproto() {
     "elControl.PredefinedControlType\032>\n\nICRCo"
     "ntrol\022\036\n\003icr\030\001 \002(\0132\021.lunabotics.Point\022\020\n"
     "\010velocity\030\002 \002(\002\"<\n\023AllWheelControlType\022\014"
-    "\n\010EXPLICIT\020\001\022\016\n\nPREDEFINED\020\002\022\007\n\003ICR\020\003\"x\n"
-    "\025PredefinedControlType\022\021\n\rDRIVE_FORWARD\020"
-    "\001\022\022\n\016DRIVE_BACKWARD\020\002\022\r\n\tCRAB_LEFT\020\003\022\016\n\n"
-    "CRAB_RIGHT\020\004\022\013\n\007TURN_CW\020\005\022\014\n\010TURN_CCW\020\006", 679);
+    "\n\010EXPLICIT\020\001\022\016\n\nPREDEFINED\020\002\022\007\n\003ICR\020\003\"\202\001"
+    "\n\025PredefinedControlType\022\021\n\rDRIVE_FORWARD"
+    "\020\001\022\022\n\016DRIVE_BACKWARD\020\002\022\r\n\tCRAB_LEFT\020\003\022\016\n"
+    "\nCRAB_RIGHT\020\004\022\013\n\007TURN_CW\020\005\022\014\n\010TURN_CCW\020\006"
+    "\022\010\n\004STOP\020\007", 690);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "AllWheelControl.proto", &protobuf_RegisterTypes);
   AllWheelControl::default_instance_ = new AllWheelControl();
@@ -204,6 +205,7 @@ bool AllWheelControl_PredefinedControlType_IsValid(int value) {
     case 4:
     case 5:
     case 6:
+    case 7:
       return true;
     default:
       return false;
@@ -217,6 +219,7 @@ const AllWheelControl_PredefinedControlType AllWheelControl::CRAB_LEFT;
 const AllWheelControl_PredefinedControlType AllWheelControl::CRAB_RIGHT;
 const AllWheelControl_PredefinedControlType AllWheelControl::TURN_CW;
 const AllWheelControl_PredefinedControlType AllWheelControl::TURN_CCW;
+const AllWheelControl_PredefinedControlType AllWheelControl::STOP;
 const AllWheelControl_PredefinedControlType AllWheelControl::PredefinedControlType_MIN;
 const AllWheelControl_PredefinedControlType AllWheelControl::PredefinedControlType_MAX;
 const int AllWheelControl::PredefinedControlType_ARRAYSIZE;

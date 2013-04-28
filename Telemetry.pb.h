@@ -23,6 +23,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "SteeringModeType.pb.h"
 #include "Point.pb.h"
@@ -40,11 +41,32 @@ void protobuf_ShutdownFile_Telemetry_2eproto();
 class Telemetry;
 class Telemetry_State;
 class Telemetry_State_AckermannTelemetry;
+class Telemetry_State_PointTurnTelemetry;
 class Telemetry_World;
 class Telemetry_Path;
 class Telemetry_LaserScan;
 class Telemetry_JointPositions;
 
+enum Telemetry_PointTurnState {
+  Telemetry_PointTurnState_STOPPED = 1,
+  Telemetry_PointTurnState_DRIVING = 2,
+  Telemetry_PointTurnState_TURNING = 3
+};
+bool Telemetry_PointTurnState_IsValid(int value);
+const Telemetry_PointTurnState Telemetry_PointTurnState_PointTurnState_MIN = Telemetry_PointTurnState_STOPPED;
+const Telemetry_PointTurnState Telemetry_PointTurnState_PointTurnState_MAX = Telemetry_PointTurnState_TURNING;
+const int Telemetry_PointTurnState_PointTurnState_ARRAYSIZE = Telemetry_PointTurnState_PointTurnState_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Telemetry_PointTurnState_descriptor();
+inline const ::std::string& Telemetry_PointTurnState_Name(Telemetry_PointTurnState value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Telemetry_PointTurnState_descriptor(), value);
+}
+inline bool Telemetry_PointTurnState_Parse(
+    const ::std::string& name, Telemetry_PointTurnState* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Telemetry_PointTurnState>(
+    Telemetry_PointTurnState_descriptor(), name, value);
+}
 // ===================================================================
 
 class Telemetry_State_AckermannTelemetry : public ::google::protobuf::Message {
@@ -177,6 +199,88 @@ class Telemetry_State_AckermannTelemetry : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
+class Telemetry_State_PointTurnTelemetry : public ::google::protobuf::Message {
+ public:
+  Telemetry_State_PointTurnTelemetry();
+  virtual ~Telemetry_State_PointTurnTelemetry();
+
+  Telemetry_State_PointTurnTelemetry(const Telemetry_State_PointTurnTelemetry& from);
+
+  inline Telemetry_State_PointTurnTelemetry& operator=(const Telemetry_State_PointTurnTelemetry& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Telemetry_State_PointTurnTelemetry& default_instance();
+
+  void Swap(Telemetry_State_PointTurnTelemetry* other);
+
+  // implements Message ----------------------------------------------
+
+  Telemetry_State_PointTurnTelemetry* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Telemetry_State_PointTurnTelemetry& from);
+  void MergeFrom(const Telemetry_State_PointTurnTelemetry& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required .lunabotics.Telemetry.PointTurnState state = 1;
+  inline bool has_state() const;
+  inline void clear_state();
+  static const int kStateFieldNumber = 1;
+  inline ::lunabotics::Telemetry_PointTurnState state() const;
+  inline void set_state(::lunabotics::Telemetry_PointTurnState value);
+
+  // @@protoc_insertion_point(class_scope:lunabotics.Telemetry.State.PointTurnTelemetry)
+ private:
+  inline void set_has_state();
+  inline void clear_has_state();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  int state_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  friend void  protobuf_AddDesc_Telemetry_2eproto();
+  friend void protobuf_AssignDesc_Telemetry_2eproto();
+  friend void protobuf_ShutdownFile_Telemetry_2eproto();
+
+  void InitAsDefaultInstance();
+  static Telemetry_State_PointTurnTelemetry* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class Telemetry_State : public ::google::protobuf::Message {
  public:
   Telemetry_State();
@@ -230,6 +334,7 @@ class Telemetry_State : public ::google::protobuf::Message {
   // nested types ----------------------------------------------------
 
   typedef Telemetry_State_AckermannTelemetry AckermannTelemetry;
+  typedef Telemetry_State_PointTurnTelemetry PointTurnTelemetry;
 
   // accessors -------------------------------------------------------
 
@@ -297,6 +402,15 @@ class Telemetry_State : public ::google::protobuf::Message {
   inline ::lunabotics::Telemetry_State_AckermannTelemetry* release_ackermann_telemetry();
   inline void set_allocated_ackermann_telemetry(::lunabotics::Telemetry_State_AckermannTelemetry* ackermann_telemetry);
 
+  // optional .lunabotics.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
+  inline bool has_point_turn_telemetry() const;
+  inline void clear_point_turn_telemetry();
+  static const int kPointTurnTelemetryFieldNumber = 9;
+  inline const ::lunabotics::Telemetry_State_PointTurnTelemetry& point_turn_telemetry() const;
+  inline ::lunabotics::Telemetry_State_PointTurnTelemetry* mutable_point_turn_telemetry();
+  inline ::lunabotics::Telemetry_State_PointTurnTelemetry* release_point_turn_telemetry();
+  inline void set_allocated_point_turn_telemetry(::lunabotics::Telemetry_State_PointTurnTelemetry* point_turn_telemetry);
+
   // @@protoc_insertion_point(class_scope:lunabotics.Telemetry.State)
  private:
   inline void set_has_position();
@@ -315,6 +429,8 @@ class Telemetry_State : public ::google::protobuf::Message {
   inline void clear_has_icr();
   inline void set_has_ackermann_telemetry();
   inline void clear_has_ackermann_telemetry();
+  inline void set_has_point_turn_telemetry();
+  inline void clear_has_point_turn_telemetry();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -326,9 +442,10 @@ class Telemetry_State : public ::google::protobuf::Message {
   ::google::protobuf::int32 next_waypoint_idx_;
   ::lunabotics::Point* icr_;
   ::lunabotics::Telemetry_State_AckermannTelemetry* ackermann_telemetry_;
+  ::lunabotics::Telemetry_State_PointTurnTelemetry* point_turn_telemetry_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(8 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telemetry_2eproto();
   friend void protobuf_AssignDesc_Telemetry_2eproto();
@@ -790,6 +907,31 @@ class Telemetry : public ::google::protobuf::Message {
   typedef Telemetry_LaserScan LaserScan;
   typedef Telemetry_JointPositions JointPositions;
 
+  typedef Telemetry_PointTurnState PointTurnState;
+  static const PointTurnState STOPPED = Telemetry_PointTurnState_STOPPED;
+  static const PointTurnState DRIVING = Telemetry_PointTurnState_DRIVING;
+  static const PointTurnState TURNING = Telemetry_PointTurnState_TURNING;
+  static inline bool PointTurnState_IsValid(int value) {
+    return Telemetry_PointTurnState_IsValid(value);
+  }
+  static const PointTurnState PointTurnState_MIN =
+    Telemetry_PointTurnState_PointTurnState_MIN;
+  static const PointTurnState PointTurnState_MAX =
+    Telemetry_PointTurnState_PointTurnState_MAX;
+  static const int PointTurnState_ARRAYSIZE =
+    Telemetry_PointTurnState_PointTurnState_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  PointTurnState_descriptor() {
+    return Telemetry_PointTurnState_descriptor();
+  }
+  static inline const ::std::string& PointTurnState_Name(PointTurnState value) {
+    return Telemetry_PointTurnState_Name(value);
+  }
+  static inline bool PointTurnState_Parse(const ::std::string& name,
+      PointTurnState* value) {
+    return Telemetry_PointTurnState_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
   // optional .lunabotics.Telemetry.State state_data = 2;
@@ -1063,6 +1205,33 @@ inline void Telemetry_State_AckermannTelemetry::set_allocated_velocity_vector_lo
 
 // -------------------------------------------------------------------
 
+// Telemetry_State_PointTurnTelemetry
+
+// required .lunabotics.Telemetry.PointTurnState state = 1;
+inline bool Telemetry_State_PointTurnTelemetry::has_state() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Telemetry_State_PointTurnTelemetry::set_has_state() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Telemetry_State_PointTurnTelemetry::clear_has_state() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Telemetry_State_PointTurnTelemetry::clear_state() {
+  state_ = 1;
+  clear_has_state();
+}
+inline ::lunabotics::Telemetry_PointTurnState Telemetry_State_PointTurnTelemetry::state() const {
+  return static_cast< ::lunabotics::Telemetry_PointTurnState >(state_);
+}
+inline void Telemetry_State_PointTurnTelemetry::set_state(::lunabotics::Telemetry_PointTurnState value) {
+  assert(::lunabotics::Telemetry_PointTurnState_IsValid(value));
+  set_has_state();
+  state_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // Telemetry_State
 
 // required .lunabotics.Point position = 1;
@@ -1303,6 +1472,44 @@ inline void Telemetry_State::set_allocated_ackermann_telemetry(::lunabotics::Tel
     set_has_ackermann_telemetry();
   } else {
     clear_has_ackermann_telemetry();
+  }
+}
+
+// optional .lunabotics.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
+inline bool Telemetry_State::has_point_turn_telemetry() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void Telemetry_State::set_has_point_turn_telemetry() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void Telemetry_State::clear_has_point_turn_telemetry() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void Telemetry_State::clear_point_turn_telemetry() {
+  if (point_turn_telemetry_ != NULL) point_turn_telemetry_->::lunabotics::Telemetry_State_PointTurnTelemetry::Clear();
+  clear_has_point_turn_telemetry();
+}
+inline const ::lunabotics::Telemetry_State_PointTurnTelemetry& Telemetry_State::point_turn_telemetry() const {
+  return point_turn_telemetry_ != NULL ? *point_turn_telemetry_ : *default_instance_->point_turn_telemetry_;
+}
+inline ::lunabotics::Telemetry_State_PointTurnTelemetry* Telemetry_State::mutable_point_turn_telemetry() {
+  set_has_point_turn_telemetry();
+  if (point_turn_telemetry_ == NULL) point_turn_telemetry_ = new ::lunabotics::Telemetry_State_PointTurnTelemetry;
+  return point_turn_telemetry_;
+}
+inline ::lunabotics::Telemetry_State_PointTurnTelemetry* Telemetry_State::release_point_turn_telemetry() {
+  clear_has_point_turn_telemetry();
+  ::lunabotics::Telemetry_State_PointTurnTelemetry* temp = point_turn_telemetry_;
+  point_turn_telemetry_ = NULL;
+  return temp;
+}
+inline void Telemetry_State::set_allocated_point_turn_telemetry(::lunabotics::Telemetry_State_PointTurnTelemetry* point_turn_telemetry) {
+  delete point_turn_telemetry_;
+  point_turn_telemetry_ = point_turn_telemetry;
+  if (point_turn_telemetry) {
+    set_has_point_turn_telemetry();
+  } else {
+    clear_has_point_turn_telemetry();
   }
 }
 
@@ -1831,6 +2038,10 @@ inline void Telemetry::set_allocated_joints_data(::lunabotics::Telemetry_JointPo
 namespace google {
 namespace protobuf {
 
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::Telemetry_PointTurnState>() {
+  return ::lunabotics::Telemetry_PointTurnState_descriptor();
+}
 
 }  // namespace google
 }  // namespace protobuf

@@ -66,11 +66,12 @@ enum AllWheelControl_PredefinedControlType {
   AllWheelControl_PredefinedControlType_CRAB_LEFT = 3,
   AllWheelControl_PredefinedControlType_CRAB_RIGHT = 4,
   AllWheelControl_PredefinedControlType_TURN_CW = 5,
-  AllWheelControl_PredefinedControlType_TURN_CCW = 6
+  AllWheelControl_PredefinedControlType_TURN_CCW = 6,
+  AllWheelControl_PredefinedControlType_STOP = 7
 };
 bool AllWheelControl_PredefinedControlType_IsValid(int value);
 const AllWheelControl_PredefinedControlType AllWheelControl_PredefinedControlType_PredefinedControlType_MIN = AllWheelControl_PredefinedControlType_DRIVE_FORWARD;
-const AllWheelControl_PredefinedControlType AllWheelControl_PredefinedControlType_PredefinedControlType_MAX = AllWheelControl_PredefinedControlType_TURN_CCW;
+const AllWheelControl_PredefinedControlType AllWheelControl_PredefinedControlType_PredefinedControlType_MAX = AllWheelControl_PredefinedControlType_STOP;
 const int AllWheelControl_PredefinedControlType_PredefinedControlType_ARRAYSIZE = AllWheelControl_PredefinedControlType_PredefinedControlType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* AllWheelControl_PredefinedControlType_descriptor();
@@ -348,6 +349,7 @@ class AllWheelControl : public ::google::protobuf::Message {
   static const PredefinedControlType CRAB_RIGHT = AllWheelControl_PredefinedControlType_CRAB_RIGHT;
   static const PredefinedControlType TURN_CW = AllWheelControl_PredefinedControlType_TURN_CW;
   static const PredefinedControlType TURN_CCW = AllWheelControl_PredefinedControlType_TURN_CCW;
+  static const PredefinedControlType STOP = AllWheelControl_PredefinedControlType_STOP;
   static inline bool PredefinedControlType_IsValid(int value) {
     return AllWheelControl_PredefinedControlType_IsValid(value);
   }

@@ -711,6 +711,20 @@
         <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
       </widget>
+      <zorder>yErrLabel</zorder>
+      <zorder>yErrTitleLabel</zorder>
+      <zorder>closestTrajectoryPointTitleLabel</zorder>
+      <zorder>closestTrajectoryXLabel</zorder>
+      <zorder>transformedReferenceXLabel</zorder>
+      <zorder>localTrajectoryPointTitleLabel</zorder>
+      <zorder>localReferencePointTitleLabel</zorder>
+      <zorder>transformedTrajectoryXLabel</zorder>
+      <zorder>localFrameTitleLabel</zorder>
+      <zorder>closestTrajectoryYLabel</zorder>
+      <zorder>transformedTrajectoryYLabel</zorder>
+      <zorder>transformedReferenceYLabel</zorder>
+      <zorder>mechanicsGraphicsView</zorder>
+      <zorder>pidGroupBox_2</zorder>
      </widget>
      <widget class="QLabel" name="posYLabel">
       <property name="geometry">
@@ -828,6 +842,45 @@
       <property name="text">
        <string>Ackermann</string>
       </property>
+     </widget>
+     <widget class="QGroupBox" name="turnInSpotGroupBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>201</width>
+        <height>291</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Parameters</string>
+      </property>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>62</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Mode:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="modeLabel">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>20</y>
+         <width>131</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Unknown</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="Line" name="rightSeparatorLine">

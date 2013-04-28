@@ -33,6 +33,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
+    ui->turnInSpotGroupBox->setVisible(false);
+
     this->allWheelPanel = NULL;
 
     this->outgoingSocket = NULL;
@@ -406,7 +408,7 @@ void MainWindow::receiveTelemetry()
                 emit ICRUpdated(QPointF(state.icr().x(), state.icr().y()));
             }
 
-            if (state.has_ackermann_telemetry()) {
+            if (this->robotControlType == lunabotics::ACKERMANN && state.has_ackermann_telemetry()) {
 
                 const lunabotics::Telemetry::State::AckermannTelemetry params = state.ackermann_telemetry();
 
@@ -429,6 +431,18 @@ void MainWindow::receiveTelemetry()
                 ui->closestTrajectoryYLabel->setText(QString("y: %1 m").arg(QString::number(this->closestTrajectoryPoint.y(), 'f', 2)));
             }
             else {
+                if (this->robotControlType == lunabotics::TURN_IN_SPOT) { //state.has_point_turn_telemetry()) {
+                    ui->turnInSpotGroupBox->setVisible(true);
+                    switch(state.point_turn_telemetry().state()) {
+                    case lunabotics::Telemetry::DRIVING: ui->modeLabel->setText("Driving"); break;
+                    case lunabotics::Telemetry::TURNING: ui->modeLabel->setText("Turning"); break;
+                    case lunabotics::Telemetry::STOPPED: ui->modeLabel->setText("Stopped"); break;
+                    default: ui->modeLabel->setText("Unknown"); break;
+                    }
+                }
+                else {
+                    ui->turnInSpotGroupBox->setVisible(false);
+                }
                 ui->pidGroupBox->setVisible(false);
             }
 

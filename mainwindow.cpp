@@ -789,11 +789,13 @@ void MainWindow::predefinedControlSelected(lunabotics::AllWheelControl::Predefin
 {
     this->allWheelControlType = lunabotics::AllWheelControl::PREDEFINED;
     this->predefinedControlType = controlType;
+    this->setAutonomy(false);
     this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
 }
 
 void MainWindow::explicitControlSelected(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr)
 {
+    this->setAutonomy(false);
     this->slf = slf;
     this->srf = srf;
     this->slr = slr;
@@ -808,6 +810,7 @@ void MainWindow::explicitControlSelected(float slf, float srf, float slr, float 
 
 void MainWindow::ICRControlSelected(QPointF ICR, float velocity)
 {
+    this->setAutonomy(false);
     this->ICR = ICR;
     this->ICRVelocity = velocity;
     this->allWheelControlType = lunabotics::AllWheelControl::ICR;

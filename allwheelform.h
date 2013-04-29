@@ -48,6 +48,8 @@ private slots:
 
     void on_sendICRButton_clicked();
 
+    void on_resetButton_clicked();
+
 private:
     Ui::AllWheelForm *ui;
     QGraphicsScene *robotSketchScene;

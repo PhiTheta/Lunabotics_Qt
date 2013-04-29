@@ -176,19 +176,6 @@ void AllWheelForm::on_backwardButton_clicked()
     emit predefinedControlSelected(lunabotics::AllWheelControl::DRIVE_BACKWARD);
 }
 
-void AllWheelForm::on_stopButton_clicked()
-{
-    ui->lfDrivingEdit->setText("0");
-    ui->rfDrivingEdit->setText("0");
-    ui->lrDrivingEdit->setText("0");
-    ui->rrDrivingEdit->setText("0");
-    ui->lfSteeringEdit->setText("0");
-    ui->rfSteeringEdit->setText("0");
-    ui->lrSteeringEdit->setText("0");
-    ui->rrSteeringEdit->setText("0");
-    emit explicitControlSelected(0,0,0,0,0,0,0,0);
-}
-
 void AllWheelForm::on_leftButton_clicked()
 {
     emit predefinedControlSelected(lunabotics::AllWheelControl::CRAB_LEFT);
@@ -255,4 +242,22 @@ void AllWheelForm::updateJoints(QPointF leftFront, QPointF rightFront, QPointF l
     this->rightRear = rightRear;
     this->jointPositionsAcquired = true;
     this->redrawSketch();
+}
+
+void AllWheelForm::on_resetButton_clicked()
+{
+    ui->lfDrivingEdit->setText("0");
+    ui->rfDrivingEdit->setText("0");
+    ui->lrDrivingEdit->setText("0");
+    ui->rrDrivingEdit->setText("0");
+    ui->lfSteeringEdit->setText("0");
+    ui->rfSteeringEdit->setText("0");
+    ui->lrSteeringEdit->setText("0");
+    ui->rrSteeringEdit->setText("0");
+    emit explicitControlSelected(0,0,0,0,0,0,0,0);
+}
+
+void AllWheelForm::on_stopButton_clicked()
+{
+    emit predefinedControlSelected(lunabotics::AllWheelControl::STOP);
 }

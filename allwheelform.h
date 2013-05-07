@@ -5,6 +5,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
 #include "Telecommand.pb.h"
+#include "allwheelstate.h"
+#include "robotgeometry.h"
 
 namespace Ui {
 class AllWheelForm;
@@ -21,14 +23,14 @@ public:
 
 signals:
     void predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType controlType);
-    void explicitControlSelected(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr);
+    void explicitControlSelected(AllWheelState *steering, AllWheelState *driving);
     void ICRControlSelected(QPointF ICR, float velocity);
     void closing();
 
 private slots:
-    void allWheelStateUpdated(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr);
+    void allWheelStateUpdated(AllWheelState *steering, AllWheelState *driving);
     void ICRUpdated(QPointF ICR);
-    void updateJoints(QPointF leftFront, QPointF rightFront, QPointF leftRear, QPointF rightRear);
+    void updateJoints(RobotGeometry *geometry);
 
     void on_turnRightButton_clicked();
 
@@ -63,31 +65,14 @@ private:
     QGraphicsRectItem *horizontalICR;
     QGraphicsRectItem *baseLink;
 
-    QTransform leftFrontTransform;
-    QTransform rightFrontTransform;
-    QTransform leftRearTransform;
-    QTransform rightRearTransform;
-    QTransform frontTransform;
-    QTransform rearTransform;
-
     void redrawSketch();
     void createGrphicItems();
 
     //All wheel steering state
-    float slf;
-    float srf;
-    float slr;
-    float srr;
-    float dlf;
-    float drf;
-    float dlr;
-    float drr;
+    AllWheelState *steeringMotors;
+    AllWheelState *drivingMotors;
+    RobotGeometry *geometry;
     QPointF ICR;
-    QPointF leftFront;
-    QPointF rightFront;
-    QPointF leftRear;
-    QPointF rightRear;
-    bool jointPositionsAcquired;
     bool graphicItemsCreated;
 };
 

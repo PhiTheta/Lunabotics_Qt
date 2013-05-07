@@ -21,8 +21,6 @@ private slots:
 
     void on_profileComboBox_currentIndexChanged(int index);
 
-    void on_resetGainsButton_clicked();
-
 private:
     Ui::PreferenceDialog *ui;
 };

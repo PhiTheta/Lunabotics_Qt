@@ -4,5 +4,15 @@
         <file>bender.icns</file>
         <file>robot.png</file>
         <file>gazebo.png</file>
+        <file>platform.png</file>
+        <file>path.png</file>
+        <file>settings.png</file>
+        <file>sketch.png</file>
+        <file>ctrl_down.png</file>
+        <file>ctrl_left.png</file>
+        <file>ctrl_right.png</file>
+        <file>ctrl_up.png</file>
+        <file>ctrl.png</file>
+        <file>warning.png</file>
     </qresource>
 </RCC>

@@ -17,7 +17,6 @@ SOURCES += main.cpp\
     preferencedialog.cpp \
     occupancygraphicsitem.cpp \
     laserscan.cpp \
-    SleepSimulator.cpp \
     Telecommand.pb.cc \
     Twist.pb.cc \
     Telemetry.pb.cc \
@@ -25,14 +24,20 @@ SOURCES += main.cpp\
     Point.pb.cc \
     AllWheelControl.pb.cc \
     allwheelform.cpp \
-    AllWheelState.pb.cc
+    AllWheelState.pb.cc \
+    map.cpp \
+    pose.cpp \
+    robotstate.cpp \
+    allwheelstate.cpp \
+    robotgeometry.cpp \
+    mapviewmetainfo.cpp \
+    trajectoryfollowingform.cpp
 
 HEADERS  += mainwindow.h \
     preferencedialog.h \
     constants.h \
     occupancygraphicsitem.h \
     laserscan.h \
-    SleepSimulator.h \
     Telecommand.pb.h \
     Twist.pb.h \
     Telemetry.pb.h \
@@ -40,11 +45,21 @@ HEADERS  += mainwindow.h \
     Point.pb.h \
     AllWheelControl.pb.h \
     allwheelform.h \
-    AllWheelState.pb.h
+    AllWheelState.pb.h \
+    map.h \
+    pose.h \
+    robotstate.h \
+    allwheelstate.h \
+    robotgeometry.h \
+    mapviewmetainfo.h \
+    Graphics.h \
+    Common.h \
+    trajectoryfollowingform.h
 
 FORMS    += mainwindow.ui \
     preferencedialog.ui \
-    allwheelform.ui
+    allwheelform.ui \
+    trajectoryfollowingform.ui
 
 RESOURCES += \
     LunaGUIResources.qrc

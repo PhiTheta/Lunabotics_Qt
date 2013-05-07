@@ -7,22 +7,17 @@ OccupancyGraphicsItem::OccupancyGraphicsItem(QPoint coordinate, QRect rect, QGra
 {
     this->setAcceptedMouseButtons(Qt::LeftButton);
     this->setAcceptHoverEvents(true);
-    this->preservedBrush.setColor(Qt::white);
     this->coordinate = coordinate;
 }
 
 void OccupancyGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    this->preservedBrush = this->brush();
-    QBrush greenBrush(Qt::green);
-    this->setBrush(greenBrush);
     QGraphicsItem::mousePressEvent(event);
     emit clicked(this->coordinate);
 }
 
 void OccupancyGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    this->setBrush(this->preservedBrush);
     QGraphicsItem::mouseReleaseEvent(event);
 }
 

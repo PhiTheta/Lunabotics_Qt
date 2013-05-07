@@ -8,25 +8,23 @@
 #include <QtGui>
 #include <QtCore>
 #include <QMutex>
+#include <QGraphicsItemGroup>
+#include <QGraphicsRectItem>
+#include <QGraphicsLineItem>
 #include "laserscan.h"
 #include "Telecommand.pb.h"
 #include "allwheelform.h"
+#include "trajectoryfollowingform.h"
+#include "map.h"
+#include "robotstate.h"
+#include "mapviewmetainfo.h"
 
 namespace Ui {
 class MainWindow;
 }
 
 
-enum STEERING_MASK
-{
-    FORWARD   = 1 << 0,
-    BACKWARD  = 1 << 1,
-    RIGHT     = 1 << 2,
-    LEFT      = 1 << 3
-};
 
-Q_DECLARE_FLAGS(STEERING_CMDS, STEERING_MASK);
-Q_DECLARE_OPERATORS_FOR_FLAGS(STEERING_CMDS);
 
 class MainWindow : public QMainWindow
 {
@@ -37,9 +35,11 @@ public:
     ~MainWindow();
 
 signals:
-    void allWheelStateUpdated(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr);
+    void allWheelStateUpdated(AllWheelState *steering, AllWheelState *driving);
     void ICRUpdated(QPointF ICR);
-    void jointPositionsUpdated(QPointF leftFront, QPointF rightFront, QPointF leftRear, QPointF rightRear);
+    void jointPositionsUpdated(RobotGeometry *geometry);
+    void updateLocalFrame(QPointF velocityPoint, QPointF trajectoryPoint);
+    void clearLocalFrame();
 
 protected:
     void keyPressEvent(QKeyEvent* event);
@@ -58,14 +58,15 @@ private slots:
     void on_actionPreferences_triggered();
 
     void predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType controlType);
-    void explicitControlSelected(float slf, float srf, float slr, float srr, float dlf, float drf, float dlr, float drr);
+    void explicitControlSelected(AllWheelState *steering, AllWheelState *driving);
     void ICRControlSelected(QPointF ICR, float velocity);
     void nullifyAllWheelPanel();
 
+    void nullifyFollowingPanel();
+    void sendPID();
+
     void mapCell_clicked(QPoint coordinate);
     void mapCell_hovered(QPoint coordinate);
-    void outSocketConnected();
-    void outSocketDisconnected();
 
     void on_autonomyButton_clicked();
 
@@ -73,47 +74,46 @@ private slots:
 
     void on_refreshMapButton_clicked();
 
-    void on_resendParamsButton_clicked();
+    void on_actionAll_wheel_control_triggered();
 
-    void on_removePathButton_clicked();
-
-    void on_allWheelControlButton_clicked();
+    void on_actionTrajectory_following_triggered();
 
 private:
-    QMutex socketMutex;
+
+    //UI
     Ui::MainWindow *ui;
+    QGraphicsScene *mapScene;
+    QStandardItemModel *pathTableModel;
+    QStandardItemModel *telemetryTableModel;
+    AllWheelForm *allWheelPanel;
+    TrajectoryFollowingForm *followingPanel;
+    QGraphicsItemGroup *pathGraphicsItem;
+    QGraphicsItemGroup *robotPointerItem;
+    QGraphicsRectItem *robotCellItem;
+    QGraphicsLineItem *velocityVectorItem;
+    QGraphicsLineItem *closestDistanceItem;
+    MapViewMetaInfo *mapViewInfo;
+
+    //Network
+    QMutex socketMutex;
     QTcpSocket *outgoingSocket;
     QTcpSocket *incomingSocket;
     QTcpServer *incomingServer;
-    QGraphicsScene *mapScene;
-    QGraphicsScene *localFrameScene;
-    QVector<int> *occupancyGrid;
+
+
+    //Data objects
+    LaserScan laserScan;
+    Map *map;
     QVector<QPointF> *path;
-    QPointF robotPosition;
+    RobotState *robotState;
+
+    //Trajectory following data
     QPointF closestTrajectoryPoint;
     QPointF velocityPoint;
     QPointF transformedVelocityPoint;
     QPointF transformedClosestTrajectoryPoint;
-    double robotAngle;
     QPoint goal;
-    int mapWidth;
-    int mapHeight;
-    double mapResolution;
     int nextWaypointIdx;
-    QPointF mapPoint(QPointF pointInMeters);
-    lunabotics::SteeringModeType robotControlType;
-    QStandardItemModel *pathTableModel;
-    LaserScan laserScan;
-    lunabotics::AllWheelControl::AllWheelControlType allWheelControlType;
-    lunabotics::AllWheelControl::PredefinedControlType predefinedControlType;
-
-    int mapViewportWidth;
-    int mapViewportHeight;
-    int mapCellWidth;
-    int mapCellHeight;
-
-    int localFrameViewportWidth;
-    int localFrameViewportHeight;
 
     void leftAction();
     void rightAction();
@@ -122,35 +122,24 @@ private:
     void sendTelecommand(lunabotics::Telecommand::Type contentType);
     void connectRobot();
     void disconnectRobot();
+    void removeAndDeleteAllMapItems();
+    void setRow(int &rowNumber, const QString &label, const QString &value);
+
+    //Redraw map grid
     void redrawMap();
+
+    //Update poses of the robot
+    void updateMapPoses();
+
+    //Update path points
+    void updateMapPath();
+
+    //Autonomy managment
     void toggleAutonomy();
     void setAutonomy(bool enabled);
     void setAutonomyLabel(bool enabled);
 
-    bool autonomyEnabled;
-    lunabotics::SteeringModeType controlType;
-    STEERING_CMDS drivingMask;
 
-    AllWheelForm *allWheelPanel;
-
-    //All wheel steering control cache
-    float slf;
-    float srf;
-    float slr;
-    float srr;
-    float dlf;
-    float drf;
-    float dlr;
-    float drr;
-
-    QPointF ICR;
-    float ICRVelocity;
-
-    QPointF leftFrontJoint;
-    QPointF rightFrontJoint;
-    QPointF leftRearJoint;
-    QPointF rightRearJoint;
-    bool jointPositionsAcquired;
 };
 
 #endif // MAINWINDOW_H

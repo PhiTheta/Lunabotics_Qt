@@ -15,13 +15,6 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     settings.beginGroup("connection");
     ui->outIPLineEdit->setText(settings.value("ip", CONN_OUTGOING_ADDR).toString());
     settings.endGroup();
-    settings.beginGroup("pid");
-    ui->KpLineEdit->setText(settings.value("p", PID_KP).toString());
-    ui->KiLineEdit->setText(settings.value("i", PID_KI).toString());
-    ui->KdLineEdit->setText(settings.value("d", PID_KD).toString());
-    ui->PIDOffsetEdit->setText(settings.value("offset", PID_OFFSET).toString());
-    ui->PIDVelocityMEdit->setText(settings.value("v", PID_VEL_M).toString());
-    settings.endGroup();
 }
 
 PreferenceDialog::~PreferenceDialog()
@@ -34,13 +27,6 @@ void PreferenceDialog::on_buttonBox_accepted()
     QSettings settings( "ivany4", "lunabotics");
     settings.beginGroup("connection");
     settings.setValue("ip", ui->outIPLineEdit->text());
-    settings.endGroup();
-    settings.beginGroup("pid");
-    settings.setValue("p", ui->KpLineEdit->text());
-    settings.setValue("i", ui->KiLineEdit->text());
-    settings.setValue("d", ui->KdLineEdit->text());
-    settings.setValue("offset", ui->PIDOffsetEdit->text());
-    settings.setValue("v", ui->PIDVelocityMEdit->text());
     settings.endGroup();
 }
 
@@ -59,11 +45,4 @@ void PreferenceDialog::on_profileComboBox_currentIndexChanged(int index)
     default:
         break;
     }
-}
-
-void PreferenceDialog::on_resetGainsButton_clicked()
-{
-    ui->KpLineEdit->setText(PID_KP);
-    ui->KiLineEdit->setText(PID_KI);
-    ui->KdLineEdit->setText(PID_KD);
 }

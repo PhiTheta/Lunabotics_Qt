@@ -17,7 +17,6 @@ protected:
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
 
 private:
-    QBrush preservedBrush;
 
 signals:
     void clicked(QPoint coordinate);

@@ -27,6 +27,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 // Internal implementation detail -- do not call these.
 void  protobuf_AddDesc_Twist_2eproto();
@@ -105,7 +106,7 @@ class Twist : public ::google::protobuf::Message {
   inline float angular() const;
   inline void set_angular(float value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Twist)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Twist)
  private:
   inline void set_has_linear();
   inline void clear_has_linear();
@@ -181,6 +182,7 @@ inline void Twist::set_angular(float value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 #ifndef SWIG

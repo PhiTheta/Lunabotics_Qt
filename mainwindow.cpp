@@ -133,7 +133,7 @@ void MainWindow::setAutonomy(bool enabled)
                 this->updateMapPath();
             }
         }
-        this->sendTelecommand(lunabotics::Telecommand::SET_AUTONOMY);
+        this->sendTelecommand(lunabotics::proto::Telecommand::SET_AUTONOMY);
     }
 }
 
@@ -156,7 +156,7 @@ void MainWindow::updateMapPath()
             this->pathGraphicsItem = new QGraphicsItemGroup();
             this->mapScene->addItem(this->pathGraphicsItem);
         }
-        if (this->robotState->steeringMode == lunabotics::TURN_IN_SPOT) {
+        if (this->robotState->steeringMode == lunabotics::proto::TURN_IN_SPOT) {
             for (int i = 1; i < this->path->size(); i++) {
                 QPoint previousCoordinate = this->map->coordinateOf(this->path->at(i-1));
                 QPoint coordinate = this->map->coordinateOf(this->path->at(i));
@@ -268,21 +268,25 @@ void MainWindow::updateMapPoses()
         this->robotPointerItem->setRotation(-this->robotState->pose->heading*180.0/M_PI);
 
 
-        if (this->robotState->steeringMode == lunabotics::ACKERMANN && this->robotState->autonomous) {
+        if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN && this->robotState->autonomous) {
             QPointF closestPoint = this->mapViewInfo->pointFromWorld(this->closestTrajectoryPoint, this->map->resolution);
             QPointF velocityPoint = this->mapViewInfo->pointFromWorld(this->velocityPoint, this->map->resolution);
-            qDebug() << "CLosest point " << closestPoint.x() << ", " << closestPoint.y();
             if (!this->velocityVectorItem) {
                 this->velocityVectorItem = new QGraphicsLineItem();
                 this->velocityVectorItem->setPen(PEN_PURPLE);
+                this->mapScene->addItem(this->velocityVectorItem);
             }
             if (!this->closestDistanceItem) {
                 this->closestDistanceItem = new QGraphicsLineItem();
                 this->closestDistanceItem->setPen(PEN_PURPLE);
+                this->mapScene->addItem(this->closestDistanceItem);
             }
-
-            this->velocityVectorItem->setLine(robotCenter.x(), robotCenter.y(), velocityPoint.x(), velocityPoint.y());
-            this->closestDistanceItem->setLine(velocityPoint.x(), velocityPoint.y(), closestPoint.x(), closestPoint.y());
+            if (isvalid(velocityPoint)) {
+                this->velocityVectorItem->setLine(robotCenter.x(), robotCenter.y(), velocityPoint.x(), velocityPoint.y());
+                if (isvalid(closestPoint)) {
+                    this->closestDistanceItem->setLine(velocityPoint.x(), velocityPoint.y(), closestPoint.x(), closestPoint.y());
+                }
+            }
         }
         else {
             if (this->closestDistanceItem) {
@@ -308,8 +312,7 @@ void MainWindow::redrawMap()
         qDebug() << "Updating map";
         this->mapViewInfo->viewportWidth = ui->mapView->width();
         this->mapViewInfo->viewportHeight = ui->mapView->height();
-        this->mapViewInfo->cellWidth = floor(this->mapViewInfo->viewportWidth/this->map->width);
-        this->mapViewInfo->cellHeight = floor(this->mapViewInfo->viewportHeight/this->map->height);
+        this->mapViewInfo->cellEdge = floor(std::min(this->mapViewInfo->viewportWidth,this->mapViewInfo->viewportHeight)/this->map->width);
 
         for (int x = 0; x < this->map->width; x++) {
             for (int y = 0; y < this->map->height; y++) {
@@ -421,14 +424,14 @@ void MainWindow::receiveTelemetry()
     char *buffer = new char[bytesAvailable];
     this->incomingSocket->read(buffer, bytesAvailable);
 
-    lunabotics::Telemetry tm;
+    lunabotics::proto::Telemetry tm;
     if (!tm.ParseFromArray(buffer, bytesAvailable) || !tm.IsInitialized()) {
         qDebug() << "Failed to parse telemetry object";
     }
     else {
         if (tm.has_world_data()) {
             qDebug() << "Receiving world data";
-            const lunabotics::Telemetry::World world = tm.world_data();
+            const lunabotics::proto::Telemetry::World world = tm.world_data();
             int width = world.width();
             int height = world.height();
             if (world.cell_size() != width*height) {
@@ -458,10 +461,10 @@ void MainWindow::receiveTelemetry()
         if (tm.has_path_data()) {
             this->path->clear();
 
-            const lunabotics::Telemetry::Path path = tm.path_data();
+            const lunabotics::proto::Telemetry::Path path = tm.path_data();
 
             for (int i = 0; i < path.position_size(); i++) {
-                const lunabotics::Point position = path.position(i);
+                const lunabotics::proto::Point position = path.position(i);
                 QPointF point;
                 point.setX(position.x());
                 point.setY(position.y());
@@ -473,7 +476,7 @@ void MainWindow::receiveTelemetry()
         this->telemetryTableModel->clear();
 
         if (tm.has_state_data()) {
-            const lunabotics::Telemetry::State state = tm.state_data();
+            const lunabotics::proto::Telemetry::State state = tm.state_data();
 
             qint32 row = 0;
 
@@ -494,9 +497,9 @@ void MainWindow::receiveTelemetry()
 
             QString str;
             switch (this->robotState->steeringMode) {
-            case lunabotics::ACKERMANN: str = "Ackermann"; break;
-            case lunabotics::TURN_IN_SPOT: str = "Turn in spot"; break;
-            case lunabotics::CRAB: str = "Crab"; break;
+            case lunabotics::proto::ACKERMANN: str = "Ackermann"; break;
+            case lunabotics::proto::TURN_IN_SPOT: str = "Turn in spot"; break;
+            case lunabotics::proto::CRAB: str = "Crab"; break;
             default: str = "Undefined"; break;
             }
 
@@ -510,12 +513,11 @@ void MainWindow::receiveTelemetry()
                 emit ICRUpdated(QPointF(state.icr().x(), state.icr().y()));
             }
 
-            bool hasTrajectoryFollowingInfo = this->robotState->steeringMode == lunabotics::ACKERMANN && state.has_ackermann_telemetry();
+            bool hasTrajectoryFollowingInfo = this->robotState->steeringMode == lunabotics::proto::ACKERMANN && state.has_ackermann_telemetry();
 
             if (hasTrajectoryFollowingInfo) {
 
-                const lunabotics::Telemetry::State::AckermannTelemetry params = state.ackermann_telemetry();
-
+                const lunabotics::proto::Telemetry::State::AckermannTelemetry params = state.ackermann_telemetry();
 
                 this->closestTrajectoryPoint.setX(params.closest_trajectory_point().x());
                 this->closestTrajectoryPoint.setY(params.closest_trajectory_point().y());
@@ -529,20 +531,31 @@ void MainWindow::receiveTelemetry()
                 emit updateLocalFrame(this->transformedVelocityPoint, this->transformedClosestTrajectoryPoint);
 
                 this->setRow(row, "PID.err", QString("%1 m").arg(QString::number(params.pid_error(), 'f', 3)));
-                this->setRow(row, "local.traj.pt.x", QString("%1 m").arg(QString::number(this->transformedClosestTrajectoryPoint.x(), 'f', 2)));
-                this->setRow(row, "local.traj.pt.y", QString("%1 m").arg(QString::number(this->transformedClosestTrajectoryPoint.y(), 'f', 2)));
-                this->setRow(row, "local.vec.pt.x", QString("%1 m").arg(QString::number(this->transformedVelocityPoint.x(), 'f', 2)));
-                this->setRow(row, "local.vec.pt.y", QString("%1 m").arg(QString::number(this->transformedVelocityPoint.y(), 'f', 2)));
-                this->setRow(row, "global.traj.pt.x", QString("%1 m").arg(QString::number(this->closestTrajectoryPoint.x(), 'f', 2)));
-                this->setRow(row, "global.traj.pt.y", QString("%1 m").arg(QString::number(this->closestTrajectoryPoint.y(), 'f', 2)));
+
+                if (isvalid(this->transformedClosestTrajectoryPoint)) {
+                    this->setRow(row, "local.traj.pt.x", QString("%1 m").arg(QString::number(this->transformedClosestTrajectoryPoint.x(), 'f', 2)));
+                    this->setRow(row, "local.traj.pt.y", QString("%1 m").arg(QString::number(this->transformedClosestTrajectoryPoint.y(), 'f', 2)));
+                }
+                if (isvalid(this->transformedVelocityPoint)) {
+                    this->setRow(row, "local.vec.pt.x", QString("%1 m").arg(QString::number(this->transformedVelocityPoint.x(), 'f', 2)));
+                    this->setRow(row, "local.vec.pt.y", QString("%1 m").arg(QString::number(this->transformedVelocityPoint.y(), 'f', 2)));
+                }
+                if (isvalid(this->closestTrajectoryPoint)) {
+                    this->setRow(row, "global.traj.pt.x", QString("%1 m").arg(QString::number(this->closestTrajectoryPoint.x(), 'f', 2)));
+                    this->setRow(row, "global.traj.pt.y", QString("%1 m").arg(QString::number(this->closestTrajectoryPoint.y(), 'f', 2)));
+                }
+                if (isvalid(this->velocityPoint)) {
+                    this->setRow(row, "global.vec.pt.x", QString("%1 m").arg(QString::number(this->velocityPoint.x(), 'f', 2)));
+                    this->setRow(row, "global.vec.pt.y", QString("%1 m").arg(QString::number(this->velocityPoint.y(), 'f', 2)));
+                }
             }
             else {
                 emit clearLocalFrame();
-                if (this->robotState->steeringMode == lunabotics::TURN_IN_SPOT) { //state.has_point_turn_telemetry()) {
+                if (this->robotState->steeringMode == lunabotics::proto::TURN_IN_SPOT) { //state.has_point_turn_telemetry()) {
                     switch(state.point_turn_telemetry().state()) {
-                    case lunabotics::Telemetry::DRIVING: str = "Driving"; break;
-                    case lunabotics::Telemetry::TURNING: str = "Turning"; break;
-                    case lunabotics::Telemetry::STOPPED: str = "Stopped"; break;
+                    case lunabotics::proto::Telemetry::DRIVING: str = "Driving"; break;
+                    case lunabotics::proto::Telemetry::TURNING: str = "Turning"; break;
+                    case lunabotics::proto::Telemetry::STOPPED: str = "Stopped"; break;
                     default: str = "Unknown"; break;
                     }
                     this->setRow(row, "spot-turn.state", str);
@@ -556,8 +569,8 @@ void MainWindow::receiveTelemetry()
         }
 
         if (tm.has_all_wheel_state()) {
-            const lunabotics::AllWheelState::Wheels steering = tm.all_wheel_state().steering();
-            const lunabotics::AllWheelState::Wheels driving = tm.all_wheel_state().driving();
+            const lunabotics::proto::AllWheelState::Wheels steering = tm.all_wheel_state().steering();
+            const lunabotics::proto::AllWheelState::Wheels driving = tm.all_wheel_state().driving();
             AllWheelState *steeringMotors = new AllWheelState(steering.left_front(), steering.right_front(), steering.left_rear(), steering.right_rear());
             AllWheelState *drivingMotors = new AllWheelState(driving.left_front(), driving.right_front(), driving.left_rear(), driving.right_rear());
             emit allWheelStateUpdated(steeringMotors, drivingMotors);
@@ -565,20 +578,22 @@ void MainWindow::receiveTelemetry()
             delete drivingMotors;
         }
 
-        if (tm.has_joints_data()) {
+        if (tm.has_geometry_data()) {
             if (!this->robotState->geometry->jointPositionsAcquired) {
-                const lunabotics::Point p1 = tm.joints_data().left_front();
+                const lunabotics::proto::Point p1 = tm.geometry_data().left_front_joint();
                 this->robotState->geometry->leftFrontJoint.setX(p1.x());
                 this->robotState->geometry->leftFrontJoint.setY(p1.y());
-                const lunabotics::Point p2 = tm.joints_data().right_front();
+                const lunabotics::proto::Point p2 = tm.geometry_data().right_front_joint();
                 this->robotState->geometry->rightFrontJoint.setX(p2.x());
                 this->robotState->geometry->rightFrontJoint.setY(p2.y());
-                const lunabotics::Point p3 = tm.joints_data().left_rear();
+                const lunabotics::proto::Point p3 = tm.geometry_data().left_rear_joint();
                 this->robotState->geometry->leftRearJoint.setX(p3.x());
                 this->robotState->geometry->leftRearJoint.setY(p3.y());
-                const lunabotics::Point p4 = tm.joints_data().right_rear();
+                const lunabotics::proto::Point p4 = tm.geometry_data().right_rear_joint();
                 this->robotState->geometry->rightRearJoint.setX(p4.x());
                 this->robotState->geometry->rightRearJoint.setY(p4.y());
+                this->robotState->geometry->wheelOffset = tm.geometry_data().wheel_offset();
+                this->robotState->geometry->wheelRadius = tm.geometry_data().wheel_radius();
                 this->robotState->geometry->jointPositionsAcquired = true;
                 emit jointPositionsUpdated(this->robotState->geometry);
             }
@@ -588,7 +603,7 @@ void MainWindow::receiveTelemetry()
     delete buffer;
 
 }
-void MainWindow::sendTelecommand(lunabotics::Telecommand::Type contentType)
+void MainWindow::sendTelecommand(lunabotics::proto::Telecommand::Type contentType)
 {
     this->socketMutex.lock();
     this->outgoingSocket->abort();
@@ -597,33 +612,33 @@ void MainWindow::sendTelecommand(lunabotics::Telecommand::Type contentType)
     this->outgoingSocket->connectToHost(settings.value("ip", CONN_OUTGOING_ADDR).toString(), REMOTE_PORT);
     settings.endGroup();
 
-    lunabotics::Telecommand tc;
+    lunabotics::proto::Telecommand tc;
     tc.set_type(contentType);
 
     switch (contentType) {
-    case lunabotics::Telecommand::SET_AUTONOMY:
+    case lunabotics::proto::Telecommand::SET_AUTONOMY:
         tc.mutable_autonomy_data()->set_enabled(this->robotState->autonomous);
         break;
-    case lunabotics::Telecommand::STEERING_MODE: {
-        lunabotics::Telecommand::SteeringMode *steeringMode = tc.mutable_steering_mode_data();
+    case lunabotics::proto::Telecommand::STEERING_MODE: {
+        lunabotics::proto::Telecommand::SteeringMode *steeringMode = tc.mutable_steering_mode_data();
         steeringMode->set_type(this->robotState->steeringMode);
-        if (this->robotState->steeringMode == lunabotics::ACKERMANN) {
-            lunabotics::Telecommand::SteeringMode::AckermannSteeringData *steeringData = steeringMode->mutable_ackermann_steering_data();
+        if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN) {
+            lunabotics::proto::Telecommand::SteeringMode::AckermannSteeringData *steeringData = steeringMode->mutable_ackermann_steering_data();
             steeringData->set_max_linear_velocity(ui->ackermannLinearSpeedEdit->text().toFloat());
             steeringData->set_bezier_curve_segments(ui->bezierSegmentsEdit->text().toInt());
         }
     }
         break;
-    case lunabotics::Telecommand::TELEOPERATION: {
-        lunabotics::Telecommand::Teleoperation *teleoperation = tc.mutable_teleoperation_data();
+    case lunabotics::proto::Telecommand::TELEOPERATION: {
+        lunabotics::proto::Telecommand::Teleoperation *teleoperation = tc.mutable_teleoperation_data();
         teleoperation->set_forward(this->robotState->drivingMask & FORWARD);
         teleoperation->set_backward(this->robotState->drivingMask & BACKWARD);
         teleoperation->set_left(this->robotState->drivingMask & LEFT);
         teleoperation->set_right(this->robotState->drivingMask & RIGHT);
     }
         break;
-    case lunabotics::Telecommand::DEFINE_ROUTE: {
-        lunabotics::Telecommand::DefineRoute *route = tc.mutable_define_route_data();
+    case lunabotics::proto::Telecommand::DEFINE_ROUTE: {
+        lunabotics::proto::Telecommand::DefineRoute *route = tc.mutable_define_route_data();
         QPointF goal = this->map->positionOf(this->goal);
         route->mutable_goal()->set_x(goal.x());
         route->mutable_goal()->set_y(goal.y());
@@ -632,12 +647,12 @@ void MainWindow::sendTelecommand(lunabotics::Telecommand::Type contentType)
     }
         break;
 
-    case lunabotics::Telecommand::REQUEST_MAP:
+    case lunabotics::proto::Telecommand::REQUEST_MAP:
         //Nothing to include
         break;
 
-    case lunabotics::Telecommand::ADJUST_PID: {
-        lunabotics::Telecommand::AdjustPID *pid = tc.mutable_adjust_pid_data();
+    case lunabotics::proto::Telecommand::ADJUST_PID: {
+        lunabotics::proto::Telecommand::AdjustPID *pid = tc.mutable_adjust_pid_data();
         settings.beginGroup("pid");
         pid->set_p(settings.value("p", PID_KP).toFloat());
         pid->set_i(settings.value("i", PID_KI).toFloat());
@@ -648,12 +663,12 @@ void MainWindow::sendTelecommand(lunabotics::Telecommand::Type contentType)
     }
         break;
 
-    case lunabotics::Telecommand::ADJUST_WHEELS: {
+    case lunabotics::proto::Telecommand::ADJUST_WHEELS: {
         tc.mutable_all_wheel_control_data()->set_all_wheel_type(this->robotState->allWheelControlType);
         switch (this->robotState->allWheelControlType) {
-        case lunabotics::AllWheelControl::EXPLICIT: {
-            lunabotics::AllWheelState::Wheels *steering = tc.mutable_all_wheel_control_data()->mutable_explicit_data()->mutable_steering();
-            lunabotics::AllWheelState::Wheels *driving = tc.mutable_all_wheel_control_data()->mutable_explicit_data()->mutable_driving();
+        case lunabotics::proto::AllWheelControl::EXPLICIT: {
+            lunabotics::proto::AllWheelState::Wheels *steering = tc.mutable_all_wheel_control_data()->mutable_explicit_data()->mutable_steering();
+            lunabotics::proto::AllWheelState::Wheels *driving = tc.mutable_all_wheel_control_data()->mutable_explicit_data()->mutable_driving();
 
             steering->set_left_front(this->robotState->steeringMotors->leftFront);
             steering->set_right_front(this->robotState->steeringMotors->rightFront);
@@ -667,12 +682,12 @@ void MainWindow::sendTelecommand(lunabotics::Telecommand::Type contentType)
         }
             break;
 
-        case lunabotics::AllWheelControl::PREDEFINED: {
+        case lunabotics::proto::AllWheelControl::PREDEFINED: {
             tc.mutable_all_wheel_control_data()->mutable_predefined_data()->set_command(this->robotState->predefinedControlType);
         }
             break;
 
-        case lunabotics::AllWheelControl::ICR: {
+        case lunabotics::proto::AllWheelControl::ICR: {
             tc.mutable_all_wheel_control_data()->mutable_icr_data()->mutable_icr()->set_x(this->robotState->ICR.x());
             tc.mutable_all_wheel_control_data()->mutable_icr_data()->mutable_icr()->set_y(this->robotState->ICR.y());
             tc.mutable_all_wheel_control_data()->mutable_icr_data()->set_velocity(this->robotState->ICRVelocity);
@@ -710,7 +725,7 @@ void MainWindow::mapCell_clicked(QPoint coordinate)
 {
     this->goal = coordinate;
     this->setAutonomy(true);
-    this->sendTelecommand(lunabotics::Telecommand::DEFINE_ROUTE);
+    this->sendTelecommand(lunabotics::proto::Telecommand::DEFINE_ROUTE);
 }
 
 void MainWindow::mapCell_hovered(QPoint coordinate)
@@ -742,27 +757,27 @@ void MainWindow::on_actionExit_triggered()
 void MainWindow::on_useLateralButton_clicked()
 {
     qDebug() << "Switching to lateral driving mode";
-    this->robotState->steeringMode = lunabotics::CRAB;
-    this->sendTelecommand(lunabotics::Telecommand::STEERING_MODE);
+    this->robotState->steeringMode = lunabotics::proto::CRAB;
+    this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
 }
 
 void MainWindow::on_useSpotButton_clicked()
 {
     qDebug() << "Switching to spot driving mode";
-    this->robotState->steeringMode = lunabotics::TURN_IN_SPOT;
-    this->sendTelecommand(lunabotics::Telecommand::STEERING_MODE);
+    this->robotState->steeringMode = lunabotics::proto::TURN_IN_SPOT;
+    this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
 }
 
 void MainWindow::on_useAckermannButton_clicked()
 {
     qDebug() << "Switching to Ackermann driving mode";
-    this->robotState->steeringMode = lunabotics::ACKERMANN;
-    this->sendTelecommand(lunabotics::Telecommand::STEERING_MODE);
+    this->robotState->steeringMode = lunabotics::proto::ACKERMANN;
+    this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
 }
 
 void MainWindow::on_refreshMapButton_clicked()
 {
-    this->sendTelecommand(lunabotics::Telecommand::REQUEST_MAP);
+    this->sendTelecommand(lunabotics::proto::Telecommand::REQUEST_MAP);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -788,7 +803,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
         ui->driveRightLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
         ui->ctrlRightPixmap->setVisible(true);
     }
-    this->sendTelecommand(lunabotics::Telecommand::TELEOPERATION);
+    this->sendTelecommand(lunabotics::proto::Telecommand::TELEOPERATION);
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
@@ -814,15 +829,15 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
         ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
         ui->ctrlRightPixmap->setVisible(false);
     }
-    this->sendTelecommand(lunabotics::Telecommand::TELEOPERATION);
+    this->sendTelecommand(lunabotics::proto::Telecommand::TELEOPERATION);
 }
 
-void MainWindow::predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType controlType)
+void MainWindow::predefinedControlSelected(lunabotics::proto::AllWheelControl::PredefinedControlType controlType)
 {
-    this->robotState->allWheelControlType = lunabotics::AllWheelControl::PREDEFINED;
+    this->robotState->allWheelControlType = lunabotics::proto::AllWheelControl::PREDEFINED;
     this->robotState->predefinedControlType = controlType;
     this->setAutonomy(false);
-    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
+    this->sendTelecommand(lunabotics::proto::Telecommand::ADJUST_WHEELS);
 }
 
 void MainWindow::explicitControlSelected(AllWheelState *steering, AllWheelState *driving)
@@ -830,8 +845,8 @@ void MainWindow::explicitControlSelected(AllWheelState *steering, AllWheelState 
     this->setAutonomy(false);
     this->robotState->steeringMotors->setState(steering);
     this->robotState->drivingMotors->setState(driving);
-    this->robotState->allWheelControlType = lunabotics::AllWheelControl::EXPLICIT;
-    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
+    this->robotState->allWheelControlType = lunabotics::proto::AllWheelControl::EXPLICIT;
+    this->sendTelecommand(lunabotics::proto::Telecommand::ADJUST_WHEELS);
 }
 
 void MainWindow::ICRControlSelected(QPointF ICR, float velocity)
@@ -839,8 +854,8 @@ void MainWindow::ICRControlSelected(QPointF ICR, float velocity)
     this->setAutonomy(false);
     this->robotState->ICR = ICR;
     this->robotState->ICRVelocity = velocity;
-    this->robotState->allWheelControlType = lunabotics::AllWheelControl::ICR;
-    this->sendTelecommand(lunabotics::Telecommand::ADJUST_WHEELS);
+    this->robotState->allWheelControlType = lunabotics::proto::AllWheelControl::ICR;
+    this->sendTelecommand(lunabotics::proto::Telecommand::ADJUST_WHEELS);
 }
 
 void MainWindow::nullifyAllWheelPanel()
@@ -864,7 +879,7 @@ void MainWindow::on_actionAll_wheel_control_triggered()
     if (!this->allWheelPanel) {
         qDebug() << "Opening ALl Wheel Panel";
         this->allWheelPanel = new AllWheelForm();
-        connect(this->allWheelPanel, SIGNAL(predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType)), this, SLOT(predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType)));
+        connect(this->allWheelPanel, SIGNAL(predefinedControlSelected(lunabotics::proto::AllWheelControl::PredefinedControlType)), this, SLOT(predefinedControlSelected(lunabotics::proto::AllWheelControl::PredefinedControlType)));
         connect(this->allWheelPanel, SIGNAL(explicitControlSelected(AllWheelState*,AllWheelState*)), this, SLOT(explicitControlSelected(AllWheelState*,AllWheelState*)));
         connect(this->allWheelPanel, SIGNAL(ICRControlSelected(QPointF,float)), this, SLOT(ICRControlSelected(QPointF,float)));
         connect(this->allWheelPanel, SIGNAL(closing()), this, SLOT(nullifyAllWheelPanel()));
@@ -910,5 +925,5 @@ void MainWindow::on_actionTrajectory_following_triggered()
 
 void MainWindow::sendPID()
 {
-    this->sendTelecommand(lunabotics::Telecommand::ADJUST_PID);
+    this->sendTelecommand(lunabotics::proto::Telecommand::ADJUST_PID);
 }

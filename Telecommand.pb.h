@@ -31,6 +31,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 // Internal implementation detail -- do not call these.
 void  protobuf_AddDesc_Telecommand_2eproto();
@@ -156,7 +157,7 @@ class Telecommand_Teleoperation : public ::google::protobuf::Message {
   inline bool right() const;
   inline void set_right(bool value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telecommand.Teleoperation)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.Teleoperation)
  private:
   inline void set_has_forward();
   inline void clear_has_forward();
@@ -247,7 +248,7 @@ class Telecommand_Autonomy : public ::google::protobuf::Message {
   inline bool enabled() const;
   inline void set_enabled(bool value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telecommand.Autonomy)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.Autonomy)
  private:
   inline void set_has_enabled();
   inline void clear_has_enabled();
@@ -336,7 +337,7 @@ class Telecommand_SteeringMode_AckermannSteeringData : public ::google::protobuf
   inline ::google::protobuf::int32 bezier_curve_segments() const;
   inline void set_bezier_curve_segments(::google::protobuf::int32 value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telecommand.SteeringMode.AckermannSteeringData)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.SteeringMode.AckermannSteeringData)
  private:
   inline void set_has_max_linear_velocity();
   inline void clear_has_max_linear_velocity();
@@ -414,7 +415,7 @@ class Telecommand_SteeringMode_TurnInSpotSteeringData : public ::google::protobu
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telecommand.SteeringMode.TurnInSpotSteeringData)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.SteeringMode.TurnInSpotSteeringData)
  private:
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
@@ -486,7 +487,7 @@ class Telecommand_SteeringMode_CrabSteeringData : public ::google::protobuf::Mes
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telecommand.SteeringMode.CrabSteeringData)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.SteeringMode.CrabSteeringData)
  private:
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
@@ -562,41 +563,41 @@ class Telecommand_SteeringMode : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.SteeringModeType type = 1;
+  // required .lunabotics.proto.SteeringModeType type = 1;
   inline bool has_type() const;
   inline void clear_type();
   static const int kTypeFieldNumber = 1;
-  inline ::lunabotics::SteeringModeType type() const;
-  inline void set_type(::lunabotics::SteeringModeType value);
+  inline ::lunabotics::proto::SteeringModeType type() const;
+  inline void set_type(::lunabotics::proto::SteeringModeType value);
 
-  // optional .lunabotics.Telecommand.SteeringMode.AckermannSteeringData ackermann_steering_data = 2;
+  // optional .lunabotics.proto.Telecommand.SteeringMode.AckermannSteeringData ackermann_steering_data = 2;
   inline bool has_ackermann_steering_data() const;
   inline void clear_ackermann_steering_data();
   static const int kAckermannSteeringDataFieldNumber = 2;
-  inline const ::lunabotics::Telecommand_SteeringMode_AckermannSteeringData& ackermann_steering_data() const;
-  inline ::lunabotics::Telecommand_SteeringMode_AckermannSteeringData* mutable_ackermann_steering_data();
-  inline ::lunabotics::Telecommand_SteeringMode_AckermannSteeringData* release_ackermann_steering_data();
-  inline void set_allocated_ackermann_steering_data(::lunabotics::Telecommand_SteeringMode_AckermannSteeringData* ackermann_steering_data);
+  inline const ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData& ackermann_steering_data() const;
+  inline ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* mutable_ackermann_steering_data();
+  inline ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* release_ackermann_steering_data();
+  inline void set_allocated_ackermann_steering_data(::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* ackermann_steering_data);
 
-  // optional .lunabotics.Telecommand.SteeringMode.TurnInSpotSteeringData turn_in_spot_steering_data = 3;
+  // optional .lunabotics.proto.Telecommand.SteeringMode.TurnInSpotSteeringData turn_in_spot_steering_data = 3;
   inline bool has_turn_in_spot_steering_data() const;
   inline void clear_turn_in_spot_steering_data();
   static const int kTurnInSpotSteeringDataFieldNumber = 3;
-  inline const ::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData& turn_in_spot_steering_data() const;
-  inline ::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData* mutable_turn_in_spot_steering_data();
-  inline ::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData* release_turn_in_spot_steering_data();
-  inline void set_allocated_turn_in_spot_steering_data(::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData* turn_in_spot_steering_data);
+  inline const ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData& turn_in_spot_steering_data() const;
+  inline ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* mutable_turn_in_spot_steering_data();
+  inline ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* release_turn_in_spot_steering_data();
+  inline void set_allocated_turn_in_spot_steering_data(::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* turn_in_spot_steering_data);
 
-  // optional .lunabotics.Telecommand.SteeringMode.CrabSteeringData crab_steering_data = 4;
+  // optional .lunabotics.proto.Telecommand.SteeringMode.CrabSteeringData crab_steering_data = 4;
   inline bool has_crab_steering_data() const;
   inline void clear_crab_steering_data();
   static const int kCrabSteeringDataFieldNumber = 4;
-  inline const ::lunabotics::Telecommand_SteeringMode_CrabSteeringData& crab_steering_data() const;
-  inline ::lunabotics::Telecommand_SteeringMode_CrabSteeringData* mutable_crab_steering_data();
-  inline ::lunabotics::Telecommand_SteeringMode_CrabSteeringData* release_crab_steering_data();
-  inline void set_allocated_crab_steering_data(::lunabotics::Telecommand_SteeringMode_CrabSteeringData* crab_steering_data);
+  inline const ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData& crab_steering_data() const;
+  inline ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* mutable_crab_steering_data();
+  inline ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* release_crab_steering_data();
+  inline void set_allocated_crab_steering_data(::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* crab_steering_data);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telecommand.SteeringMode)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.SteeringMode)
  private:
   inline void set_has_type();
   inline void clear_has_type();
@@ -609,9 +610,9 @@ class Telecommand_SteeringMode : public ::google::protobuf::Message {
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::Telecommand_SteeringMode_AckermannSteeringData* ackermann_steering_data_;
-  ::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData* turn_in_spot_steering_data_;
-  ::lunabotics::Telecommand_SteeringMode_CrabSteeringData* crab_steering_data_;
+  ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* ackermann_steering_data_;
+  ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* turn_in_spot_steering_data_;
+  ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* crab_steering_data_;
   int type_;
 
   mutable int _cached_size_;
@@ -680,14 +681,14 @@ class Telecommand_DefineRoute : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.Point goal = 1;
+  // required .lunabotics.proto.Point goal = 1;
   inline bool has_goal() const;
   inline void clear_goal();
   static const int kGoalFieldNumber = 1;
-  inline const ::lunabotics::Point& goal() const;
-  inline ::lunabotics::Point* mutable_goal();
-  inline ::lunabotics::Point* release_goal();
-  inline void set_allocated_goal(::lunabotics::Point* goal);
+  inline const ::lunabotics::proto::Point& goal() const;
+  inline ::lunabotics::proto::Point* mutable_goal();
+  inline ::lunabotics::proto::Point* release_goal();
+  inline void set_allocated_goal(::lunabotics::proto::Point* goal);
 
   // optional float heading_accuracy = 2 [default = 0.4];
   inline bool has_heading_accuracy() const;
@@ -703,7 +704,7 @@ class Telecommand_DefineRoute : public ::google::protobuf::Message {
   inline float position_accuracy() const;
   inline void set_position_accuracy(float value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telecommand.DefineRoute)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.DefineRoute)
  private:
   inline void set_has_goal();
   inline void clear_has_goal();
@@ -714,7 +715,7 @@ class Telecommand_DefineRoute : public ::google::protobuf::Message {
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::Point* goal_;
+  ::lunabotics::proto::Point* goal_;
   float heading_accuracy_;
   float position_accuracy_;
 
@@ -784,7 +785,7 @@ class Telecommand_RequestMap : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telecommand.RequestMap)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.RequestMap)
  private:
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
@@ -891,7 +892,7 @@ class Telecommand_AdjustPID : public ::google::protobuf::Message {
   inline float velocity_multiplier() const;
   inline void set_velocity_multiplier(float value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telecommand.AdjustPID)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.AdjustPID)
  private:
   inline void set_has_p();
   inline void clear_has_p();
@@ -1014,77 +1015,77 @@ class Telecommand : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.Telecommand.Type type = 1;
+  // required .lunabotics.proto.Telecommand.Type type = 1;
   inline bool has_type() const;
   inline void clear_type();
   static const int kTypeFieldNumber = 1;
-  inline ::lunabotics::Telecommand_Type type() const;
-  inline void set_type(::lunabotics::Telecommand_Type value);
+  inline ::lunabotics::proto::Telecommand_Type type() const;
+  inline void set_type(::lunabotics::proto::Telecommand_Type value);
 
-  // optional .lunabotics.Telecommand.Teleoperation teleoperation_data = 2;
+  // optional .lunabotics.proto.Telecommand.Teleoperation teleoperation_data = 2;
   inline bool has_teleoperation_data() const;
   inline void clear_teleoperation_data();
   static const int kTeleoperationDataFieldNumber = 2;
-  inline const ::lunabotics::Telecommand_Teleoperation& teleoperation_data() const;
-  inline ::lunabotics::Telecommand_Teleoperation* mutable_teleoperation_data();
-  inline ::lunabotics::Telecommand_Teleoperation* release_teleoperation_data();
-  inline void set_allocated_teleoperation_data(::lunabotics::Telecommand_Teleoperation* teleoperation_data);
+  inline const ::lunabotics::proto::Telecommand_Teleoperation& teleoperation_data() const;
+  inline ::lunabotics::proto::Telecommand_Teleoperation* mutable_teleoperation_data();
+  inline ::lunabotics::proto::Telecommand_Teleoperation* release_teleoperation_data();
+  inline void set_allocated_teleoperation_data(::lunabotics::proto::Telecommand_Teleoperation* teleoperation_data);
 
-  // optional .lunabotics.Telecommand.Autonomy autonomy_data = 3;
+  // optional .lunabotics.proto.Telecommand.Autonomy autonomy_data = 3;
   inline bool has_autonomy_data() const;
   inline void clear_autonomy_data();
   static const int kAutonomyDataFieldNumber = 3;
-  inline const ::lunabotics::Telecommand_Autonomy& autonomy_data() const;
-  inline ::lunabotics::Telecommand_Autonomy* mutable_autonomy_data();
-  inline ::lunabotics::Telecommand_Autonomy* release_autonomy_data();
-  inline void set_allocated_autonomy_data(::lunabotics::Telecommand_Autonomy* autonomy_data);
+  inline const ::lunabotics::proto::Telecommand_Autonomy& autonomy_data() const;
+  inline ::lunabotics::proto::Telecommand_Autonomy* mutable_autonomy_data();
+  inline ::lunabotics::proto::Telecommand_Autonomy* release_autonomy_data();
+  inline void set_allocated_autonomy_data(::lunabotics::proto::Telecommand_Autonomy* autonomy_data);
 
-  // optional .lunabotics.Telecommand.SteeringMode steering_mode_data = 4;
+  // optional .lunabotics.proto.Telecommand.SteeringMode steering_mode_data = 4;
   inline bool has_steering_mode_data() const;
   inline void clear_steering_mode_data();
   static const int kSteeringModeDataFieldNumber = 4;
-  inline const ::lunabotics::Telecommand_SteeringMode& steering_mode_data() const;
-  inline ::lunabotics::Telecommand_SteeringMode* mutable_steering_mode_data();
-  inline ::lunabotics::Telecommand_SteeringMode* release_steering_mode_data();
-  inline void set_allocated_steering_mode_data(::lunabotics::Telecommand_SteeringMode* steering_mode_data);
+  inline const ::lunabotics::proto::Telecommand_SteeringMode& steering_mode_data() const;
+  inline ::lunabotics::proto::Telecommand_SteeringMode* mutable_steering_mode_data();
+  inline ::lunabotics::proto::Telecommand_SteeringMode* release_steering_mode_data();
+  inline void set_allocated_steering_mode_data(::lunabotics::proto::Telecommand_SteeringMode* steering_mode_data);
 
-  // optional .lunabotics.Telecommand.DefineRoute define_route_data = 5;
+  // optional .lunabotics.proto.Telecommand.DefineRoute define_route_data = 5;
   inline bool has_define_route_data() const;
   inline void clear_define_route_data();
   static const int kDefineRouteDataFieldNumber = 5;
-  inline const ::lunabotics::Telecommand_DefineRoute& define_route_data() const;
-  inline ::lunabotics::Telecommand_DefineRoute* mutable_define_route_data();
-  inline ::lunabotics::Telecommand_DefineRoute* release_define_route_data();
-  inline void set_allocated_define_route_data(::lunabotics::Telecommand_DefineRoute* define_route_data);
+  inline const ::lunabotics::proto::Telecommand_DefineRoute& define_route_data() const;
+  inline ::lunabotics::proto::Telecommand_DefineRoute* mutable_define_route_data();
+  inline ::lunabotics::proto::Telecommand_DefineRoute* release_define_route_data();
+  inline void set_allocated_define_route_data(::lunabotics::proto::Telecommand_DefineRoute* define_route_data);
 
-  // optional .lunabotics.Telecommand.RequestMap request_map_data = 6;
+  // optional .lunabotics.proto.Telecommand.RequestMap request_map_data = 6;
   inline bool has_request_map_data() const;
   inline void clear_request_map_data();
   static const int kRequestMapDataFieldNumber = 6;
-  inline const ::lunabotics::Telecommand_RequestMap& request_map_data() const;
-  inline ::lunabotics::Telecommand_RequestMap* mutable_request_map_data();
-  inline ::lunabotics::Telecommand_RequestMap* release_request_map_data();
-  inline void set_allocated_request_map_data(::lunabotics::Telecommand_RequestMap* request_map_data);
+  inline const ::lunabotics::proto::Telecommand_RequestMap& request_map_data() const;
+  inline ::lunabotics::proto::Telecommand_RequestMap* mutable_request_map_data();
+  inline ::lunabotics::proto::Telecommand_RequestMap* release_request_map_data();
+  inline void set_allocated_request_map_data(::lunabotics::proto::Telecommand_RequestMap* request_map_data);
 
-  // optional .lunabotics.Telecommand.AdjustPID adjust_pid_data = 7;
+  // optional .lunabotics.proto.Telecommand.AdjustPID adjust_pid_data = 7;
   inline bool has_adjust_pid_data() const;
   inline void clear_adjust_pid_data();
   static const int kAdjustPidDataFieldNumber = 7;
-  inline const ::lunabotics::Telecommand_AdjustPID& adjust_pid_data() const;
-  inline ::lunabotics::Telecommand_AdjustPID* mutable_adjust_pid_data();
-  inline ::lunabotics::Telecommand_AdjustPID* release_adjust_pid_data();
-  inline void set_allocated_adjust_pid_data(::lunabotics::Telecommand_AdjustPID* adjust_pid_data);
+  inline const ::lunabotics::proto::Telecommand_AdjustPID& adjust_pid_data() const;
+  inline ::lunabotics::proto::Telecommand_AdjustPID* mutable_adjust_pid_data();
+  inline ::lunabotics::proto::Telecommand_AdjustPID* release_adjust_pid_data();
+  inline void set_allocated_adjust_pid_data(::lunabotics::proto::Telecommand_AdjustPID* adjust_pid_data);
 
-  // optional .lunabotics.AllWheelControl all_wheel_control_data = 8;
+  // optional .lunabotics.proto.AllWheelControl all_wheel_control_data = 8;
   inline bool has_all_wheel_control_data() const;
   inline void clear_all_wheel_control_data();
   static const int kAllWheelControlDataFieldNumber = 8;
-  inline const ::lunabotics::AllWheelControl& all_wheel_control_data() const;
-  inline ::lunabotics::AllWheelControl* mutable_all_wheel_control_data();
-  inline ::lunabotics::AllWheelControl* release_all_wheel_control_data();
-  inline void set_allocated_all_wheel_control_data(::lunabotics::AllWheelControl* all_wheel_control_data);
+  inline const ::lunabotics::proto::AllWheelControl& all_wheel_control_data() const;
+  inline ::lunabotics::proto::AllWheelControl* mutable_all_wheel_control_data();
+  inline ::lunabotics::proto::AllWheelControl* release_all_wheel_control_data();
+  inline void set_allocated_all_wheel_control_data(::lunabotics::proto::AllWheelControl* all_wheel_control_data);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telecommand)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand)
  private:
   inline void set_has_type();
   inline void clear_has_type();
@@ -1105,13 +1106,13 @@ class Telecommand : public ::google::protobuf::Message {
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::Telecommand_Teleoperation* teleoperation_data_;
-  ::lunabotics::Telecommand_Autonomy* autonomy_data_;
-  ::lunabotics::Telecommand_SteeringMode* steering_mode_data_;
-  ::lunabotics::Telecommand_DefineRoute* define_route_data_;
-  ::lunabotics::Telecommand_RequestMap* request_map_data_;
-  ::lunabotics::Telecommand_AdjustPID* adjust_pid_data_;
-  ::lunabotics::AllWheelControl* all_wheel_control_data_;
+  ::lunabotics::proto::Telecommand_Teleoperation* teleoperation_data_;
+  ::lunabotics::proto::Telecommand_Autonomy* autonomy_data_;
+  ::lunabotics::proto::Telecommand_SteeringMode* steering_mode_data_;
+  ::lunabotics::proto::Telecommand_DefineRoute* define_route_data_;
+  ::lunabotics::proto::Telecommand_RequestMap* request_map_data_;
+  ::lunabotics::proto::Telecommand_AdjustPID* adjust_pid_data_;
+  ::lunabotics::proto::AllWheelControl* all_wheel_control_data_;
   int type_;
 
   mutable int _cached_size_;
@@ -1305,7 +1306,7 @@ inline void Telecommand_SteeringMode_AckermannSteeringData::set_bezier_curve_seg
 
 // Telecommand_SteeringMode
 
-// required .lunabotics.SteeringModeType type = 1;
+// required .lunabotics.proto.SteeringModeType type = 1;
 inline bool Telecommand_SteeringMode::has_type() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1319,16 +1320,16 @@ inline void Telecommand_SteeringMode::clear_type() {
   type_ = 1;
   clear_has_type();
 }
-inline ::lunabotics::SteeringModeType Telecommand_SteeringMode::type() const {
-  return static_cast< ::lunabotics::SteeringModeType >(type_);
+inline ::lunabotics::proto::SteeringModeType Telecommand_SteeringMode::type() const {
+  return static_cast< ::lunabotics::proto::SteeringModeType >(type_);
 }
-inline void Telecommand_SteeringMode::set_type(::lunabotics::SteeringModeType value) {
-  assert(::lunabotics::SteeringModeType_IsValid(value));
+inline void Telecommand_SteeringMode::set_type(::lunabotics::proto::SteeringModeType value) {
+  assert(::lunabotics::proto::SteeringModeType_IsValid(value));
   set_has_type();
   type_ = value;
 }
 
-// optional .lunabotics.Telecommand.SteeringMode.AckermannSteeringData ackermann_steering_data = 2;
+// optional .lunabotics.proto.Telecommand.SteeringMode.AckermannSteeringData ackermann_steering_data = 2;
 inline bool Telecommand_SteeringMode::has_ackermann_steering_data() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -1339,24 +1340,24 @@ inline void Telecommand_SteeringMode::clear_has_ackermann_steering_data() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void Telecommand_SteeringMode::clear_ackermann_steering_data() {
-  if (ackermann_steering_data_ != NULL) ackermann_steering_data_->::lunabotics::Telecommand_SteeringMode_AckermannSteeringData::Clear();
+  if (ackermann_steering_data_ != NULL) ackermann_steering_data_->::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData::Clear();
   clear_has_ackermann_steering_data();
 }
-inline const ::lunabotics::Telecommand_SteeringMode_AckermannSteeringData& Telecommand_SteeringMode::ackermann_steering_data() const {
+inline const ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData& Telecommand_SteeringMode::ackermann_steering_data() const {
   return ackermann_steering_data_ != NULL ? *ackermann_steering_data_ : *default_instance_->ackermann_steering_data_;
 }
-inline ::lunabotics::Telecommand_SteeringMode_AckermannSteeringData* Telecommand_SteeringMode::mutable_ackermann_steering_data() {
+inline ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* Telecommand_SteeringMode::mutable_ackermann_steering_data() {
   set_has_ackermann_steering_data();
-  if (ackermann_steering_data_ == NULL) ackermann_steering_data_ = new ::lunabotics::Telecommand_SteeringMode_AckermannSteeringData;
+  if (ackermann_steering_data_ == NULL) ackermann_steering_data_ = new ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData;
   return ackermann_steering_data_;
 }
-inline ::lunabotics::Telecommand_SteeringMode_AckermannSteeringData* Telecommand_SteeringMode::release_ackermann_steering_data() {
+inline ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* Telecommand_SteeringMode::release_ackermann_steering_data() {
   clear_has_ackermann_steering_data();
-  ::lunabotics::Telecommand_SteeringMode_AckermannSteeringData* temp = ackermann_steering_data_;
+  ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* temp = ackermann_steering_data_;
   ackermann_steering_data_ = NULL;
   return temp;
 }
-inline void Telecommand_SteeringMode::set_allocated_ackermann_steering_data(::lunabotics::Telecommand_SteeringMode_AckermannSteeringData* ackermann_steering_data) {
+inline void Telecommand_SteeringMode::set_allocated_ackermann_steering_data(::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* ackermann_steering_data) {
   delete ackermann_steering_data_;
   ackermann_steering_data_ = ackermann_steering_data;
   if (ackermann_steering_data) {
@@ -1366,7 +1367,7 @@ inline void Telecommand_SteeringMode::set_allocated_ackermann_steering_data(::lu
   }
 }
 
-// optional .lunabotics.Telecommand.SteeringMode.TurnInSpotSteeringData turn_in_spot_steering_data = 3;
+// optional .lunabotics.proto.Telecommand.SteeringMode.TurnInSpotSteeringData turn_in_spot_steering_data = 3;
 inline bool Telecommand_SteeringMode::has_turn_in_spot_steering_data() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -1377,24 +1378,24 @@ inline void Telecommand_SteeringMode::clear_has_turn_in_spot_steering_data() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void Telecommand_SteeringMode::clear_turn_in_spot_steering_data() {
-  if (turn_in_spot_steering_data_ != NULL) turn_in_spot_steering_data_->::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData::Clear();
+  if (turn_in_spot_steering_data_ != NULL) turn_in_spot_steering_data_->::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData::Clear();
   clear_has_turn_in_spot_steering_data();
 }
-inline const ::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData& Telecommand_SteeringMode::turn_in_spot_steering_data() const {
+inline const ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData& Telecommand_SteeringMode::turn_in_spot_steering_data() const {
   return turn_in_spot_steering_data_ != NULL ? *turn_in_spot_steering_data_ : *default_instance_->turn_in_spot_steering_data_;
 }
-inline ::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData* Telecommand_SteeringMode::mutable_turn_in_spot_steering_data() {
+inline ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* Telecommand_SteeringMode::mutable_turn_in_spot_steering_data() {
   set_has_turn_in_spot_steering_data();
-  if (turn_in_spot_steering_data_ == NULL) turn_in_spot_steering_data_ = new ::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData;
+  if (turn_in_spot_steering_data_ == NULL) turn_in_spot_steering_data_ = new ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData;
   return turn_in_spot_steering_data_;
 }
-inline ::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData* Telecommand_SteeringMode::release_turn_in_spot_steering_data() {
+inline ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* Telecommand_SteeringMode::release_turn_in_spot_steering_data() {
   clear_has_turn_in_spot_steering_data();
-  ::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData* temp = turn_in_spot_steering_data_;
+  ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* temp = turn_in_spot_steering_data_;
   turn_in_spot_steering_data_ = NULL;
   return temp;
 }
-inline void Telecommand_SteeringMode::set_allocated_turn_in_spot_steering_data(::lunabotics::Telecommand_SteeringMode_TurnInSpotSteeringData* turn_in_spot_steering_data) {
+inline void Telecommand_SteeringMode::set_allocated_turn_in_spot_steering_data(::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* turn_in_spot_steering_data) {
   delete turn_in_spot_steering_data_;
   turn_in_spot_steering_data_ = turn_in_spot_steering_data;
   if (turn_in_spot_steering_data) {
@@ -1404,7 +1405,7 @@ inline void Telecommand_SteeringMode::set_allocated_turn_in_spot_steering_data(:
   }
 }
 
-// optional .lunabotics.Telecommand.SteeringMode.CrabSteeringData crab_steering_data = 4;
+// optional .lunabotics.proto.Telecommand.SteeringMode.CrabSteeringData crab_steering_data = 4;
 inline bool Telecommand_SteeringMode::has_crab_steering_data() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
@@ -1415,24 +1416,24 @@ inline void Telecommand_SteeringMode::clear_has_crab_steering_data() {
   _has_bits_[0] &= ~0x00000008u;
 }
 inline void Telecommand_SteeringMode::clear_crab_steering_data() {
-  if (crab_steering_data_ != NULL) crab_steering_data_->::lunabotics::Telecommand_SteeringMode_CrabSteeringData::Clear();
+  if (crab_steering_data_ != NULL) crab_steering_data_->::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData::Clear();
   clear_has_crab_steering_data();
 }
-inline const ::lunabotics::Telecommand_SteeringMode_CrabSteeringData& Telecommand_SteeringMode::crab_steering_data() const {
+inline const ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData& Telecommand_SteeringMode::crab_steering_data() const {
   return crab_steering_data_ != NULL ? *crab_steering_data_ : *default_instance_->crab_steering_data_;
 }
-inline ::lunabotics::Telecommand_SteeringMode_CrabSteeringData* Telecommand_SteeringMode::mutable_crab_steering_data() {
+inline ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* Telecommand_SteeringMode::mutable_crab_steering_data() {
   set_has_crab_steering_data();
-  if (crab_steering_data_ == NULL) crab_steering_data_ = new ::lunabotics::Telecommand_SteeringMode_CrabSteeringData;
+  if (crab_steering_data_ == NULL) crab_steering_data_ = new ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData;
   return crab_steering_data_;
 }
-inline ::lunabotics::Telecommand_SteeringMode_CrabSteeringData* Telecommand_SteeringMode::release_crab_steering_data() {
+inline ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* Telecommand_SteeringMode::release_crab_steering_data() {
   clear_has_crab_steering_data();
-  ::lunabotics::Telecommand_SteeringMode_CrabSteeringData* temp = crab_steering_data_;
+  ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* temp = crab_steering_data_;
   crab_steering_data_ = NULL;
   return temp;
 }
-inline void Telecommand_SteeringMode::set_allocated_crab_steering_data(::lunabotics::Telecommand_SteeringMode_CrabSteeringData* crab_steering_data) {
+inline void Telecommand_SteeringMode::set_allocated_crab_steering_data(::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* crab_steering_data) {
   delete crab_steering_data_;
   crab_steering_data_ = crab_steering_data;
   if (crab_steering_data) {
@@ -1446,7 +1447,7 @@ inline void Telecommand_SteeringMode::set_allocated_crab_steering_data(::lunabot
 
 // Telecommand_DefineRoute
 
-// required .lunabotics.Point goal = 1;
+// required .lunabotics.proto.Point goal = 1;
 inline bool Telecommand_DefineRoute::has_goal() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1457,24 +1458,24 @@ inline void Telecommand_DefineRoute::clear_has_goal() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void Telecommand_DefineRoute::clear_goal() {
-  if (goal_ != NULL) goal_->::lunabotics::Point::Clear();
+  if (goal_ != NULL) goal_->::lunabotics::proto::Point::Clear();
   clear_has_goal();
 }
-inline const ::lunabotics::Point& Telecommand_DefineRoute::goal() const {
+inline const ::lunabotics::proto::Point& Telecommand_DefineRoute::goal() const {
   return goal_ != NULL ? *goal_ : *default_instance_->goal_;
 }
-inline ::lunabotics::Point* Telecommand_DefineRoute::mutable_goal() {
+inline ::lunabotics::proto::Point* Telecommand_DefineRoute::mutable_goal() {
   set_has_goal();
-  if (goal_ == NULL) goal_ = new ::lunabotics::Point;
+  if (goal_ == NULL) goal_ = new ::lunabotics::proto::Point;
   return goal_;
 }
-inline ::lunabotics::Point* Telecommand_DefineRoute::release_goal() {
+inline ::lunabotics::proto::Point* Telecommand_DefineRoute::release_goal() {
   clear_has_goal();
-  ::lunabotics::Point* temp = goal_;
+  ::lunabotics::proto::Point* temp = goal_;
   goal_ = NULL;
   return temp;
 }
-inline void Telecommand_DefineRoute::set_allocated_goal(::lunabotics::Point* goal) {
+inline void Telecommand_DefineRoute::set_allocated_goal(::lunabotics::proto::Point* goal) {
   delete goal_;
   goal_ = goal;
   if (goal) {
@@ -1650,7 +1651,7 @@ inline void Telecommand_AdjustPID::set_velocity_multiplier(float value) {
 
 // Telecommand
 
-// required .lunabotics.Telecommand.Type type = 1;
+// required .lunabotics.proto.Telecommand.Type type = 1;
 inline bool Telecommand::has_type() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1664,16 +1665,16 @@ inline void Telecommand::clear_type() {
   type_ = 1;
   clear_has_type();
 }
-inline ::lunabotics::Telecommand_Type Telecommand::type() const {
-  return static_cast< ::lunabotics::Telecommand_Type >(type_);
+inline ::lunabotics::proto::Telecommand_Type Telecommand::type() const {
+  return static_cast< ::lunabotics::proto::Telecommand_Type >(type_);
 }
-inline void Telecommand::set_type(::lunabotics::Telecommand_Type value) {
-  assert(::lunabotics::Telecommand_Type_IsValid(value));
+inline void Telecommand::set_type(::lunabotics::proto::Telecommand_Type value) {
+  assert(::lunabotics::proto::Telecommand_Type_IsValid(value));
   set_has_type();
   type_ = value;
 }
 
-// optional .lunabotics.Telecommand.Teleoperation teleoperation_data = 2;
+// optional .lunabotics.proto.Telecommand.Teleoperation teleoperation_data = 2;
 inline bool Telecommand::has_teleoperation_data() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -1684,24 +1685,24 @@ inline void Telecommand::clear_has_teleoperation_data() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void Telecommand::clear_teleoperation_data() {
-  if (teleoperation_data_ != NULL) teleoperation_data_->::lunabotics::Telecommand_Teleoperation::Clear();
+  if (teleoperation_data_ != NULL) teleoperation_data_->::lunabotics::proto::Telecommand_Teleoperation::Clear();
   clear_has_teleoperation_data();
 }
-inline const ::lunabotics::Telecommand_Teleoperation& Telecommand::teleoperation_data() const {
+inline const ::lunabotics::proto::Telecommand_Teleoperation& Telecommand::teleoperation_data() const {
   return teleoperation_data_ != NULL ? *teleoperation_data_ : *default_instance_->teleoperation_data_;
 }
-inline ::lunabotics::Telecommand_Teleoperation* Telecommand::mutable_teleoperation_data() {
+inline ::lunabotics::proto::Telecommand_Teleoperation* Telecommand::mutable_teleoperation_data() {
   set_has_teleoperation_data();
-  if (teleoperation_data_ == NULL) teleoperation_data_ = new ::lunabotics::Telecommand_Teleoperation;
+  if (teleoperation_data_ == NULL) teleoperation_data_ = new ::lunabotics::proto::Telecommand_Teleoperation;
   return teleoperation_data_;
 }
-inline ::lunabotics::Telecommand_Teleoperation* Telecommand::release_teleoperation_data() {
+inline ::lunabotics::proto::Telecommand_Teleoperation* Telecommand::release_teleoperation_data() {
   clear_has_teleoperation_data();
-  ::lunabotics::Telecommand_Teleoperation* temp = teleoperation_data_;
+  ::lunabotics::proto::Telecommand_Teleoperation* temp = teleoperation_data_;
   teleoperation_data_ = NULL;
   return temp;
 }
-inline void Telecommand::set_allocated_teleoperation_data(::lunabotics::Telecommand_Teleoperation* teleoperation_data) {
+inline void Telecommand::set_allocated_teleoperation_data(::lunabotics::proto::Telecommand_Teleoperation* teleoperation_data) {
   delete teleoperation_data_;
   teleoperation_data_ = teleoperation_data;
   if (teleoperation_data) {
@@ -1711,7 +1712,7 @@ inline void Telecommand::set_allocated_teleoperation_data(::lunabotics::Telecomm
   }
 }
 
-// optional .lunabotics.Telecommand.Autonomy autonomy_data = 3;
+// optional .lunabotics.proto.Telecommand.Autonomy autonomy_data = 3;
 inline bool Telecommand::has_autonomy_data() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -1722,24 +1723,24 @@ inline void Telecommand::clear_has_autonomy_data() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void Telecommand::clear_autonomy_data() {
-  if (autonomy_data_ != NULL) autonomy_data_->::lunabotics::Telecommand_Autonomy::Clear();
+  if (autonomy_data_ != NULL) autonomy_data_->::lunabotics::proto::Telecommand_Autonomy::Clear();
   clear_has_autonomy_data();
 }
-inline const ::lunabotics::Telecommand_Autonomy& Telecommand::autonomy_data() const {
+inline const ::lunabotics::proto::Telecommand_Autonomy& Telecommand::autonomy_data() const {
   return autonomy_data_ != NULL ? *autonomy_data_ : *default_instance_->autonomy_data_;
 }
-inline ::lunabotics::Telecommand_Autonomy* Telecommand::mutable_autonomy_data() {
+inline ::lunabotics::proto::Telecommand_Autonomy* Telecommand::mutable_autonomy_data() {
   set_has_autonomy_data();
-  if (autonomy_data_ == NULL) autonomy_data_ = new ::lunabotics::Telecommand_Autonomy;
+  if (autonomy_data_ == NULL) autonomy_data_ = new ::lunabotics::proto::Telecommand_Autonomy;
   return autonomy_data_;
 }
-inline ::lunabotics::Telecommand_Autonomy* Telecommand::release_autonomy_data() {
+inline ::lunabotics::proto::Telecommand_Autonomy* Telecommand::release_autonomy_data() {
   clear_has_autonomy_data();
-  ::lunabotics::Telecommand_Autonomy* temp = autonomy_data_;
+  ::lunabotics::proto::Telecommand_Autonomy* temp = autonomy_data_;
   autonomy_data_ = NULL;
   return temp;
 }
-inline void Telecommand::set_allocated_autonomy_data(::lunabotics::Telecommand_Autonomy* autonomy_data) {
+inline void Telecommand::set_allocated_autonomy_data(::lunabotics::proto::Telecommand_Autonomy* autonomy_data) {
   delete autonomy_data_;
   autonomy_data_ = autonomy_data;
   if (autonomy_data) {
@@ -1749,7 +1750,7 @@ inline void Telecommand::set_allocated_autonomy_data(::lunabotics::Telecommand_A
   }
 }
 
-// optional .lunabotics.Telecommand.SteeringMode steering_mode_data = 4;
+// optional .lunabotics.proto.Telecommand.SteeringMode steering_mode_data = 4;
 inline bool Telecommand::has_steering_mode_data() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
@@ -1760,24 +1761,24 @@ inline void Telecommand::clear_has_steering_mode_data() {
   _has_bits_[0] &= ~0x00000008u;
 }
 inline void Telecommand::clear_steering_mode_data() {
-  if (steering_mode_data_ != NULL) steering_mode_data_->::lunabotics::Telecommand_SteeringMode::Clear();
+  if (steering_mode_data_ != NULL) steering_mode_data_->::lunabotics::proto::Telecommand_SteeringMode::Clear();
   clear_has_steering_mode_data();
 }
-inline const ::lunabotics::Telecommand_SteeringMode& Telecommand::steering_mode_data() const {
+inline const ::lunabotics::proto::Telecommand_SteeringMode& Telecommand::steering_mode_data() const {
   return steering_mode_data_ != NULL ? *steering_mode_data_ : *default_instance_->steering_mode_data_;
 }
-inline ::lunabotics::Telecommand_SteeringMode* Telecommand::mutable_steering_mode_data() {
+inline ::lunabotics::proto::Telecommand_SteeringMode* Telecommand::mutable_steering_mode_data() {
   set_has_steering_mode_data();
-  if (steering_mode_data_ == NULL) steering_mode_data_ = new ::lunabotics::Telecommand_SteeringMode;
+  if (steering_mode_data_ == NULL) steering_mode_data_ = new ::lunabotics::proto::Telecommand_SteeringMode;
   return steering_mode_data_;
 }
-inline ::lunabotics::Telecommand_SteeringMode* Telecommand::release_steering_mode_data() {
+inline ::lunabotics::proto::Telecommand_SteeringMode* Telecommand::release_steering_mode_data() {
   clear_has_steering_mode_data();
-  ::lunabotics::Telecommand_SteeringMode* temp = steering_mode_data_;
+  ::lunabotics::proto::Telecommand_SteeringMode* temp = steering_mode_data_;
   steering_mode_data_ = NULL;
   return temp;
 }
-inline void Telecommand::set_allocated_steering_mode_data(::lunabotics::Telecommand_SteeringMode* steering_mode_data) {
+inline void Telecommand::set_allocated_steering_mode_data(::lunabotics::proto::Telecommand_SteeringMode* steering_mode_data) {
   delete steering_mode_data_;
   steering_mode_data_ = steering_mode_data;
   if (steering_mode_data) {
@@ -1787,7 +1788,7 @@ inline void Telecommand::set_allocated_steering_mode_data(::lunabotics::Telecomm
   }
 }
 
-// optional .lunabotics.Telecommand.DefineRoute define_route_data = 5;
+// optional .lunabotics.proto.Telecommand.DefineRoute define_route_data = 5;
 inline bool Telecommand::has_define_route_data() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
@@ -1798,24 +1799,24 @@ inline void Telecommand::clear_has_define_route_data() {
   _has_bits_[0] &= ~0x00000010u;
 }
 inline void Telecommand::clear_define_route_data() {
-  if (define_route_data_ != NULL) define_route_data_->::lunabotics::Telecommand_DefineRoute::Clear();
+  if (define_route_data_ != NULL) define_route_data_->::lunabotics::proto::Telecommand_DefineRoute::Clear();
   clear_has_define_route_data();
 }
-inline const ::lunabotics::Telecommand_DefineRoute& Telecommand::define_route_data() const {
+inline const ::lunabotics::proto::Telecommand_DefineRoute& Telecommand::define_route_data() const {
   return define_route_data_ != NULL ? *define_route_data_ : *default_instance_->define_route_data_;
 }
-inline ::lunabotics::Telecommand_DefineRoute* Telecommand::mutable_define_route_data() {
+inline ::lunabotics::proto::Telecommand_DefineRoute* Telecommand::mutable_define_route_data() {
   set_has_define_route_data();
-  if (define_route_data_ == NULL) define_route_data_ = new ::lunabotics::Telecommand_DefineRoute;
+  if (define_route_data_ == NULL) define_route_data_ = new ::lunabotics::proto::Telecommand_DefineRoute;
   return define_route_data_;
 }
-inline ::lunabotics::Telecommand_DefineRoute* Telecommand::release_define_route_data() {
+inline ::lunabotics::proto::Telecommand_DefineRoute* Telecommand::release_define_route_data() {
   clear_has_define_route_data();
-  ::lunabotics::Telecommand_DefineRoute* temp = define_route_data_;
+  ::lunabotics::proto::Telecommand_DefineRoute* temp = define_route_data_;
   define_route_data_ = NULL;
   return temp;
 }
-inline void Telecommand::set_allocated_define_route_data(::lunabotics::Telecommand_DefineRoute* define_route_data) {
+inline void Telecommand::set_allocated_define_route_data(::lunabotics::proto::Telecommand_DefineRoute* define_route_data) {
   delete define_route_data_;
   define_route_data_ = define_route_data;
   if (define_route_data) {
@@ -1825,7 +1826,7 @@ inline void Telecommand::set_allocated_define_route_data(::lunabotics::Telecomma
   }
 }
 
-// optional .lunabotics.Telecommand.RequestMap request_map_data = 6;
+// optional .lunabotics.proto.Telecommand.RequestMap request_map_data = 6;
 inline bool Telecommand::has_request_map_data() const {
   return (_has_bits_[0] & 0x00000020u) != 0;
 }
@@ -1836,24 +1837,24 @@ inline void Telecommand::clear_has_request_map_data() {
   _has_bits_[0] &= ~0x00000020u;
 }
 inline void Telecommand::clear_request_map_data() {
-  if (request_map_data_ != NULL) request_map_data_->::lunabotics::Telecommand_RequestMap::Clear();
+  if (request_map_data_ != NULL) request_map_data_->::lunabotics::proto::Telecommand_RequestMap::Clear();
   clear_has_request_map_data();
 }
-inline const ::lunabotics::Telecommand_RequestMap& Telecommand::request_map_data() const {
+inline const ::lunabotics::proto::Telecommand_RequestMap& Telecommand::request_map_data() const {
   return request_map_data_ != NULL ? *request_map_data_ : *default_instance_->request_map_data_;
 }
-inline ::lunabotics::Telecommand_RequestMap* Telecommand::mutable_request_map_data() {
+inline ::lunabotics::proto::Telecommand_RequestMap* Telecommand::mutable_request_map_data() {
   set_has_request_map_data();
-  if (request_map_data_ == NULL) request_map_data_ = new ::lunabotics::Telecommand_RequestMap;
+  if (request_map_data_ == NULL) request_map_data_ = new ::lunabotics::proto::Telecommand_RequestMap;
   return request_map_data_;
 }
-inline ::lunabotics::Telecommand_RequestMap* Telecommand::release_request_map_data() {
+inline ::lunabotics::proto::Telecommand_RequestMap* Telecommand::release_request_map_data() {
   clear_has_request_map_data();
-  ::lunabotics::Telecommand_RequestMap* temp = request_map_data_;
+  ::lunabotics::proto::Telecommand_RequestMap* temp = request_map_data_;
   request_map_data_ = NULL;
   return temp;
 }
-inline void Telecommand::set_allocated_request_map_data(::lunabotics::Telecommand_RequestMap* request_map_data) {
+inline void Telecommand::set_allocated_request_map_data(::lunabotics::proto::Telecommand_RequestMap* request_map_data) {
   delete request_map_data_;
   request_map_data_ = request_map_data;
   if (request_map_data) {
@@ -1863,7 +1864,7 @@ inline void Telecommand::set_allocated_request_map_data(::lunabotics::Telecomman
   }
 }
 
-// optional .lunabotics.Telecommand.AdjustPID adjust_pid_data = 7;
+// optional .lunabotics.proto.Telecommand.AdjustPID adjust_pid_data = 7;
 inline bool Telecommand::has_adjust_pid_data() const {
   return (_has_bits_[0] & 0x00000040u) != 0;
 }
@@ -1874,24 +1875,24 @@ inline void Telecommand::clear_has_adjust_pid_data() {
   _has_bits_[0] &= ~0x00000040u;
 }
 inline void Telecommand::clear_adjust_pid_data() {
-  if (adjust_pid_data_ != NULL) adjust_pid_data_->::lunabotics::Telecommand_AdjustPID::Clear();
+  if (adjust_pid_data_ != NULL) adjust_pid_data_->::lunabotics::proto::Telecommand_AdjustPID::Clear();
   clear_has_adjust_pid_data();
 }
-inline const ::lunabotics::Telecommand_AdjustPID& Telecommand::adjust_pid_data() const {
+inline const ::lunabotics::proto::Telecommand_AdjustPID& Telecommand::adjust_pid_data() const {
   return adjust_pid_data_ != NULL ? *adjust_pid_data_ : *default_instance_->adjust_pid_data_;
 }
-inline ::lunabotics::Telecommand_AdjustPID* Telecommand::mutable_adjust_pid_data() {
+inline ::lunabotics::proto::Telecommand_AdjustPID* Telecommand::mutable_adjust_pid_data() {
   set_has_adjust_pid_data();
-  if (adjust_pid_data_ == NULL) adjust_pid_data_ = new ::lunabotics::Telecommand_AdjustPID;
+  if (adjust_pid_data_ == NULL) adjust_pid_data_ = new ::lunabotics::proto::Telecommand_AdjustPID;
   return adjust_pid_data_;
 }
-inline ::lunabotics::Telecommand_AdjustPID* Telecommand::release_adjust_pid_data() {
+inline ::lunabotics::proto::Telecommand_AdjustPID* Telecommand::release_adjust_pid_data() {
   clear_has_adjust_pid_data();
-  ::lunabotics::Telecommand_AdjustPID* temp = adjust_pid_data_;
+  ::lunabotics::proto::Telecommand_AdjustPID* temp = adjust_pid_data_;
   adjust_pid_data_ = NULL;
   return temp;
 }
-inline void Telecommand::set_allocated_adjust_pid_data(::lunabotics::Telecommand_AdjustPID* adjust_pid_data) {
+inline void Telecommand::set_allocated_adjust_pid_data(::lunabotics::proto::Telecommand_AdjustPID* adjust_pid_data) {
   delete adjust_pid_data_;
   adjust_pid_data_ = adjust_pid_data;
   if (adjust_pid_data) {
@@ -1901,7 +1902,7 @@ inline void Telecommand::set_allocated_adjust_pid_data(::lunabotics::Telecommand
   }
 }
 
-// optional .lunabotics.AllWheelControl all_wheel_control_data = 8;
+// optional .lunabotics.proto.AllWheelControl all_wheel_control_data = 8;
 inline bool Telecommand::has_all_wheel_control_data() const {
   return (_has_bits_[0] & 0x00000080u) != 0;
 }
@@ -1912,24 +1913,24 @@ inline void Telecommand::clear_has_all_wheel_control_data() {
   _has_bits_[0] &= ~0x00000080u;
 }
 inline void Telecommand::clear_all_wheel_control_data() {
-  if (all_wheel_control_data_ != NULL) all_wheel_control_data_->::lunabotics::AllWheelControl::Clear();
+  if (all_wheel_control_data_ != NULL) all_wheel_control_data_->::lunabotics::proto::AllWheelControl::Clear();
   clear_has_all_wheel_control_data();
 }
-inline const ::lunabotics::AllWheelControl& Telecommand::all_wheel_control_data() const {
+inline const ::lunabotics::proto::AllWheelControl& Telecommand::all_wheel_control_data() const {
   return all_wheel_control_data_ != NULL ? *all_wheel_control_data_ : *default_instance_->all_wheel_control_data_;
 }
-inline ::lunabotics::AllWheelControl* Telecommand::mutable_all_wheel_control_data() {
+inline ::lunabotics::proto::AllWheelControl* Telecommand::mutable_all_wheel_control_data() {
   set_has_all_wheel_control_data();
-  if (all_wheel_control_data_ == NULL) all_wheel_control_data_ = new ::lunabotics::AllWheelControl;
+  if (all_wheel_control_data_ == NULL) all_wheel_control_data_ = new ::lunabotics::proto::AllWheelControl;
   return all_wheel_control_data_;
 }
-inline ::lunabotics::AllWheelControl* Telecommand::release_all_wheel_control_data() {
+inline ::lunabotics::proto::AllWheelControl* Telecommand::release_all_wheel_control_data() {
   clear_has_all_wheel_control_data();
-  ::lunabotics::AllWheelControl* temp = all_wheel_control_data_;
+  ::lunabotics::proto::AllWheelControl* temp = all_wheel_control_data_;
   all_wheel_control_data_ = NULL;
   return temp;
 }
-inline void Telecommand::set_allocated_all_wheel_control_data(::lunabotics::AllWheelControl* all_wheel_control_data) {
+inline void Telecommand::set_allocated_all_wheel_control_data(::lunabotics::proto::AllWheelControl* all_wheel_control_data) {
   delete all_wheel_control_data_;
   all_wheel_control_data_ = all_wheel_control_data;
   if (all_wheel_control_data) {
@@ -1942,6 +1943,7 @@ inline void Telecommand::set_allocated_all_wheel_control_data(::lunabotics::AllW
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 #ifndef SWIG
@@ -1949,8 +1951,8 @@ namespace google {
 namespace protobuf {
 
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::Telecommand_Type>() {
-  return ::lunabotics::Telecommand_Type_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::proto::Telecommand_Type>() {
+  return ::lunabotics::proto::Telecommand_Type_descriptor();
 }
 
 }  // namespace google

@@ -17,6 +17,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 namespace {
 
@@ -41,9 +42,9 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* Telemetry_LaserScan_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Telemetry_LaserScan_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Telemetry_JointPositions_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* Telemetry_Geometry_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
-  Telemetry_JointPositions_reflection_ = NULL;
+  Telemetry_Geometry_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* Telemetry_PointTurnState_descriptor_ = NULL;
 
 }  // namespace
@@ -62,7 +63,7 @@ void protobuf_AssignDesc_Telemetry_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry, path_data_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry, laser_scan_data_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry, all_wheel_state_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry, joints_data_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry, geometry_data_),
   };
   Telemetry_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -179,24 +180,26 @@ void protobuf_AssignDesc_Telemetry_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Telemetry_LaserScan));
-  Telemetry_JointPositions_descriptor_ = Telemetry_descriptor_->nested_type(4);
-  static const int Telemetry_JointPositions_offsets_[4] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_JointPositions, left_front_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_JointPositions, left_rear_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_JointPositions, right_front_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_JointPositions, right_rear_),
+  Telemetry_Geometry_descriptor_ = Telemetry_descriptor_->nested_type(4);
+  static const int Telemetry_Geometry_offsets_[6] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_Geometry, left_front_joint_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_Geometry, left_rear_joint_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_Geometry, right_front_joint_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_Geometry, right_rear_joint_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_Geometry, wheel_offset_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_Geometry, wheel_radius_),
   };
-  Telemetry_JointPositions_reflection_ =
+  Telemetry_Geometry_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
-      Telemetry_JointPositions_descriptor_,
-      Telemetry_JointPositions::default_instance_,
-      Telemetry_JointPositions_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_JointPositions, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_JointPositions, _unknown_fields_),
+      Telemetry_Geometry_descriptor_,
+      Telemetry_Geometry::default_instance_,
+      Telemetry_Geometry_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_Geometry, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_Geometry, _unknown_fields_),
       -1,
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Telemetry_JointPositions));
+      sizeof(Telemetry_Geometry));
   Telemetry_PointTurnState_descriptor_ = Telemetry_descriptor_->enum_type(0);
 }
 
@@ -225,7 +228,7 @@ void protobuf_RegisterTypes(const ::std::string&) {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     Telemetry_LaserScan_descriptor_, &Telemetry_LaserScan::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Telemetry_JointPositions_descriptor_, &Telemetry_JointPositions::default_instance());
+    Telemetry_Geometry_descriptor_, &Telemetry_Geometry::default_instance());
 }
 
 }  // namespace
@@ -245,8 +248,8 @@ void protobuf_ShutdownFile_Telemetry_2eproto() {
   delete Telemetry_Path_reflection_;
   delete Telemetry_LaserScan::default_instance_;
   delete Telemetry_LaserScan_reflection_;
-  delete Telemetry_JointPositions::default_instance_;
-  delete Telemetry_JointPositions_reflection_;
+  delete Telemetry_Geometry::default_instance_;
+  delete Telemetry_Geometry_reflection_;
 }
 
 void protobuf_AddDesc_Telemetry_2eproto() {
@@ -255,50 +258,55 @@ void protobuf_AddDesc_Telemetry_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  ::lunabotics::protobuf_AddDesc_SteeringModeType_2eproto();
-  ::lunabotics::protobuf_AddDesc_Point_2eproto();
-  ::lunabotics::protobuf_AddDesc_Twist_2eproto();
-  ::lunabotics::protobuf_AddDesc_AllWheelState_2eproto();
+  ::lunabotics::proto::protobuf_AddDesc_SteeringModeType_2eproto();
+  ::lunabotics::proto::protobuf_AddDesc_Point_2eproto();
+  ::lunabotics::proto::protobuf_AddDesc_Twist_2eproto();
+  ::lunabotics::proto::protobuf_AddDesc_AllWheelState_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\017Telemetry.proto\022\nlunabotics\032\026SteeringM"
-    "odeType.proto\032\013Point.proto\032\013Twist.proto\032"
-    "\023AllWheelState.proto\"\220\013\n\tTelemetry\022/\n\nst"
-    "ate_data\030\002 \001(\0132\033.lunabotics.Telemetry.St"
-    "ate\022/\n\nworld_data\030\003 \001(\0132\033.lunabotics.Tel"
-    "emetry.World\022-\n\tpath_data\030\004 \001(\0132\032.lunabo"
-    "tics.Telemetry.Path\0228\n\017laser_scan_data\030\005"
-    " \001(\0132\037.lunabotics.Telemetry.LaserScan\0222\n"
-    "\017all_wheel_state\030\006 \001(\0132\031.lunabotics.AllW"
-    "heelState\0229\n\013joints_data\030\007 \001(\0132$.lunabot"
-    "ics.Telemetry.JointPositions\032\330\005\n\005State\022#"
-    "\n\010position\030\001 \002(\0132\021.lunabotics.Point\022\017\n\007h"
-    "eading\030\002 \002(\002\022%\n\nvelocities\030\003 \002(\0132\021.lunab"
-    "otics.Twist\0223\n\rsteering_mode\030\004 \002(\0162\034.lun"
-    "abotics.SteeringModeType\022\030\n\020autonomy_ena"
-    "bled\030\005 \002(\010\022\031\n\021next_waypoint_idx\030\006 \001(\005\022\036\n"
-    "\003icr\030\007 \001(\0132\021.lunabotics.Point\022K\n\023ackerma"
-    "nn_telemetry\030\010 \001(\0132..lunabotics.Telemetr"
-    "y.State.AckermannTelemetry\022L\n\024point_turn"
-    "_telemetry\030\t \001(\0132..lunabotics.Telemetry."
-    "State.PointTurnTelemetry\032\201\002\n\022AckermannTe"
-    "lemetry\022\021\n\tpid_error\030\001 \002(\002\0223\n\030closest_tr"
-    "ajectory_point\030\002 \002(\0132\021.lunabotics.Point\022"
-    "0\n\025velocity_vector_point\030\003 \002(\0132\021.lunabot"
-    "ics.Point\0229\n\036closest_trajectory_local_po"
-    "int\030\004 \002(\0132\021.lunabotics.Point\0226\n\033velocity"
-    "_vector_local_point\030\005 \002(\0132\021.lunabotics.P"
-    "oint\032I\n\022PointTurnTelemetry\0223\n\005state\030\001 \002("
-    "\0162$.lunabotics.Telemetry.PointTurnState\032"
-    "L\n\005World\022\r\n\005width\030\001 \002(\005\022\016\n\006height\030\002 \002(\005\022"
-    "\022\n\nresolution\030\003 \002(\002\022\020\n\004cell\030\004 \003(\005B\002\020\001\032+\n"
-    "\004Path\022#\n\010position\030\001 \003(\0132\021.lunabotics.Poi"
-    "nt\032\013\n\tLaserScan\032\254\001\n\016JointPositions\022%\n\nle"
-    "ft_front\030\001 \002(\0132\021.lunabotics.Point\022$\n\tlef"
-    "t_rear\030\002 \002(\0132\021.lunabotics.Point\022&\n\013right"
-    "_front\030\003 \002(\0132\021.lunabotics.Point\022%\n\nright"
-    "_rear\030\004 \002(\0132\021.lunabotics.Point\"7\n\016PointT"
-    "urnState\022\013\n\007STOPPED\020\001\022\013\n\007DRIVING\020\002\022\013\n\007TU"
-    "RNING\020\003", 1527);
+    "\n\017Telemetry.proto\022\020lunabotics.proto\032\026Ste"
+    "eringModeType.proto\032\013Point.proto\032\013Twist."
+    "proto\032\023AllWheelState.proto\"\316\014\n\tTelemetry"
+    "\0225\n\nstate_data\030\002 \001(\0132!.lunabotics.proto."
+    "Telemetry.State\0225\n\nworld_data\030\003 \001(\0132!.lu"
+    "nabotics.proto.Telemetry.World\0223\n\tpath_d"
+    "ata\030\004 \001(\0132 .lunabotics.proto.Telemetry.P"
+    "ath\022>\n\017laser_scan_data\030\005 \001(\0132%.lunabotic"
+    "s.proto.Telemetry.LaserScan\0228\n\017all_wheel"
+    "_state\030\006 \001(\0132\037.lunabotics.proto.AllWheel"
+    "State\022;\n\rgeometry_data\030\007 \001(\0132$.lunabotic"
+    "s.proto.Telemetry.Geometry\032\232\006\n\005State\022)\n\010"
+    "position\030\001 \002(\0132\027.lunabotics.proto.Point\022"
+    "\017\n\007heading\030\002 \002(\002\022+\n\nvelocities\030\003 \002(\0132\027.l"
+    "unabotics.proto.Twist\0229\n\rsteering_mode\030\004"
+    " \002(\0162\".lunabotics.proto.SteeringModeType"
+    "\022\030\n\020autonomy_enabled\030\005 \002(\010\022\031\n\021next_waypo"
+    "int_idx\030\006 \001(\005\022$\n\003icr\030\007 \001(\0132\027.lunabotics."
+    "proto.Point\022Q\n\023ackermann_telemetry\030\010 \001(\013"
+    "24.lunabotics.proto.Telemetry.State.Acke"
+    "rmannTelemetry\022R\n\024point_turn_telemetry\030\t"
+    " \001(\01324.lunabotics.proto.Telemetry.State."
+    "PointTurnTelemetry\032\231\002\n\022AckermannTelemetr"
+    "y\022\021\n\tpid_error\030\001 \002(\002\0229\n\030closest_trajecto"
+    "ry_point\030\002 \002(\0132\027.lunabotics.proto.Point\022"
+    "6\n\025velocity_vector_point\030\003 \002(\0132\027.lunabot"
+    "ics.proto.Point\022\?\n\036closest_trajectory_lo"
+    "cal_point\030\004 \002(\0132\027.lunabotics.proto.Point"
+    "\022<\n\033velocity_vector_local_point\030\005 \002(\0132\027."
+    "lunabotics.proto.Point\032O\n\022PointTurnTelem"
+    "etry\0229\n\005state\030\001 \002(\0162*.lunabotics.proto.T"
+    "elemetry.PointTurnState\032L\n\005World\022\r\n\005widt"
+    "h\030\001 \002(\005\022\016\n\006height\030\002 \002(\005\022\022\n\nresolution\030\003 "
+    "\002(\002\022\020\n\004cell\030\004 \003(\005B\002\020\001\0321\n\004Path\022)\n\010positio"
+    "n\030\001 \003(\0132\027.lunabotics.proto.Point\032\013\n\tLase"
+    "rScan\032\202\002\n\010Geometry\0221\n\020left_front_joint\030\001"
+    " \002(\0132\027.lunabotics.proto.Point\0220\n\017left_re"
+    "ar_joint\030\002 \002(\0132\027.lunabotics.proto.Point\022"
+    "2\n\021right_front_joint\030\003 \002(\0132\027.lunabotics."
+    "proto.Point\0221\n\020right_rear_joint\030\004 \002(\0132\027."
+    "lunabotics.proto.Point\022\024\n\014wheel_offset\030\005"
+    " \002(\002\022\024\n\014wheel_radius\030\006 \002(\002\"7\n\016PointTurnS"
+    "tate\022\013\n\007STOPPED\020\001\022\013\n\007DRIVING\020\002\022\013\n\007TURNIN"
+    "G\020\003", 1723);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Telemetry.proto", &protobuf_RegisterTypes);
   Telemetry::default_instance_ = new Telemetry();
@@ -308,7 +316,7 @@ void protobuf_AddDesc_Telemetry_2eproto() {
   Telemetry_World::default_instance_ = new Telemetry_World();
   Telemetry_Path::default_instance_ = new Telemetry_Path();
   Telemetry_LaserScan::default_instance_ = new Telemetry_LaserScan();
-  Telemetry_JointPositions::default_instance_ = new Telemetry_JointPositions();
+  Telemetry_Geometry::default_instance_ = new Telemetry_Geometry();
   Telemetry::default_instance_->InitAsDefaultInstance();
   Telemetry_State::default_instance_->InitAsDefaultInstance();
   Telemetry_State_AckermannTelemetry::default_instance_->InitAsDefaultInstance();
@@ -316,7 +324,7 @@ void protobuf_AddDesc_Telemetry_2eproto() {
   Telemetry_World::default_instance_->InitAsDefaultInstance();
   Telemetry_Path::default_instance_->InitAsDefaultInstance();
   Telemetry_LaserScan::default_instance_->InitAsDefaultInstance();
-  Telemetry_JointPositions::default_instance_->InitAsDefaultInstance();
+  Telemetry_Geometry::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_Telemetry_2eproto);
 }
 
@@ -366,10 +374,10 @@ Telemetry_State_AckermannTelemetry::Telemetry_State_AckermannTelemetry()
 }
 
 void Telemetry_State_AckermannTelemetry::InitAsDefaultInstance() {
-  closest_trajectory_point_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
-  velocity_vector_point_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
-  closest_trajectory_local_point_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
-  velocity_vector_local_point_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
+  closest_trajectory_point_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  velocity_vector_point_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  closest_trajectory_local_point_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  velocity_vector_local_point_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
 }
 
 Telemetry_State_AckermannTelemetry::Telemetry_State_AckermannTelemetry(const Telemetry_State_AckermannTelemetry& from)
@@ -426,16 +434,16 @@ void Telemetry_State_AckermannTelemetry::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     pid_error_ = 0;
     if (has_closest_trajectory_point()) {
-      if (closest_trajectory_point_ != NULL) closest_trajectory_point_->::lunabotics::Point::Clear();
+      if (closest_trajectory_point_ != NULL) closest_trajectory_point_->::lunabotics::proto::Point::Clear();
     }
     if (has_velocity_vector_point()) {
-      if (velocity_vector_point_ != NULL) velocity_vector_point_->::lunabotics::Point::Clear();
+      if (velocity_vector_point_ != NULL) velocity_vector_point_->::lunabotics::proto::Point::Clear();
     }
     if (has_closest_trajectory_local_point()) {
-      if (closest_trajectory_local_point_ != NULL) closest_trajectory_local_point_->::lunabotics::Point::Clear();
+      if (closest_trajectory_local_point_ != NULL) closest_trajectory_local_point_->::lunabotics::proto::Point::Clear();
     }
     if (has_velocity_vector_local_point()) {
-      if (velocity_vector_local_point_ != NULL) velocity_vector_local_point_->::lunabotics::Point::Clear();
+      if (velocity_vector_local_point_ != NULL) velocity_vector_local_point_->::lunabotics::proto::Point::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -463,7 +471,7 @@ bool Telemetry_State_AckermannTelemetry::MergePartialFromCodedStream(
         break;
       }
 
-      // required .lunabotics.Point closest_trajectory_point = 2;
+      // required .lunabotics.proto.Point closest_trajectory_point = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -477,7 +485,7 @@ bool Telemetry_State_AckermannTelemetry::MergePartialFromCodedStream(
         break;
       }
 
-      // required .lunabotics.Point velocity_vector_point = 3;
+      // required .lunabotics.proto.Point velocity_vector_point = 3;
       case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -491,7 +499,7 @@ bool Telemetry_State_AckermannTelemetry::MergePartialFromCodedStream(
         break;
       }
 
-      // required .lunabotics.Point closest_trajectory_local_point = 4;
+      // required .lunabotics.proto.Point closest_trajectory_local_point = 4;
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -505,7 +513,7 @@ bool Telemetry_State_AckermannTelemetry::MergePartialFromCodedStream(
         break;
       }
 
-      // required .lunabotics.Point velocity_vector_local_point = 5;
+      // required .lunabotics.proto.Point velocity_vector_local_point = 5;
       case 5: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -542,25 +550,25 @@ void Telemetry_State_AckermannTelemetry::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->pid_error(), output);
   }
 
-  // required .lunabotics.Point closest_trajectory_point = 2;
+  // required .lunabotics.proto.Point closest_trajectory_point = 2;
   if (has_closest_trajectory_point()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       2, this->closest_trajectory_point(), output);
   }
 
-  // required .lunabotics.Point velocity_vector_point = 3;
+  // required .lunabotics.proto.Point velocity_vector_point = 3;
   if (has_velocity_vector_point()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->velocity_vector_point(), output);
   }
 
-  // required .lunabotics.Point closest_trajectory_local_point = 4;
+  // required .lunabotics.proto.Point closest_trajectory_local_point = 4;
   if (has_closest_trajectory_local_point()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       4, this->closest_trajectory_local_point(), output);
   }
 
-  // required .lunabotics.Point velocity_vector_local_point = 5;
+  // required .lunabotics.proto.Point velocity_vector_local_point = 5;
   if (has_velocity_vector_local_point()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       5, this->velocity_vector_local_point(), output);
@@ -579,28 +587,28 @@ void Telemetry_State_AckermannTelemetry::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->pid_error(), target);
   }
 
-  // required .lunabotics.Point closest_trajectory_point = 2;
+  // required .lunabotics.proto.Point closest_trajectory_point = 2;
   if (has_closest_trajectory_point()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         2, this->closest_trajectory_point(), target);
   }
 
-  // required .lunabotics.Point velocity_vector_point = 3;
+  // required .lunabotics.proto.Point velocity_vector_point = 3;
   if (has_velocity_vector_point()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         3, this->velocity_vector_point(), target);
   }
 
-  // required .lunabotics.Point closest_trajectory_local_point = 4;
+  // required .lunabotics.proto.Point closest_trajectory_local_point = 4;
   if (has_closest_trajectory_local_point()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         4, this->closest_trajectory_local_point(), target);
   }
 
-  // required .lunabotics.Point velocity_vector_local_point = 5;
+  // required .lunabotics.proto.Point velocity_vector_local_point = 5;
   if (has_velocity_vector_local_point()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -623,28 +631,28 @@ int Telemetry_State_AckermannTelemetry::ByteSize() const {
       total_size += 1 + 4;
     }
 
-    // required .lunabotics.Point closest_trajectory_point = 2;
+    // required .lunabotics.proto.Point closest_trajectory_point = 2;
     if (has_closest_trajectory_point()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->closest_trajectory_point());
     }
 
-    // required .lunabotics.Point velocity_vector_point = 3;
+    // required .lunabotics.proto.Point velocity_vector_point = 3;
     if (has_velocity_vector_point()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->velocity_vector_point());
     }
 
-    // required .lunabotics.Point closest_trajectory_local_point = 4;
+    // required .lunabotics.proto.Point closest_trajectory_local_point = 4;
     if (has_closest_trajectory_local_point()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->closest_trajectory_local_point());
     }
 
-    // required .lunabotics.Point velocity_vector_local_point = 5;
+    // required .lunabotics.proto.Point velocity_vector_local_point = 5;
     if (has_velocity_vector_local_point()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -682,16 +690,16 @@ void Telemetry_State_AckermannTelemetry::MergeFrom(const Telemetry_State_Ackerma
       set_pid_error(from.pid_error());
     }
     if (from.has_closest_trajectory_point()) {
-      mutable_closest_trajectory_point()->::lunabotics::Point::MergeFrom(from.closest_trajectory_point());
+      mutable_closest_trajectory_point()->::lunabotics::proto::Point::MergeFrom(from.closest_trajectory_point());
     }
     if (from.has_velocity_vector_point()) {
-      mutable_velocity_vector_point()->::lunabotics::Point::MergeFrom(from.velocity_vector_point());
+      mutable_velocity_vector_point()->::lunabotics::proto::Point::MergeFrom(from.velocity_vector_point());
     }
     if (from.has_closest_trajectory_local_point()) {
-      mutable_closest_trajectory_local_point()->::lunabotics::Point::MergeFrom(from.closest_trajectory_local_point());
+      mutable_closest_trajectory_local_point()->::lunabotics::proto::Point::MergeFrom(from.closest_trajectory_local_point());
     }
     if (from.has_velocity_vector_local_point()) {
-      mutable_velocity_vector_local_point()->::lunabotics::Point::MergeFrom(from.velocity_vector_local_point());
+      mutable_velocity_vector_local_point()->::lunabotics::proto::Point::MergeFrom(from.velocity_vector_local_point());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -819,7 +827,7 @@ bool Telemetry_State_PointTurnTelemetry::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .lunabotics.Telemetry.PointTurnState state = 1;
+      // required .lunabotics.proto.Telemetry.PointTurnState state = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
@@ -827,8 +835,8 @@ bool Telemetry_State_PointTurnTelemetry::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          if (::lunabotics::Telemetry_PointTurnState_IsValid(value)) {
-            set_state(static_cast< ::lunabotics::Telemetry_PointTurnState >(value));
+          if (::lunabotics::proto::Telemetry_PointTurnState_IsValid(value)) {
+            set_state(static_cast< ::lunabotics::proto::Telemetry_PointTurnState >(value));
           } else {
             mutable_unknown_fields()->AddVarint(1, value);
           }
@@ -857,7 +865,7 @@ bool Telemetry_State_PointTurnTelemetry::MergePartialFromCodedStream(
 
 void Telemetry_State_PointTurnTelemetry::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required .lunabotics.Telemetry.PointTurnState state = 1;
+  // required .lunabotics.proto.Telemetry.PointTurnState state = 1;
   if (has_state()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       1, this->state(), output);
@@ -871,7 +879,7 @@ void Telemetry_State_PointTurnTelemetry::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Telemetry_State_PointTurnTelemetry::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required .lunabotics.Telemetry.PointTurnState state = 1;
+  // required .lunabotics.proto.Telemetry.PointTurnState state = 1;
   if (has_state()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       1, this->state(), target);
@@ -888,7 +896,7 @@ int Telemetry_State_PointTurnTelemetry::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .lunabotics.Telemetry.PointTurnState state = 1;
+    // required .lunabotics.proto.Telemetry.PointTurnState state = 1;
     if (has_state()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->state());
@@ -984,11 +992,11 @@ Telemetry_State::Telemetry_State()
 }
 
 void Telemetry_State::InitAsDefaultInstance() {
-  position_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
-  velocities_ = const_cast< ::lunabotics::Twist*>(&::lunabotics::Twist::default_instance());
-  icr_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
-  ackermann_telemetry_ = const_cast< ::lunabotics::Telemetry_State_AckermannTelemetry*>(&::lunabotics::Telemetry_State_AckermannTelemetry::default_instance());
-  point_turn_telemetry_ = const_cast< ::lunabotics::Telemetry_State_PointTurnTelemetry*>(&::lunabotics::Telemetry_State_PointTurnTelemetry::default_instance());
+  position_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  velocities_ = const_cast< ::lunabotics::proto::Twist*>(&::lunabotics::proto::Twist::default_instance());
+  icr_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  ackermann_telemetry_ = const_cast< ::lunabotics::proto::Telemetry_State_AckermannTelemetry*>(&::lunabotics::proto::Telemetry_State_AckermannTelemetry::default_instance());
+  point_turn_telemetry_ = const_cast< ::lunabotics::proto::Telemetry_State_PointTurnTelemetry*>(&::lunabotics::proto::Telemetry_State_PointTurnTelemetry::default_instance());
 }
 
 Telemetry_State::Telemetry_State(const Telemetry_State& from)
@@ -1049,25 +1057,25 @@ Telemetry_State* Telemetry_State::New() const {
 void Telemetry_State::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (has_position()) {
-      if (position_ != NULL) position_->::lunabotics::Point::Clear();
+      if (position_ != NULL) position_->::lunabotics::proto::Point::Clear();
     }
     heading_ = 0;
     if (has_velocities()) {
-      if (velocities_ != NULL) velocities_->::lunabotics::Twist::Clear();
+      if (velocities_ != NULL) velocities_->::lunabotics::proto::Twist::Clear();
     }
     steering_mode_ = 1;
     autonomy_enabled_ = false;
     next_waypoint_idx_ = 0;
     if (has_icr()) {
-      if (icr_ != NULL) icr_->::lunabotics::Point::Clear();
+      if (icr_ != NULL) icr_->::lunabotics::proto::Point::Clear();
     }
     if (has_ackermann_telemetry()) {
-      if (ackermann_telemetry_ != NULL) ackermann_telemetry_->::lunabotics::Telemetry_State_AckermannTelemetry::Clear();
+      if (ackermann_telemetry_ != NULL) ackermann_telemetry_->::lunabotics::proto::Telemetry_State_AckermannTelemetry::Clear();
     }
   }
   if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (has_point_turn_telemetry()) {
-      if (point_turn_telemetry_ != NULL) point_turn_telemetry_->::lunabotics::Telemetry_State_PointTurnTelemetry::Clear();
+      if (point_turn_telemetry_ != NULL) point_turn_telemetry_->::lunabotics::proto::Telemetry_State_PointTurnTelemetry::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -1080,7 +1088,7 @@ bool Telemetry_State::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .lunabotics.Point position = 1;
+      // required .lunabotics.proto.Point position = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -1109,7 +1117,7 @@ bool Telemetry_State::MergePartialFromCodedStream(
         break;
       }
 
-      // required .lunabotics.Twist velocities = 3;
+      // required .lunabotics.proto.Twist velocities = 3;
       case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -1123,7 +1131,7 @@ bool Telemetry_State::MergePartialFromCodedStream(
         break;
       }
 
-      // required .lunabotics.SteeringModeType steering_mode = 4;
+      // required .lunabotics.proto.SteeringModeType steering_mode = 4;
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
@@ -1132,8 +1140,8 @@ bool Telemetry_State::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          if (::lunabotics::SteeringModeType_IsValid(value)) {
-            set_steering_mode(static_cast< ::lunabotics::SteeringModeType >(value));
+          if (::lunabotics::proto::SteeringModeType_IsValid(value)) {
+            set_steering_mode(static_cast< ::lunabotics::proto::SteeringModeType >(value));
           } else {
             mutable_unknown_fields()->AddVarint(4, value);
           }
@@ -1176,7 +1184,7 @@ bool Telemetry_State::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .lunabotics.Point icr = 7;
+      // optional .lunabotics.proto.Point icr = 7;
       case 7: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -1190,7 +1198,7 @@ bool Telemetry_State::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .lunabotics.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
+      // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
       case 8: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -1204,7 +1212,7 @@ bool Telemetry_State::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .lunabotics.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
+      // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
       case 9: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -1236,7 +1244,7 @@ bool Telemetry_State::MergePartialFromCodedStream(
 
 void Telemetry_State::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required .lunabotics.Point position = 1;
+  // required .lunabotics.proto.Point position = 1;
   if (has_position()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->position(), output);
@@ -1247,13 +1255,13 @@ void Telemetry_State::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->heading(), output);
   }
 
-  // required .lunabotics.Twist velocities = 3;
+  // required .lunabotics.proto.Twist velocities = 3;
   if (has_velocities()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->velocities(), output);
   }
 
-  // required .lunabotics.SteeringModeType steering_mode = 4;
+  // required .lunabotics.proto.SteeringModeType steering_mode = 4;
   if (has_steering_mode()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       4, this->steering_mode(), output);
@@ -1269,19 +1277,19 @@ void Telemetry_State::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->next_waypoint_idx(), output);
   }
 
-  // optional .lunabotics.Point icr = 7;
+  // optional .lunabotics.proto.Point icr = 7;
   if (has_icr()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       7, this->icr(), output);
   }
 
-  // optional .lunabotics.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
+  // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
   if (has_ackermann_telemetry()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       8, this->ackermann_telemetry(), output);
   }
 
-  // optional .lunabotics.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
+  // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
   if (has_point_turn_telemetry()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       9, this->point_turn_telemetry(), output);
@@ -1295,7 +1303,7 @@ void Telemetry_State::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Telemetry_State::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required .lunabotics.Point position = 1;
+  // required .lunabotics.proto.Point position = 1;
   if (has_position()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -1307,14 +1315,14 @@ void Telemetry_State::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->heading(), target);
   }
 
-  // required .lunabotics.Twist velocities = 3;
+  // required .lunabotics.proto.Twist velocities = 3;
   if (has_velocities()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         3, this->velocities(), target);
   }
 
-  // required .lunabotics.SteeringModeType steering_mode = 4;
+  // required .lunabotics.proto.SteeringModeType steering_mode = 4;
   if (has_steering_mode()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       4, this->steering_mode(), target);
@@ -1330,21 +1338,21 @@ void Telemetry_State::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->next_waypoint_idx(), target);
   }
 
-  // optional .lunabotics.Point icr = 7;
+  // optional .lunabotics.proto.Point icr = 7;
   if (has_icr()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         7, this->icr(), target);
   }
 
-  // optional .lunabotics.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
+  // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
   if (has_ackermann_telemetry()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         8, this->ackermann_telemetry(), target);
   }
 
-  // optional .lunabotics.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
+  // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
   if (has_point_turn_telemetry()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -1362,7 +1370,7 @@ int Telemetry_State::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .lunabotics.Point position = 1;
+    // required .lunabotics.proto.Point position = 1;
     if (has_position()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -1374,14 +1382,14 @@ int Telemetry_State::ByteSize() const {
       total_size += 1 + 4;
     }
 
-    // required .lunabotics.Twist velocities = 3;
+    // required .lunabotics.proto.Twist velocities = 3;
     if (has_velocities()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->velocities());
     }
 
-    // required .lunabotics.SteeringModeType steering_mode = 4;
+    // required .lunabotics.proto.SteeringModeType steering_mode = 4;
     if (has_steering_mode()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->steering_mode());
@@ -1399,14 +1407,14 @@ int Telemetry_State::ByteSize() const {
           this->next_waypoint_idx());
     }
 
-    // optional .lunabotics.Point icr = 7;
+    // optional .lunabotics.proto.Point icr = 7;
     if (has_icr()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->icr());
     }
 
-    // optional .lunabotics.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
+    // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
     if (has_ackermann_telemetry()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -1415,7 +1423,7 @@ int Telemetry_State::ByteSize() const {
 
   }
   if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    // optional .lunabotics.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
+    // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
     if (has_point_turn_telemetry()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -1450,13 +1458,13 @@ void Telemetry_State::MergeFrom(const Telemetry_State& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_position()) {
-      mutable_position()->::lunabotics::Point::MergeFrom(from.position());
+      mutable_position()->::lunabotics::proto::Point::MergeFrom(from.position());
     }
     if (from.has_heading()) {
       set_heading(from.heading());
     }
     if (from.has_velocities()) {
-      mutable_velocities()->::lunabotics::Twist::MergeFrom(from.velocities());
+      mutable_velocities()->::lunabotics::proto::Twist::MergeFrom(from.velocities());
     }
     if (from.has_steering_mode()) {
       set_steering_mode(from.steering_mode());
@@ -1468,15 +1476,15 @@ void Telemetry_State::MergeFrom(const Telemetry_State& from) {
       set_next_waypoint_idx(from.next_waypoint_idx());
     }
     if (from.has_icr()) {
-      mutable_icr()->::lunabotics::Point::MergeFrom(from.icr());
+      mutable_icr()->::lunabotics::proto::Point::MergeFrom(from.icr());
     }
     if (from.has_ackermann_telemetry()) {
-      mutable_ackermann_telemetry()->::lunabotics::Telemetry_State_AckermannTelemetry::MergeFrom(from.ackermann_telemetry());
+      mutable_ackermann_telemetry()->::lunabotics::proto::Telemetry_State_AckermannTelemetry::MergeFrom(from.ackermann_telemetry());
     }
   }
   if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_point_turn_telemetry()) {
-      mutable_point_turn_telemetry()->::lunabotics::Telemetry_State_PointTurnTelemetry::MergeFrom(from.point_turn_telemetry());
+      mutable_point_turn_telemetry()->::lunabotics::proto::Telemetry_State_PointTurnTelemetry::MergeFrom(from.point_turn_telemetry());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -1961,7 +1969,7 @@ bool Telemetry_Path::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .lunabotics.Point position = 1;
+      // repeated .lunabotics.proto.Point position = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -1994,7 +2002,7 @@ bool Telemetry_Path::MergePartialFromCodedStream(
 
 void Telemetry_Path::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // repeated .lunabotics.Point position = 1;
+  // repeated .lunabotics.proto.Point position = 1;
   for (int i = 0; i < this->position_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->position(i), output);
@@ -2008,7 +2016,7 @@ void Telemetry_Path::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Telemetry_Path::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // repeated .lunabotics.Point position = 1;
+  // repeated .lunabotics.proto.Point position = 1;
   for (int i = 0; i < this->position_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -2025,7 +2033,7 @@ void Telemetry_Path::SerializeWithCachedSizes(
 int Telemetry_Path::ByteSize() const {
   int total_size = 0;
 
-  // repeated .lunabotics.Point position = 1;
+  // repeated .lunabotics.proto.Point position = 1;
   total_size += 1 * this->position_size();
   for (int i = 0; i < this->position_size(); i++) {
     total_size +=
@@ -2259,146 +2267,184 @@ void Telemetry_LaserScan::Swap(Telemetry_LaserScan* other) {
 // -------------------------------------------------------------------
 
 #ifndef _MSC_VER
-const int Telemetry_JointPositions::kLeftFrontFieldNumber;
-const int Telemetry_JointPositions::kLeftRearFieldNumber;
-const int Telemetry_JointPositions::kRightFrontFieldNumber;
-const int Telemetry_JointPositions::kRightRearFieldNumber;
+const int Telemetry_Geometry::kLeftFrontJointFieldNumber;
+const int Telemetry_Geometry::kLeftRearJointFieldNumber;
+const int Telemetry_Geometry::kRightFrontJointFieldNumber;
+const int Telemetry_Geometry::kRightRearJointFieldNumber;
+const int Telemetry_Geometry::kWheelOffsetFieldNumber;
+const int Telemetry_Geometry::kWheelRadiusFieldNumber;
 #endif  // !_MSC_VER
 
-Telemetry_JointPositions::Telemetry_JointPositions()
+Telemetry_Geometry::Telemetry_Geometry()
   : ::google::protobuf::Message() {
   SharedCtor();
 }
 
-void Telemetry_JointPositions::InitAsDefaultInstance() {
-  left_front_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
-  left_rear_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
-  right_front_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
-  right_rear_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
+void Telemetry_Geometry::InitAsDefaultInstance() {
+  left_front_joint_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  left_rear_joint_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  right_front_joint_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  right_rear_joint_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
 }
 
-Telemetry_JointPositions::Telemetry_JointPositions(const Telemetry_JointPositions& from)
+Telemetry_Geometry::Telemetry_Geometry(const Telemetry_Geometry& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
 }
 
-void Telemetry_JointPositions::SharedCtor() {
+void Telemetry_Geometry::SharedCtor() {
   _cached_size_ = 0;
-  left_front_ = NULL;
-  left_rear_ = NULL;
-  right_front_ = NULL;
-  right_rear_ = NULL;
+  left_front_joint_ = NULL;
+  left_rear_joint_ = NULL;
+  right_front_joint_ = NULL;
+  right_rear_joint_ = NULL;
+  wheel_offset_ = 0;
+  wheel_radius_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-Telemetry_JointPositions::~Telemetry_JointPositions() {
+Telemetry_Geometry::~Telemetry_Geometry() {
   SharedDtor();
 }
 
-void Telemetry_JointPositions::SharedDtor() {
+void Telemetry_Geometry::SharedDtor() {
   if (this != default_instance_) {
-    delete left_front_;
-    delete left_rear_;
-    delete right_front_;
-    delete right_rear_;
+    delete left_front_joint_;
+    delete left_rear_joint_;
+    delete right_front_joint_;
+    delete right_rear_joint_;
   }
 }
 
-void Telemetry_JointPositions::SetCachedSize(int size) const {
+void Telemetry_Geometry::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* Telemetry_JointPositions::descriptor() {
+const ::google::protobuf::Descriptor* Telemetry_Geometry::descriptor() {
   protobuf_AssignDescriptorsOnce();
-  return Telemetry_JointPositions_descriptor_;
+  return Telemetry_Geometry_descriptor_;
 }
 
-const Telemetry_JointPositions& Telemetry_JointPositions::default_instance() {
+const Telemetry_Geometry& Telemetry_Geometry::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_Telemetry_2eproto();
   return *default_instance_;
 }
 
-Telemetry_JointPositions* Telemetry_JointPositions::default_instance_ = NULL;
+Telemetry_Geometry* Telemetry_Geometry::default_instance_ = NULL;
 
-Telemetry_JointPositions* Telemetry_JointPositions::New() const {
-  return new Telemetry_JointPositions;
+Telemetry_Geometry* Telemetry_Geometry::New() const {
+  return new Telemetry_Geometry;
 }
 
-void Telemetry_JointPositions::Clear() {
+void Telemetry_Geometry::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (has_left_front()) {
-      if (left_front_ != NULL) left_front_->::lunabotics::Point::Clear();
+    if (has_left_front_joint()) {
+      if (left_front_joint_ != NULL) left_front_joint_->::lunabotics::proto::Point::Clear();
     }
-    if (has_left_rear()) {
-      if (left_rear_ != NULL) left_rear_->::lunabotics::Point::Clear();
+    if (has_left_rear_joint()) {
+      if (left_rear_joint_ != NULL) left_rear_joint_->::lunabotics::proto::Point::Clear();
     }
-    if (has_right_front()) {
-      if (right_front_ != NULL) right_front_->::lunabotics::Point::Clear();
+    if (has_right_front_joint()) {
+      if (right_front_joint_ != NULL) right_front_joint_->::lunabotics::proto::Point::Clear();
     }
-    if (has_right_rear()) {
-      if (right_rear_ != NULL) right_rear_->::lunabotics::Point::Clear();
+    if (has_right_rear_joint()) {
+      if (right_rear_joint_ != NULL) right_rear_joint_->::lunabotics::proto::Point::Clear();
     }
+    wheel_offset_ = 0;
+    wheel_radius_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
 
-bool Telemetry_JointPositions::MergePartialFromCodedStream(
+bool Telemetry_Geometry::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .lunabotics.Point left_front = 1;
+      // required .lunabotics.proto.Point left_front_joint = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_left_front()));
+               input, mutable_left_front_joint()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_left_rear;
+        if (input->ExpectTag(18)) goto parse_left_rear_joint;
         break;
       }
 
-      // required .lunabotics.Point left_rear = 2;
+      // required .lunabotics.proto.Point left_rear_joint = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_left_rear:
+         parse_left_rear_joint:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_left_rear()));
+               input, mutable_left_rear_joint()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(26)) goto parse_right_front;
+        if (input->ExpectTag(26)) goto parse_right_front_joint;
         break;
       }
 
-      // required .lunabotics.Point right_front = 3;
+      // required .lunabotics.proto.Point right_front_joint = 3;
       case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_right_front:
+         parse_right_front_joint:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_right_front()));
+               input, mutable_right_front_joint()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(34)) goto parse_right_rear;
+        if (input->ExpectTag(34)) goto parse_right_rear_joint;
         break;
       }
 
-      // required .lunabotics.Point right_rear = 4;
+      // required .lunabotics.proto.Point right_rear_joint = 4;
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_right_rear:
+         parse_right_rear_joint:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_right_rear()));
+               input, mutable_right_rear_joint()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(45)) goto parse_wheel_offset;
+        break;
+      }
+
+      // required float wheel_offset = 5;
+      case 5: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_wheel_offset:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &wheel_offset_)));
+          set_has_wheel_offset();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(53)) goto parse_wheel_radius;
+        break;
+      }
+
+      // required float wheel_radius = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_wheel_radius:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &wheel_radius_)));
+          set_has_wheel_radius();
         } else {
           goto handle_uninterpreted;
         }
@@ -2422,30 +2468,40 @@ bool Telemetry_JointPositions::MergePartialFromCodedStream(
 #undef DO_
 }
 
-void Telemetry_JointPositions::SerializeWithCachedSizes(
+void Telemetry_Geometry::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required .lunabotics.Point left_front = 1;
-  if (has_left_front()) {
+  // required .lunabotics.proto.Point left_front_joint = 1;
+  if (has_left_front_joint()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->left_front(), output);
+      1, this->left_front_joint(), output);
   }
 
-  // required .lunabotics.Point left_rear = 2;
-  if (has_left_rear()) {
+  // required .lunabotics.proto.Point left_rear_joint = 2;
+  if (has_left_rear_joint()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->left_rear(), output);
+      2, this->left_rear_joint(), output);
   }
 
-  // required .lunabotics.Point right_front = 3;
-  if (has_right_front()) {
+  // required .lunabotics.proto.Point right_front_joint = 3;
+  if (has_right_front_joint()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->right_front(), output);
+      3, this->right_front_joint(), output);
   }
 
-  // required .lunabotics.Point right_rear = 4;
-  if (has_right_rear()) {
+  // required .lunabotics.proto.Point right_rear_joint = 4;
+  if (has_right_rear_joint()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->right_rear(), output);
+      4, this->right_rear_joint(), output);
+  }
+
+  // required float wheel_offset = 5;
+  if (has_wheel_offset()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->wheel_offset(), output);
+  }
+
+  // required float wheel_radius = 6;
+  if (has_wheel_radius()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->wheel_radius(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -2454,34 +2510,44 @@ void Telemetry_JointPositions::SerializeWithCachedSizes(
   }
 }
 
-::google::protobuf::uint8* Telemetry_JointPositions::SerializeWithCachedSizesToArray(
+::google::protobuf::uint8* Telemetry_Geometry::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required .lunabotics.Point left_front = 1;
-  if (has_left_front()) {
+  // required .lunabotics.proto.Point left_front_joint = 1;
+  if (has_left_front_joint()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        1, this->left_front(), target);
+        1, this->left_front_joint(), target);
   }
 
-  // required .lunabotics.Point left_rear = 2;
-  if (has_left_rear()) {
+  // required .lunabotics.proto.Point left_rear_joint = 2;
+  if (has_left_rear_joint()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        2, this->left_rear(), target);
+        2, this->left_rear_joint(), target);
   }
 
-  // required .lunabotics.Point right_front = 3;
-  if (has_right_front()) {
+  // required .lunabotics.proto.Point right_front_joint = 3;
+  if (has_right_front_joint()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        3, this->right_front(), target);
+        3, this->right_front_joint(), target);
   }
 
-  // required .lunabotics.Point right_rear = 4;
-  if (has_right_rear()) {
+  // required .lunabotics.proto.Point right_rear_joint = 4;
+  if (has_right_rear_joint()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        4, this->right_rear(), target);
+        4, this->right_rear_joint(), target);
+  }
+
+  // required float wheel_offset = 5;
+  if (has_wheel_offset()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->wheel_offset(), target);
+  }
+
+  // required float wheel_radius = 6;
+  if (has_wheel_radius()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->wheel_radius(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -2491,36 +2557,46 @@ void Telemetry_JointPositions::SerializeWithCachedSizes(
   return target;
 }
 
-int Telemetry_JointPositions::ByteSize() const {
+int Telemetry_Geometry::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .lunabotics.Point left_front = 1;
-    if (has_left_front()) {
+    // required .lunabotics.proto.Point left_front_joint = 1;
+    if (has_left_front_joint()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->left_front());
+          this->left_front_joint());
     }
 
-    // required .lunabotics.Point left_rear = 2;
-    if (has_left_rear()) {
+    // required .lunabotics.proto.Point left_rear_joint = 2;
+    if (has_left_rear_joint()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->left_rear());
+          this->left_rear_joint());
     }
 
-    // required .lunabotics.Point right_front = 3;
-    if (has_right_front()) {
+    // required .lunabotics.proto.Point right_front_joint = 3;
+    if (has_right_front_joint()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->right_front());
+          this->right_front_joint());
     }
 
-    // required .lunabotics.Point right_rear = 4;
-    if (has_right_rear()) {
+    // required .lunabotics.proto.Point right_rear_joint = 4;
+    if (has_right_rear_joint()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->right_rear());
+          this->right_rear_joint());
+    }
+
+    // required float wheel_offset = 5;
+    if (has_wheel_offset()) {
+      total_size += 1 + 4;
+    }
+
+    // required float wheel_radius = 6;
+    if (has_wheel_radius()) {
+      total_size += 1 + 4;
     }
 
   }
@@ -2535,10 +2611,10 @@ int Telemetry_JointPositions::ByteSize() const {
   return total_size;
 }
 
-void Telemetry_JointPositions::MergeFrom(const ::google::protobuf::Message& from) {
+void Telemetry_Geometry::MergeFrom(const ::google::protobuf::Message& from) {
   GOOGLE_CHECK_NE(&from, this);
-  const Telemetry_JointPositions* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Telemetry_JointPositions*>(
+  const Telemetry_Geometry* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const Telemetry_Geometry*>(
       &from);
   if (source == NULL) {
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
@@ -2547,72 +2623,80 @@ void Telemetry_JointPositions::MergeFrom(const ::google::protobuf::Message& from
   }
 }
 
-void Telemetry_JointPositions::MergeFrom(const Telemetry_JointPositions& from) {
+void Telemetry_Geometry::MergeFrom(const Telemetry_Geometry& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_left_front()) {
-      mutable_left_front()->::lunabotics::Point::MergeFrom(from.left_front());
+    if (from.has_left_front_joint()) {
+      mutable_left_front_joint()->::lunabotics::proto::Point::MergeFrom(from.left_front_joint());
     }
-    if (from.has_left_rear()) {
-      mutable_left_rear()->::lunabotics::Point::MergeFrom(from.left_rear());
+    if (from.has_left_rear_joint()) {
+      mutable_left_rear_joint()->::lunabotics::proto::Point::MergeFrom(from.left_rear_joint());
     }
-    if (from.has_right_front()) {
-      mutable_right_front()->::lunabotics::Point::MergeFrom(from.right_front());
+    if (from.has_right_front_joint()) {
+      mutable_right_front_joint()->::lunabotics::proto::Point::MergeFrom(from.right_front_joint());
     }
-    if (from.has_right_rear()) {
-      mutable_right_rear()->::lunabotics::Point::MergeFrom(from.right_rear());
+    if (from.has_right_rear_joint()) {
+      mutable_right_rear_joint()->::lunabotics::proto::Point::MergeFrom(from.right_rear_joint());
+    }
+    if (from.has_wheel_offset()) {
+      set_wheel_offset(from.wheel_offset());
+    }
+    if (from.has_wheel_radius()) {
+      set_wheel_radius(from.wheel_radius());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
-void Telemetry_JointPositions::CopyFrom(const ::google::protobuf::Message& from) {
+void Telemetry_Geometry::CopyFrom(const ::google::protobuf::Message& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void Telemetry_JointPositions::CopyFrom(const Telemetry_JointPositions& from) {
+void Telemetry_Geometry::CopyFrom(const Telemetry_Geometry& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool Telemetry_JointPositions::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000000f) != 0x0000000f) return false;
+bool Telemetry_Geometry::IsInitialized() const {
+  if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
 
-  if (has_left_front()) {
-    if (!this->left_front().IsInitialized()) return false;
+  if (has_left_front_joint()) {
+    if (!this->left_front_joint().IsInitialized()) return false;
   }
-  if (has_left_rear()) {
-    if (!this->left_rear().IsInitialized()) return false;
+  if (has_left_rear_joint()) {
+    if (!this->left_rear_joint().IsInitialized()) return false;
   }
-  if (has_right_front()) {
-    if (!this->right_front().IsInitialized()) return false;
+  if (has_right_front_joint()) {
+    if (!this->right_front_joint().IsInitialized()) return false;
   }
-  if (has_right_rear()) {
-    if (!this->right_rear().IsInitialized()) return false;
+  if (has_right_rear_joint()) {
+    if (!this->right_rear_joint().IsInitialized()) return false;
   }
   return true;
 }
 
-void Telemetry_JointPositions::Swap(Telemetry_JointPositions* other) {
+void Telemetry_Geometry::Swap(Telemetry_Geometry* other) {
   if (other != this) {
-    std::swap(left_front_, other->left_front_);
-    std::swap(left_rear_, other->left_rear_);
-    std::swap(right_front_, other->right_front_);
-    std::swap(right_rear_, other->right_rear_);
+    std::swap(left_front_joint_, other->left_front_joint_);
+    std::swap(left_rear_joint_, other->left_rear_joint_);
+    std::swap(right_front_joint_, other->right_front_joint_);
+    std::swap(right_rear_joint_, other->right_rear_joint_);
+    std::swap(wheel_offset_, other->wheel_offset_);
+    std::swap(wheel_radius_, other->wheel_radius_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata Telemetry_JointPositions::GetMetadata() const {
+::google::protobuf::Metadata Telemetry_Geometry::GetMetadata() const {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Telemetry_JointPositions_descriptor_;
-  metadata.reflection = Telemetry_JointPositions_reflection_;
+  metadata.descriptor = Telemetry_Geometry_descriptor_;
+  metadata.reflection = Telemetry_Geometry_reflection_;
   return metadata;
 }
 
@@ -2625,7 +2709,7 @@ const int Telemetry::kWorldDataFieldNumber;
 const int Telemetry::kPathDataFieldNumber;
 const int Telemetry::kLaserScanDataFieldNumber;
 const int Telemetry::kAllWheelStateFieldNumber;
-const int Telemetry::kJointsDataFieldNumber;
+const int Telemetry::kGeometryDataFieldNumber;
 #endif  // !_MSC_VER
 
 Telemetry::Telemetry()
@@ -2634,12 +2718,12 @@ Telemetry::Telemetry()
 }
 
 void Telemetry::InitAsDefaultInstance() {
-  state_data_ = const_cast< ::lunabotics::Telemetry_State*>(&::lunabotics::Telemetry_State::default_instance());
-  world_data_ = const_cast< ::lunabotics::Telemetry_World*>(&::lunabotics::Telemetry_World::default_instance());
-  path_data_ = const_cast< ::lunabotics::Telemetry_Path*>(&::lunabotics::Telemetry_Path::default_instance());
-  laser_scan_data_ = const_cast< ::lunabotics::Telemetry_LaserScan*>(&::lunabotics::Telemetry_LaserScan::default_instance());
-  all_wheel_state_ = const_cast< ::lunabotics::AllWheelState*>(&::lunabotics::AllWheelState::default_instance());
-  joints_data_ = const_cast< ::lunabotics::Telemetry_JointPositions*>(&::lunabotics::Telemetry_JointPositions::default_instance());
+  state_data_ = const_cast< ::lunabotics::proto::Telemetry_State*>(&::lunabotics::proto::Telemetry_State::default_instance());
+  world_data_ = const_cast< ::lunabotics::proto::Telemetry_World*>(&::lunabotics::proto::Telemetry_World::default_instance());
+  path_data_ = const_cast< ::lunabotics::proto::Telemetry_Path*>(&::lunabotics::proto::Telemetry_Path::default_instance());
+  laser_scan_data_ = const_cast< ::lunabotics::proto::Telemetry_LaserScan*>(&::lunabotics::proto::Telemetry_LaserScan::default_instance());
+  all_wheel_state_ = const_cast< ::lunabotics::proto::AllWheelState*>(&::lunabotics::proto::AllWheelState::default_instance());
+  geometry_data_ = const_cast< ::lunabotics::proto::Telemetry_Geometry*>(&::lunabotics::proto::Telemetry_Geometry::default_instance());
 }
 
 Telemetry::Telemetry(const Telemetry& from)
@@ -2655,7 +2739,7 @@ void Telemetry::SharedCtor() {
   path_data_ = NULL;
   laser_scan_data_ = NULL;
   all_wheel_state_ = NULL;
-  joints_data_ = NULL;
+  geometry_data_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -2670,7 +2754,7 @@ void Telemetry::SharedDtor() {
     delete path_data_;
     delete laser_scan_data_;
     delete all_wheel_state_;
-    delete joints_data_;
+    delete geometry_data_;
   }
 }
 
@@ -2698,22 +2782,22 @@ Telemetry* Telemetry::New() const {
 void Telemetry::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (has_state_data()) {
-      if (state_data_ != NULL) state_data_->::lunabotics::Telemetry_State::Clear();
+      if (state_data_ != NULL) state_data_->::lunabotics::proto::Telemetry_State::Clear();
     }
     if (has_world_data()) {
-      if (world_data_ != NULL) world_data_->::lunabotics::Telemetry_World::Clear();
+      if (world_data_ != NULL) world_data_->::lunabotics::proto::Telemetry_World::Clear();
     }
     if (has_path_data()) {
-      if (path_data_ != NULL) path_data_->::lunabotics::Telemetry_Path::Clear();
+      if (path_data_ != NULL) path_data_->::lunabotics::proto::Telemetry_Path::Clear();
     }
     if (has_laser_scan_data()) {
-      if (laser_scan_data_ != NULL) laser_scan_data_->::lunabotics::Telemetry_LaserScan::Clear();
+      if (laser_scan_data_ != NULL) laser_scan_data_->::lunabotics::proto::Telemetry_LaserScan::Clear();
     }
     if (has_all_wheel_state()) {
-      if (all_wheel_state_ != NULL) all_wheel_state_->::lunabotics::AllWheelState::Clear();
+      if (all_wheel_state_ != NULL) all_wheel_state_->::lunabotics::proto::AllWheelState::Clear();
     }
-    if (has_joints_data()) {
-      if (joints_data_ != NULL) joints_data_->::lunabotics::Telemetry_JointPositions::Clear();
+    if (has_geometry_data()) {
+      if (geometry_data_ != NULL) geometry_data_->::lunabotics::proto::Telemetry_Geometry::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -2726,7 +2810,7 @@ bool Telemetry::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional .lunabotics.Telemetry.State state_data = 2;
+      // optional .lunabotics.proto.Telemetry.State state_data = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -2739,7 +2823,7 @@ bool Telemetry::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .lunabotics.Telemetry.World world_data = 3;
+      // optional .lunabotics.proto.Telemetry.World world_data = 3;
       case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -2753,7 +2837,7 @@ bool Telemetry::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .lunabotics.Telemetry.Path path_data = 4;
+      // optional .lunabotics.proto.Telemetry.Path path_data = 4;
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -2767,7 +2851,7 @@ bool Telemetry::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .lunabotics.Telemetry.LaserScan laser_scan_data = 5;
+      // optional .lunabotics.proto.Telemetry.LaserScan laser_scan_data = 5;
       case 5: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -2781,7 +2865,7 @@ bool Telemetry::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .lunabotics.AllWheelState all_wheel_state = 6;
+      // optional .lunabotics.proto.AllWheelState all_wheel_state = 6;
       case 6: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -2791,17 +2875,17 @@ bool Telemetry::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(58)) goto parse_joints_data;
+        if (input->ExpectTag(58)) goto parse_geometry_data;
         break;
       }
 
-      // optional .lunabotics.Telemetry.JointPositions joints_data = 7;
+      // optional .lunabotics.proto.Telemetry.Geometry geometry_data = 7;
       case 7: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_joints_data:
+         parse_geometry_data:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_joints_data()));
+               input, mutable_geometry_data()));
         } else {
           goto handle_uninterpreted;
         }
@@ -2827,40 +2911,40 @@ bool Telemetry::MergePartialFromCodedStream(
 
 void Telemetry::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // optional .lunabotics.Telemetry.State state_data = 2;
+  // optional .lunabotics.proto.Telemetry.State state_data = 2;
   if (has_state_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       2, this->state_data(), output);
   }
 
-  // optional .lunabotics.Telemetry.World world_data = 3;
+  // optional .lunabotics.proto.Telemetry.World world_data = 3;
   if (has_world_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->world_data(), output);
   }
 
-  // optional .lunabotics.Telemetry.Path path_data = 4;
+  // optional .lunabotics.proto.Telemetry.Path path_data = 4;
   if (has_path_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       4, this->path_data(), output);
   }
 
-  // optional .lunabotics.Telemetry.LaserScan laser_scan_data = 5;
+  // optional .lunabotics.proto.Telemetry.LaserScan laser_scan_data = 5;
   if (has_laser_scan_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       5, this->laser_scan_data(), output);
   }
 
-  // optional .lunabotics.AllWheelState all_wheel_state = 6;
+  // optional .lunabotics.proto.AllWheelState all_wheel_state = 6;
   if (has_all_wheel_state()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       6, this->all_wheel_state(), output);
   }
 
-  // optional .lunabotics.Telemetry.JointPositions joints_data = 7;
-  if (has_joints_data()) {
+  // optional .lunabotics.proto.Telemetry.Geometry geometry_data = 7;
+  if (has_geometry_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7, this->joints_data(), output);
+      7, this->geometry_data(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -2871,46 +2955,46 @@ void Telemetry::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Telemetry::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // optional .lunabotics.Telemetry.State state_data = 2;
+  // optional .lunabotics.proto.Telemetry.State state_data = 2;
   if (has_state_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         2, this->state_data(), target);
   }
 
-  // optional .lunabotics.Telemetry.World world_data = 3;
+  // optional .lunabotics.proto.Telemetry.World world_data = 3;
   if (has_world_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         3, this->world_data(), target);
   }
 
-  // optional .lunabotics.Telemetry.Path path_data = 4;
+  // optional .lunabotics.proto.Telemetry.Path path_data = 4;
   if (has_path_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         4, this->path_data(), target);
   }
 
-  // optional .lunabotics.Telemetry.LaserScan laser_scan_data = 5;
+  // optional .lunabotics.proto.Telemetry.LaserScan laser_scan_data = 5;
   if (has_laser_scan_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         5, this->laser_scan_data(), target);
   }
 
-  // optional .lunabotics.AllWheelState all_wheel_state = 6;
+  // optional .lunabotics.proto.AllWheelState all_wheel_state = 6;
   if (has_all_wheel_state()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         6, this->all_wheel_state(), target);
   }
 
-  // optional .lunabotics.Telemetry.JointPositions joints_data = 7;
-  if (has_joints_data()) {
+  // optional .lunabotics.proto.Telemetry.Geometry geometry_data = 7;
+  if (has_geometry_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        7, this->joints_data(), target);
+        7, this->geometry_data(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -2924,46 +3008,46 @@ int Telemetry::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // optional .lunabotics.Telemetry.State state_data = 2;
+    // optional .lunabotics.proto.Telemetry.State state_data = 2;
     if (has_state_data()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->state_data());
     }
 
-    // optional .lunabotics.Telemetry.World world_data = 3;
+    // optional .lunabotics.proto.Telemetry.World world_data = 3;
     if (has_world_data()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->world_data());
     }
 
-    // optional .lunabotics.Telemetry.Path path_data = 4;
+    // optional .lunabotics.proto.Telemetry.Path path_data = 4;
     if (has_path_data()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->path_data());
     }
 
-    // optional .lunabotics.Telemetry.LaserScan laser_scan_data = 5;
+    // optional .lunabotics.proto.Telemetry.LaserScan laser_scan_data = 5;
     if (has_laser_scan_data()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->laser_scan_data());
     }
 
-    // optional .lunabotics.AllWheelState all_wheel_state = 6;
+    // optional .lunabotics.proto.AllWheelState all_wheel_state = 6;
     if (has_all_wheel_state()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->all_wheel_state());
     }
 
-    // optional .lunabotics.Telemetry.JointPositions joints_data = 7;
-    if (has_joints_data()) {
+    // optional .lunabotics.proto.Telemetry.Geometry geometry_data = 7;
+    if (has_geometry_data()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->joints_data());
+          this->geometry_data());
     }
 
   }
@@ -2994,22 +3078,22 @@ void Telemetry::MergeFrom(const Telemetry& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_state_data()) {
-      mutable_state_data()->::lunabotics::Telemetry_State::MergeFrom(from.state_data());
+      mutable_state_data()->::lunabotics::proto::Telemetry_State::MergeFrom(from.state_data());
     }
     if (from.has_world_data()) {
-      mutable_world_data()->::lunabotics::Telemetry_World::MergeFrom(from.world_data());
+      mutable_world_data()->::lunabotics::proto::Telemetry_World::MergeFrom(from.world_data());
     }
     if (from.has_path_data()) {
-      mutable_path_data()->::lunabotics::Telemetry_Path::MergeFrom(from.path_data());
+      mutable_path_data()->::lunabotics::proto::Telemetry_Path::MergeFrom(from.path_data());
     }
     if (from.has_laser_scan_data()) {
-      mutable_laser_scan_data()->::lunabotics::Telemetry_LaserScan::MergeFrom(from.laser_scan_data());
+      mutable_laser_scan_data()->::lunabotics::proto::Telemetry_LaserScan::MergeFrom(from.laser_scan_data());
     }
     if (from.has_all_wheel_state()) {
-      mutable_all_wheel_state()->::lunabotics::AllWheelState::MergeFrom(from.all_wheel_state());
+      mutable_all_wheel_state()->::lunabotics::proto::AllWheelState::MergeFrom(from.all_wheel_state());
     }
-    if (from.has_joints_data()) {
-      mutable_joints_data()->::lunabotics::Telemetry_JointPositions::MergeFrom(from.joints_data());
+    if (from.has_geometry_data()) {
+      mutable_geometry_data()->::lunabotics::proto::Telemetry_Geometry::MergeFrom(from.geometry_data());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -3041,8 +3125,8 @@ bool Telemetry::IsInitialized() const {
   if (has_all_wheel_state()) {
     if (!this->all_wheel_state().IsInitialized()) return false;
   }
-  if (has_joints_data()) {
-    if (!this->joints_data().IsInitialized()) return false;
+  if (has_geometry_data()) {
+    if (!this->geometry_data().IsInitialized()) return false;
   }
   return true;
 }
@@ -3054,7 +3138,7 @@ void Telemetry::Swap(Telemetry* other) {
     std::swap(path_data_, other->path_data_);
     std::swap(laser_scan_data_, other->laser_scan_data_);
     std::swap(all_wheel_state_, other->all_wheel_state_);
-    std::swap(joints_data_, other->joints_data_);
+    std::swap(geometry_data_, other->geometry_data_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -3072,6 +3156,7 @@ void Telemetry::Swap(Telemetry* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 // @@protoc_insertion_point(global_scope)

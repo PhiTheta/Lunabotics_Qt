@@ -15,6 +15,8 @@ public:
     QPointF leftRearJoint;
     QPointF rightRearJoint;
     bool jointPositionsAcquired;
+    qreal wheelOffset;
+    qreal wheelRadius;
 
     void setGeometry(const RobotGeometry *geometry);
 };

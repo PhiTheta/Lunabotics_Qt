@@ -57,7 +57,7 @@ private slots:
 
     void on_actionPreferences_triggered();
 
-    void predefinedControlSelected(lunabotics::AllWheelControl::PredefinedControlType controlType);
+    void predefinedControlSelected(lunabotics::proto::AllWheelControl::PredefinedControlType controlType);
     void explicitControlSelected(AllWheelState *steering, AllWheelState *driving);
     void ICRControlSelected(QPointF ICR, float velocity);
     void nullifyAllWheelPanel();
@@ -119,7 +119,7 @@ private:
     void rightAction();
     void forwardAction();
     void backAction();
-    void sendTelecommand(lunabotics::Telecommand::Type contentType);
+    void sendTelecommand(lunabotics::proto::Telecommand::Type contentType);
     void connectRobot();
     void disconnectRobot();
     void removeAndDeleteAllMapItems();

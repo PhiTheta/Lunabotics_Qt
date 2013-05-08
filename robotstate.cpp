@@ -10,7 +10,7 @@ RobotState::RobotState(QObject *parent) :
     this->geometry = new RobotGeometry();
     this->ICRVelocity = 0.0;
     this->drivingMask = 0;
-    this->steeringMode = lunabotics::ACKERMANN;
+    this->steeringMode = lunabotics::proto::ACKERMANN;
 }
 
 RobotState::~RobotState()

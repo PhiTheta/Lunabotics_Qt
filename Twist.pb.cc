@@ -17,6 +17,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 namespace {
 
@@ -79,8 +80,8 @@ void protobuf_AddDesc_Twist_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\013Twist.proto\022\nlunabotics\"(\n\005Twist\022\016\n\006li"
-    "near\030\001 \002(\002\022\017\n\007angular\030\002 \002(\002", 67);
+    "\n\013Twist.proto\022\020lunabotics.proto\"(\n\005Twist"
+    "\022\016\n\006linear\030\001 \002(\002\022\017\n\007angular\030\002 \002(\002", 73);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Twist.proto", &protobuf_RegisterTypes);
   Twist::default_instance_ = new Twist();
@@ -342,6 +343,7 @@ void Twist::Swap(Twist* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 // @@protoc_insertion_point(global_scope)

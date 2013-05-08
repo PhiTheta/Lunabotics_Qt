@@ -26,6 +26,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 // Internal implementation detail -- do not call these.
 void  protobuf_AddDesc_SteeringModeType_2eproto();
@@ -64,6 +65,7 @@ inline bool SteeringModeType_Parse(
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 #ifndef SWIG
@@ -71,8 +73,8 @@ namespace google {
 namespace protobuf {
 
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::SteeringModeType>() {
-  return ::lunabotics::SteeringModeType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::proto::SteeringModeType>() {
+  return ::lunabotics::proto::SteeringModeType_descriptor();
 }
 
 }  // namespace google

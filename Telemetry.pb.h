@@ -32,6 +32,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 // Internal implementation detail -- do not call these.
 void  protobuf_AddDesc_Telemetry_2eproto();
@@ -45,7 +46,7 @@ class Telemetry_State_PointTurnTelemetry;
 class Telemetry_World;
 class Telemetry_Path;
 class Telemetry_LaserScan;
-class Telemetry_JointPositions;
+class Telemetry_Geometry;
 
 enum Telemetry_PointTurnState {
   Telemetry_PointTurnState_STOPPED = 1,
@@ -130,43 +131,43 @@ class Telemetry_State_AckermannTelemetry : public ::google::protobuf::Message {
   inline float pid_error() const;
   inline void set_pid_error(float value);
 
-  // required .lunabotics.Point closest_trajectory_point = 2;
+  // required .lunabotics.proto.Point closest_trajectory_point = 2;
   inline bool has_closest_trajectory_point() const;
   inline void clear_closest_trajectory_point();
   static const int kClosestTrajectoryPointFieldNumber = 2;
-  inline const ::lunabotics::Point& closest_trajectory_point() const;
-  inline ::lunabotics::Point* mutable_closest_trajectory_point();
-  inline ::lunabotics::Point* release_closest_trajectory_point();
-  inline void set_allocated_closest_trajectory_point(::lunabotics::Point* closest_trajectory_point);
+  inline const ::lunabotics::proto::Point& closest_trajectory_point() const;
+  inline ::lunabotics::proto::Point* mutable_closest_trajectory_point();
+  inline ::lunabotics::proto::Point* release_closest_trajectory_point();
+  inline void set_allocated_closest_trajectory_point(::lunabotics::proto::Point* closest_trajectory_point);
 
-  // required .lunabotics.Point velocity_vector_point = 3;
+  // required .lunabotics.proto.Point velocity_vector_point = 3;
   inline bool has_velocity_vector_point() const;
   inline void clear_velocity_vector_point();
   static const int kVelocityVectorPointFieldNumber = 3;
-  inline const ::lunabotics::Point& velocity_vector_point() const;
-  inline ::lunabotics::Point* mutable_velocity_vector_point();
-  inline ::lunabotics::Point* release_velocity_vector_point();
-  inline void set_allocated_velocity_vector_point(::lunabotics::Point* velocity_vector_point);
+  inline const ::lunabotics::proto::Point& velocity_vector_point() const;
+  inline ::lunabotics::proto::Point* mutable_velocity_vector_point();
+  inline ::lunabotics::proto::Point* release_velocity_vector_point();
+  inline void set_allocated_velocity_vector_point(::lunabotics::proto::Point* velocity_vector_point);
 
-  // required .lunabotics.Point closest_trajectory_local_point = 4;
+  // required .lunabotics.proto.Point closest_trajectory_local_point = 4;
   inline bool has_closest_trajectory_local_point() const;
   inline void clear_closest_trajectory_local_point();
   static const int kClosestTrajectoryLocalPointFieldNumber = 4;
-  inline const ::lunabotics::Point& closest_trajectory_local_point() const;
-  inline ::lunabotics::Point* mutable_closest_trajectory_local_point();
-  inline ::lunabotics::Point* release_closest_trajectory_local_point();
-  inline void set_allocated_closest_trajectory_local_point(::lunabotics::Point* closest_trajectory_local_point);
+  inline const ::lunabotics::proto::Point& closest_trajectory_local_point() const;
+  inline ::lunabotics::proto::Point* mutable_closest_trajectory_local_point();
+  inline ::lunabotics::proto::Point* release_closest_trajectory_local_point();
+  inline void set_allocated_closest_trajectory_local_point(::lunabotics::proto::Point* closest_trajectory_local_point);
 
-  // required .lunabotics.Point velocity_vector_local_point = 5;
+  // required .lunabotics.proto.Point velocity_vector_local_point = 5;
   inline bool has_velocity_vector_local_point() const;
   inline void clear_velocity_vector_local_point();
   static const int kVelocityVectorLocalPointFieldNumber = 5;
-  inline const ::lunabotics::Point& velocity_vector_local_point() const;
-  inline ::lunabotics::Point* mutable_velocity_vector_local_point();
-  inline ::lunabotics::Point* release_velocity_vector_local_point();
-  inline void set_allocated_velocity_vector_local_point(::lunabotics::Point* velocity_vector_local_point);
+  inline const ::lunabotics::proto::Point& velocity_vector_local_point() const;
+  inline ::lunabotics::proto::Point* mutable_velocity_vector_local_point();
+  inline ::lunabotics::proto::Point* release_velocity_vector_local_point();
+  inline void set_allocated_velocity_vector_local_point(::lunabotics::proto::Point* velocity_vector_local_point);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telemetry.State.AckermannTelemetry)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.State.AckermannTelemetry)
  private:
   inline void set_has_pid_error();
   inline void clear_has_pid_error();
@@ -181,10 +182,10 @@ class Telemetry_State_AckermannTelemetry : public ::google::protobuf::Message {
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::Point* closest_trajectory_point_;
-  ::lunabotics::Point* velocity_vector_point_;
-  ::lunabotics::Point* closest_trajectory_local_point_;
-  ::lunabotics::Point* velocity_vector_local_point_;
+  ::lunabotics::proto::Point* closest_trajectory_point_;
+  ::lunabotics::proto::Point* velocity_vector_point_;
+  ::lunabotics::proto::Point* closest_trajectory_local_point_;
+  ::lunabotics::proto::Point* velocity_vector_local_point_;
   float pid_error_;
 
   mutable int _cached_size_;
@@ -253,14 +254,14 @@ class Telemetry_State_PointTurnTelemetry : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.Telemetry.PointTurnState state = 1;
+  // required .lunabotics.proto.Telemetry.PointTurnState state = 1;
   inline bool has_state() const;
   inline void clear_state();
   static const int kStateFieldNumber = 1;
-  inline ::lunabotics::Telemetry_PointTurnState state() const;
-  inline void set_state(::lunabotics::Telemetry_PointTurnState value);
+  inline ::lunabotics::proto::Telemetry_PointTurnState state() const;
+  inline void set_state(::lunabotics::proto::Telemetry_PointTurnState value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telemetry.State.PointTurnTelemetry)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.State.PointTurnTelemetry)
  private:
   inline void set_has_state();
   inline void clear_has_state();
@@ -338,14 +339,14 @@ class Telemetry_State : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.Point position = 1;
+  // required .lunabotics.proto.Point position = 1;
   inline bool has_position() const;
   inline void clear_position();
   static const int kPositionFieldNumber = 1;
-  inline const ::lunabotics::Point& position() const;
-  inline ::lunabotics::Point* mutable_position();
-  inline ::lunabotics::Point* release_position();
-  inline void set_allocated_position(::lunabotics::Point* position);
+  inline const ::lunabotics::proto::Point& position() const;
+  inline ::lunabotics::proto::Point* mutable_position();
+  inline ::lunabotics::proto::Point* release_position();
+  inline void set_allocated_position(::lunabotics::proto::Point* position);
 
   // required float heading = 2;
   inline bool has_heading() const;
@@ -354,21 +355,21 @@ class Telemetry_State : public ::google::protobuf::Message {
   inline float heading() const;
   inline void set_heading(float value);
 
-  // required .lunabotics.Twist velocities = 3;
+  // required .lunabotics.proto.Twist velocities = 3;
   inline bool has_velocities() const;
   inline void clear_velocities();
   static const int kVelocitiesFieldNumber = 3;
-  inline const ::lunabotics::Twist& velocities() const;
-  inline ::lunabotics::Twist* mutable_velocities();
-  inline ::lunabotics::Twist* release_velocities();
-  inline void set_allocated_velocities(::lunabotics::Twist* velocities);
+  inline const ::lunabotics::proto::Twist& velocities() const;
+  inline ::lunabotics::proto::Twist* mutable_velocities();
+  inline ::lunabotics::proto::Twist* release_velocities();
+  inline void set_allocated_velocities(::lunabotics::proto::Twist* velocities);
 
-  // required .lunabotics.SteeringModeType steering_mode = 4;
+  // required .lunabotics.proto.SteeringModeType steering_mode = 4;
   inline bool has_steering_mode() const;
   inline void clear_steering_mode();
   static const int kSteeringModeFieldNumber = 4;
-  inline ::lunabotics::SteeringModeType steering_mode() const;
-  inline void set_steering_mode(::lunabotics::SteeringModeType value);
+  inline ::lunabotics::proto::SteeringModeType steering_mode() const;
+  inline void set_steering_mode(::lunabotics::proto::SteeringModeType value);
 
   // required bool autonomy_enabled = 5;
   inline bool has_autonomy_enabled() const;
@@ -384,34 +385,34 @@ class Telemetry_State : public ::google::protobuf::Message {
   inline ::google::protobuf::int32 next_waypoint_idx() const;
   inline void set_next_waypoint_idx(::google::protobuf::int32 value);
 
-  // optional .lunabotics.Point icr = 7;
+  // optional .lunabotics.proto.Point icr = 7;
   inline bool has_icr() const;
   inline void clear_icr();
   static const int kIcrFieldNumber = 7;
-  inline const ::lunabotics::Point& icr() const;
-  inline ::lunabotics::Point* mutable_icr();
-  inline ::lunabotics::Point* release_icr();
-  inline void set_allocated_icr(::lunabotics::Point* icr);
+  inline const ::lunabotics::proto::Point& icr() const;
+  inline ::lunabotics::proto::Point* mutable_icr();
+  inline ::lunabotics::proto::Point* release_icr();
+  inline void set_allocated_icr(::lunabotics::proto::Point* icr);
 
-  // optional .lunabotics.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
+  // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
   inline bool has_ackermann_telemetry() const;
   inline void clear_ackermann_telemetry();
   static const int kAckermannTelemetryFieldNumber = 8;
-  inline const ::lunabotics::Telemetry_State_AckermannTelemetry& ackermann_telemetry() const;
-  inline ::lunabotics::Telemetry_State_AckermannTelemetry* mutable_ackermann_telemetry();
-  inline ::lunabotics::Telemetry_State_AckermannTelemetry* release_ackermann_telemetry();
-  inline void set_allocated_ackermann_telemetry(::lunabotics::Telemetry_State_AckermannTelemetry* ackermann_telemetry);
+  inline const ::lunabotics::proto::Telemetry_State_AckermannTelemetry& ackermann_telemetry() const;
+  inline ::lunabotics::proto::Telemetry_State_AckermannTelemetry* mutable_ackermann_telemetry();
+  inline ::lunabotics::proto::Telemetry_State_AckermannTelemetry* release_ackermann_telemetry();
+  inline void set_allocated_ackermann_telemetry(::lunabotics::proto::Telemetry_State_AckermannTelemetry* ackermann_telemetry);
 
-  // optional .lunabotics.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
+  // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
   inline bool has_point_turn_telemetry() const;
   inline void clear_point_turn_telemetry();
   static const int kPointTurnTelemetryFieldNumber = 9;
-  inline const ::lunabotics::Telemetry_State_PointTurnTelemetry& point_turn_telemetry() const;
-  inline ::lunabotics::Telemetry_State_PointTurnTelemetry* mutable_point_turn_telemetry();
-  inline ::lunabotics::Telemetry_State_PointTurnTelemetry* release_point_turn_telemetry();
-  inline void set_allocated_point_turn_telemetry(::lunabotics::Telemetry_State_PointTurnTelemetry* point_turn_telemetry);
+  inline const ::lunabotics::proto::Telemetry_State_PointTurnTelemetry& point_turn_telemetry() const;
+  inline ::lunabotics::proto::Telemetry_State_PointTurnTelemetry* mutable_point_turn_telemetry();
+  inline ::lunabotics::proto::Telemetry_State_PointTurnTelemetry* release_point_turn_telemetry();
+  inline void set_allocated_point_turn_telemetry(::lunabotics::proto::Telemetry_State_PointTurnTelemetry* point_turn_telemetry);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telemetry.State)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.State)
  private:
   inline void set_has_position();
   inline void clear_has_position();
@@ -434,15 +435,15 @@ class Telemetry_State : public ::google::protobuf::Message {
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::Point* position_;
-  ::lunabotics::Twist* velocities_;
+  ::lunabotics::proto::Point* position_;
+  ::lunabotics::proto::Twist* velocities_;
   float heading_;
   int steering_mode_;
   bool autonomy_enabled_;
   ::google::protobuf::int32 next_waypoint_idx_;
-  ::lunabotics::Point* icr_;
-  ::lunabotics::Telemetry_State_AckermannTelemetry* ackermann_telemetry_;
-  ::lunabotics::Telemetry_State_PointTurnTelemetry* point_turn_telemetry_;
+  ::lunabotics::proto::Point* icr_;
+  ::lunabotics::proto::Telemetry_State_AckermannTelemetry* ackermann_telemetry_;
+  ::lunabotics::proto::Telemetry_State_PointTurnTelemetry* point_turn_telemetry_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
@@ -543,7 +544,7 @@ class Telemetry_World : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_cell();
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telemetry.World)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.World)
  private:
   inline void set_has_width();
   inline void clear_has_width();
@@ -626,24 +627,24 @@ class Telemetry_Path : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // repeated .lunabotics.Point position = 1;
+  // repeated .lunabotics.proto.Point position = 1;
   inline int position_size() const;
   inline void clear_position();
   static const int kPositionFieldNumber = 1;
-  inline const ::lunabotics::Point& position(int index) const;
-  inline ::lunabotics::Point* mutable_position(int index);
-  inline ::lunabotics::Point* add_position();
-  inline const ::google::protobuf::RepeatedPtrField< ::lunabotics::Point >&
+  inline const ::lunabotics::proto::Point& position(int index) const;
+  inline ::lunabotics::proto::Point* mutable_position(int index);
+  inline ::lunabotics::proto::Point* add_position();
+  inline const ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point >&
       position() const;
-  inline ::google::protobuf::RepeatedPtrField< ::lunabotics::Point >*
+  inline ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point >*
       mutable_position();
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telemetry.Path)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.Path)
  private:
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::google::protobuf::RepeatedPtrField< ::lunabotics::Point > position_;
+  ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point > position_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
@@ -711,7 +712,7 @@ class Telemetry_LaserScan : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telemetry.LaserScan)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.LaserScan)
  private:
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
@@ -729,14 +730,14 @@ class Telemetry_LaserScan : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Telemetry_JointPositions : public ::google::protobuf::Message {
+class Telemetry_Geometry : public ::google::protobuf::Message {
  public:
-  Telemetry_JointPositions();
-  virtual ~Telemetry_JointPositions();
+  Telemetry_Geometry();
+  virtual ~Telemetry_Geometry();
 
-  Telemetry_JointPositions(const Telemetry_JointPositions& from);
+  Telemetry_Geometry(const Telemetry_Geometry& from);
 
-  inline Telemetry_JointPositions& operator=(const Telemetry_JointPositions& from) {
+  inline Telemetry_Geometry& operator=(const Telemetry_Geometry& from) {
     CopyFrom(from);
     return *this;
   }
@@ -750,17 +751,17 @@ class Telemetry_JointPositions : public ::google::protobuf::Message {
   }
 
   static const ::google::protobuf::Descriptor* descriptor();
-  static const Telemetry_JointPositions& default_instance();
+  static const Telemetry_Geometry& default_instance();
 
-  void Swap(Telemetry_JointPositions* other);
+  void Swap(Telemetry_Geometry* other);
 
   // implements Message ----------------------------------------------
 
-  Telemetry_JointPositions* New() const;
+  Telemetry_Geometry* New() const;
   void CopyFrom(const ::google::protobuf::Message& from);
   void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Telemetry_JointPositions& from);
-  void MergeFrom(const Telemetry_JointPositions& from);
+  void CopyFrom(const Telemetry_Geometry& from);
+  void MergeFrom(const Telemetry_Geometry& from);
   void Clear();
   bool IsInitialized() const;
 
@@ -783,69 +784,89 @@ class Telemetry_JointPositions : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.Point left_front = 1;
-  inline bool has_left_front() const;
-  inline void clear_left_front();
-  static const int kLeftFrontFieldNumber = 1;
-  inline const ::lunabotics::Point& left_front() const;
-  inline ::lunabotics::Point* mutable_left_front();
-  inline ::lunabotics::Point* release_left_front();
-  inline void set_allocated_left_front(::lunabotics::Point* left_front);
+  // required .lunabotics.proto.Point left_front_joint = 1;
+  inline bool has_left_front_joint() const;
+  inline void clear_left_front_joint();
+  static const int kLeftFrontJointFieldNumber = 1;
+  inline const ::lunabotics::proto::Point& left_front_joint() const;
+  inline ::lunabotics::proto::Point* mutable_left_front_joint();
+  inline ::lunabotics::proto::Point* release_left_front_joint();
+  inline void set_allocated_left_front_joint(::lunabotics::proto::Point* left_front_joint);
 
-  // required .lunabotics.Point left_rear = 2;
-  inline bool has_left_rear() const;
-  inline void clear_left_rear();
-  static const int kLeftRearFieldNumber = 2;
-  inline const ::lunabotics::Point& left_rear() const;
-  inline ::lunabotics::Point* mutable_left_rear();
-  inline ::lunabotics::Point* release_left_rear();
-  inline void set_allocated_left_rear(::lunabotics::Point* left_rear);
+  // required .lunabotics.proto.Point left_rear_joint = 2;
+  inline bool has_left_rear_joint() const;
+  inline void clear_left_rear_joint();
+  static const int kLeftRearJointFieldNumber = 2;
+  inline const ::lunabotics::proto::Point& left_rear_joint() const;
+  inline ::lunabotics::proto::Point* mutable_left_rear_joint();
+  inline ::lunabotics::proto::Point* release_left_rear_joint();
+  inline void set_allocated_left_rear_joint(::lunabotics::proto::Point* left_rear_joint);
 
-  // required .lunabotics.Point right_front = 3;
-  inline bool has_right_front() const;
-  inline void clear_right_front();
-  static const int kRightFrontFieldNumber = 3;
-  inline const ::lunabotics::Point& right_front() const;
-  inline ::lunabotics::Point* mutable_right_front();
-  inline ::lunabotics::Point* release_right_front();
-  inline void set_allocated_right_front(::lunabotics::Point* right_front);
+  // required .lunabotics.proto.Point right_front_joint = 3;
+  inline bool has_right_front_joint() const;
+  inline void clear_right_front_joint();
+  static const int kRightFrontJointFieldNumber = 3;
+  inline const ::lunabotics::proto::Point& right_front_joint() const;
+  inline ::lunabotics::proto::Point* mutable_right_front_joint();
+  inline ::lunabotics::proto::Point* release_right_front_joint();
+  inline void set_allocated_right_front_joint(::lunabotics::proto::Point* right_front_joint);
 
-  // required .lunabotics.Point right_rear = 4;
-  inline bool has_right_rear() const;
-  inline void clear_right_rear();
-  static const int kRightRearFieldNumber = 4;
-  inline const ::lunabotics::Point& right_rear() const;
-  inline ::lunabotics::Point* mutable_right_rear();
-  inline ::lunabotics::Point* release_right_rear();
-  inline void set_allocated_right_rear(::lunabotics::Point* right_rear);
+  // required .lunabotics.proto.Point right_rear_joint = 4;
+  inline bool has_right_rear_joint() const;
+  inline void clear_right_rear_joint();
+  static const int kRightRearJointFieldNumber = 4;
+  inline const ::lunabotics::proto::Point& right_rear_joint() const;
+  inline ::lunabotics::proto::Point* mutable_right_rear_joint();
+  inline ::lunabotics::proto::Point* release_right_rear_joint();
+  inline void set_allocated_right_rear_joint(::lunabotics::proto::Point* right_rear_joint);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telemetry.JointPositions)
+  // required float wheel_offset = 5;
+  inline bool has_wheel_offset() const;
+  inline void clear_wheel_offset();
+  static const int kWheelOffsetFieldNumber = 5;
+  inline float wheel_offset() const;
+  inline void set_wheel_offset(float value);
+
+  // required float wheel_radius = 6;
+  inline bool has_wheel_radius() const;
+  inline void clear_wheel_radius();
+  static const int kWheelRadiusFieldNumber = 6;
+  inline float wheel_radius() const;
+  inline void set_wheel_radius(float value);
+
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.Geometry)
  private:
-  inline void set_has_left_front();
-  inline void clear_has_left_front();
-  inline void set_has_left_rear();
-  inline void clear_has_left_rear();
-  inline void set_has_right_front();
-  inline void clear_has_right_front();
-  inline void set_has_right_rear();
-  inline void clear_has_right_rear();
+  inline void set_has_left_front_joint();
+  inline void clear_has_left_front_joint();
+  inline void set_has_left_rear_joint();
+  inline void clear_has_left_rear_joint();
+  inline void set_has_right_front_joint();
+  inline void clear_has_right_front_joint();
+  inline void set_has_right_rear_joint();
+  inline void clear_has_right_rear_joint();
+  inline void set_has_wheel_offset();
+  inline void clear_has_wheel_offset();
+  inline void set_has_wheel_radius();
+  inline void clear_has_wheel_radius();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::Point* left_front_;
-  ::lunabotics::Point* left_rear_;
-  ::lunabotics::Point* right_front_;
-  ::lunabotics::Point* right_rear_;
+  ::lunabotics::proto::Point* left_front_joint_;
+  ::lunabotics::proto::Point* left_rear_joint_;
+  ::lunabotics::proto::Point* right_front_joint_;
+  ::lunabotics::proto::Point* right_rear_joint_;
+  float wheel_offset_;
+  float wheel_radius_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telemetry_2eproto();
   friend void protobuf_AssignDesc_Telemetry_2eproto();
   friend void protobuf_ShutdownFile_Telemetry_2eproto();
 
   void InitAsDefaultInstance();
-  static Telemetry_JointPositions* default_instance_;
+  static Telemetry_Geometry* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -905,7 +926,7 @@ class Telemetry : public ::google::protobuf::Message {
   typedef Telemetry_World World;
   typedef Telemetry_Path Path;
   typedef Telemetry_LaserScan LaserScan;
-  typedef Telemetry_JointPositions JointPositions;
+  typedef Telemetry_Geometry Geometry;
 
   typedef Telemetry_PointTurnState PointTurnState;
   static const PointTurnState STOPPED = Telemetry_PointTurnState_STOPPED;
@@ -934,61 +955,61 @@ class Telemetry : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // optional .lunabotics.Telemetry.State state_data = 2;
+  // optional .lunabotics.proto.Telemetry.State state_data = 2;
   inline bool has_state_data() const;
   inline void clear_state_data();
   static const int kStateDataFieldNumber = 2;
-  inline const ::lunabotics::Telemetry_State& state_data() const;
-  inline ::lunabotics::Telemetry_State* mutable_state_data();
-  inline ::lunabotics::Telemetry_State* release_state_data();
-  inline void set_allocated_state_data(::lunabotics::Telemetry_State* state_data);
+  inline const ::lunabotics::proto::Telemetry_State& state_data() const;
+  inline ::lunabotics::proto::Telemetry_State* mutable_state_data();
+  inline ::lunabotics::proto::Telemetry_State* release_state_data();
+  inline void set_allocated_state_data(::lunabotics::proto::Telemetry_State* state_data);
 
-  // optional .lunabotics.Telemetry.World world_data = 3;
+  // optional .lunabotics.proto.Telemetry.World world_data = 3;
   inline bool has_world_data() const;
   inline void clear_world_data();
   static const int kWorldDataFieldNumber = 3;
-  inline const ::lunabotics::Telemetry_World& world_data() const;
-  inline ::lunabotics::Telemetry_World* mutable_world_data();
-  inline ::lunabotics::Telemetry_World* release_world_data();
-  inline void set_allocated_world_data(::lunabotics::Telemetry_World* world_data);
+  inline const ::lunabotics::proto::Telemetry_World& world_data() const;
+  inline ::lunabotics::proto::Telemetry_World* mutable_world_data();
+  inline ::lunabotics::proto::Telemetry_World* release_world_data();
+  inline void set_allocated_world_data(::lunabotics::proto::Telemetry_World* world_data);
 
-  // optional .lunabotics.Telemetry.Path path_data = 4;
+  // optional .lunabotics.proto.Telemetry.Path path_data = 4;
   inline bool has_path_data() const;
   inline void clear_path_data();
   static const int kPathDataFieldNumber = 4;
-  inline const ::lunabotics::Telemetry_Path& path_data() const;
-  inline ::lunabotics::Telemetry_Path* mutable_path_data();
-  inline ::lunabotics::Telemetry_Path* release_path_data();
-  inline void set_allocated_path_data(::lunabotics::Telemetry_Path* path_data);
+  inline const ::lunabotics::proto::Telemetry_Path& path_data() const;
+  inline ::lunabotics::proto::Telemetry_Path* mutable_path_data();
+  inline ::lunabotics::proto::Telemetry_Path* release_path_data();
+  inline void set_allocated_path_data(::lunabotics::proto::Telemetry_Path* path_data);
 
-  // optional .lunabotics.Telemetry.LaserScan laser_scan_data = 5;
+  // optional .lunabotics.proto.Telemetry.LaserScan laser_scan_data = 5;
   inline bool has_laser_scan_data() const;
   inline void clear_laser_scan_data();
   static const int kLaserScanDataFieldNumber = 5;
-  inline const ::lunabotics::Telemetry_LaserScan& laser_scan_data() const;
-  inline ::lunabotics::Telemetry_LaserScan* mutable_laser_scan_data();
-  inline ::lunabotics::Telemetry_LaserScan* release_laser_scan_data();
-  inline void set_allocated_laser_scan_data(::lunabotics::Telemetry_LaserScan* laser_scan_data);
+  inline const ::lunabotics::proto::Telemetry_LaserScan& laser_scan_data() const;
+  inline ::lunabotics::proto::Telemetry_LaserScan* mutable_laser_scan_data();
+  inline ::lunabotics::proto::Telemetry_LaserScan* release_laser_scan_data();
+  inline void set_allocated_laser_scan_data(::lunabotics::proto::Telemetry_LaserScan* laser_scan_data);
 
-  // optional .lunabotics.AllWheelState all_wheel_state = 6;
+  // optional .lunabotics.proto.AllWheelState all_wheel_state = 6;
   inline bool has_all_wheel_state() const;
   inline void clear_all_wheel_state();
   static const int kAllWheelStateFieldNumber = 6;
-  inline const ::lunabotics::AllWheelState& all_wheel_state() const;
-  inline ::lunabotics::AllWheelState* mutable_all_wheel_state();
-  inline ::lunabotics::AllWheelState* release_all_wheel_state();
-  inline void set_allocated_all_wheel_state(::lunabotics::AllWheelState* all_wheel_state);
+  inline const ::lunabotics::proto::AllWheelState& all_wheel_state() const;
+  inline ::lunabotics::proto::AllWheelState* mutable_all_wheel_state();
+  inline ::lunabotics::proto::AllWheelState* release_all_wheel_state();
+  inline void set_allocated_all_wheel_state(::lunabotics::proto::AllWheelState* all_wheel_state);
 
-  // optional .lunabotics.Telemetry.JointPositions joints_data = 7;
-  inline bool has_joints_data() const;
-  inline void clear_joints_data();
-  static const int kJointsDataFieldNumber = 7;
-  inline const ::lunabotics::Telemetry_JointPositions& joints_data() const;
-  inline ::lunabotics::Telemetry_JointPositions* mutable_joints_data();
-  inline ::lunabotics::Telemetry_JointPositions* release_joints_data();
-  inline void set_allocated_joints_data(::lunabotics::Telemetry_JointPositions* joints_data);
+  // optional .lunabotics.proto.Telemetry.Geometry geometry_data = 7;
+  inline bool has_geometry_data() const;
+  inline void clear_geometry_data();
+  static const int kGeometryDataFieldNumber = 7;
+  inline const ::lunabotics::proto::Telemetry_Geometry& geometry_data() const;
+  inline ::lunabotics::proto::Telemetry_Geometry* mutable_geometry_data();
+  inline ::lunabotics::proto::Telemetry_Geometry* release_geometry_data();
+  inline void set_allocated_geometry_data(::lunabotics::proto::Telemetry_Geometry* geometry_data);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Telemetry)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry)
  private:
   inline void set_has_state_data();
   inline void clear_has_state_data();
@@ -1000,17 +1021,17 @@ class Telemetry : public ::google::protobuf::Message {
   inline void clear_has_laser_scan_data();
   inline void set_has_all_wheel_state();
   inline void clear_has_all_wheel_state();
-  inline void set_has_joints_data();
-  inline void clear_has_joints_data();
+  inline void set_has_geometry_data();
+  inline void clear_has_geometry_data();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::Telemetry_State* state_data_;
-  ::lunabotics::Telemetry_World* world_data_;
-  ::lunabotics::Telemetry_Path* path_data_;
-  ::lunabotics::Telemetry_LaserScan* laser_scan_data_;
-  ::lunabotics::AllWheelState* all_wheel_state_;
-  ::lunabotics::Telemetry_JointPositions* joints_data_;
+  ::lunabotics::proto::Telemetry_State* state_data_;
+  ::lunabotics::proto::Telemetry_World* world_data_;
+  ::lunabotics::proto::Telemetry_Path* path_data_;
+  ::lunabotics::proto::Telemetry_LaserScan* laser_scan_data_;
+  ::lunabotics::proto::AllWheelState* all_wheel_state_;
+  ::lunabotics::proto::Telemetry_Geometry* geometry_data_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
@@ -1051,7 +1072,7 @@ inline void Telemetry_State_AckermannTelemetry::set_pid_error(float value) {
   pid_error_ = value;
 }
 
-// required .lunabotics.Point closest_trajectory_point = 2;
+// required .lunabotics.proto.Point closest_trajectory_point = 2;
 inline bool Telemetry_State_AckermannTelemetry::has_closest_trajectory_point() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -1062,24 +1083,24 @@ inline void Telemetry_State_AckermannTelemetry::clear_has_closest_trajectory_poi
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void Telemetry_State_AckermannTelemetry::clear_closest_trajectory_point() {
-  if (closest_trajectory_point_ != NULL) closest_trajectory_point_->::lunabotics::Point::Clear();
+  if (closest_trajectory_point_ != NULL) closest_trajectory_point_->::lunabotics::proto::Point::Clear();
   clear_has_closest_trajectory_point();
 }
-inline const ::lunabotics::Point& Telemetry_State_AckermannTelemetry::closest_trajectory_point() const {
+inline const ::lunabotics::proto::Point& Telemetry_State_AckermannTelemetry::closest_trajectory_point() const {
   return closest_trajectory_point_ != NULL ? *closest_trajectory_point_ : *default_instance_->closest_trajectory_point_;
 }
-inline ::lunabotics::Point* Telemetry_State_AckermannTelemetry::mutable_closest_trajectory_point() {
+inline ::lunabotics::proto::Point* Telemetry_State_AckermannTelemetry::mutable_closest_trajectory_point() {
   set_has_closest_trajectory_point();
-  if (closest_trajectory_point_ == NULL) closest_trajectory_point_ = new ::lunabotics::Point;
+  if (closest_trajectory_point_ == NULL) closest_trajectory_point_ = new ::lunabotics::proto::Point;
   return closest_trajectory_point_;
 }
-inline ::lunabotics::Point* Telemetry_State_AckermannTelemetry::release_closest_trajectory_point() {
+inline ::lunabotics::proto::Point* Telemetry_State_AckermannTelemetry::release_closest_trajectory_point() {
   clear_has_closest_trajectory_point();
-  ::lunabotics::Point* temp = closest_trajectory_point_;
+  ::lunabotics::proto::Point* temp = closest_trajectory_point_;
   closest_trajectory_point_ = NULL;
   return temp;
 }
-inline void Telemetry_State_AckermannTelemetry::set_allocated_closest_trajectory_point(::lunabotics::Point* closest_trajectory_point) {
+inline void Telemetry_State_AckermannTelemetry::set_allocated_closest_trajectory_point(::lunabotics::proto::Point* closest_trajectory_point) {
   delete closest_trajectory_point_;
   closest_trajectory_point_ = closest_trajectory_point;
   if (closest_trajectory_point) {
@@ -1089,7 +1110,7 @@ inline void Telemetry_State_AckermannTelemetry::set_allocated_closest_trajectory
   }
 }
 
-// required .lunabotics.Point velocity_vector_point = 3;
+// required .lunabotics.proto.Point velocity_vector_point = 3;
 inline bool Telemetry_State_AckermannTelemetry::has_velocity_vector_point() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -1100,24 +1121,24 @@ inline void Telemetry_State_AckermannTelemetry::clear_has_velocity_vector_point(
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void Telemetry_State_AckermannTelemetry::clear_velocity_vector_point() {
-  if (velocity_vector_point_ != NULL) velocity_vector_point_->::lunabotics::Point::Clear();
+  if (velocity_vector_point_ != NULL) velocity_vector_point_->::lunabotics::proto::Point::Clear();
   clear_has_velocity_vector_point();
 }
-inline const ::lunabotics::Point& Telemetry_State_AckermannTelemetry::velocity_vector_point() const {
+inline const ::lunabotics::proto::Point& Telemetry_State_AckermannTelemetry::velocity_vector_point() const {
   return velocity_vector_point_ != NULL ? *velocity_vector_point_ : *default_instance_->velocity_vector_point_;
 }
-inline ::lunabotics::Point* Telemetry_State_AckermannTelemetry::mutable_velocity_vector_point() {
+inline ::lunabotics::proto::Point* Telemetry_State_AckermannTelemetry::mutable_velocity_vector_point() {
   set_has_velocity_vector_point();
-  if (velocity_vector_point_ == NULL) velocity_vector_point_ = new ::lunabotics::Point;
+  if (velocity_vector_point_ == NULL) velocity_vector_point_ = new ::lunabotics::proto::Point;
   return velocity_vector_point_;
 }
-inline ::lunabotics::Point* Telemetry_State_AckermannTelemetry::release_velocity_vector_point() {
+inline ::lunabotics::proto::Point* Telemetry_State_AckermannTelemetry::release_velocity_vector_point() {
   clear_has_velocity_vector_point();
-  ::lunabotics::Point* temp = velocity_vector_point_;
+  ::lunabotics::proto::Point* temp = velocity_vector_point_;
   velocity_vector_point_ = NULL;
   return temp;
 }
-inline void Telemetry_State_AckermannTelemetry::set_allocated_velocity_vector_point(::lunabotics::Point* velocity_vector_point) {
+inline void Telemetry_State_AckermannTelemetry::set_allocated_velocity_vector_point(::lunabotics::proto::Point* velocity_vector_point) {
   delete velocity_vector_point_;
   velocity_vector_point_ = velocity_vector_point;
   if (velocity_vector_point) {
@@ -1127,7 +1148,7 @@ inline void Telemetry_State_AckermannTelemetry::set_allocated_velocity_vector_po
   }
 }
 
-// required .lunabotics.Point closest_trajectory_local_point = 4;
+// required .lunabotics.proto.Point closest_trajectory_local_point = 4;
 inline bool Telemetry_State_AckermannTelemetry::has_closest_trajectory_local_point() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
@@ -1138,24 +1159,24 @@ inline void Telemetry_State_AckermannTelemetry::clear_has_closest_trajectory_loc
   _has_bits_[0] &= ~0x00000008u;
 }
 inline void Telemetry_State_AckermannTelemetry::clear_closest_trajectory_local_point() {
-  if (closest_trajectory_local_point_ != NULL) closest_trajectory_local_point_->::lunabotics::Point::Clear();
+  if (closest_trajectory_local_point_ != NULL) closest_trajectory_local_point_->::lunabotics::proto::Point::Clear();
   clear_has_closest_trajectory_local_point();
 }
-inline const ::lunabotics::Point& Telemetry_State_AckermannTelemetry::closest_trajectory_local_point() const {
+inline const ::lunabotics::proto::Point& Telemetry_State_AckermannTelemetry::closest_trajectory_local_point() const {
   return closest_trajectory_local_point_ != NULL ? *closest_trajectory_local_point_ : *default_instance_->closest_trajectory_local_point_;
 }
-inline ::lunabotics::Point* Telemetry_State_AckermannTelemetry::mutable_closest_trajectory_local_point() {
+inline ::lunabotics::proto::Point* Telemetry_State_AckermannTelemetry::mutable_closest_trajectory_local_point() {
   set_has_closest_trajectory_local_point();
-  if (closest_trajectory_local_point_ == NULL) closest_trajectory_local_point_ = new ::lunabotics::Point;
+  if (closest_trajectory_local_point_ == NULL) closest_trajectory_local_point_ = new ::lunabotics::proto::Point;
   return closest_trajectory_local_point_;
 }
-inline ::lunabotics::Point* Telemetry_State_AckermannTelemetry::release_closest_trajectory_local_point() {
+inline ::lunabotics::proto::Point* Telemetry_State_AckermannTelemetry::release_closest_trajectory_local_point() {
   clear_has_closest_trajectory_local_point();
-  ::lunabotics::Point* temp = closest_trajectory_local_point_;
+  ::lunabotics::proto::Point* temp = closest_trajectory_local_point_;
   closest_trajectory_local_point_ = NULL;
   return temp;
 }
-inline void Telemetry_State_AckermannTelemetry::set_allocated_closest_trajectory_local_point(::lunabotics::Point* closest_trajectory_local_point) {
+inline void Telemetry_State_AckermannTelemetry::set_allocated_closest_trajectory_local_point(::lunabotics::proto::Point* closest_trajectory_local_point) {
   delete closest_trajectory_local_point_;
   closest_trajectory_local_point_ = closest_trajectory_local_point;
   if (closest_trajectory_local_point) {
@@ -1165,7 +1186,7 @@ inline void Telemetry_State_AckermannTelemetry::set_allocated_closest_trajectory
   }
 }
 
-// required .lunabotics.Point velocity_vector_local_point = 5;
+// required .lunabotics.proto.Point velocity_vector_local_point = 5;
 inline bool Telemetry_State_AckermannTelemetry::has_velocity_vector_local_point() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
@@ -1176,24 +1197,24 @@ inline void Telemetry_State_AckermannTelemetry::clear_has_velocity_vector_local_
   _has_bits_[0] &= ~0x00000010u;
 }
 inline void Telemetry_State_AckermannTelemetry::clear_velocity_vector_local_point() {
-  if (velocity_vector_local_point_ != NULL) velocity_vector_local_point_->::lunabotics::Point::Clear();
+  if (velocity_vector_local_point_ != NULL) velocity_vector_local_point_->::lunabotics::proto::Point::Clear();
   clear_has_velocity_vector_local_point();
 }
-inline const ::lunabotics::Point& Telemetry_State_AckermannTelemetry::velocity_vector_local_point() const {
+inline const ::lunabotics::proto::Point& Telemetry_State_AckermannTelemetry::velocity_vector_local_point() const {
   return velocity_vector_local_point_ != NULL ? *velocity_vector_local_point_ : *default_instance_->velocity_vector_local_point_;
 }
-inline ::lunabotics::Point* Telemetry_State_AckermannTelemetry::mutable_velocity_vector_local_point() {
+inline ::lunabotics::proto::Point* Telemetry_State_AckermannTelemetry::mutable_velocity_vector_local_point() {
   set_has_velocity_vector_local_point();
-  if (velocity_vector_local_point_ == NULL) velocity_vector_local_point_ = new ::lunabotics::Point;
+  if (velocity_vector_local_point_ == NULL) velocity_vector_local_point_ = new ::lunabotics::proto::Point;
   return velocity_vector_local_point_;
 }
-inline ::lunabotics::Point* Telemetry_State_AckermannTelemetry::release_velocity_vector_local_point() {
+inline ::lunabotics::proto::Point* Telemetry_State_AckermannTelemetry::release_velocity_vector_local_point() {
   clear_has_velocity_vector_local_point();
-  ::lunabotics::Point* temp = velocity_vector_local_point_;
+  ::lunabotics::proto::Point* temp = velocity_vector_local_point_;
   velocity_vector_local_point_ = NULL;
   return temp;
 }
-inline void Telemetry_State_AckermannTelemetry::set_allocated_velocity_vector_local_point(::lunabotics::Point* velocity_vector_local_point) {
+inline void Telemetry_State_AckermannTelemetry::set_allocated_velocity_vector_local_point(::lunabotics::proto::Point* velocity_vector_local_point) {
   delete velocity_vector_local_point_;
   velocity_vector_local_point_ = velocity_vector_local_point;
   if (velocity_vector_local_point) {
@@ -1207,7 +1228,7 @@ inline void Telemetry_State_AckermannTelemetry::set_allocated_velocity_vector_lo
 
 // Telemetry_State_PointTurnTelemetry
 
-// required .lunabotics.Telemetry.PointTurnState state = 1;
+// required .lunabotics.proto.Telemetry.PointTurnState state = 1;
 inline bool Telemetry_State_PointTurnTelemetry::has_state() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1221,11 +1242,11 @@ inline void Telemetry_State_PointTurnTelemetry::clear_state() {
   state_ = 1;
   clear_has_state();
 }
-inline ::lunabotics::Telemetry_PointTurnState Telemetry_State_PointTurnTelemetry::state() const {
-  return static_cast< ::lunabotics::Telemetry_PointTurnState >(state_);
+inline ::lunabotics::proto::Telemetry_PointTurnState Telemetry_State_PointTurnTelemetry::state() const {
+  return static_cast< ::lunabotics::proto::Telemetry_PointTurnState >(state_);
 }
-inline void Telemetry_State_PointTurnTelemetry::set_state(::lunabotics::Telemetry_PointTurnState value) {
-  assert(::lunabotics::Telemetry_PointTurnState_IsValid(value));
+inline void Telemetry_State_PointTurnTelemetry::set_state(::lunabotics::proto::Telemetry_PointTurnState value) {
+  assert(::lunabotics::proto::Telemetry_PointTurnState_IsValid(value));
   set_has_state();
   state_ = value;
 }
@@ -1234,7 +1255,7 @@ inline void Telemetry_State_PointTurnTelemetry::set_state(::lunabotics::Telemetr
 
 // Telemetry_State
 
-// required .lunabotics.Point position = 1;
+// required .lunabotics.proto.Point position = 1;
 inline bool Telemetry_State::has_position() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1245,24 +1266,24 @@ inline void Telemetry_State::clear_has_position() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void Telemetry_State::clear_position() {
-  if (position_ != NULL) position_->::lunabotics::Point::Clear();
+  if (position_ != NULL) position_->::lunabotics::proto::Point::Clear();
   clear_has_position();
 }
-inline const ::lunabotics::Point& Telemetry_State::position() const {
+inline const ::lunabotics::proto::Point& Telemetry_State::position() const {
   return position_ != NULL ? *position_ : *default_instance_->position_;
 }
-inline ::lunabotics::Point* Telemetry_State::mutable_position() {
+inline ::lunabotics::proto::Point* Telemetry_State::mutable_position() {
   set_has_position();
-  if (position_ == NULL) position_ = new ::lunabotics::Point;
+  if (position_ == NULL) position_ = new ::lunabotics::proto::Point;
   return position_;
 }
-inline ::lunabotics::Point* Telemetry_State::release_position() {
+inline ::lunabotics::proto::Point* Telemetry_State::release_position() {
   clear_has_position();
-  ::lunabotics::Point* temp = position_;
+  ::lunabotics::proto::Point* temp = position_;
   position_ = NULL;
   return temp;
 }
-inline void Telemetry_State::set_allocated_position(::lunabotics::Point* position) {
+inline void Telemetry_State::set_allocated_position(::lunabotics::proto::Point* position) {
   delete position_;
   position_ = position;
   if (position) {
@@ -1294,7 +1315,7 @@ inline void Telemetry_State::set_heading(float value) {
   heading_ = value;
 }
 
-// required .lunabotics.Twist velocities = 3;
+// required .lunabotics.proto.Twist velocities = 3;
 inline bool Telemetry_State::has_velocities() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -1305,24 +1326,24 @@ inline void Telemetry_State::clear_has_velocities() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void Telemetry_State::clear_velocities() {
-  if (velocities_ != NULL) velocities_->::lunabotics::Twist::Clear();
+  if (velocities_ != NULL) velocities_->::lunabotics::proto::Twist::Clear();
   clear_has_velocities();
 }
-inline const ::lunabotics::Twist& Telemetry_State::velocities() const {
+inline const ::lunabotics::proto::Twist& Telemetry_State::velocities() const {
   return velocities_ != NULL ? *velocities_ : *default_instance_->velocities_;
 }
-inline ::lunabotics::Twist* Telemetry_State::mutable_velocities() {
+inline ::lunabotics::proto::Twist* Telemetry_State::mutable_velocities() {
   set_has_velocities();
-  if (velocities_ == NULL) velocities_ = new ::lunabotics::Twist;
+  if (velocities_ == NULL) velocities_ = new ::lunabotics::proto::Twist;
   return velocities_;
 }
-inline ::lunabotics::Twist* Telemetry_State::release_velocities() {
+inline ::lunabotics::proto::Twist* Telemetry_State::release_velocities() {
   clear_has_velocities();
-  ::lunabotics::Twist* temp = velocities_;
+  ::lunabotics::proto::Twist* temp = velocities_;
   velocities_ = NULL;
   return temp;
 }
-inline void Telemetry_State::set_allocated_velocities(::lunabotics::Twist* velocities) {
+inline void Telemetry_State::set_allocated_velocities(::lunabotics::proto::Twist* velocities) {
   delete velocities_;
   velocities_ = velocities;
   if (velocities) {
@@ -1332,7 +1353,7 @@ inline void Telemetry_State::set_allocated_velocities(::lunabotics::Twist* veloc
   }
 }
 
-// required .lunabotics.SteeringModeType steering_mode = 4;
+// required .lunabotics.proto.SteeringModeType steering_mode = 4;
 inline bool Telemetry_State::has_steering_mode() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
@@ -1346,11 +1367,11 @@ inline void Telemetry_State::clear_steering_mode() {
   steering_mode_ = 1;
   clear_has_steering_mode();
 }
-inline ::lunabotics::SteeringModeType Telemetry_State::steering_mode() const {
-  return static_cast< ::lunabotics::SteeringModeType >(steering_mode_);
+inline ::lunabotics::proto::SteeringModeType Telemetry_State::steering_mode() const {
+  return static_cast< ::lunabotics::proto::SteeringModeType >(steering_mode_);
 }
-inline void Telemetry_State::set_steering_mode(::lunabotics::SteeringModeType value) {
-  assert(::lunabotics::SteeringModeType_IsValid(value));
+inline void Telemetry_State::set_steering_mode(::lunabotics::proto::SteeringModeType value) {
+  assert(::lunabotics::proto::SteeringModeType_IsValid(value));
   set_has_steering_mode();
   steering_mode_ = value;
 }
@@ -1399,7 +1420,7 @@ inline void Telemetry_State::set_next_waypoint_idx(::google::protobuf::int32 val
   next_waypoint_idx_ = value;
 }
 
-// optional .lunabotics.Point icr = 7;
+// optional .lunabotics.proto.Point icr = 7;
 inline bool Telemetry_State::has_icr() const {
   return (_has_bits_[0] & 0x00000040u) != 0;
 }
@@ -1410,24 +1431,24 @@ inline void Telemetry_State::clear_has_icr() {
   _has_bits_[0] &= ~0x00000040u;
 }
 inline void Telemetry_State::clear_icr() {
-  if (icr_ != NULL) icr_->::lunabotics::Point::Clear();
+  if (icr_ != NULL) icr_->::lunabotics::proto::Point::Clear();
   clear_has_icr();
 }
-inline const ::lunabotics::Point& Telemetry_State::icr() const {
+inline const ::lunabotics::proto::Point& Telemetry_State::icr() const {
   return icr_ != NULL ? *icr_ : *default_instance_->icr_;
 }
-inline ::lunabotics::Point* Telemetry_State::mutable_icr() {
+inline ::lunabotics::proto::Point* Telemetry_State::mutable_icr() {
   set_has_icr();
-  if (icr_ == NULL) icr_ = new ::lunabotics::Point;
+  if (icr_ == NULL) icr_ = new ::lunabotics::proto::Point;
   return icr_;
 }
-inline ::lunabotics::Point* Telemetry_State::release_icr() {
+inline ::lunabotics::proto::Point* Telemetry_State::release_icr() {
   clear_has_icr();
-  ::lunabotics::Point* temp = icr_;
+  ::lunabotics::proto::Point* temp = icr_;
   icr_ = NULL;
   return temp;
 }
-inline void Telemetry_State::set_allocated_icr(::lunabotics::Point* icr) {
+inline void Telemetry_State::set_allocated_icr(::lunabotics::proto::Point* icr) {
   delete icr_;
   icr_ = icr;
   if (icr) {
@@ -1437,7 +1458,7 @@ inline void Telemetry_State::set_allocated_icr(::lunabotics::Point* icr) {
   }
 }
 
-// optional .lunabotics.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
+// optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
 inline bool Telemetry_State::has_ackermann_telemetry() const {
   return (_has_bits_[0] & 0x00000080u) != 0;
 }
@@ -1448,24 +1469,24 @@ inline void Telemetry_State::clear_has_ackermann_telemetry() {
   _has_bits_[0] &= ~0x00000080u;
 }
 inline void Telemetry_State::clear_ackermann_telemetry() {
-  if (ackermann_telemetry_ != NULL) ackermann_telemetry_->::lunabotics::Telemetry_State_AckermannTelemetry::Clear();
+  if (ackermann_telemetry_ != NULL) ackermann_telemetry_->::lunabotics::proto::Telemetry_State_AckermannTelemetry::Clear();
   clear_has_ackermann_telemetry();
 }
-inline const ::lunabotics::Telemetry_State_AckermannTelemetry& Telemetry_State::ackermann_telemetry() const {
+inline const ::lunabotics::proto::Telemetry_State_AckermannTelemetry& Telemetry_State::ackermann_telemetry() const {
   return ackermann_telemetry_ != NULL ? *ackermann_telemetry_ : *default_instance_->ackermann_telemetry_;
 }
-inline ::lunabotics::Telemetry_State_AckermannTelemetry* Telemetry_State::mutable_ackermann_telemetry() {
+inline ::lunabotics::proto::Telemetry_State_AckermannTelemetry* Telemetry_State::mutable_ackermann_telemetry() {
   set_has_ackermann_telemetry();
-  if (ackermann_telemetry_ == NULL) ackermann_telemetry_ = new ::lunabotics::Telemetry_State_AckermannTelemetry;
+  if (ackermann_telemetry_ == NULL) ackermann_telemetry_ = new ::lunabotics::proto::Telemetry_State_AckermannTelemetry;
   return ackermann_telemetry_;
 }
-inline ::lunabotics::Telemetry_State_AckermannTelemetry* Telemetry_State::release_ackermann_telemetry() {
+inline ::lunabotics::proto::Telemetry_State_AckermannTelemetry* Telemetry_State::release_ackermann_telemetry() {
   clear_has_ackermann_telemetry();
-  ::lunabotics::Telemetry_State_AckermannTelemetry* temp = ackermann_telemetry_;
+  ::lunabotics::proto::Telemetry_State_AckermannTelemetry* temp = ackermann_telemetry_;
   ackermann_telemetry_ = NULL;
   return temp;
 }
-inline void Telemetry_State::set_allocated_ackermann_telemetry(::lunabotics::Telemetry_State_AckermannTelemetry* ackermann_telemetry) {
+inline void Telemetry_State::set_allocated_ackermann_telemetry(::lunabotics::proto::Telemetry_State_AckermannTelemetry* ackermann_telemetry) {
   delete ackermann_telemetry_;
   ackermann_telemetry_ = ackermann_telemetry;
   if (ackermann_telemetry) {
@@ -1475,7 +1496,7 @@ inline void Telemetry_State::set_allocated_ackermann_telemetry(::lunabotics::Tel
   }
 }
 
-// optional .lunabotics.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
+// optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
 inline bool Telemetry_State::has_point_turn_telemetry() const {
   return (_has_bits_[0] & 0x00000100u) != 0;
 }
@@ -1486,24 +1507,24 @@ inline void Telemetry_State::clear_has_point_turn_telemetry() {
   _has_bits_[0] &= ~0x00000100u;
 }
 inline void Telemetry_State::clear_point_turn_telemetry() {
-  if (point_turn_telemetry_ != NULL) point_turn_telemetry_->::lunabotics::Telemetry_State_PointTurnTelemetry::Clear();
+  if (point_turn_telemetry_ != NULL) point_turn_telemetry_->::lunabotics::proto::Telemetry_State_PointTurnTelemetry::Clear();
   clear_has_point_turn_telemetry();
 }
-inline const ::lunabotics::Telemetry_State_PointTurnTelemetry& Telemetry_State::point_turn_telemetry() const {
+inline const ::lunabotics::proto::Telemetry_State_PointTurnTelemetry& Telemetry_State::point_turn_telemetry() const {
   return point_turn_telemetry_ != NULL ? *point_turn_telemetry_ : *default_instance_->point_turn_telemetry_;
 }
-inline ::lunabotics::Telemetry_State_PointTurnTelemetry* Telemetry_State::mutable_point_turn_telemetry() {
+inline ::lunabotics::proto::Telemetry_State_PointTurnTelemetry* Telemetry_State::mutable_point_turn_telemetry() {
   set_has_point_turn_telemetry();
-  if (point_turn_telemetry_ == NULL) point_turn_telemetry_ = new ::lunabotics::Telemetry_State_PointTurnTelemetry;
+  if (point_turn_telemetry_ == NULL) point_turn_telemetry_ = new ::lunabotics::proto::Telemetry_State_PointTurnTelemetry;
   return point_turn_telemetry_;
 }
-inline ::lunabotics::Telemetry_State_PointTurnTelemetry* Telemetry_State::release_point_turn_telemetry() {
+inline ::lunabotics::proto::Telemetry_State_PointTurnTelemetry* Telemetry_State::release_point_turn_telemetry() {
   clear_has_point_turn_telemetry();
-  ::lunabotics::Telemetry_State_PointTurnTelemetry* temp = point_turn_telemetry_;
+  ::lunabotics::proto::Telemetry_State_PointTurnTelemetry* temp = point_turn_telemetry_;
   point_turn_telemetry_ = NULL;
   return temp;
 }
-inline void Telemetry_State::set_allocated_point_turn_telemetry(::lunabotics::Telemetry_State_PointTurnTelemetry* point_turn_telemetry) {
+inline void Telemetry_State::set_allocated_point_turn_telemetry(::lunabotics::proto::Telemetry_State_PointTurnTelemetry* point_turn_telemetry) {
   delete point_turn_telemetry_;
   point_turn_telemetry_ = point_turn_telemetry;
   if (point_turn_telemetry) {
@@ -1612,27 +1633,27 @@ Telemetry_World::mutable_cell() {
 
 // Telemetry_Path
 
-// repeated .lunabotics.Point position = 1;
+// repeated .lunabotics.proto.Point position = 1;
 inline int Telemetry_Path::position_size() const {
   return position_.size();
 }
 inline void Telemetry_Path::clear_position() {
   position_.Clear();
 }
-inline const ::lunabotics::Point& Telemetry_Path::position(int index) const {
+inline const ::lunabotics::proto::Point& Telemetry_Path::position(int index) const {
   return position_.Get(index);
 }
-inline ::lunabotics::Point* Telemetry_Path::mutable_position(int index) {
+inline ::lunabotics::proto::Point* Telemetry_Path::mutable_position(int index) {
   return position_.Mutable(index);
 }
-inline ::lunabotics::Point* Telemetry_Path::add_position() {
+inline ::lunabotics::proto::Point* Telemetry_Path::add_position() {
   return position_.Add();
 }
-inline const ::google::protobuf::RepeatedPtrField< ::lunabotics::Point >&
+inline const ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point >&
 Telemetry_Path::position() const {
   return position_;
 }
-inline ::google::protobuf::RepeatedPtrField< ::lunabotics::Point >*
+inline ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point >*
 Telemetry_Path::mutable_position() {
   return &position_;
 }
@@ -1643,165 +1664,209 @@ Telemetry_Path::mutable_position() {
 
 // -------------------------------------------------------------------
 
-// Telemetry_JointPositions
+// Telemetry_Geometry
 
-// required .lunabotics.Point left_front = 1;
-inline bool Telemetry_JointPositions::has_left_front() const {
+// required .lunabotics.proto.Point left_front_joint = 1;
+inline bool Telemetry_Geometry::has_left_front_joint() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void Telemetry_JointPositions::set_has_left_front() {
+inline void Telemetry_Geometry::set_has_left_front_joint() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void Telemetry_JointPositions::clear_has_left_front() {
+inline void Telemetry_Geometry::clear_has_left_front_joint() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void Telemetry_JointPositions::clear_left_front() {
-  if (left_front_ != NULL) left_front_->::lunabotics::Point::Clear();
-  clear_has_left_front();
+inline void Telemetry_Geometry::clear_left_front_joint() {
+  if (left_front_joint_ != NULL) left_front_joint_->::lunabotics::proto::Point::Clear();
+  clear_has_left_front_joint();
 }
-inline const ::lunabotics::Point& Telemetry_JointPositions::left_front() const {
-  return left_front_ != NULL ? *left_front_ : *default_instance_->left_front_;
+inline const ::lunabotics::proto::Point& Telemetry_Geometry::left_front_joint() const {
+  return left_front_joint_ != NULL ? *left_front_joint_ : *default_instance_->left_front_joint_;
 }
-inline ::lunabotics::Point* Telemetry_JointPositions::mutable_left_front() {
-  set_has_left_front();
-  if (left_front_ == NULL) left_front_ = new ::lunabotics::Point;
-  return left_front_;
+inline ::lunabotics::proto::Point* Telemetry_Geometry::mutable_left_front_joint() {
+  set_has_left_front_joint();
+  if (left_front_joint_ == NULL) left_front_joint_ = new ::lunabotics::proto::Point;
+  return left_front_joint_;
 }
-inline ::lunabotics::Point* Telemetry_JointPositions::release_left_front() {
-  clear_has_left_front();
-  ::lunabotics::Point* temp = left_front_;
-  left_front_ = NULL;
+inline ::lunabotics::proto::Point* Telemetry_Geometry::release_left_front_joint() {
+  clear_has_left_front_joint();
+  ::lunabotics::proto::Point* temp = left_front_joint_;
+  left_front_joint_ = NULL;
   return temp;
 }
-inline void Telemetry_JointPositions::set_allocated_left_front(::lunabotics::Point* left_front) {
-  delete left_front_;
-  left_front_ = left_front;
-  if (left_front) {
-    set_has_left_front();
+inline void Telemetry_Geometry::set_allocated_left_front_joint(::lunabotics::proto::Point* left_front_joint) {
+  delete left_front_joint_;
+  left_front_joint_ = left_front_joint;
+  if (left_front_joint) {
+    set_has_left_front_joint();
   } else {
-    clear_has_left_front();
+    clear_has_left_front_joint();
   }
 }
 
-// required .lunabotics.Point left_rear = 2;
-inline bool Telemetry_JointPositions::has_left_rear() const {
+// required .lunabotics.proto.Point left_rear_joint = 2;
+inline bool Telemetry_Geometry::has_left_rear_joint() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void Telemetry_JointPositions::set_has_left_rear() {
+inline void Telemetry_Geometry::set_has_left_rear_joint() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void Telemetry_JointPositions::clear_has_left_rear() {
+inline void Telemetry_Geometry::clear_has_left_rear_joint() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void Telemetry_JointPositions::clear_left_rear() {
-  if (left_rear_ != NULL) left_rear_->::lunabotics::Point::Clear();
-  clear_has_left_rear();
+inline void Telemetry_Geometry::clear_left_rear_joint() {
+  if (left_rear_joint_ != NULL) left_rear_joint_->::lunabotics::proto::Point::Clear();
+  clear_has_left_rear_joint();
 }
-inline const ::lunabotics::Point& Telemetry_JointPositions::left_rear() const {
-  return left_rear_ != NULL ? *left_rear_ : *default_instance_->left_rear_;
+inline const ::lunabotics::proto::Point& Telemetry_Geometry::left_rear_joint() const {
+  return left_rear_joint_ != NULL ? *left_rear_joint_ : *default_instance_->left_rear_joint_;
 }
-inline ::lunabotics::Point* Telemetry_JointPositions::mutable_left_rear() {
-  set_has_left_rear();
-  if (left_rear_ == NULL) left_rear_ = new ::lunabotics::Point;
-  return left_rear_;
+inline ::lunabotics::proto::Point* Telemetry_Geometry::mutable_left_rear_joint() {
+  set_has_left_rear_joint();
+  if (left_rear_joint_ == NULL) left_rear_joint_ = new ::lunabotics::proto::Point;
+  return left_rear_joint_;
 }
-inline ::lunabotics::Point* Telemetry_JointPositions::release_left_rear() {
-  clear_has_left_rear();
-  ::lunabotics::Point* temp = left_rear_;
-  left_rear_ = NULL;
+inline ::lunabotics::proto::Point* Telemetry_Geometry::release_left_rear_joint() {
+  clear_has_left_rear_joint();
+  ::lunabotics::proto::Point* temp = left_rear_joint_;
+  left_rear_joint_ = NULL;
   return temp;
 }
-inline void Telemetry_JointPositions::set_allocated_left_rear(::lunabotics::Point* left_rear) {
-  delete left_rear_;
-  left_rear_ = left_rear;
-  if (left_rear) {
-    set_has_left_rear();
+inline void Telemetry_Geometry::set_allocated_left_rear_joint(::lunabotics::proto::Point* left_rear_joint) {
+  delete left_rear_joint_;
+  left_rear_joint_ = left_rear_joint;
+  if (left_rear_joint) {
+    set_has_left_rear_joint();
   } else {
-    clear_has_left_rear();
+    clear_has_left_rear_joint();
   }
 }
 
-// required .lunabotics.Point right_front = 3;
-inline bool Telemetry_JointPositions::has_right_front() const {
+// required .lunabotics.proto.Point right_front_joint = 3;
+inline bool Telemetry_Geometry::has_right_front_joint() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void Telemetry_JointPositions::set_has_right_front() {
+inline void Telemetry_Geometry::set_has_right_front_joint() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void Telemetry_JointPositions::clear_has_right_front() {
+inline void Telemetry_Geometry::clear_has_right_front_joint() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void Telemetry_JointPositions::clear_right_front() {
-  if (right_front_ != NULL) right_front_->::lunabotics::Point::Clear();
-  clear_has_right_front();
+inline void Telemetry_Geometry::clear_right_front_joint() {
+  if (right_front_joint_ != NULL) right_front_joint_->::lunabotics::proto::Point::Clear();
+  clear_has_right_front_joint();
 }
-inline const ::lunabotics::Point& Telemetry_JointPositions::right_front() const {
-  return right_front_ != NULL ? *right_front_ : *default_instance_->right_front_;
+inline const ::lunabotics::proto::Point& Telemetry_Geometry::right_front_joint() const {
+  return right_front_joint_ != NULL ? *right_front_joint_ : *default_instance_->right_front_joint_;
 }
-inline ::lunabotics::Point* Telemetry_JointPositions::mutable_right_front() {
-  set_has_right_front();
-  if (right_front_ == NULL) right_front_ = new ::lunabotics::Point;
-  return right_front_;
+inline ::lunabotics::proto::Point* Telemetry_Geometry::mutable_right_front_joint() {
+  set_has_right_front_joint();
+  if (right_front_joint_ == NULL) right_front_joint_ = new ::lunabotics::proto::Point;
+  return right_front_joint_;
 }
-inline ::lunabotics::Point* Telemetry_JointPositions::release_right_front() {
-  clear_has_right_front();
-  ::lunabotics::Point* temp = right_front_;
-  right_front_ = NULL;
+inline ::lunabotics::proto::Point* Telemetry_Geometry::release_right_front_joint() {
+  clear_has_right_front_joint();
+  ::lunabotics::proto::Point* temp = right_front_joint_;
+  right_front_joint_ = NULL;
   return temp;
 }
-inline void Telemetry_JointPositions::set_allocated_right_front(::lunabotics::Point* right_front) {
-  delete right_front_;
-  right_front_ = right_front;
-  if (right_front) {
-    set_has_right_front();
+inline void Telemetry_Geometry::set_allocated_right_front_joint(::lunabotics::proto::Point* right_front_joint) {
+  delete right_front_joint_;
+  right_front_joint_ = right_front_joint;
+  if (right_front_joint) {
+    set_has_right_front_joint();
   } else {
-    clear_has_right_front();
+    clear_has_right_front_joint();
   }
 }
 
-// required .lunabotics.Point right_rear = 4;
-inline bool Telemetry_JointPositions::has_right_rear() const {
+// required .lunabotics.proto.Point right_rear_joint = 4;
+inline bool Telemetry_Geometry::has_right_rear_joint() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void Telemetry_JointPositions::set_has_right_rear() {
+inline void Telemetry_Geometry::set_has_right_rear_joint() {
   _has_bits_[0] |= 0x00000008u;
 }
-inline void Telemetry_JointPositions::clear_has_right_rear() {
+inline void Telemetry_Geometry::clear_has_right_rear_joint() {
   _has_bits_[0] &= ~0x00000008u;
 }
-inline void Telemetry_JointPositions::clear_right_rear() {
-  if (right_rear_ != NULL) right_rear_->::lunabotics::Point::Clear();
-  clear_has_right_rear();
+inline void Telemetry_Geometry::clear_right_rear_joint() {
+  if (right_rear_joint_ != NULL) right_rear_joint_->::lunabotics::proto::Point::Clear();
+  clear_has_right_rear_joint();
 }
-inline const ::lunabotics::Point& Telemetry_JointPositions::right_rear() const {
-  return right_rear_ != NULL ? *right_rear_ : *default_instance_->right_rear_;
+inline const ::lunabotics::proto::Point& Telemetry_Geometry::right_rear_joint() const {
+  return right_rear_joint_ != NULL ? *right_rear_joint_ : *default_instance_->right_rear_joint_;
 }
-inline ::lunabotics::Point* Telemetry_JointPositions::mutable_right_rear() {
-  set_has_right_rear();
-  if (right_rear_ == NULL) right_rear_ = new ::lunabotics::Point;
-  return right_rear_;
+inline ::lunabotics::proto::Point* Telemetry_Geometry::mutable_right_rear_joint() {
+  set_has_right_rear_joint();
+  if (right_rear_joint_ == NULL) right_rear_joint_ = new ::lunabotics::proto::Point;
+  return right_rear_joint_;
 }
-inline ::lunabotics::Point* Telemetry_JointPositions::release_right_rear() {
-  clear_has_right_rear();
-  ::lunabotics::Point* temp = right_rear_;
-  right_rear_ = NULL;
+inline ::lunabotics::proto::Point* Telemetry_Geometry::release_right_rear_joint() {
+  clear_has_right_rear_joint();
+  ::lunabotics::proto::Point* temp = right_rear_joint_;
+  right_rear_joint_ = NULL;
   return temp;
 }
-inline void Telemetry_JointPositions::set_allocated_right_rear(::lunabotics::Point* right_rear) {
-  delete right_rear_;
-  right_rear_ = right_rear;
-  if (right_rear) {
-    set_has_right_rear();
+inline void Telemetry_Geometry::set_allocated_right_rear_joint(::lunabotics::proto::Point* right_rear_joint) {
+  delete right_rear_joint_;
+  right_rear_joint_ = right_rear_joint;
+  if (right_rear_joint) {
+    set_has_right_rear_joint();
   } else {
-    clear_has_right_rear();
+    clear_has_right_rear_joint();
   }
+}
+
+// required float wheel_offset = 5;
+inline bool Telemetry_Geometry::has_wheel_offset() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void Telemetry_Geometry::set_has_wheel_offset() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void Telemetry_Geometry::clear_has_wheel_offset() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void Telemetry_Geometry::clear_wheel_offset() {
+  wheel_offset_ = 0;
+  clear_has_wheel_offset();
+}
+inline float Telemetry_Geometry::wheel_offset() const {
+  return wheel_offset_;
+}
+inline void Telemetry_Geometry::set_wheel_offset(float value) {
+  set_has_wheel_offset();
+  wheel_offset_ = value;
+}
+
+// required float wheel_radius = 6;
+inline bool Telemetry_Geometry::has_wheel_radius() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void Telemetry_Geometry::set_has_wheel_radius() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void Telemetry_Geometry::clear_has_wheel_radius() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void Telemetry_Geometry::clear_wheel_radius() {
+  wheel_radius_ = 0;
+  clear_has_wheel_radius();
+}
+inline float Telemetry_Geometry::wheel_radius() const {
+  return wheel_radius_;
+}
+inline void Telemetry_Geometry::set_wheel_radius(float value) {
+  set_has_wheel_radius();
+  wheel_radius_ = value;
 }
 
 // -------------------------------------------------------------------
 
 // Telemetry
 
-// optional .lunabotics.Telemetry.State state_data = 2;
+// optional .lunabotics.proto.Telemetry.State state_data = 2;
 inline bool Telemetry::has_state_data() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -1812,24 +1877,24 @@ inline void Telemetry::clear_has_state_data() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void Telemetry::clear_state_data() {
-  if (state_data_ != NULL) state_data_->::lunabotics::Telemetry_State::Clear();
+  if (state_data_ != NULL) state_data_->::lunabotics::proto::Telemetry_State::Clear();
   clear_has_state_data();
 }
-inline const ::lunabotics::Telemetry_State& Telemetry::state_data() const {
+inline const ::lunabotics::proto::Telemetry_State& Telemetry::state_data() const {
   return state_data_ != NULL ? *state_data_ : *default_instance_->state_data_;
 }
-inline ::lunabotics::Telemetry_State* Telemetry::mutable_state_data() {
+inline ::lunabotics::proto::Telemetry_State* Telemetry::mutable_state_data() {
   set_has_state_data();
-  if (state_data_ == NULL) state_data_ = new ::lunabotics::Telemetry_State;
+  if (state_data_ == NULL) state_data_ = new ::lunabotics::proto::Telemetry_State;
   return state_data_;
 }
-inline ::lunabotics::Telemetry_State* Telemetry::release_state_data() {
+inline ::lunabotics::proto::Telemetry_State* Telemetry::release_state_data() {
   clear_has_state_data();
-  ::lunabotics::Telemetry_State* temp = state_data_;
+  ::lunabotics::proto::Telemetry_State* temp = state_data_;
   state_data_ = NULL;
   return temp;
 }
-inline void Telemetry::set_allocated_state_data(::lunabotics::Telemetry_State* state_data) {
+inline void Telemetry::set_allocated_state_data(::lunabotics::proto::Telemetry_State* state_data) {
   delete state_data_;
   state_data_ = state_data;
   if (state_data) {
@@ -1839,7 +1904,7 @@ inline void Telemetry::set_allocated_state_data(::lunabotics::Telemetry_State* s
   }
 }
 
-// optional .lunabotics.Telemetry.World world_data = 3;
+// optional .lunabotics.proto.Telemetry.World world_data = 3;
 inline bool Telemetry::has_world_data() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -1850,24 +1915,24 @@ inline void Telemetry::clear_has_world_data() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void Telemetry::clear_world_data() {
-  if (world_data_ != NULL) world_data_->::lunabotics::Telemetry_World::Clear();
+  if (world_data_ != NULL) world_data_->::lunabotics::proto::Telemetry_World::Clear();
   clear_has_world_data();
 }
-inline const ::lunabotics::Telemetry_World& Telemetry::world_data() const {
+inline const ::lunabotics::proto::Telemetry_World& Telemetry::world_data() const {
   return world_data_ != NULL ? *world_data_ : *default_instance_->world_data_;
 }
-inline ::lunabotics::Telemetry_World* Telemetry::mutable_world_data() {
+inline ::lunabotics::proto::Telemetry_World* Telemetry::mutable_world_data() {
   set_has_world_data();
-  if (world_data_ == NULL) world_data_ = new ::lunabotics::Telemetry_World;
+  if (world_data_ == NULL) world_data_ = new ::lunabotics::proto::Telemetry_World;
   return world_data_;
 }
-inline ::lunabotics::Telemetry_World* Telemetry::release_world_data() {
+inline ::lunabotics::proto::Telemetry_World* Telemetry::release_world_data() {
   clear_has_world_data();
-  ::lunabotics::Telemetry_World* temp = world_data_;
+  ::lunabotics::proto::Telemetry_World* temp = world_data_;
   world_data_ = NULL;
   return temp;
 }
-inline void Telemetry::set_allocated_world_data(::lunabotics::Telemetry_World* world_data) {
+inline void Telemetry::set_allocated_world_data(::lunabotics::proto::Telemetry_World* world_data) {
   delete world_data_;
   world_data_ = world_data;
   if (world_data) {
@@ -1877,7 +1942,7 @@ inline void Telemetry::set_allocated_world_data(::lunabotics::Telemetry_World* w
   }
 }
 
-// optional .lunabotics.Telemetry.Path path_data = 4;
+// optional .lunabotics.proto.Telemetry.Path path_data = 4;
 inline bool Telemetry::has_path_data() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -1888,24 +1953,24 @@ inline void Telemetry::clear_has_path_data() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void Telemetry::clear_path_data() {
-  if (path_data_ != NULL) path_data_->::lunabotics::Telemetry_Path::Clear();
+  if (path_data_ != NULL) path_data_->::lunabotics::proto::Telemetry_Path::Clear();
   clear_has_path_data();
 }
-inline const ::lunabotics::Telemetry_Path& Telemetry::path_data() const {
+inline const ::lunabotics::proto::Telemetry_Path& Telemetry::path_data() const {
   return path_data_ != NULL ? *path_data_ : *default_instance_->path_data_;
 }
-inline ::lunabotics::Telemetry_Path* Telemetry::mutable_path_data() {
+inline ::lunabotics::proto::Telemetry_Path* Telemetry::mutable_path_data() {
   set_has_path_data();
-  if (path_data_ == NULL) path_data_ = new ::lunabotics::Telemetry_Path;
+  if (path_data_ == NULL) path_data_ = new ::lunabotics::proto::Telemetry_Path;
   return path_data_;
 }
-inline ::lunabotics::Telemetry_Path* Telemetry::release_path_data() {
+inline ::lunabotics::proto::Telemetry_Path* Telemetry::release_path_data() {
   clear_has_path_data();
-  ::lunabotics::Telemetry_Path* temp = path_data_;
+  ::lunabotics::proto::Telemetry_Path* temp = path_data_;
   path_data_ = NULL;
   return temp;
 }
-inline void Telemetry::set_allocated_path_data(::lunabotics::Telemetry_Path* path_data) {
+inline void Telemetry::set_allocated_path_data(::lunabotics::proto::Telemetry_Path* path_data) {
   delete path_data_;
   path_data_ = path_data;
   if (path_data) {
@@ -1915,7 +1980,7 @@ inline void Telemetry::set_allocated_path_data(::lunabotics::Telemetry_Path* pat
   }
 }
 
-// optional .lunabotics.Telemetry.LaserScan laser_scan_data = 5;
+// optional .lunabotics.proto.Telemetry.LaserScan laser_scan_data = 5;
 inline bool Telemetry::has_laser_scan_data() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
@@ -1926,24 +1991,24 @@ inline void Telemetry::clear_has_laser_scan_data() {
   _has_bits_[0] &= ~0x00000008u;
 }
 inline void Telemetry::clear_laser_scan_data() {
-  if (laser_scan_data_ != NULL) laser_scan_data_->::lunabotics::Telemetry_LaserScan::Clear();
+  if (laser_scan_data_ != NULL) laser_scan_data_->::lunabotics::proto::Telemetry_LaserScan::Clear();
   clear_has_laser_scan_data();
 }
-inline const ::lunabotics::Telemetry_LaserScan& Telemetry::laser_scan_data() const {
+inline const ::lunabotics::proto::Telemetry_LaserScan& Telemetry::laser_scan_data() const {
   return laser_scan_data_ != NULL ? *laser_scan_data_ : *default_instance_->laser_scan_data_;
 }
-inline ::lunabotics::Telemetry_LaserScan* Telemetry::mutable_laser_scan_data() {
+inline ::lunabotics::proto::Telemetry_LaserScan* Telemetry::mutable_laser_scan_data() {
   set_has_laser_scan_data();
-  if (laser_scan_data_ == NULL) laser_scan_data_ = new ::lunabotics::Telemetry_LaserScan;
+  if (laser_scan_data_ == NULL) laser_scan_data_ = new ::lunabotics::proto::Telemetry_LaserScan;
   return laser_scan_data_;
 }
-inline ::lunabotics::Telemetry_LaserScan* Telemetry::release_laser_scan_data() {
+inline ::lunabotics::proto::Telemetry_LaserScan* Telemetry::release_laser_scan_data() {
   clear_has_laser_scan_data();
-  ::lunabotics::Telemetry_LaserScan* temp = laser_scan_data_;
+  ::lunabotics::proto::Telemetry_LaserScan* temp = laser_scan_data_;
   laser_scan_data_ = NULL;
   return temp;
 }
-inline void Telemetry::set_allocated_laser_scan_data(::lunabotics::Telemetry_LaserScan* laser_scan_data) {
+inline void Telemetry::set_allocated_laser_scan_data(::lunabotics::proto::Telemetry_LaserScan* laser_scan_data) {
   delete laser_scan_data_;
   laser_scan_data_ = laser_scan_data;
   if (laser_scan_data) {
@@ -1953,7 +2018,7 @@ inline void Telemetry::set_allocated_laser_scan_data(::lunabotics::Telemetry_Las
   }
 }
 
-// optional .lunabotics.AllWheelState all_wheel_state = 6;
+// optional .lunabotics.proto.AllWheelState all_wheel_state = 6;
 inline bool Telemetry::has_all_wheel_state() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
@@ -1964,24 +2029,24 @@ inline void Telemetry::clear_has_all_wheel_state() {
   _has_bits_[0] &= ~0x00000010u;
 }
 inline void Telemetry::clear_all_wheel_state() {
-  if (all_wheel_state_ != NULL) all_wheel_state_->::lunabotics::AllWheelState::Clear();
+  if (all_wheel_state_ != NULL) all_wheel_state_->::lunabotics::proto::AllWheelState::Clear();
   clear_has_all_wheel_state();
 }
-inline const ::lunabotics::AllWheelState& Telemetry::all_wheel_state() const {
+inline const ::lunabotics::proto::AllWheelState& Telemetry::all_wheel_state() const {
   return all_wheel_state_ != NULL ? *all_wheel_state_ : *default_instance_->all_wheel_state_;
 }
-inline ::lunabotics::AllWheelState* Telemetry::mutable_all_wheel_state() {
+inline ::lunabotics::proto::AllWheelState* Telemetry::mutable_all_wheel_state() {
   set_has_all_wheel_state();
-  if (all_wheel_state_ == NULL) all_wheel_state_ = new ::lunabotics::AllWheelState;
+  if (all_wheel_state_ == NULL) all_wheel_state_ = new ::lunabotics::proto::AllWheelState;
   return all_wheel_state_;
 }
-inline ::lunabotics::AllWheelState* Telemetry::release_all_wheel_state() {
+inline ::lunabotics::proto::AllWheelState* Telemetry::release_all_wheel_state() {
   clear_has_all_wheel_state();
-  ::lunabotics::AllWheelState* temp = all_wheel_state_;
+  ::lunabotics::proto::AllWheelState* temp = all_wheel_state_;
   all_wheel_state_ = NULL;
   return temp;
 }
-inline void Telemetry::set_allocated_all_wheel_state(::lunabotics::AllWheelState* all_wheel_state) {
+inline void Telemetry::set_allocated_all_wheel_state(::lunabotics::proto::AllWheelState* all_wheel_state) {
   delete all_wheel_state_;
   all_wheel_state_ = all_wheel_state;
   if (all_wheel_state) {
@@ -1991,47 +2056,48 @@ inline void Telemetry::set_allocated_all_wheel_state(::lunabotics::AllWheelState
   }
 }
 
-// optional .lunabotics.Telemetry.JointPositions joints_data = 7;
-inline bool Telemetry::has_joints_data() const {
+// optional .lunabotics.proto.Telemetry.Geometry geometry_data = 7;
+inline bool Telemetry::has_geometry_data() const {
   return (_has_bits_[0] & 0x00000020u) != 0;
 }
-inline void Telemetry::set_has_joints_data() {
+inline void Telemetry::set_has_geometry_data() {
   _has_bits_[0] |= 0x00000020u;
 }
-inline void Telemetry::clear_has_joints_data() {
+inline void Telemetry::clear_has_geometry_data() {
   _has_bits_[0] &= ~0x00000020u;
 }
-inline void Telemetry::clear_joints_data() {
-  if (joints_data_ != NULL) joints_data_->::lunabotics::Telemetry_JointPositions::Clear();
-  clear_has_joints_data();
+inline void Telemetry::clear_geometry_data() {
+  if (geometry_data_ != NULL) geometry_data_->::lunabotics::proto::Telemetry_Geometry::Clear();
+  clear_has_geometry_data();
 }
-inline const ::lunabotics::Telemetry_JointPositions& Telemetry::joints_data() const {
-  return joints_data_ != NULL ? *joints_data_ : *default_instance_->joints_data_;
+inline const ::lunabotics::proto::Telemetry_Geometry& Telemetry::geometry_data() const {
+  return geometry_data_ != NULL ? *geometry_data_ : *default_instance_->geometry_data_;
 }
-inline ::lunabotics::Telemetry_JointPositions* Telemetry::mutable_joints_data() {
-  set_has_joints_data();
-  if (joints_data_ == NULL) joints_data_ = new ::lunabotics::Telemetry_JointPositions;
-  return joints_data_;
+inline ::lunabotics::proto::Telemetry_Geometry* Telemetry::mutable_geometry_data() {
+  set_has_geometry_data();
+  if (geometry_data_ == NULL) geometry_data_ = new ::lunabotics::proto::Telemetry_Geometry;
+  return geometry_data_;
 }
-inline ::lunabotics::Telemetry_JointPositions* Telemetry::release_joints_data() {
-  clear_has_joints_data();
-  ::lunabotics::Telemetry_JointPositions* temp = joints_data_;
-  joints_data_ = NULL;
+inline ::lunabotics::proto::Telemetry_Geometry* Telemetry::release_geometry_data() {
+  clear_has_geometry_data();
+  ::lunabotics::proto::Telemetry_Geometry* temp = geometry_data_;
+  geometry_data_ = NULL;
   return temp;
 }
-inline void Telemetry::set_allocated_joints_data(::lunabotics::Telemetry_JointPositions* joints_data) {
-  delete joints_data_;
-  joints_data_ = joints_data;
-  if (joints_data) {
-    set_has_joints_data();
+inline void Telemetry::set_allocated_geometry_data(::lunabotics::proto::Telemetry_Geometry* geometry_data) {
+  delete geometry_data_;
+  geometry_data_ = geometry_data;
+  if (geometry_data) {
+    set_has_geometry_data();
   } else {
-    clear_has_joints_data();
+    clear_has_geometry_data();
   }
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 #ifndef SWIG
@@ -2039,8 +2105,8 @@ namespace google {
 namespace protobuf {
 
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::Telemetry_PointTurnState>() {
-  return ::lunabotics::Telemetry_PointTurnState_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::proto::Telemetry_PointTurnState>() {
+  return ::lunabotics::proto::Telemetry_PointTurnState_descriptor();
 }
 
 }  // namespace google

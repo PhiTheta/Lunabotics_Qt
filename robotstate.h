@@ -27,13 +27,13 @@ public:
 
     Pose *pose;
     bool autonomous;
-    lunabotics::SteeringModeType controlType;
+    lunabotics::proto::SteeringModeType controlType;
     AllWheelState *drivingMotors;
     AllWheelState *steeringMotors;
     RobotGeometry *geometry;
-    lunabotics::SteeringModeType steeringMode;
-    lunabotics::AllWheelControl::AllWheelControlType allWheelControlType;
-    lunabotics::AllWheelControl::PredefinedControlType predefinedControlType;
+    lunabotics::proto::SteeringModeType steeringMode;
+    lunabotics::proto::AllWheelControl::AllWheelControlType allWheelControlType;
+    lunabotics::proto::AllWheelControl::PredefinedControlType predefinedControlType;
 
     QPointF ICR;
     qreal ICRVelocity;

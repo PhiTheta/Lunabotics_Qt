@@ -27,6 +27,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 // Internal implementation detail -- do not call these.
 void  protobuf_AddDesc_Point_2eproto();
@@ -105,7 +106,7 @@ class Point : public ::google::protobuf::Message {
   inline float y() const;
   inline void set_y(float value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.Point)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Point)
  private:
   inline void set_has_x();
   inline void clear_has_x();
@@ -181,6 +182,7 @@ inline void Point::set_y(float value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 #ifndef SWIG

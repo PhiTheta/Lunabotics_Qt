@@ -14,5 +14,6 @@
         <file>ctrl_up.png</file>
         <file>ctrl.png</file>
         <file>warning.png</file>
+        <file>aaltobotics.icns</file>
     </qresource>
 </RCC>

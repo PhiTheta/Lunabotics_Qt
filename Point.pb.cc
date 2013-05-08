@@ -17,6 +17,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 namespace {
 
@@ -79,8 +80,8 @@ void protobuf_AddDesc_Point_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\013Point.proto\022\nlunabotics\"\035\n\005Point\022\t\n\001x\030"
-    "\001 \002(\002\022\t\n\001y\030\002 \002(\002", 56);
+    "\n\013Point.proto\022\020lunabotics.proto\"\035\n\005Point"
+    "\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002", 62);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Point.proto", &protobuf_RegisterTypes);
   Point::default_instance_ = new Point();
@@ -342,6 +343,7 @@ void Point::Swap(Point* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 // @@protoc_insertion_point(global_scope)

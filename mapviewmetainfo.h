@@ -15,8 +15,7 @@ public:
 
     qint32 viewportWidth;
     qint32 viewportHeight;
-    qint32 cellWidth;
-    qint32 cellHeight;
+    qint32 cellEdge;
 
 
     QRect cellRectAt(qint32 x, qint32 y);

@@ -30,6 +30,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 // Internal implementation detail -- do not call these.
 void  protobuf_AddDesc_AllWheelControl_2eproto();
@@ -140,14 +141,14 @@ class AllWheelControl_PredefinedControl : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.AllWheelControl.PredefinedControlType command = 1;
+  // required .lunabotics.proto.AllWheelControl.PredefinedControlType command = 1;
   inline bool has_command() const;
   inline void clear_command();
   static const int kCommandFieldNumber = 1;
-  inline ::lunabotics::AllWheelControl_PredefinedControlType command() const;
-  inline void set_command(::lunabotics::AllWheelControl_PredefinedControlType value);
+  inline ::lunabotics::proto::AllWheelControl_PredefinedControlType command() const;
+  inline void set_command(::lunabotics::proto::AllWheelControl_PredefinedControlType value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.AllWheelControl.PredefinedControl)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.AllWheelControl.PredefinedControl)
  private:
   inline void set_has_command();
   inline void clear_has_command();
@@ -222,14 +223,14 @@ class AllWheelControl_ICRControl : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.Point icr = 1;
+  // required .lunabotics.proto.Point icr = 1;
   inline bool has_icr() const;
   inline void clear_icr();
   static const int kIcrFieldNumber = 1;
-  inline const ::lunabotics::Point& icr() const;
-  inline ::lunabotics::Point* mutable_icr();
-  inline ::lunabotics::Point* release_icr();
-  inline void set_allocated_icr(::lunabotics::Point* icr);
+  inline const ::lunabotics::proto::Point& icr() const;
+  inline ::lunabotics::proto::Point* mutable_icr();
+  inline ::lunabotics::proto::Point* release_icr();
+  inline void set_allocated_icr(::lunabotics::proto::Point* icr);
 
   // required float velocity = 2;
   inline bool has_velocity() const;
@@ -238,7 +239,7 @@ class AllWheelControl_ICRControl : public ::google::protobuf::Message {
   inline float velocity() const;
   inline void set_velocity(float value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.AllWheelControl.ICRControl)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.AllWheelControl.ICRControl)
  private:
   inline void set_has_icr();
   inline void clear_has_icr();
@@ -247,7 +248,7 @@ class AllWheelControl_ICRControl : public ::google::protobuf::Message {
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::Point* icr_;
+  ::lunabotics::proto::Point* icr_;
   float velocity_;
 
   mutable int _cached_size_;
@@ -373,41 +374,41 @@ class AllWheelControl : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.AllWheelControl.AllWheelControlType all_wheel_type = 1;
+  // required .lunabotics.proto.AllWheelControl.AllWheelControlType all_wheel_type = 1;
   inline bool has_all_wheel_type() const;
   inline void clear_all_wheel_type();
   static const int kAllWheelTypeFieldNumber = 1;
-  inline ::lunabotics::AllWheelControl_AllWheelControlType all_wheel_type() const;
-  inline void set_all_wheel_type(::lunabotics::AllWheelControl_AllWheelControlType value);
+  inline ::lunabotics::proto::AllWheelControl_AllWheelControlType all_wheel_type() const;
+  inline void set_all_wheel_type(::lunabotics::proto::AllWheelControl_AllWheelControlType value);
 
-  // optional .lunabotics.AllWheelState explicit_data = 2;
+  // optional .lunabotics.proto.AllWheelState explicit_data = 2;
   inline bool has_explicit_data() const;
   inline void clear_explicit_data();
   static const int kExplicitDataFieldNumber = 2;
-  inline const ::lunabotics::AllWheelState& explicit_data() const;
-  inline ::lunabotics::AllWheelState* mutable_explicit_data();
-  inline ::lunabotics::AllWheelState* release_explicit_data();
-  inline void set_allocated_explicit_data(::lunabotics::AllWheelState* explicit_data);
+  inline const ::lunabotics::proto::AllWheelState& explicit_data() const;
+  inline ::lunabotics::proto::AllWheelState* mutable_explicit_data();
+  inline ::lunabotics::proto::AllWheelState* release_explicit_data();
+  inline void set_allocated_explicit_data(::lunabotics::proto::AllWheelState* explicit_data);
 
-  // optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
+  // optional .lunabotics.proto.AllWheelControl.PredefinedControl predefined_data = 3;
   inline bool has_predefined_data() const;
   inline void clear_predefined_data();
   static const int kPredefinedDataFieldNumber = 3;
-  inline const ::lunabotics::AllWheelControl_PredefinedControl& predefined_data() const;
-  inline ::lunabotics::AllWheelControl_PredefinedControl* mutable_predefined_data();
-  inline ::lunabotics::AllWheelControl_PredefinedControl* release_predefined_data();
-  inline void set_allocated_predefined_data(::lunabotics::AllWheelControl_PredefinedControl* predefined_data);
+  inline const ::lunabotics::proto::AllWheelControl_PredefinedControl& predefined_data() const;
+  inline ::lunabotics::proto::AllWheelControl_PredefinedControl* mutable_predefined_data();
+  inline ::lunabotics::proto::AllWheelControl_PredefinedControl* release_predefined_data();
+  inline void set_allocated_predefined_data(::lunabotics::proto::AllWheelControl_PredefinedControl* predefined_data);
 
-  // optional .lunabotics.AllWheelControl.ICRControl icr_data = 4;
+  // optional .lunabotics.proto.AllWheelControl.ICRControl icr_data = 4;
   inline bool has_icr_data() const;
   inline void clear_icr_data();
   static const int kIcrDataFieldNumber = 4;
-  inline const ::lunabotics::AllWheelControl_ICRControl& icr_data() const;
-  inline ::lunabotics::AllWheelControl_ICRControl* mutable_icr_data();
-  inline ::lunabotics::AllWheelControl_ICRControl* release_icr_data();
-  inline void set_allocated_icr_data(::lunabotics::AllWheelControl_ICRControl* icr_data);
+  inline const ::lunabotics::proto::AllWheelControl_ICRControl& icr_data() const;
+  inline ::lunabotics::proto::AllWheelControl_ICRControl* mutable_icr_data();
+  inline ::lunabotics::proto::AllWheelControl_ICRControl* release_icr_data();
+  inline void set_allocated_icr_data(::lunabotics::proto::AllWheelControl_ICRControl* icr_data);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.AllWheelControl)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.AllWheelControl)
  private:
   inline void set_has_all_wheel_type();
   inline void clear_has_all_wheel_type();
@@ -420,9 +421,9 @@ class AllWheelControl : public ::google::protobuf::Message {
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::AllWheelState* explicit_data_;
-  ::lunabotics::AllWheelControl_PredefinedControl* predefined_data_;
-  ::lunabotics::AllWheelControl_ICRControl* icr_data_;
+  ::lunabotics::proto::AllWheelState* explicit_data_;
+  ::lunabotics::proto::AllWheelControl_PredefinedControl* predefined_data_;
+  ::lunabotics::proto::AllWheelControl_ICRControl* icr_data_;
   int all_wheel_type_;
 
   mutable int _cached_size_;
@@ -442,7 +443,7 @@ class AllWheelControl : public ::google::protobuf::Message {
 
 // AllWheelControl_PredefinedControl
 
-// required .lunabotics.AllWheelControl.PredefinedControlType command = 1;
+// required .lunabotics.proto.AllWheelControl.PredefinedControlType command = 1;
 inline bool AllWheelControl_PredefinedControl::has_command() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -456,11 +457,11 @@ inline void AllWheelControl_PredefinedControl::clear_command() {
   command_ = 1;
   clear_has_command();
 }
-inline ::lunabotics::AllWheelControl_PredefinedControlType AllWheelControl_PredefinedControl::command() const {
-  return static_cast< ::lunabotics::AllWheelControl_PredefinedControlType >(command_);
+inline ::lunabotics::proto::AllWheelControl_PredefinedControlType AllWheelControl_PredefinedControl::command() const {
+  return static_cast< ::lunabotics::proto::AllWheelControl_PredefinedControlType >(command_);
 }
-inline void AllWheelControl_PredefinedControl::set_command(::lunabotics::AllWheelControl_PredefinedControlType value) {
-  assert(::lunabotics::AllWheelControl_PredefinedControlType_IsValid(value));
+inline void AllWheelControl_PredefinedControl::set_command(::lunabotics::proto::AllWheelControl_PredefinedControlType value) {
+  assert(::lunabotics::proto::AllWheelControl_PredefinedControlType_IsValid(value));
   set_has_command();
   command_ = value;
 }
@@ -469,7 +470,7 @@ inline void AllWheelControl_PredefinedControl::set_command(::lunabotics::AllWhee
 
 // AllWheelControl_ICRControl
 
-// required .lunabotics.Point icr = 1;
+// required .lunabotics.proto.Point icr = 1;
 inline bool AllWheelControl_ICRControl::has_icr() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -480,24 +481,24 @@ inline void AllWheelControl_ICRControl::clear_has_icr() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void AllWheelControl_ICRControl::clear_icr() {
-  if (icr_ != NULL) icr_->::lunabotics::Point::Clear();
+  if (icr_ != NULL) icr_->::lunabotics::proto::Point::Clear();
   clear_has_icr();
 }
-inline const ::lunabotics::Point& AllWheelControl_ICRControl::icr() const {
+inline const ::lunabotics::proto::Point& AllWheelControl_ICRControl::icr() const {
   return icr_ != NULL ? *icr_ : *default_instance_->icr_;
 }
-inline ::lunabotics::Point* AllWheelControl_ICRControl::mutable_icr() {
+inline ::lunabotics::proto::Point* AllWheelControl_ICRControl::mutable_icr() {
   set_has_icr();
-  if (icr_ == NULL) icr_ = new ::lunabotics::Point;
+  if (icr_ == NULL) icr_ = new ::lunabotics::proto::Point;
   return icr_;
 }
-inline ::lunabotics::Point* AllWheelControl_ICRControl::release_icr() {
+inline ::lunabotics::proto::Point* AllWheelControl_ICRControl::release_icr() {
   clear_has_icr();
-  ::lunabotics::Point* temp = icr_;
+  ::lunabotics::proto::Point* temp = icr_;
   icr_ = NULL;
   return temp;
 }
-inline void AllWheelControl_ICRControl::set_allocated_icr(::lunabotics::Point* icr) {
+inline void AllWheelControl_ICRControl::set_allocated_icr(::lunabotics::proto::Point* icr) {
   delete icr_;
   icr_ = icr;
   if (icr) {
@@ -533,7 +534,7 @@ inline void AllWheelControl_ICRControl::set_velocity(float value) {
 
 // AllWheelControl
 
-// required .lunabotics.AllWheelControl.AllWheelControlType all_wheel_type = 1;
+// required .lunabotics.proto.AllWheelControl.AllWheelControlType all_wheel_type = 1;
 inline bool AllWheelControl::has_all_wheel_type() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -547,16 +548,16 @@ inline void AllWheelControl::clear_all_wheel_type() {
   all_wheel_type_ = 1;
   clear_has_all_wheel_type();
 }
-inline ::lunabotics::AllWheelControl_AllWheelControlType AllWheelControl::all_wheel_type() const {
-  return static_cast< ::lunabotics::AllWheelControl_AllWheelControlType >(all_wheel_type_);
+inline ::lunabotics::proto::AllWheelControl_AllWheelControlType AllWheelControl::all_wheel_type() const {
+  return static_cast< ::lunabotics::proto::AllWheelControl_AllWheelControlType >(all_wheel_type_);
 }
-inline void AllWheelControl::set_all_wheel_type(::lunabotics::AllWheelControl_AllWheelControlType value) {
-  assert(::lunabotics::AllWheelControl_AllWheelControlType_IsValid(value));
+inline void AllWheelControl::set_all_wheel_type(::lunabotics::proto::AllWheelControl_AllWheelControlType value) {
+  assert(::lunabotics::proto::AllWheelControl_AllWheelControlType_IsValid(value));
   set_has_all_wheel_type();
   all_wheel_type_ = value;
 }
 
-// optional .lunabotics.AllWheelState explicit_data = 2;
+// optional .lunabotics.proto.AllWheelState explicit_data = 2;
 inline bool AllWheelControl::has_explicit_data() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -567,24 +568,24 @@ inline void AllWheelControl::clear_has_explicit_data() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void AllWheelControl::clear_explicit_data() {
-  if (explicit_data_ != NULL) explicit_data_->::lunabotics::AllWheelState::Clear();
+  if (explicit_data_ != NULL) explicit_data_->::lunabotics::proto::AllWheelState::Clear();
   clear_has_explicit_data();
 }
-inline const ::lunabotics::AllWheelState& AllWheelControl::explicit_data() const {
+inline const ::lunabotics::proto::AllWheelState& AllWheelControl::explicit_data() const {
   return explicit_data_ != NULL ? *explicit_data_ : *default_instance_->explicit_data_;
 }
-inline ::lunabotics::AllWheelState* AllWheelControl::mutable_explicit_data() {
+inline ::lunabotics::proto::AllWheelState* AllWheelControl::mutable_explicit_data() {
   set_has_explicit_data();
-  if (explicit_data_ == NULL) explicit_data_ = new ::lunabotics::AllWheelState;
+  if (explicit_data_ == NULL) explicit_data_ = new ::lunabotics::proto::AllWheelState;
   return explicit_data_;
 }
-inline ::lunabotics::AllWheelState* AllWheelControl::release_explicit_data() {
+inline ::lunabotics::proto::AllWheelState* AllWheelControl::release_explicit_data() {
   clear_has_explicit_data();
-  ::lunabotics::AllWheelState* temp = explicit_data_;
+  ::lunabotics::proto::AllWheelState* temp = explicit_data_;
   explicit_data_ = NULL;
   return temp;
 }
-inline void AllWheelControl::set_allocated_explicit_data(::lunabotics::AllWheelState* explicit_data) {
+inline void AllWheelControl::set_allocated_explicit_data(::lunabotics::proto::AllWheelState* explicit_data) {
   delete explicit_data_;
   explicit_data_ = explicit_data;
   if (explicit_data) {
@@ -594,7 +595,7 @@ inline void AllWheelControl::set_allocated_explicit_data(::lunabotics::AllWheelS
   }
 }
 
-// optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
+// optional .lunabotics.proto.AllWheelControl.PredefinedControl predefined_data = 3;
 inline bool AllWheelControl::has_predefined_data() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
@@ -605,24 +606,24 @@ inline void AllWheelControl::clear_has_predefined_data() {
   _has_bits_[0] &= ~0x00000004u;
 }
 inline void AllWheelControl::clear_predefined_data() {
-  if (predefined_data_ != NULL) predefined_data_->::lunabotics::AllWheelControl_PredefinedControl::Clear();
+  if (predefined_data_ != NULL) predefined_data_->::lunabotics::proto::AllWheelControl_PredefinedControl::Clear();
   clear_has_predefined_data();
 }
-inline const ::lunabotics::AllWheelControl_PredefinedControl& AllWheelControl::predefined_data() const {
+inline const ::lunabotics::proto::AllWheelControl_PredefinedControl& AllWheelControl::predefined_data() const {
   return predefined_data_ != NULL ? *predefined_data_ : *default_instance_->predefined_data_;
 }
-inline ::lunabotics::AllWheelControl_PredefinedControl* AllWheelControl::mutable_predefined_data() {
+inline ::lunabotics::proto::AllWheelControl_PredefinedControl* AllWheelControl::mutable_predefined_data() {
   set_has_predefined_data();
-  if (predefined_data_ == NULL) predefined_data_ = new ::lunabotics::AllWheelControl_PredefinedControl;
+  if (predefined_data_ == NULL) predefined_data_ = new ::lunabotics::proto::AllWheelControl_PredefinedControl;
   return predefined_data_;
 }
-inline ::lunabotics::AllWheelControl_PredefinedControl* AllWheelControl::release_predefined_data() {
+inline ::lunabotics::proto::AllWheelControl_PredefinedControl* AllWheelControl::release_predefined_data() {
   clear_has_predefined_data();
-  ::lunabotics::AllWheelControl_PredefinedControl* temp = predefined_data_;
+  ::lunabotics::proto::AllWheelControl_PredefinedControl* temp = predefined_data_;
   predefined_data_ = NULL;
   return temp;
 }
-inline void AllWheelControl::set_allocated_predefined_data(::lunabotics::AllWheelControl_PredefinedControl* predefined_data) {
+inline void AllWheelControl::set_allocated_predefined_data(::lunabotics::proto::AllWheelControl_PredefinedControl* predefined_data) {
   delete predefined_data_;
   predefined_data_ = predefined_data;
   if (predefined_data) {
@@ -632,7 +633,7 @@ inline void AllWheelControl::set_allocated_predefined_data(::lunabotics::AllWhee
   }
 }
 
-// optional .lunabotics.AllWheelControl.ICRControl icr_data = 4;
+// optional .lunabotics.proto.AllWheelControl.ICRControl icr_data = 4;
 inline bool AllWheelControl::has_icr_data() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
@@ -643,24 +644,24 @@ inline void AllWheelControl::clear_has_icr_data() {
   _has_bits_[0] &= ~0x00000008u;
 }
 inline void AllWheelControl::clear_icr_data() {
-  if (icr_data_ != NULL) icr_data_->::lunabotics::AllWheelControl_ICRControl::Clear();
+  if (icr_data_ != NULL) icr_data_->::lunabotics::proto::AllWheelControl_ICRControl::Clear();
   clear_has_icr_data();
 }
-inline const ::lunabotics::AllWheelControl_ICRControl& AllWheelControl::icr_data() const {
+inline const ::lunabotics::proto::AllWheelControl_ICRControl& AllWheelControl::icr_data() const {
   return icr_data_ != NULL ? *icr_data_ : *default_instance_->icr_data_;
 }
-inline ::lunabotics::AllWheelControl_ICRControl* AllWheelControl::mutable_icr_data() {
+inline ::lunabotics::proto::AllWheelControl_ICRControl* AllWheelControl::mutable_icr_data() {
   set_has_icr_data();
-  if (icr_data_ == NULL) icr_data_ = new ::lunabotics::AllWheelControl_ICRControl;
+  if (icr_data_ == NULL) icr_data_ = new ::lunabotics::proto::AllWheelControl_ICRControl;
   return icr_data_;
 }
-inline ::lunabotics::AllWheelControl_ICRControl* AllWheelControl::release_icr_data() {
+inline ::lunabotics::proto::AllWheelControl_ICRControl* AllWheelControl::release_icr_data() {
   clear_has_icr_data();
-  ::lunabotics::AllWheelControl_ICRControl* temp = icr_data_;
+  ::lunabotics::proto::AllWheelControl_ICRControl* temp = icr_data_;
   icr_data_ = NULL;
   return temp;
 }
-inline void AllWheelControl::set_allocated_icr_data(::lunabotics::AllWheelControl_ICRControl* icr_data) {
+inline void AllWheelControl::set_allocated_icr_data(::lunabotics::proto::AllWheelControl_ICRControl* icr_data) {
   delete icr_data_;
   icr_data_ = icr_data;
   if (icr_data) {
@@ -673,6 +674,7 @@ inline void AllWheelControl::set_allocated_icr_data(::lunabotics::AllWheelContro
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 #ifndef SWIG
@@ -680,12 +682,12 @@ namespace google {
 namespace protobuf {
 
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::AllWheelControl_AllWheelControlType>() {
-  return ::lunabotics::AllWheelControl_AllWheelControlType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::proto::AllWheelControl_AllWheelControlType>() {
+  return ::lunabotics::proto::AllWheelControl_AllWheelControlType_descriptor();
 }
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::AllWheelControl_PredefinedControlType>() {
-  return ::lunabotics::AllWheelControl_PredefinedControlType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::lunabotics::proto::AllWheelControl_PredefinedControlType>() {
+  return ::lunabotics::proto::AllWheelControl_PredefinedControlType_descriptor();
 }
 
 }  // namespace google

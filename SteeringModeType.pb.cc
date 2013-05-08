@@ -17,6 +17,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 namespace {
 
@@ -58,9 +59,9 @@ void protobuf_AddDesc_SteeringModeType_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\026SteeringModeType.proto\022\nlunabotics*=\n\020"
-    "SteeringModeType\022\r\n\tACKERMANN\020\001\022\020\n\014TURN_"
-    "IN_SPOT\020\002\022\010\n\004CRAB\020\003", 99);
+    "\n\026SteeringModeType.proto\022\020lunabotics.pro"
+    "to*=\n\020SteeringModeType\022\r\n\tACKERMANN\020\001\022\020\n"
+    "\014TURN_IN_SPOT\020\002\022\010\n\004CRAB\020\003", 105);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SteeringModeType.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_SteeringModeType_2eproto);
@@ -90,6 +91,7 @@ bool SteeringModeType_IsValid(int value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 // @@protoc_insertion_point(global_scope)

@@ -7,9 +7,10 @@
 #include "Common.h"
 
 #define WHEEL_W 10
-#define WHEEL_H 20
 #define OFFSET  30
 #define THICKNESS   20
+#define LINK_THICKNESS  6
+#define SCALE   150
 
 AllWheelForm::AllWheelForm(QWidget *parent) :
     QWidget(parent),
@@ -24,11 +25,13 @@ AllWheelForm::AllWheelForm(QWidget *parent) :
     this->rightFrontWheel = NULL;
     this->leftRearWheel = NULL;
     this->rightRearWheel = NULL;
-    this->frontWheel = NULL;
-    this->rearWheel = NULL;
     this->verticalICR = NULL;
     this->horizontalICR = NULL;
     this->baseLink = NULL;
+    this->leftFrontLink = NULL;
+    this->leftRearLink = NULL;
+    this->rightFrontLink = NULL;
+    this->rightReartLink = NULL;
 
     ui->setupUi(this);
     this->robotSketchScene = new QGraphicsScene(this);
@@ -37,35 +40,57 @@ AllWheelForm::AllWheelForm(QWidget *parent) :
     this->ICR.setX(0);
     this->ICR.setY(0);
 
+
+    this->stateTableModel = new QStandardItemModel(0, 2, this); //0 Rows and 2 Columns
+    this->stateTableModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Param")));
+    this->stateTableModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Value")));
+    ui->stateTableView->setModel(this->stateTableModel);
+
     this->createGrphicItems();
 }
 
 AllWheelForm::~AllWheelForm()
 {
     qDebug() << "DELETING PANEL";
+    qDeleteAll(this->robotSketchScene->items());
+    this->robotSketchScene->items().clear();
+
     delete ui;
 
     delete this->robotSketchScene;
     delete this->steeringMotors;
     delete this->drivingMotors;
     delete this->geometry;
+    delete this->stateTableModel;
+}
+
+void AllWheelForm::setRow(int &rowNumber, const QString &label, const QString &value)
+{
+    QStandardItem *item = new QStandardItem(label);
+    item->setToolTip(label);
+    this->stateTableModel->setItem(rowNumber, 0, item);
+    item = new QStandardItem(value);
+    item->setToolTip(value);
+    this->stateTableModel->setItem(rowNumber++, 1, item);
 }
 
 void AllWheelForm::createGrphicItems()
 {
     if (!this->graphicItemsCreated && this->geometry->jointPositionsAcquired) {
-        qreal leftTopX = -this->geometry->leftFrontJoint.y()*100;
-        qreal leftTopY = -this->geometry->leftFrontJoint.x()*100;
-        qreal rightTopX = -this->geometry->rightFrontJoint.y()*100;
-        qreal rightTopY = -this->geometry->rightFrontJoint.x()*100;
-        qreal leftBottomX = -this->geometry->leftRearJoint.y()*100;
-        qreal leftBottomY = -this->geometry->leftRearJoint.x()*100;
-        qreal rightBottomX = -this->geometry->rightRearJoint.y()*100;
-        qreal rightBottomY = -this->geometry->rightRearJoint.x()*100;
+        qreal leftTopX = -this->geometry->leftFrontJoint.y()*SCALE;
+        qreal leftTopY = -this->geometry->leftFrontJoint.x()*SCALE;
+        qreal rightTopX = -this->geometry->rightFrontJoint.y()*SCALE;
+        qreal rightTopY = -this->geometry->rightFrontJoint.x()*SCALE;
+        qreal leftBottomX = -this->geometry->leftRearJoint.y()*SCALE;
+        qreal leftBottomY = -this->geometry->leftRearJoint.x()*SCALE;
+        qreal rightBottomX = -this->geometry->rightRearJoint.y()*SCALE;
+        qreal rightBottomY = -this->geometry->rightRearJoint.x()*SCALE;
+        qreal wheelOffset = this->geometry->wheelOffset*SCALE;
+        qreal wheelRadius = this->geometry->wheelRadius*SCALE;
 
         this->baseLink = new QGraphicsRectItem(leftTopX, leftTopY, rightTopX-leftTopX, rightBottomY-rightTopY);
         this->baseLink->setBrush(BRUSH_CLEAR);
-        this->baseLink->setPen(PEN_BLACK);
+        this->baseLink->setPen(PEN_BLACK_BOLD);
         this->robotSketchScene->addItem(this->baseLink);
 
         this->verticalICR = new QGraphicsRectItem(0, -10, 1, 20);
@@ -75,16 +100,10 @@ void AllWheelForm::createGrphicItems()
         this->robotSketchScene->addItem(this->horizontalICR);
         this->robotSketchScene->addItem(this->verticalICR);
 
-        qreal offset = rightBottomY+OFFSET;
-        this->robotSketchScene->addRect(leftTopX, leftBottomY+OFFSET, rightTopX-leftTopX, THICKNESS, PEN_BLACK, BRUSH_CLEAR);
-        this->robotSketchScene->addEllipse(leftTopX-WHEEL_H/2, offset+THICKNESS/2, WHEEL_H, WHEEL_H, PEN_BLACK, BRUSH_CLEAR);
-        this->robotSketchScene->addEllipse(rightBottomX-WHEEL_H/2, offset+THICKNESS/2, WHEEL_H, WHEEL_H, PEN_BLACK, BRUSH_CLEAR);
-
-
-        this->leftFrontWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
-        this->rightFrontWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
-        this->leftRearWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
-        this->rightRearWheel = new QGraphicsRectItem(-WHEEL_W/2, -WHEEL_H/2, WHEEL_W, WHEEL_H);
+        this->leftFrontWheel = new QGraphicsRectItem(-wheelOffset-WHEEL_W/2, -wheelRadius, WHEEL_W, wheelRadius*2);
+        this->rightFrontWheel = new QGraphicsRectItem(wheelOffset-WHEEL_W/2, -wheelRadius, WHEEL_W, wheelRadius*2);
+        this->leftRearWheel = new QGraphicsRectItem(-wheelOffset-WHEEL_W/2, -wheelRadius, WHEEL_W, wheelRadius*2);
+        this->rightRearWheel = new QGraphicsRectItem(wheelOffset-WHEEL_W/2, -wheelRadius, WHEEL_W, wheelRadius*2);
 
         this->leftFrontWheel->setBrush(BRUSH_BLACK);
         this->leftFrontWheel->setPen(PEN_BLACK);
@@ -105,18 +124,29 @@ void AllWheelForm::createGrphicItems()
         this->leftRearWheel->setPos(leftBottomX, leftBottomY);
         this->rightRearWheel->setPos(rightBottomX, rightBottomY);
 
+        this->leftFrontLink = new QGraphicsRectItem(-wheelOffset+WHEEL_W/2, -LINK_THICKNESS/2, wheelOffset-WHEEL_W/2, LINK_THICKNESS);
+        this->leftRearLink = new QGraphicsRectItem(-wheelOffset+WHEEL_W/2, -LINK_THICKNESS/2, wheelOffset-WHEEL_W/2, LINK_THICKNESS);
+        this->rightFrontLink = new QGraphicsRectItem(0, -LINK_THICKNESS/2, wheelOffset-WHEEL_W/2, LINK_THICKNESS);
+        this->rightReartLink = new QGraphicsRectItem(0, -LINK_THICKNESS/2, wheelOffset-WHEEL_W/2, LINK_THICKNESS);
 
-        this->frontWheel = new QGraphicsRectItem(-WHEEL_H/2+5, -WHEEL_H/2+5, WHEEL_H-10, WHEEL_H-10);
-        this->rearWheel = new QGraphicsRectItem(-WHEEL_H/2+5, -WHEEL_H/2+5, WHEEL_H-10, WHEEL_H-10);
-        this->frontWheel->setBrush(BRUSH_BLACK);
-        this->frontWheel->setPen(PEN_RED);
-        this->rearWheel->setBrush(BRUSH_BLACK);
-        this->rearWheel->setPen(PEN_RED);
-        this->robotSketchScene->addItem(this->frontWheel);
-        this->robotSketchScene->addItem(this->rearWheel);
+        this->leftFrontLink->setBrush(BRUSH_CLEAR);
+        this->leftRearLink->setBrush(BRUSH_CLEAR);
+        this->rightFrontLink->setBrush(BRUSH_CLEAR);
+        this->rightReartLink->setBrush(BRUSH_CLEAR);
+        this->leftFrontLink->setPen(PEN_GREEN_BOLD);
+        this->leftRearLink->setPen(PEN_GREEN_BOLD);
+        this->rightFrontLink->setPen(PEN_GREEN_BOLD);
+        this->rightReartLink->setPen(PEN_GREEN_BOLD);
 
-        this->frontWheel->setPos(rightBottomX, offset+THICKNESS);
-        this->rearWheel->setPos(leftBottomX, offset+THICKNESS);
+        this->robotSketchScene->addItem(this->leftFrontLink);
+        this->robotSketchScene->addItem(this->rightFrontLink);
+        this->robotSketchScene->addItem(this->leftRearLink);
+        this->robotSketchScene->addItem(this->rightReartLink);
+
+        this->leftFrontLink->setPos(leftTopX, leftTopY);
+        this->rightFrontLink->setPos(rightTopX, rightTopY);
+        this->leftRearLink->setPos(leftBottomX, leftBottomY);
+        this->rightReartLink->setPos(rightBottomX, rightBottomY);
 
         this->graphicItemsCreated = true;
     }
@@ -133,56 +163,52 @@ void AllWheelForm::redrawSketch()
         this->rightFrontWheel->setRotation(-this->steeringMotors->rightFront*180.0/M_PI);
         this->leftRearWheel->setRotation(-this->steeringMotors->leftRear*180.0/M_PI);
         this->rightRearWheel->setRotation(-this->steeringMotors->rightRear*180.0/M_PI);
-        this->frontWheel->rotate(this->drivingMotors->leftFront*180.0/M_PI);
-        this->rearWheel->rotate(-this->drivingMotors->leftRear*180.0/M_PI);
+        this->leftFrontLink->setRotation(-this->steeringMotors->leftFront*180.0/M_PI);
+        this->rightFrontLink->setRotation(-this->steeringMotors->rightFront*180.0/M_PI);
+        this->leftRearLink->setRotation(-this->steeringMotors->leftRear*180.0/M_PI);
+        this->rightReartLink->setRotation(-this->steeringMotors->rightRear*180.0/M_PI);
 
-        qreal x = this->ICR.x()*100;
-        qreal y = this->ICR.y()*-100;
+        qreal x = this->ICR.x()*SCALE;
+        qreal y = this->ICR.y()*-SCALE;
 
         this->verticalICR->setPos(x, y);
         this->horizontalICR->setPos(x, y);
     }
 }
 
-void AllWheelForm::on_allWheelButton_clicked()
-{
-    AllWheelState *steering = new AllWheelState(ui->lfSteeringEdit->text().toFloat(), ui->rfSteeringEdit->text().toFloat(), ui->lrSteeringEdit->text().toFloat(), ui->rrSteeringEdit->text().toFloat());
-    AllWheelState *driving = new AllWheelState(ui->lfDrivingEdit->text().toFloat(), ui->rfDrivingEdit->text().toFloat(), ui->lrDrivingEdit->text().toFloat(), ui->rrDrivingEdit->text().toFloat());
-
-    emit explicitControlSelected(steering, driving);
-
-    delete steering;
-    delete driving;
-}
-
 void AllWheelForm::on_forwardButton_clicked()
 {
-    emit predefinedControlSelected(lunabotics::AllWheelControl::DRIVE_FORWARD);
+    emit predefinedControlSelected(lunabotics::proto::AllWheelControl::DRIVE_FORWARD);
 }
 
 void AllWheelForm::on_backwardButton_clicked()
 {
-    emit predefinedControlSelected(lunabotics::AllWheelControl::DRIVE_BACKWARD);
+    emit predefinedControlSelected(lunabotics::proto::AllWheelControl::DRIVE_BACKWARD);
 }
 
 void AllWheelForm::on_leftButton_clicked()
 {
-    emit predefinedControlSelected(lunabotics::AllWheelControl::CRAB_LEFT);
+    emit predefinedControlSelected(lunabotics::proto::AllWheelControl::CRAB_LEFT);
 }
 
 void AllWheelForm::on_rightButton_clicked()
 {
-    emit predefinedControlSelected(lunabotics::AllWheelControl::CRAB_RIGHT);
+    emit predefinedControlSelected(lunabotics::proto::AllWheelControl::CRAB_RIGHT);
 }
 
 void AllWheelForm::on_turnLeftButton_clicked()
 {
-    emit predefinedControlSelected(lunabotics::AllWheelControl::TURN_CCW);
+    emit predefinedControlSelected(lunabotics::proto::AllWheelControl::TURN_CCW);
 }
 
 void AllWheelForm::on_turnRightButton_clicked()
 {
-    emit predefinedControlSelected(lunabotics::AllWheelControl::TURN_CW);
+    emit predefinedControlSelected(lunabotics::proto::AllWheelControl::TURN_CW);
+}
+
+void AllWheelForm::on_stopButton_clicked()
+{
+    emit predefinedControlSelected(lunabotics::proto::AllWheelControl::STOP);
 }
 
 void AllWheelForm::closeEvent(QCloseEvent *event)
@@ -193,23 +219,32 @@ void AllWheelForm::closeEvent(QCloseEvent *event)
 
 void AllWheelForm::allWheelStateUpdated(AllWheelState *steering, AllWheelState *driving)
 {
-    ui->dlfLabel->setText(QString("%1 Rad/s").arg(QString::number(round(driving->leftFront, 2), 'f', 2)));
-    ui->drfLabel->setText(QString("%1 Rad/s").arg(QString::number(round(driving->rightFront, 2), 'f', 2)));
-    ui->dlrLabel->setText(QString("%1 Rad/s").arg(QString::number(round(driving->leftRear, 2), 'f', 2)));
-    ui->drrLabel->setText(QString("%1 Rad/s").arg(QString::number(round(driving->rightRear, 2), 'f', 2)));
-    ui->slfLabel->setText(QString("%1 Rad").arg(QString::number(round(steering->leftFront, 2), 'f', 2)));
-    ui->srfLabel->setText(QString("%1 Rad").arg(QString::number(round(steering->rightFront, 2), 'f', 2)));
-    ui->slrLabel->setText(QString("%1 Rad").arg(QString::number(round(steering->leftRear, 2), 'f', 2)));
-    ui->srrLabel->setText(QString("%1 Rad").arg(QString::number(round(steering->rightRear, 2), 'f', 2)));
     this->steeringMotors->setState(steering);
     this->drivingMotors->setState(driving);
     this->redrawSketch();
+    this->updateTable();
+}
+
+void AllWheelForm::updateTable()
+{
+    this->stateTableModel->clear();
+    int row = 0;
+    this->setRow(row, "driving.left.front", QString("%1 Rad/s").arg(QString::number(round(this->drivingMotors->leftFront, 2), 'f', 2)));
+    this->setRow(row, "driving.right.front", QString("%1 Rad/s").arg(QString::number(round(this->drivingMotors->rightFront, 2), 'f', 2)));
+    this->setRow(row, "driving.left.rear", QString("%1 Rad/s").arg(QString::number(round(this->drivingMotors->leftRear, 2), 'f', 2)));
+    this->setRow(row, "driving.right.rear", QString("%1 Rad/s").arg(QString::number(round(this->drivingMotors->rightRear, 2), 'f', 2)));
+    this->setRow(row, "steering.left.front", QString("%1 Rad").arg(QString::number(round(this->steeringMotors->leftFront, 2), 'f', 2)));
+    this->setRow(row, "steering.right.front", QString("%1 Rad").arg(QString::number(round(this->steeringMotors->rightFront, 2), 'f', 2)));
+    this->setRow(row, "steering.left.rear", QString("%1 Rad").arg(QString::number(round(this->steeringMotors->leftRear, 2), 'f', 2)));
+    this->setRow(row, "steering.right.rear", QString("%1 Rad").arg(QString::number(round(this->steeringMotors->rightRear, 2), 'f', 2)));
+    this->setRow(row, "ICR.x", QString("%1 m").arg(QString::number(this->ICR.x(), 'f', 2)));
+    this->setRow(row, "ICR.y", QString("%1 m").arg(QString::number(this->ICR.y(), 'f', 2)));
 }
 
 void AllWheelForm::ICRUpdated(QPointF ICR)
 {
     this->ICR = ICR;
-    ui->ICRLabel->setText(QString("%1,%2 m").arg(QString::number(ICR.x(), 'f', 2)).arg(QString::number(ICR.y(), 'f', 2)));
+    this->updateTable();
     this->redrawSketch();
 }
 
@@ -239,7 +274,13 @@ void AllWheelForm::on_resetButton_clicked()
     delete empty;
 }
 
-void AllWheelForm::on_stopButton_clicked()
+void AllWheelForm::on_sendButton_clicked()
 {
-    emit predefinedControlSelected(lunabotics::AllWheelControl::STOP);
+    AllWheelState *steering = new AllWheelState(ui->lfSteeringEdit->text().toFloat(), ui->rfSteeringEdit->text().toFloat(), ui->lrSteeringEdit->text().toFloat(), ui->rrSteeringEdit->text().toFloat());
+    AllWheelState *driving = new AllWheelState(ui->lfDrivingEdit->text().toFloat(), ui->rfDrivingEdit->text().toFloat(), ui->lrDrivingEdit->text().toFloat(), ui->rrDrivingEdit->text().toFloat());
+
+    emit explicitControlSelected(steering, driving);
+
+    delete steering;
+    delete driving;
 }

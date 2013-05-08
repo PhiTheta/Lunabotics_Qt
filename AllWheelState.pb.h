@@ -27,6 +27,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 // Internal implementation detail -- do not call these.
 void  protobuf_AddDesc_AllWheelState_2eproto();
@@ -120,7 +121,7 @@ class AllWheelState_Wheels : public ::google::protobuf::Message {
   inline float right_rear() const;
   inline void set_right_rear(float value);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.AllWheelState.Wheels)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.AllWheelState.Wheels)
  private:
   inline void set_has_left_front();
   inline void clear_has_left_front();
@@ -206,25 +207,25 @@ class AllWheelState : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.AllWheelState.Wheels steering = 1;
+  // required .lunabotics.proto.AllWheelState.Wheels steering = 1;
   inline bool has_steering() const;
   inline void clear_steering();
   static const int kSteeringFieldNumber = 1;
-  inline const ::lunabotics::AllWheelState_Wheels& steering() const;
-  inline ::lunabotics::AllWheelState_Wheels* mutable_steering();
-  inline ::lunabotics::AllWheelState_Wheels* release_steering();
-  inline void set_allocated_steering(::lunabotics::AllWheelState_Wheels* steering);
+  inline const ::lunabotics::proto::AllWheelState_Wheels& steering() const;
+  inline ::lunabotics::proto::AllWheelState_Wheels* mutable_steering();
+  inline ::lunabotics::proto::AllWheelState_Wheels* release_steering();
+  inline void set_allocated_steering(::lunabotics::proto::AllWheelState_Wheels* steering);
 
-  // required .lunabotics.AllWheelState.Wheels driving = 2;
+  // required .lunabotics.proto.AllWheelState.Wheels driving = 2;
   inline bool has_driving() const;
   inline void clear_driving();
   static const int kDrivingFieldNumber = 2;
-  inline const ::lunabotics::AllWheelState_Wheels& driving() const;
-  inline ::lunabotics::AllWheelState_Wheels* mutable_driving();
-  inline ::lunabotics::AllWheelState_Wheels* release_driving();
-  inline void set_allocated_driving(::lunabotics::AllWheelState_Wheels* driving);
+  inline const ::lunabotics::proto::AllWheelState_Wheels& driving() const;
+  inline ::lunabotics::proto::AllWheelState_Wheels* mutable_driving();
+  inline ::lunabotics::proto::AllWheelState_Wheels* release_driving();
+  inline void set_allocated_driving(::lunabotics::proto::AllWheelState_Wheels* driving);
 
-  // @@protoc_insertion_point(class_scope:lunabotics.AllWheelState)
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.AllWheelState)
  private:
   inline void set_has_steering();
   inline void clear_has_steering();
@@ -233,8 +234,8 @@ class AllWheelState : public ::google::protobuf::Message {
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::AllWheelState_Wheels* steering_;
-  ::lunabotics::AllWheelState_Wheels* driving_;
+  ::lunabotics::proto::AllWheelState_Wheels* steering_;
+  ::lunabotics::proto::AllWheelState_Wheels* driving_;
 
   mutable int _cached_size_;
   ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
@@ -345,7 +346,7 @@ inline void AllWheelState_Wheels::set_right_rear(float value) {
 
 // AllWheelState
 
-// required .lunabotics.AllWheelState.Wheels steering = 1;
+// required .lunabotics.proto.AllWheelState.Wheels steering = 1;
 inline bool AllWheelState::has_steering() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
@@ -356,24 +357,24 @@ inline void AllWheelState::clear_has_steering() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline void AllWheelState::clear_steering() {
-  if (steering_ != NULL) steering_->::lunabotics::AllWheelState_Wheels::Clear();
+  if (steering_ != NULL) steering_->::lunabotics::proto::AllWheelState_Wheels::Clear();
   clear_has_steering();
 }
-inline const ::lunabotics::AllWheelState_Wheels& AllWheelState::steering() const {
+inline const ::lunabotics::proto::AllWheelState_Wheels& AllWheelState::steering() const {
   return steering_ != NULL ? *steering_ : *default_instance_->steering_;
 }
-inline ::lunabotics::AllWheelState_Wheels* AllWheelState::mutable_steering() {
+inline ::lunabotics::proto::AllWheelState_Wheels* AllWheelState::mutable_steering() {
   set_has_steering();
-  if (steering_ == NULL) steering_ = new ::lunabotics::AllWheelState_Wheels;
+  if (steering_ == NULL) steering_ = new ::lunabotics::proto::AllWheelState_Wheels;
   return steering_;
 }
-inline ::lunabotics::AllWheelState_Wheels* AllWheelState::release_steering() {
+inline ::lunabotics::proto::AllWheelState_Wheels* AllWheelState::release_steering() {
   clear_has_steering();
-  ::lunabotics::AllWheelState_Wheels* temp = steering_;
+  ::lunabotics::proto::AllWheelState_Wheels* temp = steering_;
   steering_ = NULL;
   return temp;
 }
-inline void AllWheelState::set_allocated_steering(::lunabotics::AllWheelState_Wheels* steering) {
+inline void AllWheelState::set_allocated_steering(::lunabotics::proto::AllWheelState_Wheels* steering) {
   delete steering_;
   steering_ = steering;
   if (steering) {
@@ -383,7 +384,7 @@ inline void AllWheelState::set_allocated_steering(::lunabotics::AllWheelState_Wh
   }
 }
 
-// required .lunabotics.AllWheelState.Wheels driving = 2;
+// required .lunabotics.proto.AllWheelState.Wheels driving = 2;
 inline bool AllWheelState::has_driving() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
@@ -394,24 +395,24 @@ inline void AllWheelState::clear_has_driving() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline void AllWheelState::clear_driving() {
-  if (driving_ != NULL) driving_->::lunabotics::AllWheelState_Wheels::Clear();
+  if (driving_ != NULL) driving_->::lunabotics::proto::AllWheelState_Wheels::Clear();
   clear_has_driving();
 }
-inline const ::lunabotics::AllWheelState_Wheels& AllWheelState::driving() const {
+inline const ::lunabotics::proto::AllWheelState_Wheels& AllWheelState::driving() const {
   return driving_ != NULL ? *driving_ : *default_instance_->driving_;
 }
-inline ::lunabotics::AllWheelState_Wheels* AllWheelState::mutable_driving() {
+inline ::lunabotics::proto::AllWheelState_Wheels* AllWheelState::mutable_driving() {
   set_has_driving();
-  if (driving_ == NULL) driving_ = new ::lunabotics::AllWheelState_Wheels;
+  if (driving_ == NULL) driving_ = new ::lunabotics::proto::AllWheelState_Wheels;
   return driving_;
 }
-inline ::lunabotics::AllWheelState_Wheels* AllWheelState::release_driving() {
+inline ::lunabotics::proto::AllWheelState_Wheels* AllWheelState::release_driving() {
   clear_has_driving();
-  ::lunabotics::AllWheelState_Wheels* temp = driving_;
+  ::lunabotics::proto::AllWheelState_Wheels* temp = driving_;
   driving_ = NULL;
   return temp;
 }
-inline void AllWheelState::set_allocated_driving(::lunabotics::AllWheelState_Wheels* driving) {
+inline void AllWheelState::set_allocated_driving(::lunabotics::proto::AllWheelState_Wheels* driving) {
   delete driving_;
   driving_ = driving;
   if (driving) {
@@ -424,6 +425,7 @@ inline void AllWheelState::set_allocated_driving(::lunabotics::AllWheelState_Whe
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 #ifndef SWIG

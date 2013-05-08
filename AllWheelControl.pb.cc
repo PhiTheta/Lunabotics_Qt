@@ -17,6 +17,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 namespace {
 
@@ -129,27 +130,28 @@ void protobuf_AddDesc_AllWheelControl_2eproto() {
   already_here = true;
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  ::lunabotics::protobuf_AddDesc_AllWheelState_2eproto();
-  ::lunabotics::protobuf_AddDesc_Point_2eproto();
+  ::lunabotics::proto::protobuf_AddDesc_AllWheelState_2eproto();
+  ::lunabotics::proto::protobuf_AddDesc_Point_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\025AllWheelControl.proto\022\nlunabotics\032\023All"
-    "WheelState.proto\032\013Point.proto\"\352\004\n\017AllWhe"
-    "elControl\022G\n\016all_wheel_type\030\001 \002(\0162/.luna"
-    "botics.AllWheelControl.AllWheelControlTy"
-    "pe\0220\n\rexplicit_data\030\002 \001(\0132\031.lunabotics.A"
-    "llWheelState\022F\n\017predefined_data\030\003 \001(\0132-."
-    "lunabotics.AllWheelControl.PredefinedCon"
-    "trol\0228\n\010icr_data\030\004 \001(\0132&.lunabotics.AllW"
-    "heelControl.ICRControl\032W\n\021PredefinedCont"
-    "rol\022B\n\007command\030\001 \002(\01621.lunabotics.AllWhe"
-    "elControl.PredefinedControlType\032>\n\nICRCo"
-    "ntrol\022\036\n\003icr\030\001 \002(\0132\021.lunabotics.Point\022\020\n"
-    "\010velocity\030\002 \002(\002\"<\n\023AllWheelControlType\022\014"
-    "\n\010EXPLICIT\020\001\022\016\n\nPREDEFINED\020\002\022\007\n\003ICR\020\003\"\202\001"
-    "\n\025PredefinedControlType\022\021\n\rDRIVE_FORWARD"
-    "\020\001\022\022\n\016DRIVE_BACKWARD\020\002\022\r\n\tCRAB_LEFT\020\003\022\016\n"
-    "\nCRAB_RIGHT\020\004\022\013\n\007TURN_CW\020\005\022\014\n\010TURN_CCW\020\006"
-    "\022\010\n\004STOP\020\007", 690);
+    "\n\025AllWheelControl.proto\022\020lunabotics.prot"
+    "o\032\023AllWheelState.proto\032\013Point.proto\"\216\005\n\017"
+    "AllWheelControl\022M\n\016all_wheel_type\030\001 \002(\0162"
+    "5.lunabotics.proto.AllWheelControl.AllWh"
+    "eelControlType\0226\n\rexplicit_data\030\002 \001(\0132\037."
+    "lunabotics.proto.AllWheelState\022L\n\017predef"
+    "ined_data\030\003 \001(\01323.lunabotics.proto.AllWh"
+    "eelControl.PredefinedControl\022>\n\010icr_data"
+    "\030\004 \001(\0132,.lunabotics.proto.AllWheelContro"
+    "l.ICRControl\032]\n\021PredefinedControl\022H\n\007com"
+    "mand\030\001 \002(\01627.lunabotics.proto.AllWheelCo"
+    "ntrol.PredefinedControlType\032D\n\nICRContro"
+    "l\022$\n\003icr\030\001 \002(\0132\027.lunabotics.proto.Point\022"
+    "\020\n\010velocity\030\002 \002(\002\"<\n\023AllWheelControlType"
+    "\022\014\n\010EXPLICIT\020\001\022\016\n\nPREDEFINED\020\002\022\007\n\003ICR\020\003\""
+    "\202\001\n\025PredefinedControlType\022\021\n\rDRIVE_FORWA"
+    "RD\020\001\022\022\n\016DRIVE_BACKWARD\020\002\022\r\n\tCRAB_LEFT\020\003\022"
+    "\016\n\nCRAB_RIGHT\020\004\022\013\n\007TURN_CW\020\005\022\014\n\010TURN_CCW"
+    "\020\006\022\010\n\004STOP\020\007", 732);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "AllWheelControl.proto", &protobuf_RegisterTypes);
   AllWheelControl::default_instance_ = new AllWheelControl();
@@ -292,7 +294,7 @@ bool AllWheelControl_PredefinedControl::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .lunabotics.AllWheelControl.PredefinedControlType command = 1;
+      // required .lunabotics.proto.AllWheelControl.PredefinedControlType command = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
@@ -300,8 +302,8 @@ bool AllWheelControl_PredefinedControl::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          if (::lunabotics::AllWheelControl_PredefinedControlType_IsValid(value)) {
-            set_command(static_cast< ::lunabotics::AllWheelControl_PredefinedControlType >(value));
+          if (::lunabotics::proto::AllWheelControl_PredefinedControlType_IsValid(value)) {
+            set_command(static_cast< ::lunabotics::proto::AllWheelControl_PredefinedControlType >(value));
           } else {
             mutable_unknown_fields()->AddVarint(1, value);
           }
@@ -330,7 +332,7 @@ bool AllWheelControl_PredefinedControl::MergePartialFromCodedStream(
 
 void AllWheelControl_PredefinedControl::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required .lunabotics.AllWheelControl.PredefinedControlType command = 1;
+  // required .lunabotics.proto.AllWheelControl.PredefinedControlType command = 1;
   if (has_command()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       1, this->command(), output);
@@ -344,7 +346,7 @@ void AllWheelControl_PredefinedControl::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* AllWheelControl_PredefinedControl::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required .lunabotics.AllWheelControl.PredefinedControlType command = 1;
+  // required .lunabotics.proto.AllWheelControl.PredefinedControlType command = 1;
   if (has_command()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       1, this->command(), target);
@@ -361,7 +363,7 @@ int AllWheelControl_PredefinedControl::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .lunabotics.AllWheelControl.PredefinedControlType command = 1;
+    // required .lunabotics.proto.AllWheelControl.PredefinedControlType command = 1;
     if (has_command()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->command());
@@ -450,7 +452,7 @@ AllWheelControl_ICRControl::AllWheelControl_ICRControl()
 }
 
 void AllWheelControl_ICRControl::InitAsDefaultInstance() {
-  icr_ = const_cast< ::lunabotics::Point*>(&::lunabotics::Point::default_instance());
+  icr_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
 }
 
 AllWheelControl_ICRControl::AllWheelControl_ICRControl(const AllWheelControl_ICRControl& from)
@@ -500,7 +502,7 @@ AllWheelControl_ICRControl* AllWheelControl_ICRControl::New() const {
 void AllWheelControl_ICRControl::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (has_icr()) {
-      if (icr_ != NULL) icr_->::lunabotics::Point::Clear();
+      if (icr_ != NULL) icr_->::lunabotics::proto::Point::Clear();
     }
     velocity_ = 0;
   }
@@ -514,7 +516,7 @@ bool AllWheelControl_ICRControl::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .lunabotics.Point icr = 1;
+      // required .lunabotics.proto.Point icr = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -561,7 +563,7 @@ bool AllWheelControl_ICRControl::MergePartialFromCodedStream(
 
 void AllWheelControl_ICRControl::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required .lunabotics.Point icr = 1;
+  // required .lunabotics.proto.Point icr = 1;
   if (has_icr()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->icr(), output);
@@ -580,7 +582,7 @@ void AllWheelControl_ICRControl::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* AllWheelControl_ICRControl::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required .lunabotics.Point icr = 1;
+  // required .lunabotics.proto.Point icr = 1;
   if (has_icr()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -603,7 +605,7 @@ int AllWheelControl_ICRControl::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .lunabotics.Point icr = 1;
+    // required .lunabotics.proto.Point icr = 1;
     if (has_icr()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -643,7 +645,7 @@ void AllWheelControl_ICRControl::MergeFrom(const AllWheelControl_ICRControl& fro
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_icr()) {
-      mutable_icr()->::lunabotics::Point::MergeFrom(from.icr());
+      mutable_icr()->::lunabotics::proto::Point::MergeFrom(from.icr());
     }
     if (from.has_velocity()) {
       set_velocity(from.velocity());
@@ -707,9 +709,9 @@ AllWheelControl::AllWheelControl()
 }
 
 void AllWheelControl::InitAsDefaultInstance() {
-  explicit_data_ = const_cast< ::lunabotics::AllWheelState*>(&::lunabotics::AllWheelState::default_instance());
-  predefined_data_ = const_cast< ::lunabotics::AllWheelControl_PredefinedControl*>(&::lunabotics::AllWheelControl_PredefinedControl::default_instance());
-  icr_data_ = const_cast< ::lunabotics::AllWheelControl_ICRControl*>(&::lunabotics::AllWheelControl_ICRControl::default_instance());
+  explicit_data_ = const_cast< ::lunabotics::proto::AllWheelState*>(&::lunabotics::proto::AllWheelState::default_instance());
+  predefined_data_ = const_cast< ::lunabotics::proto::AllWheelControl_PredefinedControl*>(&::lunabotics::proto::AllWheelControl_PredefinedControl::default_instance());
+  icr_data_ = const_cast< ::lunabotics::proto::AllWheelControl_ICRControl*>(&::lunabotics::proto::AllWheelControl_ICRControl::default_instance());
 }
 
 AllWheelControl::AllWheelControl(const AllWheelControl& from)
@@ -764,13 +766,13 @@ void AllWheelControl::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     all_wheel_type_ = 1;
     if (has_explicit_data()) {
-      if (explicit_data_ != NULL) explicit_data_->::lunabotics::AllWheelState::Clear();
+      if (explicit_data_ != NULL) explicit_data_->::lunabotics::proto::AllWheelState::Clear();
     }
     if (has_predefined_data()) {
-      if (predefined_data_ != NULL) predefined_data_->::lunabotics::AllWheelControl_PredefinedControl::Clear();
+      if (predefined_data_ != NULL) predefined_data_->::lunabotics::proto::AllWheelControl_PredefinedControl::Clear();
     }
     if (has_icr_data()) {
-      if (icr_data_ != NULL) icr_data_->::lunabotics::AllWheelControl_ICRControl::Clear();
+      if (icr_data_ != NULL) icr_data_->::lunabotics::proto::AllWheelControl_ICRControl::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -783,7 +785,7 @@ bool AllWheelControl::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .lunabotics.AllWheelControl.AllWheelControlType all_wheel_type = 1;
+      // required .lunabotics.proto.AllWheelControl.AllWheelControlType all_wheel_type = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
@@ -791,8 +793,8 @@ bool AllWheelControl::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
-          if (::lunabotics::AllWheelControl_AllWheelControlType_IsValid(value)) {
-            set_all_wheel_type(static_cast< ::lunabotics::AllWheelControl_AllWheelControlType >(value));
+          if (::lunabotics::proto::AllWheelControl_AllWheelControlType_IsValid(value)) {
+            set_all_wheel_type(static_cast< ::lunabotics::proto::AllWheelControl_AllWheelControlType >(value));
           } else {
             mutable_unknown_fields()->AddVarint(1, value);
           }
@@ -803,7 +805,7 @@ bool AllWheelControl::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .lunabotics.AllWheelState explicit_data = 2;
+      // optional .lunabotics.proto.AllWheelState explicit_data = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -817,7 +819,7 @@ bool AllWheelControl::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
+      // optional .lunabotics.proto.AllWheelControl.PredefinedControl predefined_data = 3;
       case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -831,7 +833,7 @@ bool AllWheelControl::MergePartialFromCodedStream(
         break;
       }
 
-      // optional .lunabotics.AllWheelControl.ICRControl icr_data = 4;
+      // optional .lunabotics.proto.AllWheelControl.ICRControl icr_data = 4;
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -863,25 +865,25 @@ bool AllWheelControl::MergePartialFromCodedStream(
 
 void AllWheelControl::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required .lunabotics.AllWheelControl.AllWheelControlType all_wheel_type = 1;
+  // required .lunabotics.proto.AllWheelControl.AllWheelControlType all_wheel_type = 1;
   if (has_all_wheel_type()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
       1, this->all_wheel_type(), output);
   }
 
-  // optional .lunabotics.AllWheelState explicit_data = 2;
+  // optional .lunabotics.proto.AllWheelState explicit_data = 2;
   if (has_explicit_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       2, this->explicit_data(), output);
   }
 
-  // optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
+  // optional .lunabotics.proto.AllWheelControl.PredefinedControl predefined_data = 3;
   if (has_predefined_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       3, this->predefined_data(), output);
   }
 
-  // optional .lunabotics.AllWheelControl.ICRControl icr_data = 4;
+  // optional .lunabotics.proto.AllWheelControl.ICRControl icr_data = 4;
   if (has_icr_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       4, this->icr_data(), output);
@@ -895,27 +897,27 @@ void AllWheelControl::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* AllWheelControl::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required .lunabotics.AllWheelControl.AllWheelControlType all_wheel_type = 1;
+  // required .lunabotics.proto.AllWheelControl.AllWheelControlType all_wheel_type = 1;
   if (has_all_wheel_type()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
       1, this->all_wheel_type(), target);
   }
 
-  // optional .lunabotics.AllWheelState explicit_data = 2;
+  // optional .lunabotics.proto.AllWheelState explicit_data = 2;
   if (has_explicit_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         2, this->explicit_data(), target);
   }
 
-  // optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
+  // optional .lunabotics.proto.AllWheelControl.PredefinedControl predefined_data = 3;
   if (has_predefined_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         3, this->predefined_data(), target);
   }
 
-  // optional .lunabotics.AllWheelControl.ICRControl icr_data = 4;
+  // optional .lunabotics.proto.AllWheelControl.ICRControl icr_data = 4;
   if (has_icr_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -933,27 +935,27 @@ int AllWheelControl::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .lunabotics.AllWheelControl.AllWheelControlType all_wheel_type = 1;
+    // required .lunabotics.proto.AllWheelControl.AllWheelControlType all_wheel_type = 1;
     if (has_all_wheel_type()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->all_wheel_type());
     }
 
-    // optional .lunabotics.AllWheelState explicit_data = 2;
+    // optional .lunabotics.proto.AllWheelState explicit_data = 2;
     if (has_explicit_data()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->explicit_data());
     }
 
-    // optional .lunabotics.AllWheelControl.PredefinedControl predefined_data = 3;
+    // optional .lunabotics.proto.AllWheelControl.PredefinedControl predefined_data = 3;
     if (has_predefined_data()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->predefined_data());
     }
 
-    // optional .lunabotics.AllWheelControl.ICRControl icr_data = 4;
+    // optional .lunabotics.proto.AllWheelControl.ICRControl icr_data = 4;
     if (has_icr_data()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -991,13 +993,13 @@ void AllWheelControl::MergeFrom(const AllWheelControl& from) {
       set_all_wheel_type(from.all_wheel_type());
     }
     if (from.has_explicit_data()) {
-      mutable_explicit_data()->::lunabotics::AllWheelState::MergeFrom(from.explicit_data());
+      mutable_explicit_data()->::lunabotics::proto::AllWheelState::MergeFrom(from.explicit_data());
     }
     if (from.has_predefined_data()) {
-      mutable_predefined_data()->::lunabotics::AllWheelControl_PredefinedControl::MergeFrom(from.predefined_data());
+      mutable_predefined_data()->::lunabotics::proto::AllWheelControl_PredefinedControl::MergeFrom(from.predefined_data());
     }
     if (from.has_icr_data()) {
-      mutable_icr_data()->::lunabotics::AllWheelControl_ICRControl::MergeFrom(from.icr_data());
+      mutable_icr_data()->::lunabotics::proto::AllWheelControl_ICRControl::MergeFrom(from.icr_data());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -1053,6 +1055,7 @@ void AllWheelControl::Swap(AllWheelControl* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 // @@protoc_insertion_point(global_scope)

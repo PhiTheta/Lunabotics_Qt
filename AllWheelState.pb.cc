@@ -17,6 +17,7 @@
 // @@protoc_insertion_point(includes)
 
 namespace lunabotics {
+namespace proto {
 
 namespace {
 
@@ -104,13 +105,13 @@ void protobuf_AddDesc_AllWheelState_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\023AllWheelState.proto\022\nlunabotics\"\320\001\n\rAl"
-    "lWheelState\0222\n\010steering\030\001 \002(\0132 .lunaboti"
-    "cs.AllWheelState.Wheels\0221\n\007driving\030\002 \002(\013"
-    "2 .lunabotics.AllWheelState.Wheels\032X\n\006Wh"
-    "eels\022\022\n\nleft_front\030\001 \002(\002\022\023\n\013right_front\030"
-    "\002 \002(\002\022\021\n\tleft_rear\030\003 \002(\002\022\022\n\nright_rear\030\004"
-    " \002(\002", 244);
+    "\n\023AllWheelState.proto\022\020lunabotics.proto\""
+    "\334\001\n\rAllWheelState\0228\n\010steering\030\001 \002(\0132&.lu"
+    "nabotics.proto.AllWheelState.Wheels\0227\n\007d"
+    "riving\030\002 \002(\0132&.lunabotics.proto.AllWheel"
+    "State.Wheels\032X\n\006Wheels\022\022\n\nleft_front\030\001 \002"
+    "(\002\022\023\n\013right_front\030\002 \002(\002\022\021\n\tleft_rear\030\003 \002"
+    "(\002\022\022\n\nright_rear\030\004 \002(\002", 262);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "AllWheelState.proto", &protobuf_RegisterTypes);
   AllWheelState::default_instance_ = new AllWheelState();
@@ -461,8 +462,8 @@ AllWheelState::AllWheelState()
 }
 
 void AllWheelState::InitAsDefaultInstance() {
-  steering_ = const_cast< ::lunabotics::AllWheelState_Wheels*>(&::lunabotics::AllWheelState_Wheels::default_instance());
-  driving_ = const_cast< ::lunabotics::AllWheelState_Wheels*>(&::lunabotics::AllWheelState_Wheels::default_instance());
+  steering_ = const_cast< ::lunabotics::proto::AllWheelState_Wheels*>(&::lunabotics::proto::AllWheelState_Wheels::default_instance());
+  driving_ = const_cast< ::lunabotics::proto::AllWheelState_Wheels*>(&::lunabotics::proto::AllWheelState_Wheels::default_instance());
 }
 
 AllWheelState::AllWheelState(const AllWheelState& from)
@@ -513,10 +514,10 @@ AllWheelState* AllWheelState::New() const {
 void AllWheelState::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (has_steering()) {
-      if (steering_ != NULL) steering_->::lunabotics::AllWheelState_Wheels::Clear();
+      if (steering_ != NULL) steering_->::lunabotics::proto::AllWheelState_Wheels::Clear();
     }
     if (has_driving()) {
-      if (driving_ != NULL) driving_->::lunabotics::AllWheelState_Wheels::Clear();
+      if (driving_ != NULL) driving_->::lunabotics::proto::AllWheelState_Wheels::Clear();
     }
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -529,7 +530,7 @@ bool AllWheelState::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .lunabotics.AllWheelState.Wheels steering = 1;
+      // required .lunabotics.proto.AllWheelState.Wheels steering = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -542,7 +543,7 @@ bool AllWheelState::MergePartialFromCodedStream(
         break;
       }
 
-      // required .lunabotics.AllWheelState.Wheels driving = 2;
+      // required .lunabotics.proto.AllWheelState.Wheels driving = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
@@ -574,13 +575,13 @@ bool AllWheelState::MergePartialFromCodedStream(
 
 void AllWheelState::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required .lunabotics.AllWheelState.Wheels steering = 1;
+  // required .lunabotics.proto.AllWheelState.Wheels steering = 1;
   if (has_steering()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->steering(), output);
   }
 
-  // required .lunabotics.AllWheelState.Wheels driving = 2;
+  // required .lunabotics.proto.AllWheelState.Wheels driving = 2;
   if (has_driving()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       2, this->driving(), output);
@@ -594,14 +595,14 @@ void AllWheelState::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* AllWheelState::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required .lunabotics.AllWheelState.Wheels steering = 1;
+  // required .lunabotics.proto.AllWheelState.Wheels steering = 1;
   if (has_steering()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
         1, this->steering(), target);
   }
 
-  // required .lunabotics.AllWheelState.Wheels driving = 2;
+  // required .lunabotics.proto.AllWheelState.Wheels driving = 2;
   if (has_driving()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
@@ -619,14 +620,14 @@ int AllWheelState::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .lunabotics.AllWheelState.Wheels steering = 1;
+    // required .lunabotics.proto.AllWheelState.Wheels steering = 1;
     if (has_steering()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->steering());
     }
 
-    // required .lunabotics.AllWheelState.Wheels driving = 2;
+    // required .lunabotics.proto.AllWheelState.Wheels driving = 2;
     if (has_driving()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -661,10 +662,10 @@ void AllWheelState::MergeFrom(const AllWheelState& from) {
   GOOGLE_CHECK_NE(&from, this);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_steering()) {
-      mutable_steering()->::lunabotics::AllWheelState_Wheels::MergeFrom(from.steering());
+      mutable_steering()->::lunabotics::proto::AllWheelState_Wheels::MergeFrom(from.steering());
     }
     if (from.has_driving()) {
-      mutable_driving()->::lunabotics::AllWheelState_Wheels::MergeFrom(from.driving());
+      mutable_driving()->::lunabotics::proto::AllWheelState_Wheels::MergeFrom(from.driving());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -715,6 +716,7 @@ void AllWheelState::Swap(AllWheelState* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace proto
 }  // namespace lunabotics
 
 // @@protoc_insertion_point(global_scope)

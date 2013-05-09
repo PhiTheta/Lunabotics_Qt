@@ -6,6 +6,7 @@ RobotGeometry::RobotGeometry(QObject *parent) :
     this->jointPositionsAcquired = false;
     this->wheelOffset = 0;
     this->wheelRadius = 0;
+    this->wheelWidth = 0;
 }
 
 
@@ -18,4 +19,5 @@ void RobotGeometry::setGeometry(const RobotGeometry *geometry)
     this->rightRearJoint = geometry->rightRearJoint;
     this->wheelOffset = geometry->wheelOffset;
     this->wheelRadius = geometry->wheelRadius;
+    this->wheelWidth = geometry->wheelWidth;
 }

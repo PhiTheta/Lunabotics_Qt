@@ -580,20 +580,22 @@ void MainWindow::receiveTelemetry()
 
         if (tm.has_geometry_data()) {
             if (!this->robotState->geometry->jointPositionsAcquired) {
-                const lunabotics::proto::Point p1 = tm.geometry_data().left_front_joint();
+                const lunabotics::proto::Telemetry::Geometry geometry = tm.geometry_data();
+                const lunabotics::proto::Point p1 = geometry.left_front_joint();
                 this->robotState->geometry->leftFrontJoint.setX(p1.x());
                 this->robotState->geometry->leftFrontJoint.setY(p1.y());
-                const lunabotics::proto::Point p2 = tm.geometry_data().right_front_joint();
+                const lunabotics::proto::Point p2 = geometry.right_front_joint();
                 this->robotState->geometry->rightFrontJoint.setX(p2.x());
                 this->robotState->geometry->rightFrontJoint.setY(p2.y());
-                const lunabotics::proto::Point p3 = tm.geometry_data().left_rear_joint();
+                const lunabotics::proto::Point p3 = geometry.left_rear_joint();
                 this->robotState->geometry->leftRearJoint.setX(p3.x());
                 this->robotState->geometry->leftRearJoint.setY(p3.y());
-                const lunabotics::proto::Point p4 = tm.geometry_data().right_rear_joint();
+                const lunabotics::proto::Point p4 = geometry.right_rear_joint();
                 this->robotState->geometry->rightRearJoint.setX(p4.x());
                 this->robotState->geometry->rightRearJoint.setY(p4.y());
-                this->robotState->geometry->wheelOffset = tm.geometry_data().wheel_offset();
-                this->robotState->geometry->wheelRadius = tm.geometry_data().wheel_radius();
+                this->robotState->geometry->wheelOffset = geometry.wheel_offset();
+                this->robotState->geometry->wheelRadius = geometry.wheel_radius();
+                this->robotState->geometry->wheelWidth = geometry.wheel_width();
                 this->robotState->geometry->jointPositionsAcquired = true;
                 emit jointPositionsUpdated(this->robotState->geometry);
             }

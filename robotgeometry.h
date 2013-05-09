@@ -17,6 +17,7 @@ public:
     bool jointPositionsAcquired;
     qreal wheelOffset;
     qreal wheelRadius;
+    qreal wheelWidth;
 
     void setGeometry(const RobotGeometry *geometry);
 };

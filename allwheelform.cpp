@@ -6,11 +6,8 @@
 #include "Graphics.h"
 #include "Common.h"
 
-#define WHEEL_W 10
-#define OFFSET  30
-#define THICKNESS   20
-#define LINK_THICKNESS  6
 #define SCALE   150
+#define LINK_THICKNESS  0.03*SCALE
 
 AllWheelForm::AllWheelForm(QWidget *parent) :
     QWidget(parent),
@@ -87,6 +84,7 @@ void AllWheelForm::createGrphicItems()
         qreal rightBottomY = -this->geometry->rightRearJoint.x()*SCALE;
         qreal wheelOffset = this->geometry->wheelOffset*SCALE;
         qreal wheelRadius = this->geometry->wheelRadius*SCALE;
+        qreal wheelWidth = this->geometry->wheelWidth*SCALE;
 
         this->baseLink = new QGraphicsRectItem(leftTopX, leftTopY, rightTopX-leftTopX, rightBottomY-rightTopY);
         this->baseLink->setBrush(BRUSH_CLEAR);
@@ -100,10 +98,10 @@ void AllWheelForm::createGrphicItems()
         this->robotSketchScene->addItem(this->horizontalICR);
         this->robotSketchScene->addItem(this->verticalICR);
 
-        this->leftFrontWheel = new QGraphicsRectItem(-wheelOffset-WHEEL_W/2, -wheelRadius, WHEEL_W, wheelRadius*2);
-        this->rightFrontWheel = new QGraphicsRectItem(wheelOffset-WHEEL_W/2, -wheelRadius, WHEEL_W, wheelRadius*2);
-        this->leftRearWheel = new QGraphicsRectItem(-wheelOffset-WHEEL_W/2, -wheelRadius, WHEEL_W, wheelRadius*2);
-        this->rightRearWheel = new QGraphicsRectItem(wheelOffset-WHEEL_W/2, -wheelRadius, WHEEL_W, wheelRadius*2);
+        this->leftFrontWheel = new QGraphicsRectItem(-wheelOffset-wheelWidth/2, -wheelRadius, wheelWidth, wheelRadius*2);
+        this->rightFrontWheel = new QGraphicsRectItem(wheelOffset-wheelWidth/2, -wheelRadius, wheelWidth, wheelRadius*2);
+        this->leftRearWheel = new QGraphicsRectItem(-wheelOffset-wheelWidth/2, -wheelRadius, wheelWidth, wheelRadius*2);
+        this->rightRearWheel = new QGraphicsRectItem(wheelOffset-wheelWidth/2, -wheelRadius, wheelWidth, wheelRadius*2);
 
         this->leftFrontWheel->setBrush(BRUSH_BLACK);
         this->leftFrontWheel->setPen(PEN_BLACK);
@@ -124,10 +122,10 @@ void AllWheelForm::createGrphicItems()
         this->leftRearWheel->setPos(leftBottomX, leftBottomY);
         this->rightRearWheel->setPos(rightBottomX, rightBottomY);
 
-        this->leftFrontLink = new QGraphicsRectItem(-wheelOffset+WHEEL_W/2, -LINK_THICKNESS/2, wheelOffset-WHEEL_W/2, LINK_THICKNESS);
-        this->leftRearLink = new QGraphicsRectItem(-wheelOffset+WHEEL_W/2, -LINK_THICKNESS/2, wheelOffset-WHEEL_W/2, LINK_THICKNESS);
-        this->rightFrontLink = new QGraphicsRectItem(0, -LINK_THICKNESS/2, wheelOffset-WHEEL_W/2, LINK_THICKNESS);
-        this->rightReartLink = new QGraphicsRectItem(0, -LINK_THICKNESS/2, wheelOffset-WHEEL_W/2, LINK_THICKNESS);
+        this->leftFrontLink = new QGraphicsRectItem(-wheelOffset+wheelWidth/2, -LINK_THICKNESS/2, wheelOffset-wheelWidth/2, LINK_THICKNESS);
+        this->leftRearLink = new QGraphicsRectItem(-wheelOffset+wheelWidth/2, -LINK_THICKNESS/2, wheelOffset-wheelWidth/2, LINK_THICKNESS);
+        this->rightFrontLink = new QGraphicsRectItem(0, -LINK_THICKNESS/2, wheelOffset-wheelWidth/2, LINK_THICKNESS);
+        this->rightReartLink = new QGraphicsRectItem(0, -LINK_THICKNESS/2, wheelOffset-wheelWidth/2, LINK_THICKNESS);
 
         this->leftFrontLink->setBrush(BRUSH_CLEAR);
         this->leftRearLink->setBrush(BRUSH_CLEAR);

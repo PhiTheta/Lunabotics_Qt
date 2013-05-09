@@ -834,6 +834,13 @@ class Telemetry_Geometry : public ::google::protobuf::Message {
   inline float wheel_radius() const;
   inline void set_wheel_radius(float value);
 
+  // required float wheel_width = 7;
+  inline bool has_wheel_width() const;
+  inline void clear_wheel_width();
+  static const int kWheelWidthFieldNumber = 7;
+  inline float wheel_width() const;
+  inline void set_wheel_width(float value);
+
   // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.Geometry)
  private:
   inline void set_has_left_front_joint();
@@ -848,6 +855,8 @@ class Telemetry_Geometry : public ::google::protobuf::Message {
   inline void clear_has_wheel_offset();
   inline void set_has_wheel_radius();
   inline void clear_has_wheel_radius();
+  inline void set_has_wheel_width();
+  inline void clear_has_wheel_width();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -857,9 +866,10 @@ class Telemetry_Geometry : public ::google::protobuf::Message {
   ::lunabotics::proto::Point* right_rear_joint_;
   float wheel_offset_;
   float wheel_radius_;
+  float wheel_width_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telemetry_2eproto();
   friend void protobuf_AssignDesc_Telemetry_2eproto();
@@ -1860,6 +1870,28 @@ inline float Telemetry_Geometry::wheel_radius() const {
 inline void Telemetry_Geometry::set_wheel_radius(float value) {
   set_has_wheel_radius();
   wheel_radius_ = value;
+}
+
+// required float wheel_width = 7;
+inline bool Telemetry_Geometry::has_wheel_width() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void Telemetry_Geometry::set_has_wheel_width() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void Telemetry_Geometry::clear_has_wheel_width() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void Telemetry_Geometry::clear_wheel_width() {
+  wheel_width_ = 0;
+  clear_has_wheel_width();
+}
+inline float Telemetry_Geometry::wheel_width() const {
+  return wheel_width_;
+}
+inline void Telemetry_Geometry::set_wheel_width(float value) {
+  set_has_wheel_width();
+  wheel_width_ = value;
 }
 
 // -------------------------------------------------------------------

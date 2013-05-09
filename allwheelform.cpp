@@ -166,8 +166,8 @@ void AllWheelForm::redrawSketch()
         this->leftRearLink->setRotation(-this->steeringMotors->leftRear*180.0/M_PI);
         this->rightReartLink->setRotation(-this->steeringMotors->rightRear*180.0/M_PI);
 
-        qreal x = this->ICR.x()*SCALE;
-        qreal y = this->ICR.y()*-SCALE;
+        qreal y = this->ICR.x()*-SCALE;
+        qreal x = this->ICR.y()*-SCALE;
 
         this->verticalICR->setPos(x, y);
         this->horizontalICR->setPos(x, y);

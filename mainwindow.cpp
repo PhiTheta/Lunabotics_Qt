@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     this->allWheelPanel = NULL;
+    this->analysisPanel = NULL;
     this->followingPanel = NULL;
 
     this->mapScene = new QGraphicsScene(this);
@@ -53,14 +54,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
 
     this->pathTableModel = new QStandardItemModel(0, 2, this); //0 Rows and 2 Columns
-    this->pathTableModel->setHorizontalHeaderItem(0, new QStandardItem(QString("x")));
-    this->pathTableModel->setHorizontalHeaderItem(1, new QStandardItem(QString("y")));
     ui->pathTableView->setModel(this->pathTableModel);
+    this->resetPathModel();
 
     this->telemetryTableModel = new QStandardItemModel(0, 2, this); //0 Rows and 2 Columns
-    this->telemetryTableModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Param")));
-    this->telemetryTableModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Value")));
     ui->telemetryTableView->setModel(this->telemetryTableModel);
+    this->resetTelemetryModel();
 
     this->redrawMap();
     ui->driveForwardLabel->setStyleSheet("background-color : blue; color : white;");
@@ -109,6 +108,7 @@ MainWindow::~MainWindow()
     delete this->path;
     delete this->allWheelPanel;
     delete this->followingPanel;
+    delete this->analysisPanel;
     delete this->pathTableModel;
     delete this->telemetryTableModel;
 }
@@ -147,7 +147,10 @@ void MainWindow::updateMapPath()
 {
     qDebug() << "Updating path";
     if (this->map->isValid()) {
-        this->pathTableModel->clear();
+        this->resetPathModel();
+        this->minICRRadius = -1;
+        this->trajectoryCurves.clear();
+        emit updateCurves(this->trajectoryCurves);
         if (this->pathGraphicsItem) {
             this->mapScene->removeItem(this->pathGraphicsItem);
             delete this->pathGraphicsItem, this->pathGraphicsItem = NULL;
@@ -471,9 +474,19 @@ void MainWindow::receiveTelemetry()
                 this->path->push_back(point);
             }
             this->updateMapPath();
+
+            QVector<lunabotics::proto::Telemetry::Path::Curve> curves;
+            for (int i = 0; i < path.curves_size(); i++) {
+                const lunabotics::proto::Telemetry::Path::Curve curve = path.curves(i);
+                qDebug() << curve.start_idx() << " " << curve.end_idx();
+                curves.push_back(curve);
+            }
+            this->trajectoryCurves = curves;
+            emit updateCurves(curves);
         }
 
-        this->telemetryTableModel->clear();
+
+        this->resetTelemetryModel();
 
         if (tm.has_state_data()) {
             const lunabotics::proto::Telemetry::State state = tm.state_data();
@@ -511,6 +524,12 @@ void MainWindow::receiveTelemetry()
 
             if (state.has_icr()) {
                 emit ICRUpdated(QPointF(state.icr().x(), state.icr().y()));
+            }
+
+            if (state.has_min_icr_offset()) {
+                this->minICRRadius = state.min_icr_offset();
+                emit updateRadius(state.min_icr_offset());
+                this->setRow(row, "min ICR", QString("%1 m").arg(QString::number(state.min_icr_offset(), 'f', 2)));
             }
 
             bool hasTrajectoryFollowingInfo = this->robotState->steeringMode == lunabotics::proto::ACKERMANN && state.has_ackermann_telemetry();
@@ -876,6 +895,14 @@ void MainWindow::nullifyFollowingPanel()
     }
 }
 
+void MainWindow::nullifyAnalysisPanel()
+{
+    qDebug() << "Close signal got";
+    if (this->analysisPanel) {
+        delete this->analysisPanel; this->analysisPanel = NULL;
+    }
+}
+
 void MainWindow::on_actionAll_wheel_control_triggered()
 {
     if (!this->allWheelPanel) {
@@ -928,4 +955,41 @@ void MainWindow::on_actionTrajectory_following_triggered()
 void MainWindow::sendPID()
 {
     this->sendTelecommand(lunabotics::proto::Telecommand::ADJUST_PID);
+}
+
+void MainWindow::on_actionTrajectory_analysis_triggered()
+{
+
+    if (!this->analysisPanel) {
+        qDebug() << "Opening Following Panel";
+        this->analysisPanel = new AnalysisForm();
+
+        connect(this->analysisPanel, SIGNAL(closing()), this, SLOT(nullifyAnalysisPanel()));
+        connect(this, SIGNAL(updateCurves(QVector<lunabotics::proto::Telemetry::Path::Curve>)), this->analysisPanel, SLOT(updateCurves(QVector<lunabotics::proto::Telemetry::Path::Curve>)));
+        connect(this, SIGNAL(updateRadius(float)), this->analysisPanel, SLOT(updateRadius(float)));
+
+        this->analysisPanel->show();
+        emit updateCurves(this->trajectoryCurves);
+        emit updateRadius(this->minICRRadius);
+    }
+    else {
+        qDebug() << "Bringing Analysis Panel to front";
+        this->analysisPanel->setWindowState( (windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
+        this->analysisPanel->raise();  // for MacOS
+        this->analysisPanel->activateWindow(); // for Windows
+    }
+}
+
+void MainWindow::resetTelemetryModel()
+{
+    this->telemetryTableModel->clear();
+    this->telemetryTableModel->setHorizontalHeaderItem(0, new QStandardItem(QString("Param")));
+    this->telemetryTableModel->setHorizontalHeaderItem(1, new QStandardItem(QString("Value")));
+}
+
+void MainWindow::resetPathModel()
+{
+    this->pathTableModel->clear();
+    this->pathTableModel->setHorizontalHeaderItem(0, new QStandardItem(QString("x")));
+    this->pathTableModel->setHorizontalHeaderItem(1, new QStandardItem(QString("y")));
 }

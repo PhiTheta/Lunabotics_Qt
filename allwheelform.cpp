@@ -22,8 +22,8 @@ AllWheelForm::AllWheelForm(QWidget *parent) :
     this->rightFrontWheel = NULL;
     this->leftRearWheel = NULL;
     this->rightRearWheel = NULL;
-    this->verticalICR = NULL;
-    this->horizontalICR = NULL;
+    this->closeICRItem = NULL;
+    this->farICRItem = NULL;
     this->baseLink = NULL;
     this->leftFrontLink = NULL;
     this->leftRearLink = NULL;
@@ -91,12 +91,28 @@ void AllWheelForm::createGrphicItems()
         this->baseLink->setPen(PEN_BLACK_BOLD);
         this->robotSketchScene->addItem(this->baseLink);
 
-        this->verticalICR = new QGraphicsRectItem(0, -10, 1, 20);
-        this->verticalICR->setPen(PEN_RED);
-        this->horizontalICR = new QGraphicsRectItem(-10, 0, 20, 1);
-        this->horizontalICR->setPen(PEN_RED);
-        this->robotSketchScene->addItem(this->horizontalICR);
-        this->robotSketchScene->addItem(this->verticalICR);
+        this->closeICRItem = new QGraphicsItemGroup();
+        QGraphicsLineItem *item = new QGraphicsLineItem(0, -10, 0, 10);
+        item->setPen(PEN_RED_BOLD);
+        this->closeICRItem->addToGroup(item);
+        item = new QGraphicsLineItem(-10, 0, 10, 0);
+        item->setPen(PEN_RED_BOLD);
+        this->closeICRItem->addToGroup(item);
+        this->robotSketchScene->addItem(this->closeICRItem);
+        this->closeICRItem->setVisible(false);
+
+        this->farICRItem = new QGraphicsItemGroup();
+        item = new QGraphicsLineItem(0, 0, 10, 0);
+        item->setPen(PEN_RED_BOLD);
+        this->farICRItem->addToGroup(item);
+        item = new QGraphicsLineItem(0, 0, 5, 5);
+        item->setPen(PEN_RED_BOLD);
+        this->farICRItem->addToGroup(item);
+        item = new QGraphicsLineItem(0, 0, 5, -5);
+        item->setPen(PEN_RED_BOLD);
+        this->farICRItem->addToGroup(item);
+        this->robotSketchScene->addItem(this->farICRItem);
+        this->farICRItem->setVisible(false);
 
         this->leftFrontWheel = new QGraphicsRectItem(-wheelOffset-wheelWidth/2, -wheelRadius, wheelWidth, wheelRadius*2);
         this->rightFrontWheel = new QGraphicsRectItem(wheelOffset-wheelWidth/2, -wheelRadius, wheelWidth, wheelRadius*2);
@@ -156,7 +172,6 @@ void AllWheelForm::redrawSketch()
         this->createGrphicItems();
     }
     else {
-
         this->leftFrontWheel->setRotation(-this->steeringMotors->leftFront*180.0/M_PI);
         this->rightFrontWheel->setRotation(-this->steeringMotors->rightFront*180.0/M_PI);
         this->leftRearWheel->setRotation(-this->steeringMotors->leftRear*180.0/M_PI);
@@ -169,8 +184,25 @@ void AllWheelForm::redrawSketch()
         qreal y = this->ICR.x()*-SCALE;
         qreal x = this->ICR.y()*-SCALE;
 
-        this->verticalICR->setPos(x, y);
-        this->horizontalICR->setPos(x, y);
+        qreal w = ui->graphicsView->width();
+
+        if (x > w/2) {
+            this->closeICRItem->setVisible(false);
+            this->farICRItem->setVisible(true);
+            this->farICRItem->setRotation(180);
+            this->farICRItem->setPos(w/2-5, 0);
+        }
+        else if (x < -w/2) {
+            this->closeICRItem->setVisible(false);
+            this->farICRItem->setVisible(true);
+            this->farICRItem->setRotation(0);
+            this->farICRItem->setPos(-w/2+5, 0);
+        }
+        else {
+            this->closeICRItem->setVisible(true);
+            this->farICRItem->setVisible(false);
+            this->closeICRItem->setPos(x, y);
+        }
     }
 }
 

@@ -45,6 +45,7 @@ class Telemetry_State_AckermannTelemetry;
 class Telemetry_State_PointTurnTelemetry;
 class Telemetry_World;
 class Telemetry_Path;
+class Telemetry_Path_Curve;
 class Telemetry_LaserScan;
 class Telemetry_Geometry;
 
@@ -394,19 +395,26 @@ class Telemetry_State : public ::google::protobuf::Message {
   inline ::lunabotics::proto::Point* release_icr();
   inline void set_allocated_icr(::lunabotics::proto::Point* icr);
 
-  // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
+  // optional float min_icr_offset = 8;
+  inline bool has_min_icr_offset() const;
+  inline void clear_min_icr_offset();
+  static const int kMinIcrOffsetFieldNumber = 8;
+  inline float min_icr_offset() const;
+  inline void set_min_icr_offset(float value);
+
+  // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 9;
   inline bool has_ackermann_telemetry() const;
   inline void clear_ackermann_telemetry();
-  static const int kAckermannTelemetryFieldNumber = 8;
+  static const int kAckermannTelemetryFieldNumber = 9;
   inline const ::lunabotics::proto::Telemetry_State_AckermannTelemetry& ackermann_telemetry() const;
   inline ::lunabotics::proto::Telemetry_State_AckermannTelemetry* mutable_ackermann_telemetry();
   inline ::lunabotics::proto::Telemetry_State_AckermannTelemetry* release_ackermann_telemetry();
   inline void set_allocated_ackermann_telemetry(::lunabotics::proto::Telemetry_State_AckermannTelemetry* ackermann_telemetry);
 
-  // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
+  // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 10;
   inline bool has_point_turn_telemetry() const;
   inline void clear_point_turn_telemetry();
-  static const int kPointTurnTelemetryFieldNumber = 9;
+  static const int kPointTurnTelemetryFieldNumber = 10;
   inline const ::lunabotics::proto::Telemetry_State_PointTurnTelemetry& point_turn_telemetry() const;
   inline ::lunabotics::proto::Telemetry_State_PointTurnTelemetry* mutable_point_turn_telemetry();
   inline ::lunabotics::proto::Telemetry_State_PointTurnTelemetry* release_point_turn_telemetry();
@@ -428,6 +436,8 @@ class Telemetry_State : public ::google::protobuf::Message {
   inline void clear_has_next_waypoint_idx();
   inline void set_has_icr();
   inline void clear_has_icr();
+  inline void set_has_min_icr_offset();
+  inline void clear_has_min_icr_offset();
   inline void set_has_ackermann_telemetry();
   inline void clear_has_ackermann_telemetry();
   inline void set_has_point_turn_telemetry();
@@ -444,9 +454,10 @@ class Telemetry_State : public ::google::protobuf::Message {
   ::lunabotics::proto::Point* icr_;
   ::lunabotics::proto::Telemetry_State_AckermannTelemetry* ackermann_telemetry_;
   ::lunabotics::proto::Telemetry_State_PointTurnTelemetry* point_turn_telemetry_;
+  float min_icr_offset_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(10 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telemetry_2eproto();
   friend void protobuf_AssignDesc_Telemetry_2eproto();
@@ -573,6 +584,108 @@ class Telemetry_World : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
+class Telemetry_Path_Curve : public ::google::protobuf::Message {
+ public:
+  Telemetry_Path_Curve();
+  virtual ~Telemetry_Path_Curve();
+
+  Telemetry_Path_Curve(const Telemetry_Path_Curve& from);
+
+  inline Telemetry_Path_Curve& operator=(const Telemetry_Path_Curve& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Telemetry_Path_Curve& default_instance();
+
+  void Swap(Telemetry_Path_Curve* other);
+
+  // implements Message ----------------------------------------------
+
+  Telemetry_Path_Curve* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Telemetry_Path_Curve& from);
+  void MergeFrom(const Telemetry_Path_Curve& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 start_idx = 1;
+  inline bool has_start_idx() const;
+  inline void clear_start_idx();
+  static const int kStartIdxFieldNumber = 1;
+  inline ::google::protobuf::int32 start_idx() const;
+  inline void set_start_idx(::google::protobuf::int32 value);
+
+  // required int32 end_idx = 2;
+  inline bool has_end_idx() const;
+  inline void clear_end_idx();
+  static const int kEndIdxFieldNumber = 2;
+  inline ::google::protobuf::int32 end_idx() const;
+  inline void set_end_idx(::google::protobuf::int32 value);
+
+  // required float curvature = 3;
+  inline bool has_curvature() const;
+  inline void clear_curvature();
+  static const int kCurvatureFieldNumber = 3;
+  inline float curvature() const;
+  inline void set_curvature(float value);
+
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.Path.Curve)
+ private:
+  inline void set_has_start_idx();
+  inline void clear_has_start_idx();
+  inline void set_has_end_idx();
+  inline void clear_has_end_idx();
+  inline void set_has_curvature();
+  inline void clear_has_curvature();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::int32 start_idx_;
+  ::google::protobuf::int32 end_idx_;
+  float curvature_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+
+  friend void  protobuf_AddDesc_Telemetry_2eproto();
+  friend void protobuf_AssignDesc_Telemetry_2eproto();
+  friend void protobuf_ShutdownFile_Telemetry_2eproto();
+
+  void InitAsDefaultInstance();
+  static Telemetry_Path_Curve* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class Telemetry_Path : public ::google::protobuf::Message {
  public:
   Telemetry_Path();
@@ -625,6 +738,8 @@ class Telemetry_Path : public ::google::protobuf::Message {
 
   // nested types ----------------------------------------------------
 
+  typedef Telemetry_Path_Curve Curve;
+
   // accessors -------------------------------------------------------
 
   // repeated .lunabotics.proto.Point position = 1;
@@ -639,15 +754,28 @@ class Telemetry_Path : public ::google::protobuf::Message {
   inline ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point >*
       mutable_position();
 
+  // repeated .lunabotics.proto.Telemetry.Path.Curve curves = 2;
+  inline int curves_size() const;
+  inline void clear_curves();
+  static const int kCurvesFieldNumber = 2;
+  inline const ::lunabotics::proto::Telemetry_Path_Curve& curves(int index) const;
+  inline ::lunabotics::proto::Telemetry_Path_Curve* mutable_curves(int index);
+  inline ::lunabotics::proto::Telemetry_Path_Curve* add_curves();
+  inline const ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Telemetry_Path_Curve >&
+      curves() const;
+  inline ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Telemetry_Path_Curve >*
+      mutable_curves();
+
   // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.Path)
  private:
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point > position_;
+  ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Telemetry_Path_Curve > curves_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telemetry_2eproto();
   friend void protobuf_AssignDesc_Telemetry_2eproto();
@@ -1468,15 +1596,37 @@ inline void Telemetry_State::set_allocated_icr(::lunabotics::proto::Point* icr) 
   }
 }
 
-// optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 8;
-inline bool Telemetry_State::has_ackermann_telemetry() const {
+// optional float min_icr_offset = 8;
+inline bool Telemetry_State::has_min_icr_offset() const {
   return (_has_bits_[0] & 0x00000080u) != 0;
 }
-inline void Telemetry_State::set_has_ackermann_telemetry() {
+inline void Telemetry_State::set_has_min_icr_offset() {
   _has_bits_[0] |= 0x00000080u;
 }
-inline void Telemetry_State::clear_has_ackermann_telemetry() {
+inline void Telemetry_State::clear_has_min_icr_offset() {
   _has_bits_[0] &= ~0x00000080u;
+}
+inline void Telemetry_State::clear_min_icr_offset() {
+  min_icr_offset_ = 0;
+  clear_has_min_icr_offset();
+}
+inline float Telemetry_State::min_icr_offset() const {
+  return min_icr_offset_;
+}
+inline void Telemetry_State::set_min_icr_offset(float value) {
+  set_has_min_icr_offset();
+  min_icr_offset_ = value;
+}
+
+// optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 9;
+inline bool Telemetry_State::has_ackermann_telemetry() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void Telemetry_State::set_has_ackermann_telemetry() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void Telemetry_State::clear_has_ackermann_telemetry() {
+  _has_bits_[0] &= ~0x00000100u;
 }
 inline void Telemetry_State::clear_ackermann_telemetry() {
   if (ackermann_telemetry_ != NULL) ackermann_telemetry_->::lunabotics::proto::Telemetry_State_AckermannTelemetry::Clear();
@@ -1506,15 +1656,15 @@ inline void Telemetry_State::set_allocated_ackermann_telemetry(::lunabotics::pro
   }
 }
 
-// optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 9;
+// optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 10;
 inline bool Telemetry_State::has_point_turn_telemetry() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
+  return (_has_bits_[0] & 0x00000200u) != 0;
 }
 inline void Telemetry_State::set_has_point_turn_telemetry() {
-  _has_bits_[0] |= 0x00000100u;
+  _has_bits_[0] |= 0x00000200u;
 }
 inline void Telemetry_State::clear_has_point_turn_telemetry() {
-  _has_bits_[0] &= ~0x00000100u;
+  _has_bits_[0] &= ~0x00000200u;
 }
 inline void Telemetry_State::clear_point_turn_telemetry() {
   if (point_turn_telemetry_ != NULL) point_turn_telemetry_->::lunabotics::proto::Telemetry_State_PointTurnTelemetry::Clear();
@@ -1641,6 +1791,76 @@ Telemetry_World::mutable_cell() {
 
 // -------------------------------------------------------------------
 
+// Telemetry_Path_Curve
+
+// required int32 start_idx = 1;
+inline bool Telemetry_Path_Curve::has_start_idx() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void Telemetry_Path_Curve::set_has_start_idx() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void Telemetry_Path_Curve::clear_has_start_idx() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void Telemetry_Path_Curve::clear_start_idx() {
+  start_idx_ = 0;
+  clear_has_start_idx();
+}
+inline ::google::protobuf::int32 Telemetry_Path_Curve::start_idx() const {
+  return start_idx_;
+}
+inline void Telemetry_Path_Curve::set_start_idx(::google::protobuf::int32 value) {
+  set_has_start_idx();
+  start_idx_ = value;
+}
+
+// required int32 end_idx = 2;
+inline bool Telemetry_Path_Curve::has_end_idx() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Telemetry_Path_Curve::set_has_end_idx() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Telemetry_Path_Curve::clear_has_end_idx() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Telemetry_Path_Curve::clear_end_idx() {
+  end_idx_ = 0;
+  clear_has_end_idx();
+}
+inline ::google::protobuf::int32 Telemetry_Path_Curve::end_idx() const {
+  return end_idx_;
+}
+inline void Telemetry_Path_Curve::set_end_idx(::google::protobuf::int32 value) {
+  set_has_end_idx();
+  end_idx_ = value;
+}
+
+// required float curvature = 3;
+inline bool Telemetry_Path_Curve::has_curvature() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void Telemetry_Path_Curve::set_has_curvature() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void Telemetry_Path_Curve::clear_has_curvature() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void Telemetry_Path_Curve::clear_curvature() {
+  curvature_ = 0;
+  clear_has_curvature();
+}
+inline float Telemetry_Path_Curve::curvature() const {
+  return curvature_;
+}
+inline void Telemetry_Path_Curve::set_curvature(float value) {
+  set_has_curvature();
+  curvature_ = value;
+}
+
+// -------------------------------------------------------------------
+
 // Telemetry_Path
 
 // repeated .lunabotics.proto.Point position = 1;
@@ -1666,6 +1886,31 @@ Telemetry_Path::position() const {
 inline ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point >*
 Telemetry_Path::mutable_position() {
   return &position_;
+}
+
+// repeated .lunabotics.proto.Telemetry.Path.Curve curves = 2;
+inline int Telemetry_Path::curves_size() const {
+  return curves_.size();
+}
+inline void Telemetry_Path::clear_curves() {
+  curves_.Clear();
+}
+inline const ::lunabotics::proto::Telemetry_Path_Curve& Telemetry_Path::curves(int index) const {
+  return curves_.Get(index);
+}
+inline ::lunabotics::proto::Telemetry_Path_Curve* Telemetry_Path::mutable_curves(int index) {
+  return curves_.Mutable(index);
+}
+inline ::lunabotics::proto::Telemetry_Path_Curve* Telemetry_Path::add_curves() {
+  return curves_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Telemetry_Path_Curve >&
+Telemetry_Path::curves() const {
+  return curves_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Telemetry_Path_Curve >*
+Telemetry_Path::mutable_curves() {
+  return &curves_;
 }
 
 // -------------------------------------------------------------------

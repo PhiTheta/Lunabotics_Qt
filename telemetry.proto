@@ -20,6 +20,7 @@ message Telemetry {
                 required bool autonomy_enabled = 5;
                 optional int32 next_waypoint_idx = 6;
                 optional Point icr = 7;
+                optional float min_icr_offset = 8;
 
                 message AckermannTelemetry {
                         required float pid_error = 1;
@@ -28,12 +29,12 @@ message Telemetry {
                         required Point closest_trajectory_local_point = 4;
                         required Point velocity_vector_local_point = 5;
                 }
-                optional AckermannTelemetry ackermann_telemetry = 8;
+                optional AckermannTelemetry ackermann_telemetry = 9;
 
                 message PointTurnTelemetry {
                                         required PointTurnState state = 1;
                                 }
-                                optional PointTurnTelemetry point_turn_telemetry = 9;
+                                optional PointTurnTelemetry point_turn_telemetry = 10;
     }
     optional State state_data = 2;
 
@@ -46,7 +47,13 @@ message Telemetry {
     optional World world_data = 3;
 
     message Path {
+                message Curve {
+                            required int32 start_idx = 1;
+                            required int32 end_idx = 2;
+                            required float curvature = 3;
+                }
                 repeated Point position = 1;
+                repeated Curve curves = 2;
     }
     optional Path path_data = 4;
 

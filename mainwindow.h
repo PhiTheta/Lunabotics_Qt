@@ -18,6 +18,7 @@
 #include "map.h"
 #include "robotstate.h"
 #include "mapviewmetainfo.h"
+#include "analysisform.h"
 
 namespace Ui {
 class MainWindow;
@@ -40,6 +41,9 @@ signals:
     void jointPositionsUpdated(RobotGeometry *geometry);
     void updateLocalFrame(QPointF velocityPoint, QPointF trajectoryPoint);
     void clearLocalFrame();
+    void updateCurves(QVector<lunabotics::proto::Telemetry::Path::Curve> curves);
+    void updateRadius(float minRadius);
+
 
 protected:
     void keyPressEvent(QKeyEvent* event);
@@ -63,6 +67,7 @@ private slots:
     void nullifyAllWheelPanel();
 
     void nullifyFollowingPanel();
+    void nullifyAnalysisPanel();
     void sendPID();
 
     void mapCell_clicked(QPoint coordinate);
@@ -78,6 +83,8 @@ private slots:
 
     void on_actionTrajectory_following_triggered();
 
+    void on_actionTrajectory_analysis_triggered();
+
 private:
 
     //UI
@@ -86,6 +93,7 @@ private:
     QStandardItemModel *pathTableModel;
     QStandardItemModel *telemetryTableModel;
     AllWheelForm *allWheelPanel;
+    AnalysisForm *analysisPanel;
     TrajectoryFollowingForm *followingPanel;
     QGraphicsItemGroup *pathGraphicsItem;
     QGraphicsItemGroup *robotPointerItem;
@@ -115,6 +123,10 @@ private:
     QPoint goal;
     int nextWaypointIdx;
 
+    //Trajectory analysis data
+    QVector<lunabotics::proto::Telemetry::Path::Curve> trajectoryCurves;
+    float minICRRadius;
+
     void leftAction();
     void rightAction();
     void forwardAction();
@@ -138,6 +150,9 @@ private:
     void toggleAutonomy();
     void setAutonomy(bool enabled);
     void setAutonomyLabel(bool enabled);
+
+    void resetTelemetryModel();
+    void resetPathModel();
 
 
 };

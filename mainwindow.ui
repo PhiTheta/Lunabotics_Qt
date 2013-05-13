@@ -1407,6 +1407,7 @@
     </property>
     <addaction name="actionAll_wheel_control"/>
     <addaction name="actionTrajectory_following"/>
+    <addaction name="actionTrajectory_analysis"/>
    </widget>
    <addaction name="menuLunaGUI"/>
    <addaction name="menuTools"/>
@@ -1427,6 +1428,7 @@
    <addaction name="separator"/>
    <addaction name="actionAll_wheel_control"/>
    <addaction name="actionTrajectory_following"/>
+   <addaction name="actionTrajectory_analysis"/>
    <addaction name="separator"/>
    <addaction name="actionPreferences"/>
   </widget>
@@ -1462,14 +1464,7 @@
     <string>All-wheel control</string>
    </property>
    <property name="font">
-    <font>
-     <weight>50</weight>
-     <italic>false</italic>
-     <bold>false</bold>
-     <underline>false</underline>
-     <strikeout>false</strikeout>
-     <kerning>true</kerning>
-    </font>
+    <font/>
    </property>
   </action>
   <action name="actionTrajectory_following">
@@ -1478,7 +1473,16 @@
      <normaloff>:/images/path.png</normaloff>:/images/path.png</iconset>
    </property>
    <property name="text">
-    <string>Trajectory following</string>
+    <string>Path following</string>
+   </property>
+  </action>
+  <action name="actionTrajectory_analysis">
+   <property name="icon">
+    <iconset resource="LunaGUIResources.qrc">
+     <normaloff>:/images/directions.png</normaloff>:/images/directions.png</iconset>
+   </property>
+   <property name="text">
+    <string>Trajectory analysis</string>
    </property>
   </action>
  </widget>

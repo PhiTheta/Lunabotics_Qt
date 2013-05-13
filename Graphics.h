@@ -11,6 +11,7 @@
 #define PEN_BLACK QPen(Qt::black)
 #define PEN_BLACK_BOLD QPen(QBrush(Qt::black), 2)
 #define PEN_RED    QPen(Qt::red)
+#define PEN_RED_BOLD QPen(QBrush(Qt::red), 3)
 #define PEN_BLUE    QPen(Qt::blue)
 #define PEN_GREEN    QPen(QColor(0,225,0))
 #define PEN_GREEN_BOLD    QPen(QBrush(QColor(0,225,0)), 2)

@@ -15,5 +15,6 @@
         <file>ctrl.png</file>
         <file>warning.png</file>
         <file>aaltobotics.icns</file>
+        <file>directions.png</file>
     </qresource>
 </RCC>

@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     allwheelstate.cpp \
     robotgeometry.cpp \
     mapviewmetainfo.cpp \
-    trajectoryfollowingform.cpp
+    trajectoryfollowingform.cpp \
+    analysisform.cpp
 
 HEADERS  += mainwindow.h \
     preferencedialog.h \
@@ -54,12 +55,14 @@ HEADERS  += mainwindow.h \
     mapviewmetainfo.h \
     Graphics.h \
     Common.h \
-    trajectoryfollowingform.h
+    trajectoryfollowingform.h \
+    analysisform.h
 
 FORMS    += mainwindow.ui \
     preferencedialog.ui \
     allwheelform.ui \
-    trajectoryfollowingform.ui
+    trajectoryfollowingform.ui \
+    analysisform.ui
 
 RESOURCES += \
     LunaGUIResources.qrc

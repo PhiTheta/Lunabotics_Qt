@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QGraphicsRectItem>
+#include <QGraphicsItemGroup>
 #include <QStandardItem>
 #include "Telecommand.pb.h"
 #include "allwheelstate.h"
@@ -60,14 +61,15 @@ private:
     QGraphicsRectItem *rightFrontWheel;
     QGraphicsRectItem *leftRearWheel;
     QGraphicsRectItem *rightRearWheel;
-    QGraphicsRectItem *verticalICR;
-    QGraphicsRectItem *horizontalICR;
     QGraphicsRectItem *baseLink;
     QGraphicsRectItem *leftFrontLink;
     QGraphicsRectItem *rightFrontLink;
     QGraphicsRectItem *leftRearLink;
     QGraphicsRectItem *rightReartLink;
     QStandardItemModel *stateTableModel;
+    QGraphicsItemGroup *closeICRItem;
+    QGraphicsItemGroup *farICRItem;
+
 
     void redrawSketch();
     void createGrphicItems();

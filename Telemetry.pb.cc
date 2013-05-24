@@ -80,13 +80,14 @@ void protobuf_AssignDesc_Telemetry_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Telemetry));
   Telemetry_State_descriptor_ = Telemetry_descriptor_->nested_type(0);
-  static const int Telemetry_State_offsets_[10] = {
+  static const int Telemetry_State_offsets_[11] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State, position_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State, heading_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State, velocities_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State, steering_mode_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State, autonomy_enabled_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State, next_waypoint_idx_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State, segment_idx_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State, icr_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State, min_icr_offset_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State, ackermann_telemetry_),
@@ -104,12 +105,16 @@ void protobuf_AssignDesc_Telemetry_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Telemetry_State));
   Telemetry_State_AckermannTelemetry_descriptor_ = Telemetry_State_descriptor_->nested_type(0);
-  static const int Telemetry_State_AckermannTelemetry_offsets_[5] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, pid_error_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, closest_trajectory_point_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, velocity_vector_point_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, closest_trajectory_local_point_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, velocity_vector_local_point_),
+  static const int Telemetry_State_AckermannTelemetry_offsets_[9] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, feedback_error_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, feedforward_prediction_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, feedforward_curve_radius_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, feedback_path_point_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, feedback_point_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, feedback_path_point_local_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, feedback_point_local_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, feedforward_points_local_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_State_AckermannTelemetry, feedforward_center_),
   };
   Telemetry_State_AckermannTelemetry_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -292,7 +297,7 @@ void protobuf_AddDesc_Telemetry_2eproto() {
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\017Telemetry.proto\022\020lunabotics.proto\032\026Ste"
     "eringModeType.proto\032\013Point.proto\032\013Twist."
-    "proto\032\023AllWheelState.proto\"\364\r\n\tTelemetry"
+    "proto\032\023AllWheelState.proto\"\250\017\n\tTelemetry"
     "\0225\n\nstate_data\030\002 \001(\0132!.lunabotics.proto."
     "Telemetry.State\0225\n\nworld_data\030\003 \001(\0132!.lu"
     "nabotics.proto.Telemetry.World\0223\n\tpath_d"
@@ -301,43 +306,47 @@ void protobuf_AddDesc_Telemetry_2eproto() {
     "s.proto.Telemetry.LaserScan\0228\n\017all_wheel"
     "_state\030\006 \001(\0132\037.lunabotics.proto.AllWheel"
     "State\022;\n\rgeometry_data\030\007 \001(\0132$.lunabotic"
-    "s.proto.Telemetry.Geometry\032\262\006\n\005State\022)\n\010"
+    "s.proto.Telemetry.Geometry\032\346\007\n\005State\022)\n\010"
     "position\030\001 \002(\0132\027.lunabotics.proto.Point\022"
     "\017\n\007heading\030\002 \002(\002\022+\n\nvelocities\030\003 \002(\0132\027.l"
     "unabotics.proto.Twist\0229\n\rsteering_mode\030\004"
     " \002(\0162\".lunabotics.proto.SteeringModeType"
     "\022\030\n\020autonomy_enabled\030\005 \002(\010\022\031\n\021next_waypo"
-    "int_idx\030\006 \001(\005\022$\n\003icr\030\007 \001(\0132\027.lunabotics."
-    "proto.Point\022\026\n\016min_icr_offset\030\010 \001(\002\022Q\n\023a"
-    "ckermann_telemetry\030\t \001(\01324.lunabotics.pr"
-    "oto.Telemetry.State.AckermannTelemetry\022R"
-    "\n\024point_turn_telemetry\030\n \001(\01324.lunabotic"
-    "s.proto.Telemetry.State.PointTurnTelemet"
-    "ry\032\231\002\n\022AckermannTelemetry\022\021\n\tpid_error\030\001"
-    " \002(\002\0229\n\030closest_trajectory_point\030\002 \002(\0132\027"
-    ".lunabotics.proto.Point\0226\n\025velocity_vect"
-    "or_point\030\003 \002(\0132\027.lunabotics.proto.Point\022"
-    "\?\n\036closest_trajectory_local_point\030\004 \002(\0132"
-    "\027.lunabotics.proto.Point\022<\n\033velocity_vec"
-    "tor_local_point\030\005 \002(\0132\027.lunabotics.proto"
-    ".Point\032O\n\022PointTurnTelemetry\0229\n\005state\030\001 "
-    "\002(\0162*.lunabotics.proto.Telemetry.PointTu"
-    "rnState\032L\n\005World\022\r\n\005width\030\001 \002(\005\022\016\n\006heigh"
-    "t\030\002 \002(\005\022\022\n\nresolution\030\003 \002(\002\022\020\n\004cell\030\004 \003("
-    "\005B\002\020\001\032\251\001\n\004Path\022)\n\010position\030\001 \003(\0132\027.lunab"
-    "otics.proto.Point\0226\n\006curves\030\002 \003(\0132&.luna"
-    "botics.proto.Telemetry.Path.Curve\032>\n\005Cur"
-    "ve\022\021\n\tstart_idx\030\001 \002(\005\022\017\n\007end_idx\030\002 \002(\005\022\021"
-    "\n\tcurvature\030\003 \002(\002\032\013\n\tLaserScan\032\227\002\n\010Geome"
-    "try\0221\n\020left_front_joint\030\001 \002(\0132\027.lunaboti"
-    "cs.proto.Point\0220\n\017left_rear_joint\030\002 \002(\0132"
-    "\027.lunabotics.proto.Point\0222\n\021right_front_"
-    "joint\030\003 \002(\0132\027.lunabotics.proto.Point\0221\n\020"
-    "right_rear_joint\030\004 \002(\0132\027.lunabotics.prot"
-    "o.Point\022\024\n\014wheel_offset\030\005 \002(\002\022\024\n\014wheel_r"
-    "adius\030\006 \002(\002\022\023\n\013wheel_width\030\007 \002(\002\"7\n\016Poin"
-    "tTurnState\022\013\n\007STOPPED\020\001\022\013\n\007DRIVING\020\002\022\013\n\007"
-    "TURNING\020\003", 1889);
+    "int_idx\030\006 \001(\005\022\023\n\013segment_idx\030\007 \001(\005\022$\n\003ic"
+    "r\030\010 \001(\0132\027.lunabotics.proto.Point\022\026\n\016min_"
+    "icr_offset\030\t \001(\002\022Q\n\023ackermann_telemetry\030"
+    "\n \001(\01324.lunabotics.proto.Telemetry.State"
+    ".AckermannTelemetry\022R\n\024point_turn_teleme"
+    "try\030\013 \001(\01324.lunabotics.proto.Telemetry.S"
+    "tate.PointTurnTelemetry\032\270\003\n\022AckermannTel"
+    "emetry\022\026\n\016feedback_error\030\001 \002(\002\022\036\n\026feedfo"
+    "rward_prediction\030\002 \002(\002\022 \n\030feedforward_cu"
+    "rve_radius\030\003 \002(\002\0224\n\023feedback_path_point\030"
+    "\004 \002(\0132\027.lunabotics.proto.Point\022/\n\016feedba"
+    "ck_point\030\005 \002(\0132\027.lunabotics.proto.Point\022"
+    ":\n\031feedback_path_point_local\030\006 \002(\0132\027.lun"
+    "abotics.proto.Point\0225\n\024feedback_point_lo"
+    "cal\030\007 \002(\0132\027.lunabotics.proto.Point\0229\n\030fe"
+    "edforward_points_local\030\010 \003(\0132\027.lunabotic"
+    "s.proto.Point\0223\n\022feedforward_center\030\t \002("
+    "\0132\027.lunabotics.proto.Point\032O\n\022PointTurnT"
+    "elemetry\0229\n\005state\030\001 \002(\0162*.lunabotics.pro"
+    "to.Telemetry.PointTurnState\032L\n\005World\022\r\n\005"
+    "width\030\001 \002(\005\022\016\n\006height\030\002 \002(\005\022\022\n\nresolutio"
+    "n\030\003 \002(\002\022\020\n\004cell\030\004 \003(\005B\002\020\001\032\251\001\n\004Path\022)\n\010po"
+    "sition\030\001 \003(\0132\027.lunabotics.proto.Point\0226\n"
+    "\006curves\030\002 \003(\0132&.lunabotics.proto.Telemet"
+    "ry.Path.Curve\032>\n\005Curve\022\021\n\tstart_idx\030\001 \002("
+    "\005\022\017\n\007end_idx\030\002 \002(\005\022\021\n\tcurvature\030\003 \002(\002\032\013\n"
+    "\tLaserScan\032\227\002\n\010Geometry\0221\n\020left_front_jo"
+    "int\030\001 \002(\0132\027.lunabotics.proto.Point\0220\n\017le"
+    "ft_rear_joint\030\002 \002(\0132\027.lunabotics.proto.P"
+    "oint\0222\n\021right_front_joint\030\003 \002(\0132\027.lunabo"
+    "tics.proto.Point\0221\n\020right_rear_joint\030\004 \002"
+    "(\0132\027.lunabotics.proto.Point\022\024\n\014wheel_off"
+    "set\030\005 \002(\002\022\024\n\014wheel_radius\030\006 \002(\002\022\023\n\013wheel"
+    "_width\030\007 \002(\002\"7\n\016PointTurnState\022\013\n\007STOPPE"
+    "D\020\001\022\013\n\007DRIVING\020\002\022\013\n\007TURNING\020\003", 2069);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Telemetry.proto", &protobuf_RegisterTypes);
   Telemetry::default_instance_ = new Telemetry();
@@ -394,11 +403,15 @@ const Telemetry_PointTurnState Telemetry::PointTurnState_MAX;
 const int Telemetry::PointTurnState_ARRAYSIZE;
 #endif  // _MSC_VER
 #ifndef _MSC_VER
-const int Telemetry_State_AckermannTelemetry::kPidErrorFieldNumber;
-const int Telemetry_State_AckermannTelemetry::kClosestTrajectoryPointFieldNumber;
-const int Telemetry_State_AckermannTelemetry::kVelocityVectorPointFieldNumber;
-const int Telemetry_State_AckermannTelemetry::kClosestTrajectoryLocalPointFieldNumber;
-const int Telemetry_State_AckermannTelemetry::kVelocityVectorLocalPointFieldNumber;
+const int Telemetry_State_AckermannTelemetry::kFeedbackErrorFieldNumber;
+const int Telemetry_State_AckermannTelemetry::kFeedforwardPredictionFieldNumber;
+const int Telemetry_State_AckermannTelemetry::kFeedforwardCurveRadiusFieldNumber;
+const int Telemetry_State_AckermannTelemetry::kFeedbackPathPointFieldNumber;
+const int Telemetry_State_AckermannTelemetry::kFeedbackPointFieldNumber;
+const int Telemetry_State_AckermannTelemetry::kFeedbackPathPointLocalFieldNumber;
+const int Telemetry_State_AckermannTelemetry::kFeedbackPointLocalFieldNumber;
+const int Telemetry_State_AckermannTelemetry::kFeedforwardPointsLocalFieldNumber;
+const int Telemetry_State_AckermannTelemetry::kFeedforwardCenterFieldNumber;
 #endif  // !_MSC_VER
 
 Telemetry_State_AckermannTelemetry::Telemetry_State_AckermannTelemetry()
@@ -407,10 +420,11 @@ Telemetry_State_AckermannTelemetry::Telemetry_State_AckermannTelemetry()
 }
 
 void Telemetry_State_AckermannTelemetry::InitAsDefaultInstance() {
-  closest_trajectory_point_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
-  velocity_vector_point_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
-  closest_trajectory_local_point_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
-  velocity_vector_local_point_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  feedback_path_point_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  feedback_point_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  feedback_path_point_local_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  feedback_point_local_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
+  feedforward_center_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
 }
 
 Telemetry_State_AckermannTelemetry::Telemetry_State_AckermannTelemetry(const Telemetry_State_AckermannTelemetry& from)
@@ -421,11 +435,14 @@ Telemetry_State_AckermannTelemetry::Telemetry_State_AckermannTelemetry(const Tel
 
 void Telemetry_State_AckermannTelemetry::SharedCtor() {
   _cached_size_ = 0;
-  pid_error_ = 0;
-  closest_trajectory_point_ = NULL;
-  velocity_vector_point_ = NULL;
-  closest_trajectory_local_point_ = NULL;
-  velocity_vector_local_point_ = NULL;
+  feedback_error_ = 0;
+  feedforward_prediction_ = 0;
+  feedforward_curve_radius_ = 0;
+  feedback_path_point_ = NULL;
+  feedback_point_ = NULL;
+  feedback_path_point_local_ = NULL;
+  feedback_point_local_ = NULL;
+  feedforward_center_ = NULL;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -435,10 +452,11 @@ Telemetry_State_AckermannTelemetry::~Telemetry_State_AckermannTelemetry() {
 
 void Telemetry_State_AckermannTelemetry::SharedDtor() {
   if (this != default_instance_) {
-    delete closest_trajectory_point_;
-    delete velocity_vector_point_;
-    delete closest_trajectory_local_point_;
-    delete velocity_vector_local_point_;
+    delete feedback_path_point_;
+    delete feedback_point_;
+    delete feedback_path_point_local_;
+    delete feedback_point_local_;
+    delete feedforward_center_;
   }
 }
 
@@ -465,20 +483,28 @@ Telemetry_State_AckermannTelemetry* Telemetry_State_AckermannTelemetry::New() co
 
 void Telemetry_State_AckermannTelemetry::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    pid_error_ = 0;
-    if (has_closest_trajectory_point()) {
-      if (closest_trajectory_point_ != NULL) closest_trajectory_point_->::lunabotics::proto::Point::Clear();
+    feedback_error_ = 0;
+    feedforward_prediction_ = 0;
+    feedforward_curve_radius_ = 0;
+    if (has_feedback_path_point()) {
+      if (feedback_path_point_ != NULL) feedback_path_point_->::lunabotics::proto::Point::Clear();
     }
-    if (has_velocity_vector_point()) {
-      if (velocity_vector_point_ != NULL) velocity_vector_point_->::lunabotics::proto::Point::Clear();
+    if (has_feedback_point()) {
+      if (feedback_point_ != NULL) feedback_point_->::lunabotics::proto::Point::Clear();
     }
-    if (has_closest_trajectory_local_point()) {
-      if (closest_trajectory_local_point_ != NULL) closest_trajectory_local_point_->::lunabotics::proto::Point::Clear();
+    if (has_feedback_path_point_local()) {
+      if (feedback_path_point_local_ != NULL) feedback_path_point_local_->::lunabotics::proto::Point::Clear();
     }
-    if (has_velocity_vector_local_point()) {
-      if (velocity_vector_local_point_ != NULL) velocity_vector_local_point_->::lunabotics::proto::Point::Clear();
+    if (has_feedback_point_local()) {
+      if (feedback_point_local_ != NULL) feedback_point_local_->::lunabotics::proto::Point::Clear();
     }
   }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    if (has_feedforward_center()) {
+      if (feedforward_center_ != NULL) feedforward_center_->::lunabotics::proto::Point::Clear();
+    }
+  }
+  feedforward_points_local_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
@@ -489,70 +515,131 @@ bool Telemetry_State_AckermannTelemetry::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required float pid_error = 1;
+      // required float feedback_error = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &pid_error_)));
-          set_has_pid_error();
+                 input, &feedback_error_)));
+          set_has_feedback_error();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_closest_trajectory_point;
+        if (input->ExpectTag(21)) goto parse_feedforward_prediction;
         break;
       }
 
-      // required .lunabotics.proto.Point closest_trajectory_point = 2;
+      // required float feedforward_prediction = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_closest_trajectory_point:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_closest_trajectory_point()));
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_feedforward_prediction:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &feedforward_prediction_)));
+          set_has_feedforward_prediction();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(26)) goto parse_velocity_vector_point;
+        if (input->ExpectTag(29)) goto parse_feedforward_curve_radius;
         break;
       }
 
-      // required .lunabotics.proto.Point velocity_vector_point = 3;
+      // required float feedforward_curve_radius = 3;
       case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_velocity_vector_point:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_velocity_vector_point()));
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_feedforward_curve_radius:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &feedforward_curve_radius_)));
+          set_has_feedforward_curve_radius();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(34)) goto parse_closest_trajectory_local_point;
+        if (input->ExpectTag(34)) goto parse_feedback_path_point;
         break;
       }
 
-      // required .lunabotics.proto.Point closest_trajectory_local_point = 4;
+      // required .lunabotics.proto.Point feedback_path_point = 4;
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_closest_trajectory_local_point:
+         parse_feedback_path_point:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_closest_trajectory_local_point()));
+               input, mutable_feedback_path_point()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(42)) goto parse_velocity_vector_local_point;
+        if (input->ExpectTag(42)) goto parse_feedback_point;
         break;
       }
 
-      // required .lunabotics.proto.Point velocity_vector_local_point = 5;
+      // required .lunabotics.proto.Point feedback_point = 5;
       case 5: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_velocity_vector_local_point:
+         parse_feedback_point:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_velocity_vector_local_point()));
+               input, mutable_feedback_point()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(50)) goto parse_feedback_path_point_local;
+        break;
+      }
+
+      // required .lunabotics.proto.Point feedback_path_point_local = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_feedback_path_point_local:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_feedback_path_point_local()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(58)) goto parse_feedback_point_local;
+        break;
+      }
+
+      // required .lunabotics.proto.Point feedback_point_local = 7;
+      case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_feedback_point_local:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_feedback_point_local()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(66)) goto parse_feedforward_points_local;
+        break;
+      }
+
+      // repeated .lunabotics.proto.Point feedforward_points_local = 8;
+      case 8: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_feedforward_points_local:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+                input, add_feedforward_points_local()));
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(66)) goto parse_feedforward_points_local;
+        if (input->ExpectTag(74)) goto parse_feedforward_center;
+        break;
+      }
+
+      // required .lunabotics.proto.Point feedforward_center = 9;
+      case 9: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_feedforward_center:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+               input, mutable_feedforward_center()));
         } else {
           goto handle_uninterpreted;
         }
@@ -578,33 +665,55 @@ bool Telemetry_State_AckermannTelemetry::MergePartialFromCodedStream(
 
 void Telemetry_State_AckermannTelemetry::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required float pid_error = 1;
-  if (has_pid_error()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->pid_error(), output);
+  // required float feedback_error = 1;
+  if (has_feedback_error()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->feedback_error(), output);
   }
 
-  // required .lunabotics.proto.Point closest_trajectory_point = 2;
-  if (has_closest_trajectory_point()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->closest_trajectory_point(), output);
+  // required float feedforward_prediction = 2;
+  if (has_feedforward_prediction()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->feedforward_prediction(), output);
   }
 
-  // required .lunabotics.proto.Point velocity_vector_point = 3;
-  if (has_velocity_vector_point()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->velocity_vector_point(), output);
+  // required float feedforward_curve_radius = 3;
+  if (has_feedforward_curve_radius()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->feedforward_curve_radius(), output);
   }
 
-  // required .lunabotics.proto.Point closest_trajectory_local_point = 4;
-  if (has_closest_trajectory_local_point()) {
+  // required .lunabotics.proto.Point feedback_path_point = 4;
+  if (has_feedback_path_point()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->closest_trajectory_local_point(), output);
+      4, this->feedback_path_point(), output);
   }
 
-  // required .lunabotics.proto.Point velocity_vector_local_point = 5;
-  if (has_velocity_vector_local_point()) {
+  // required .lunabotics.proto.Point feedback_point = 5;
+  if (has_feedback_point()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      5, this->velocity_vector_local_point(), output);
+      5, this->feedback_point(), output);
+  }
+
+  // required .lunabotics.proto.Point feedback_path_point_local = 6;
+  if (has_feedback_path_point_local()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      6, this->feedback_path_point_local(), output);
+  }
+
+  // required .lunabotics.proto.Point feedback_point_local = 7;
+  if (has_feedback_point_local()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      7, this->feedback_point_local(), output);
+  }
+
+  // repeated .lunabotics.proto.Point feedforward_points_local = 8;
+  for (int i = 0; i < this->feedforward_points_local_size(); i++) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      8, this->feedforward_points_local(i), output);
+  }
+
+  // required .lunabotics.proto.Point feedforward_center = 9;
+  if (has_feedforward_center()) {
+    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
+      9, this->feedforward_center(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -615,37 +724,61 @@ void Telemetry_State_AckermannTelemetry::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Telemetry_State_AckermannTelemetry::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required float pid_error = 1;
-  if (has_pid_error()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->pid_error(), target);
+  // required float feedback_error = 1;
+  if (has_feedback_error()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->feedback_error(), target);
   }
 
-  // required .lunabotics.proto.Point closest_trajectory_point = 2;
-  if (has_closest_trajectory_point()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->closest_trajectory_point(), target);
+  // required float feedforward_prediction = 2;
+  if (has_feedforward_prediction()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->feedforward_prediction(), target);
   }
 
-  // required .lunabotics.proto.Point velocity_vector_point = 3;
-  if (has_velocity_vector_point()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->velocity_vector_point(), target);
+  // required float feedforward_curve_radius = 3;
+  if (has_feedforward_curve_radius()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->feedforward_curve_radius(), target);
   }
 
-  // required .lunabotics.proto.Point closest_trajectory_local_point = 4;
-  if (has_closest_trajectory_local_point()) {
+  // required .lunabotics.proto.Point feedback_path_point = 4;
+  if (has_feedback_path_point()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        4, this->closest_trajectory_local_point(), target);
+        4, this->feedback_path_point(), target);
   }
 
-  // required .lunabotics.proto.Point velocity_vector_local_point = 5;
-  if (has_velocity_vector_local_point()) {
+  // required .lunabotics.proto.Point feedback_point = 5;
+  if (has_feedback_point()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        5, this->velocity_vector_local_point(), target);
+        5, this->feedback_point(), target);
+  }
+
+  // required .lunabotics.proto.Point feedback_path_point_local = 6;
+  if (has_feedback_path_point_local()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        6, this->feedback_path_point_local(), target);
+  }
+
+  // required .lunabotics.proto.Point feedback_point_local = 7;
+  if (has_feedback_point_local()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        7, this->feedback_point_local(), target);
+  }
+
+  // repeated .lunabotics.proto.Point feedforward_points_local = 8;
+  for (int i = 0; i < this->feedforward_points_local_size(); i++) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        8, this->feedforward_points_local(i), target);
+  }
+
+  // required .lunabotics.proto.Point feedforward_center = 9;
+  if (has_feedforward_center()) {
+    target = ::google::protobuf::internal::WireFormatLite::
+      WriteMessageNoVirtualToArray(
+        9, this->feedforward_center(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -659,40 +792,67 @@ int Telemetry_State_AckermannTelemetry::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required float pid_error = 1;
-    if (has_pid_error()) {
+    // required float feedback_error = 1;
+    if (has_feedback_error()) {
       total_size += 1 + 4;
     }
 
-    // required .lunabotics.proto.Point closest_trajectory_point = 2;
-    if (has_closest_trajectory_point()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->closest_trajectory_point());
+    // required float feedforward_prediction = 2;
+    if (has_feedforward_prediction()) {
+      total_size += 1 + 4;
     }
 
-    // required .lunabotics.proto.Point velocity_vector_point = 3;
-    if (has_velocity_vector_point()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->velocity_vector_point());
+    // required float feedforward_curve_radius = 3;
+    if (has_feedforward_curve_radius()) {
+      total_size += 1 + 4;
     }
 
-    // required .lunabotics.proto.Point closest_trajectory_local_point = 4;
-    if (has_closest_trajectory_local_point()) {
+    // required .lunabotics.proto.Point feedback_path_point = 4;
+    if (has_feedback_path_point()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->closest_trajectory_local_point());
+          this->feedback_path_point());
     }
 
-    // required .lunabotics.proto.Point velocity_vector_local_point = 5;
-    if (has_velocity_vector_local_point()) {
+    // required .lunabotics.proto.Point feedback_point = 5;
+    if (has_feedback_point()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->velocity_vector_local_point());
+          this->feedback_point());
+    }
+
+    // required .lunabotics.proto.Point feedback_path_point_local = 6;
+    if (has_feedback_path_point_local()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->feedback_path_point_local());
+    }
+
+    // required .lunabotics.proto.Point feedback_point_local = 7;
+    if (has_feedback_point_local()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->feedback_point_local());
     }
 
   }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    // required .lunabotics.proto.Point feedforward_center = 9;
+    if (has_feedforward_center()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+          this->feedforward_center());
+    }
+
+  }
+  // repeated .lunabotics.proto.Point feedforward_points_local = 8;
+  total_size += 1 * this->feedforward_points_local_size();
+  for (int i = 0; i < this->feedforward_points_local_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->feedforward_points_local(i));
+  }
+
   if (!unknown_fields().empty()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
@@ -718,21 +878,33 @@ void Telemetry_State_AckermannTelemetry::MergeFrom(const ::google::protobuf::Mes
 
 void Telemetry_State_AckermannTelemetry::MergeFrom(const Telemetry_State_AckermannTelemetry& from) {
   GOOGLE_CHECK_NE(&from, this);
+  feedforward_points_local_.MergeFrom(from.feedforward_points_local_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_pid_error()) {
-      set_pid_error(from.pid_error());
+    if (from.has_feedback_error()) {
+      set_feedback_error(from.feedback_error());
     }
-    if (from.has_closest_trajectory_point()) {
-      mutable_closest_trajectory_point()->::lunabotics::proto::Point::MergeFrom(from.closest_trajectory_point());
+    if (from.has_feedforward_prediction()) {
+      set_feedforward_prediction(from.feedforward_prediction());
     }
-    if (from.has_velocity_vector_point()) {
-      mutable_velocity_vector_point()->::lunabotics::proto::Point::MergeFrom(from.velocity_vector_point());
+    if (from.has_feedforward_curve_radius()) {
+      set_feedforward_curve_radius(from.feedforward_curve_radius());
     }
-    if (from.has_closest_trajectory_local_point()) {
-      mutable_closest_trajectory_local_point()->::lunabotics::proto::Point::MergeFrom(from.closest_trajectory_local_point());
+    if (from.has_feedback_path_point()) {
+      mutable_feedback_path_point()->::lunabotics::proto::Point::MergeFrom(from.feedback_path_point());
     }
-    if (from.has_velocity_vector_local_point()) {
-      mutable_velocity_vector_local_point()->::lunabotics::proto::Point::MergeFrom(from.velocity_vector_local_point());
+    if (from.has_feedback_point()) {
+      mutable_feedback_point()->::lunabotics::proto::Point::MergeFrom(from.feedback_point());
+    }
+    if (from.has_feedback_path_point_local()) {
+      mutable_feedback_path_point_local()->::lunabotics::proto::Point::MergeFrom(from.feedback_path_point_local());
+    }
+    if (from.has_feedback_point_local()) {
+      mutable_feedback_point_local()->::lunabotics::proto::Point::MergeFrom(from.feedback_point_local());
+    }
+  }
+  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    if (from.has_feedforward_center()) {
+      mutable_feedforward_center()->::lunabotics::proto::Point::MergeFrom(from.feedforward_center());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -751,30 +923,40 @@ void Telemetry_State_AckermannTelemetry::CopyFrom(const Telemetry_State_Ackerman
 }
 
 bool Telemetry_State_AckermannTelemetry::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
+  if ((_has_bits_[0] & 0x0000017f) != 0x0000017f) return false;
 
-  if (has_closest_trajectory_point()) {
-    if (!this->closest_trajectory_point().IsInitialized()) return false;
+  if (has_feedback_path_point()) {
+    if (!this->feedback_path_point().IsInitialized()) return false;
   }
-  if (has_velocity_vector_point()) {
-    if (!this->velocity_vector_point().IsInitialized()) return false;
+  if (has_feedback_point()) {
+    if (!this->feedback_point().IsInitialized()) return false;
   }
-  if (has_closest_trajectory_local_point()) {
-    if (!this->closest_trajectory_local_point().IsInitialized()) return false;
+  if (has_feedback_path_point_local()) {
+    if (!this->feedback_path_point_local().IsInitialized()) return false;
   }
-  if (has_velocity_vector_local_point()) {
-    if (!this->velocity_vector_local_point().IsInitialized()) return false;
+  if (has_feedback_point_local()) {
+    if (!this->feedback_point_local().IsInitialized()) return false;
+  }
+  for (int i = 0; i < feedforward_points_local_size(); i++) {
+    if (!this->feedforward_points_local(i).IsInitialized()) return false;
+  }
+  if (has_feedforward_center()) {
+    if (!this->feedforward_center().IsInitialized()) return false;
   }
   return true;
 }
 
 void Telemetry_State_AckermannTelemetry::Swap(Telemetry_State_AckermannTelemetry* other) {
   if (other != this) {
-    std::swap(pid_error_, other->pid_error_);
-    std::swap(closest_trajectory_point_, other->closest_trajectory_point_);
-    std::swap(velocity_vector_point_, other->velocity_vector_point_);
-    std::swap(closest_trajectory_local_point_, other->closest_trajectory_local_point_);
-    std::swap(velocity_vector_local_point_, other->velocity_vector_local_point_);
+    std::swap(feedback_error_, other->feedback_error_);
+    std::swap(feedforward_prediction_, other->feedforward_prediction_);
+    std::swap(feedforward_curve_radius_, other->feedforward_curve_radius_);
+    std::swap(feedback_path_point_, other->feedback_path_point_);
+    std::swap(feedback_point_, other->feedback_point_);
+    std::swap(feedback_path_point_local_, other->feedback_path_point_local_);
+    std::swap(feedback_point_local_, other->feedback_point_local_);
+    feedforward_points_local_.Swap(&other->feedforward_points_local_);
+    std::swap(feedforward_center_, other->feedforward_center_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -1014,6 +1196,7 @@ const int Telemetry_State::kVelocitiesFieldNumber;
 const int Telemetry_State::kSteeringModeFieldNumber;
 const int Telemetry_State::kAutonomyEnabledFieldNumber;
 const int Telemetry_State::kNextWaypointIdxFieldNumber;
+const int Telemetry_State::kSegmentIdxFieldNumber;
 const int Telemetry_State::kIcrFieldNumber;
 const int Telemetry_State::kMinIcrOffsetFieldNumber;
 const int Telemetry_State::kAckermannTelemetryFieldNumber;
@@ -1047,6 +1230,7 @@ void Telemetry_State::SharedCtor() {
   steering_mode_ = 1;
   autonomy_enabled_ = false;
   next_waypoint_idx_ = 0;
+  segment_idx_ = 0;
   icr_ = NULL;
   min_icr_offset_ = 0;
   ackermann_telemetry_ = NULL;
@@ -1101,12 +1285,13 @@ void Telemetry_State::Clear() {
     steering_mode_ = 1;
     autonomy_enabled_ = false;
     next_waypoint_idx_ = 0;
+    segment_idx_ = 0;
     if (has_icr()) {
       if (icr_ != NULL) icr_->::lunabotics::proto::Point::Clear();
     }
-    min_icr_offset_ = 0;
   }
   if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    min_icr_offset_ = 0;
     if (has_ackermann_telemetry()) {
       if (ackermann_telemetry_ != NULL) ackermann_telemetry_->::lunabotics::proto::Telemetry_State_AckermannTelemetry::Clear();
     }
@@ -1216,12 +1401,28 @@ bool Telemetry_State::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(58)) goto parse_icr;
+        if (input->ExpectTag(56)) goto parse_segment_idx;
         break;
       }
 
-      // optional .lunabotics.proto.Point icr = 7;
+      // optional int32 segment_idx = 7;
       case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_segment_idx:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &segment_idx_)));
+          set_has_segment_idx();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(66)) goto parse_icr;
+        break;
+      }
+
+      // optional .lunabotics.proto.Point icr = 8;
+      case 8: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_icr:
@@ -1230,12 +1431,12 @@ bool Telemetry_State::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(69)) goto parse_min_icr_offset;
+        if (input->ExpectTag(77)) goto parse_min_icr_offset;
         break;
       }
 
-      // optional float min_icr_offset = 8;
-      case 8: {
+      // optional float min_icr_offset = 9;
+      case 9: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
          parse_min_icr_offset:
@@ -1246,12 +1447,12 @@ bool Telemetry_State::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(74)) goto parse_ackermann_telemetry;
+        if (input->ExpectTag(82)) goto parse_ackermann_telemetry;
         break;
       }
 
-      // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 9;
-      case 9: {
+      // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 10;
+      case 10: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_ackermann_telemetry:
@@ -1260,12 +1461,12 @@ bool Telemetry_State::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(82)) goto parse_point_turn_telemetry;
+        if (input->ExpectTag(90)) goto parse_point_turn_telemetry;
         break;
       }
 
-      // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 10;
-      case 10: {
+      // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 11;
+      case 11: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_point_turn_telemetry:
@@ -1329,27 +1530,32 @@ void Telemetry_State::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->next_waypoint_idx(), output);
   }
 
-  // optional .lunabotics.proto.Point icr = 7;
+  // optional int32 segment_idx = 7;
+  if (has_segment_idx()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(7, this->segment_idx(), output);
+  }
+
+  // optional .lunabotics.proto.Point icr = 8;
   if (has_icr()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      7, this->icr(), output);
+      8, this->icr(), output);
   }
 
-  // optional float min_icr_offset = 8;
+  // optional float min_icr_offset = 9;
   if (has_min_icr_offset()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(8, this->min_icr_offset(), output);
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(9, this->min_icr_offset(), output);
   }
 
-  // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 9;
+  // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 10;
   if (has_ackermann_telemetry()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      9, this->ackermann_telemetry(), output);
+      10, this->ackermann_telemetry(), output);
   }
 
-  // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 10;
+  // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 11;
   if (has_point_turn_telemetry()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      10, this->point_turn_telemetry(), output);
+      11, this->point_turn_telemetry(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -1395,30 +1601,35 @@ void Telemetry_State::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->next_waypoint_idx(), target);
   }
 
-  // optional .lunabotics.proto.Point icr = 7;
+  // optional int32 segment_idx = 7;
+  if (has_segment_idx()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(7, this->segment_idx(), target);
+  }
+
+  // optional .lunabotics.proto.Point icr = 8;
   if (has_icr()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        7, this->icr(), target);
+        8, this->icr(), target);
   }
 
-  // optional float min_icr_offset = 8;
+  // optional float min_icr_offset = 9;
   if (has_min_icr_offset()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(8, this->min_icr_offset(), target);
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(9, this->min_icr_offset(), target);
   }
 
-  // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 9;
+  // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 10;
   if (has_ackermann_telemetry()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        9, this->ackermann_telemetry(), target);
+        10, this->ackermann_telemetry(), target);
   }
 
-  // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 10;
+  // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 11;
   if (has_point_turn_telemetry()) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        10, this->point_turn_telemetry(), target);
+        11, this->point_turn_telemetry(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -1469,28 +1680,35 @@ int Telemetry_State::ByteSize() const {
           this->next_waypoint_idx());
     }
 
-    // optional .lunabotics.proto.Point icr = 7;
+    // optional int32 segment_idx = 7;
+    if (has_segment_idx()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->segment_idx());
+    }
+
+    // optional .lunabotics.proto.Point icr = 8;
     if (has_icr()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->icr());
     }
 
-    // optional float min_icr_offset = 8;
+  }
+  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+    // optional float min_icr_offset = 9;
     if (has_min_icr_offset()) {
       total_size += 1 + 4;
     }
 
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
-    // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 9;
+    // optional .lunabotics.proto.Telemetry.State.AckermannTelemetry ackermann_telemetry = 10;
     if (has_ackermann_telemetry()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
           this->ackermann_telemetry());
     }
 
-    // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 10;
+    // optional .lunabotics.proto.Telemetry.State.PointTurnTelemetry point_turn_telemetry = 11;
     if (has_point_turn_telemetry()) {
       total_size += 1 +
         ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
@@ -1542,14 +1760,17 @@ void Telemetry_State::MergeFrom(const Telemetry_State& from) {
     if (from.has_next_waypoint_idx()) {
       set_next_waypoint_idx(from.next_waypoint_idx());
     }
+    if (from.has_segment_idx()) {
+      set_segment_idx(from.segment_idx());
+    }
     if (from.has_icr()) {
       mutable_icr()->::lunabotics::proto::Point::MergeFrom(from.icr());
     }
+  }
+  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_min_icr_offset()) {
       set_min_icr_offset(from.min_icr_offset());
     }
-  }
-  if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_ackermann_telemetry()) {
       mutable_ackermann_telemetry()->::lunabotics::proto::Telemetry_State_AckermannTelemetry::MergeFrom(from.ackermann_telemetry());
     }
@@ -1601,6 +1822,7 @@ void Telemetry_State::Swap(Telemetry_State* other) {
     std::swap(steering_mode_, other->steering_mode_);
     std::swap(autonomy_enabled_, other->autonomy_enabled_);
     std::swap(next_waypoint_idx_, other->next_waypoint_idx_);
+    std::swap(segment_idx_, other->segment_idx_);
     std::swap(icr_, other->icr_);
     std::swap(min_icr_offset_, other->min_icr_offset_);
     std::swap(ackermann_telemetry_, other->ackermann_telemetry_);

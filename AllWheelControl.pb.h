@@ -40,15 +40,17 @@ void protobuf_ShutdownFile_AllWheelControl_2eproto();
 class AllWheelControl;
 class AllWheelControl_PredefinedControl;
 class AllWheelControl_ICRControl;
+class AllWheelControl_CrabControl;
 
 enum AllWheelControl_AllWheelControlType {
   AllWheelControl_AllWheelControlType_EXPLICIT = 1,
   AllWheelControl_AllWheelControlType_PREDEFINED = 2,
-  AllWheelControl_AllWheelControlType_ICR = 3
+  AllWheelControl_AllWheelControlType_ICR = 3,
+  AllWheelControl_AllWheelControlType_CRAB = 4
 };
 bool AllWheelControl_AllWheelControlType_IsValid(int value);
 const AllWheelControl_AllWheelControlType AllWheelControl_AllWheelControlType_AllWheelControlType_MIN = AllWheelControl_AllWheelControlType_EXPLICIT;
-const AllWheelControl_AllWheelControlType AllWheelControl_AllWheelControlType_AllWheelControlType_MAX = AllWheelControl_AllWheelControlType_ICR;
+const AllWheelControl_AllWheelControlType AllWheelControl_AllWheelControlType_AllWheelControlType_MAX = AllWheelControl_AllWheelControlType_CRAB;
 const int AllWheelControl_AllWheelControlType_AllWheelControlType_ARRAYSIZE = AllWheelControl_AllWheelControlType_AllWheelControlType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* AllWheelControl_AllWheelControlType_descriptor();
@@ -263,6 +265,98 @@ class AllWheelControl_ICRControl : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
+class AllWheelControl_CrabControl : public ::google::protobuf::Message {
+ public:
+  AllWheelControl_CrabControl();
+  virtual ~AllWheelControl_CrabControl();
+
+  AllWheelControl_CrabControl(const AllWheelControl_CrabControl& from);
+
+  inline AllWheelControl_CrabControl& operator=(const AllWheelControl_CrabControl& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const AllWheelControl_CrabControl& default_instance();
+
+  void Swap(AllWheelControl_CrabControl* other);
+
+  // implements Message ----------------------------------------------
+
+  AllWheelControl_CrabControl* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const AllWheelControl_CrabControl& from);
+  void MergeFrom(const AllWheelControl_CrabControl& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required float heading = 1;
+  inline bool has_heading() const;
+  inline void clear_heading();
+  static const int kHeadingFieldNumber = 1;
+  inline float heading() const;
+  inline void set_heading(float value);
+
+  // required float velocity = 2;
+  inline bool has_velocity() const;
+  inline void clear_velocity();
+  static const int kVelocityFieldNumber = 2;
+  inline float velocity() const;
+  inline void set_velocity(float value);
+
+  // @@protoc_insertion_point(class_scope:lunabotics.proto.AllWheelControl.CrabControl)
+ private:
+  inline void set_has_heading();
+  inline void clear_has_heading();
+  inline void set_has_velocity();
+  inline void clear_has_velocity();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  float heading_;
+  float velocity_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
+
+  friend void  protobuf_AddDesc_AllWheelControl_2eproto();
+  friend void protobuf_AssignDesc_AllWheelControl_2eproto();
+  friend void protobuf_ShutdownFile_AllWheelControl_2eproto();
+
+  void InitAsDefaultInstance();
+  static AllWheelControl_CrabControl* default_instance_;
+};
+// -------------------------------------------------------------------
+
 class AllWheelControl : public ::google::protobuf::Message {
  public:
   AllWheelControl();
@@ -317,11 +411,13 @@ class AllWheelControl : public ::google::protobuf::Message {
 
   typedef AllWheelControl_PredefinedControl PredefinedControl;
   typedef AllWheelControl_ICRControl ICRControl;
+  typedef AllWheelControl_CrabControl CrabControl;
 
   typedef AllWheelControl_AllWheelControlType AllWheelControlType;
   static const AllWheelControlType EXPLICIT = AllWheelControl_AllWheelControlType_EXPLICIT;
   static const AllWheelControlType PREDEFINED = AllWheelControl_AllWheelControlType_PREDEFINED;
   static const AllWheelControlType ICR = AllWheelControl_AllWheelControlType_ICR;
+  static const AllWheelControlType CRAB = AllWheelControl_AllWheelControlType_CRAB;
   static inline bool AllWheelControlType_IsValid(int value) {
     return AllWheelControl_AllWheelControlType_IsValid(value);
   }
@@ -408,6 +504,15 @@ class AllWheelControl : public ::google::protobuf::Message {
   inline ::lunabotics::proto::AllWheelControl_ICRControl* release_icr_data();
   inline void set_allocated_icr_data(::lunabotics::proto::AllWheelControl_ICRControl* icr_data);
 
+  // optional .lunabotics.proto.AllWheelControl.CrabControl crab_data = 5;
+  inline bool has_crab_data() const;
+  inline void clear_crab_data();
+  static const int kCrabDataFieldNumber = 5;
+  inline const ::lunabotics::proto::AllWheelControl_CrabControl& crab_data() const;
+  inline ::lunabotics::proto::AllWheelControl_CrabControl* mutable_crab_data();
+  inline ::lunabotics::proto::AllWheelControl_CrabControl* release_crab_data();
+  inline void set_allocated_crab_data(::lunabotics::proto::AllWheelControl_CrabControl* crab_data);
+
   // @@protoc_insertion_point(class_scope:lunabotics.proto.AllWheelControl)
  private:
   inline void set_has_all_wheel_type();
@@ -418,16 +523,19 @@ class AllWheelControl : public ::google::protobuf::Message {
   inline void clear_has_predefined_data();
   inline void set_has_icr_data();
   inline void clear_has_icr_data();
+  inline void set_has_crab_data();
+  inline void clear_has_crab_data();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::lunabotics::proto::AllWheelState* explicit_data_;
   ::lunabotics::proto::AllWheelControl_PredefinedControl* predefined_data_;
   ::lunabotics::proto::AllWheelControl_ICRControl* icr_data_;
+  ::lunabotics::proto::AllWheelControl_CrabControl* crab_data_;
   int all_wheel_type_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   friend void  protobuf_AddDesc_AllWheelControl_2eproto();
   friend void protobuf_AssignDesc_AllWheelControl_2eproto();
@@ -526,6 +634,54 @@ inline float AllWheelControl_ICRControl::velocity() const {
   return velocity_;
 }
 inline void AllWheelControl_ICRControl::set_velocity(float value) {
+  set_has_velocity();
+  velocity_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// AllWheelControl_CrabControl
+
+// required float heading = 1;
+inline bool AllWheelControl_CrabControl::has_heading() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void AllWheelControl_CrabControl::set_has_heading() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void AllWheelControl_CrabControl::clear_has_heading() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void AllWheelControl_CrabControl::clear_heading() {
+  heading_ = 0;
+  clear_has_heading();
+}
+inline float AllWheelControl_CrabControl::heading() const {
+  return heading_;
+}
+inline void AllWheelControl_CrabControl::set_heading(float value) {
+  set_has_heading();
+  heading_ = value;
+}
+
+// required float velocity = 2;
+inline bool AllWheelControl_CrabControl::has_velocity() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void AllWheelControl_CrabControl::set_has_velocity() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void AllWheelControl_CrabControl::clear_has_velocity() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void AllWheelControl_CrabControl::clear_velocity() {
+  velocity_ = 0;
+  clear_has_velocity();
+}
+inline float AllWheelControl_CrabControl::velocity() const {
+  return velocity_;
+}
+inline void AllWheelControl_CrabControl::set_velocity(float value) {
   set_has_velocity();
   velocity_ = value;
 }
@@ -668,6 +824,44 @@ inline void AllWheelControl::set_allocated_icr_data(::lunabotics::proto::AllWhee
     set_has_icr_data();
   } else {
     clear_has_icr_data();
+  }
+}
+
+// optional .lunabotics.proto.AllWheelControl.CrabControl crab_data = 5;
+inline bool AllWheelControl::has_crab_data() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void AllWheelControl::set_has_crab_data() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void AllWheelControl::clear_has_crab_data() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void AllWheelControl::clear_crab_data() {
+  if (crab_data_ != NULL) crab_data_->::lunabotics::proto::AllWheelControl_CrabControl::Clear();
+  clear_has_crab_data();
+}
+inline const ::lunabotics::proto::AllWheelControl_CrabControl& AllWheelControl::crab_data() const {
+  return crab_data_ != NULL ? *crab_data_ : *default_instance_->crab_data_;
+}
+inline ::lunabotics::proto::AllWheelControl_CrabControl* AllWheelControl::mutable_crab_data() {
+  set_has_crab_data();
+  if (crab_data_ == NULL) crab_data_ = new ::lunabotics::proto::AllWheelControl_CrabControl;
+  return crab_data_;
+}
+inline ::lunabotics::proto::AllWheelControl_CrabControl* AllWheelControl::release_crab_data() {
+  clear_has_crab_data();
+  ::lunabotics::proto::AllWheelControl_CrabControl* temp = crab_data_;
+  crab_data_ = NULL;
+  return temp;
+}
+inline void AllWheelControl::set_allocated_crab_data(::lunabotics::proto::AllWheelControl_CrabControl* crab_data) {
+  delete crab_data_;
+  crab_data_ = crab_data;
+  if (crab_data) {
+    set_has_crab_data();
+  } else {
+    clear_has_crab_data();
   }
 }
 

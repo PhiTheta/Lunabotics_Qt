@@ -36,12 +36,12 @@ void protobuf_ShutdownFile_SteeringModeType_2eproto();
 
 enum SteeringModeType {
   ACKERMANN = 1,
-  TURN_IN_SPOT = 2,
-  CRAB = 3
+  POINT_TURN = 2,
+  AUTO = 3
 };
 bool SteeringModeType_IsValid(int value);
 const SteeringModeType SteeringModeType_MIN = ACKERMANN;
-const SteeringModeType SteeringModeType_MAX = CRAB;
+const SteeringModeType SteeringModeType_MAX = AUTO;
 const int SteeringModeType_ARRAYSIZE = SteeringModeType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* SteeringModeType_descriptor();

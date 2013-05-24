@@ -314,3 +314,10 @@ void AllWheelForm::on_sendButton_clicked()
     delete steering;
     delete driving;
 }
+
+void AllWheelForm::on_sendCrabButton_clicked()
+{
+    qreal vel = ui->crabVelocityEdit->text().toFloat();
+    qreal head = ui->crabHeadingEdit->text().toFloat();
+    emit crabControlSelected(head, vel);
+}

@@ -33,15 +33,6 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* Telecommand_SteeringMode_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Telecommand_SteeringMode_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Telecommand_SteeringMode_AckermannSteeringData_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Telecommand_SteeringMode_AckermannSteeringData_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Telecommand_SteeringMode_TurnInSpotSteeringData_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Telecommand_SteeringMode_TurnInSpotSteeringData_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Telecommand_SteeringMode_CrabSteeringData_descriptor_ = NULL;
-const ::google::protobuf::internal::GeneratedMessageReflection*
-  Telecommand_SteeringMode_CrabSteeringData_reflection_ = NULL;
 const ::google::protobuf::Descriptor* Telecommand_DefineRoute_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Telecommand_DefineRoute_reflection_ = NULL;
@@ -118,11 +109,12 @@ void protobuf_AssignDesc_Telecommand_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Telecommand_Autonomy));
   Telecommand_SteeringMode_descriptor_ = Telecommand_descriptor_->nested_type(2);
-  static const int Telecommand_SteeringMode_offsets_[4] = {
+  static const int Telecommand_SteeringMode_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode, type_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode, ackermann_steering_data_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode, turn_in_spot_steering_data_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode, crab_steering_data_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode, heading_accuracy_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode, position_accuracy_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode, max_linear_velocity_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode, bezier_curve_segments_),
   };
   Telecommand_SteeringMode_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -135,55 +127,9 @@ void protobuf_AssignDesc_Telecommand_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Telecommand_SteeringMode));
-  Telecommand_SteeringMode_AckermannSteeringData_descriptor_ = Telecommand_SteeringMode_descriptor_->nested_type(0);
-  static const int Telecommand_SteeringMode_AckermannSteeringData_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode_AckermannSteeringData, max_linear_velocity_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode_AckermannSteeringData, bezier_curve_segments_),
-  };
-  Telecommand_SteeringMode_AckermannSteeringData_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Telecommand_SteeringMode_AckermannSteeringData_descriptor_,
-      Telecommand_SteeringMode_AckermannSteeringData::default_instance_,
-      Telecommand_SteeringMode_AckermannSteeringData_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode_AckermannSteeringData, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode_AckermannSteeringData, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Telecommand_SteeringMode_AckermannSteeringData));
-  Telecommand_SteeringMode_TurnInSpotSteeringData_descriptor_ = Telecommand_SteeringMode_descriptor_->nested_type(1);
-  static const int Telecommand_SteeringMode_TurnInSpotSteeringData_offsets_[1] = {
-  };
-  Telecommand_SteeringMode_TurnInSpotSteeringData_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Telecommand_SteeringMode_TurnInSpotSteeringData_descriptor_,
-      Telecommand_SteeringMode_TurnInSpotSteeringData::default_instance_,
-      Telecommand_SteeringMode_TurnInSpotSteeringData_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode_TurnInSpotSteeringData, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode_TurnInSpotSteeringData, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Telecommand_SteeringMode_TurnInSpotSteeringData));
-  Telecommand_SteeringMode_CrabSteeringData_descriptor_ = Telecommand_SteeringMode_descriptor_->nested_type(2);
-  static const int Telecommand_SteeringMode_CrabSteeringData_offsets_[1] = {
-  };
-  Telecommand_SteeringMode_CrabSteeringData_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
-      Telecommand_SteeringMode_CrabSteeringData_descriptor_,
-      Telecommand_SteeringMode_CrabSteeringData::default_instance_,
-      Telecommand_SteeringMode_CrabSteeringData_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode_CrabSteeringData, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_SteeringMode_CrabSteeringData, _unknown_fields_),
-      -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(Telecommand_SteeringMode_CrabSteeringData));
   Telecommand_DefineRoute_descriptor_ = Telecommand_descriptor_->nested_type(3);
-  static const int Telecommand_DefineRoute_offsets_[3] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_DefineRoute, goal_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_DefineRoute, heading_accuracy_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_DefineRoute, position_accuracy_),
+  static const int Telecommand_DefineRoute_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_DefineRoute, waypoints_),
   };
   Telecommand_DefineRoute_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -211,12 +157,14 @@ void protobuf_AssignDesc_Telecommand_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Telecommand_RequestMap));
   Telecommand_AdjustPID_descriptor_ = Telecommand_descriptor_->nested_type(5);
-  static const int Telecommand_AdjustPID_offsets_[5] = {
+  static const int Telecommand_AdjustPID_offsets_[7] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_AdjustPID, p_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_AdjustPID, i_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_AdjustPID, d_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_AdjustPID, velocity_offset_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_AdjustPID, velocity_multiplier_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_AdjustPID, feedback_min_offset_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_AdjustPID, feedback_multiplier_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_AdjustPID, feedforward_min_offset_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telecommand_AdjustPID, feedforward_fraction_),
   };
   Telecommand_AdjustPID_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
@@ -251,12 +199,6 @@ void protobuf_RegisterTypes(const ::std::string&) {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     Telecommand_SteeringMode_descriptor_, &Telecommand_SteeringMode::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Telecommand_SteeringMode_AckermannSteeringData_descriptor_, &Telecommand_SteeringMode_AckermannSteeringData::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Telecommand_SteeringMode_TurnInSpotSteeringData_descriptor_, &Telecommand_SteeringMode_TurnInSpotSteeringData::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    Telecommand_SteeringMode_CrabSteeringData_descriptor_, &Telecommand_SteeringMode_CrabSteeringData::default_instance());
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     Telecommand_DefineRoute_descriptor_, &Telecommand_DefineRoute::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     Telecommand_RequestMap_descriptor_, &Telecommand_RequestMap::default_instance());
@@ -275,12 +217,6 @@ void protobuf_ShutdownFile_Telecommand_2eproto() {
   delete Telecommand_Autonomy_reflection_;
   delete Telecommand_SteeringMode::default_instance_;
   delete Telecommand_SteeringMode_reflection_;
-  delete Telecommand_SteeringMode_AckermannSteeringData::default_instance_;
-  delete Telecommand_SteeringMode_AckermannSteeringData_reflection_;
-  delete Telecommand_SteeringMode_TurnInSpotSteeringData::default_instance_;
-  delete Telecommand_SteeringMode_TurnInSpotSteeringData_reflection_;
-  delete Telecommand_SteeringMode_CrabSteeringData::default_instance_;
-  delete Telecommand_SteeringMode_CrabSteeringData_reflection_;
   delete Telecommand_DefineRoute::default_instance_;
   delete Telecommand_DefineRoute_reflection_;
   delete Telecommand_RequestMap::default_instance_;
@@ -301,7 +237,7 @@ void protobuf_AddDesc_Telecommand_2eproto() {
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\021Telecommand.proto\022\020lunabotics.proto\032\026S"
     "teeringModeType.proto\032\013Point.proto\032\025AllW"
-    "heelControl.proto\"\355\013\n\013Telecommand\0220\n\004typ"
+    "heelControl.proto\"\267\t\n\013Telecommand\0220\n\004typ"
     "e\030\001 \002(\0162\".lunabotics.proto.Telecommand.T"
     "ype\022G\n\022teleoperation_data\030\002 \001(\0132+.lunabo"
     "tics.proto.Telecommand.Teleoperation\022=\n\r"
@@ -317,38 +253,27 @@ void protobuf_AddDesc_Telecommand_2eproto() {
     "a\030\010 \001(\0132!.lunabotics.proto.AllWheelContr"
     "ol\032O\n\rTeleoperation\022\017\n\007forward\030\001 \002(\010\022\020\n\010"
     "backward\030\002 \002(\010\022\014\n\004left\030\003 \002(\010\022\r\n\005right\030\004 "
-    "\002(\010\032\033\n\010Autonomy\022\017\n\007enabled\030\001 \002(\010\032\360\003\n\014Ste"
+    "\002(\010\032\033\n\010Autonomy\022\017\n\007enabled\030\001 \002(\010\032\261\001\n\014Ste"
     "eringMode\0220\n\004type\030\001 \002(\0162\".lunabotics.pro"
-    "to.SteeringModeType\022a\n\027ackermann_steerin"
-    "g_data\030\002 \001(\0132@.lunabotics.proto.Telecomm"
-    "and.SteeringMode.AckermannSteeringData\022e"
-    "\n\032turn_in_spot_steering_data\030\003 \001(\0132A.lun"
-    "abotics.proto.Telecommand.SteeringMode.T"
-    "urnInSpotSteeringData\022W\n\022crab_steering_d"
-    "ata\030\004 \001(\0132;.lunabotics.proto.Telecommand"
-    ".SteeringMode.CrabSteeringData\032]\n\025Ackerm"
-    "annSteeringData\022!\n\023max_linear_velocity\030\001"
-    " \001(\002:\0040.33\022!\n\025bezier_curve_segments\030\002 \001("
-    "\005:\00220\032\030\n\026TurnInSpotSteeringData\032\022\n\020CrabS"
-    "teeringData\032s\n\013DefineRoute\022%\n\004goal\030\001 \002(\013"
-    "2\027.lunabotics.proto.Point\022\035\n\020heading_acc"
-    "uracy\030\002 \001(\002:\0030.4\022\036\n\021position_accuracy\030\003 "
-    "\001(\002:\0030.2\032\014\n\nRequestMap\032b\n\tAdjustPID\022\t\n\001p"
-    "\030\001 \002(\002\022\t\n\001i\030\002 \002(\002\022\t\n\001d\030\003 \002(\002\022\027\n\017velocity"
-    "_offset\030\004 \002(\002\022\033\n\023velocity_multiplier\030\005 \002"
-    "(\002\"\204\001\n\004Type\022\021\n\rTELEOPERATION\020\001\022\020\n\014SET_AU"
-    "TONOMY\020\002\022\021\n\rSTEERING_MODE\020\003\022\020\n\014DEFINE_RO"
-    "UTE\020\004\022\017\n\013REQUEST_MAP\020\005\022\016\n\nADJUST_PID\020\006\022\021"
-    "\n\rADJUST_WHEELS\020\007", 1617);
+    "to.SteeringModeType\022\030\n\020heading_accuracy\030"
+    "\002 \002(\002\022\031\n\021position_accuracy\030\003 \002(\002\022\033\n\023max_"
+    "linear_velocity\030\004 \002(\002\022\035\n\025bezier_curve_se"
+    "gments\030\005 \002(\005\0329\n\013DefineRoute\022*\n\twaypoints"
+    "\030\001 \003(\0132\027.lunabotics.proto.Point\032\014\n\nReque"
+    "stMap\032\244\001\n\tAdjustPID\022\t\n\001p\030\001 \002(\002\022\t\n\001i\030\002 \002("
+    "\002\022\t\n\001d\030\003 \002(\002\022\033\n\023feedback_min_offset\030\004 \002("
+    "\002\022\033\n\023feedback_multiplier\030\005 \002(\002\022\036\n\026feedfo"
+    "rward_min_offset\030\006 \002(\002\022\034\n\024feedforward_fr"
+    "action\030\007 \002(\002\"\204\001\n\004Type\022\021\n\rTELEOPERATION\020\001"
+    "\022\020\n\014SET_AUTONOMY\020\002\022\021\n\rSTEERING_MODE\020\003\022\020\n"
+    "\014DEFINE_ROUTE\020\004\022\017\n\013REQUEST_MAP\020\005\022\016\n\nADJU"
+    "ST_PID\020\006\022\021\n\rADJUST_WHEELS\020\007", 1307);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Telecommand.proto", &protobuf_RegisterTypes);
   Telecommand::default_instance_ = new Telecommand();
   Telecommand_Teleoperation::default_instance_ = new Telecommand_Teleoperation();
   Telecommand_Autonomy::default_instance_ = new Telecommand_Autonomy();
   Telecommand_SteeringMode::default_instance_ = new Telecommand_SteeringMode();
-  Telecommand_SteeringMode_AckermannSteeringData::default_instance_ = new Telecommand_SteeringMode_AckermannSteeringData();
-  Telecommand_SteeringMode_TurnInSpotSteeringData::default_instance_ = new Telecommand_SteeringMode_TurnInSpotSteeringData();
-  Telecommand_SteeringMode_CrabSteeringData::default_instance_ = new Telecommand_SteeringMode_CrabSteeringData();
   Telecommand_DefineRoute::default_instance_ = new Telecommand_DefineRoute();
   Telecommand_RequestMap::default_instance_ = new Telecommand_RequestMap();
   Telecommand_AdjustPID::default_instance_ = new Telecommand_AdjustPID();
@@ -356,9 +281,6 @@ void protobuf_AddDesc_Telecommand_2eproto() {
   Telecommand_Teleoperation::default_instance_->InitAsDefaultInstance();
   Telecommand_Autonomy::default_instance_->InitAsDefaultInstance();
   Telecommand_SteeringMode::default_instance_->InitAsDefaultInstance();
-  Telecommand_SteeringMode_AckermannSteeringData::default_instance_->InitAsDefaultInstance();
-  Telecommand_SteeringMode_TurnInSpotSteeringData::default_instance_->InitAsDefaultInstance();
-  Telecommand_SteeringMode_CrabSteeringData::default_instance_->InitAsDefaultInstance();
   Telecommand_DefineRoute::default_instance_->InitAsDefaultInstance();
   Telecommand_RequestMap::default_instance_->InitAsDefaultInstance();
   Telecommand_AdjustPID::default_instance_->InitAsDefaultInstance();
@@ -934,568 +856,11 @@ void Telecommand_Autonomy::Swap(Telecommand_Autonomy* other) {
 // -------------------------------------------------------------------
 
 #ifndef _MSC_VER
-const int Telecommand_SteeringMode_AckermannSteeringData::kMaxLinearVelocityFieldNumber;
-const int Telecommand_SteeringMode_AckermannSteeringData::kBezierCurveSegmentsFieldNumber;
-#endif  // !_MSC_VER
-
-Telecommand_SteeringMode_AckermannSteeringData::Telecommand_SteeringMode_AckermannSteeringData()
-  : ::google::protobuf::Message() {
-  SharedCtor();
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::InitAsDefaultInstance() {
-}
-
-Telecommand_SteeringMode_AckermannSteeringData::Telecommand_SteeringMode_AckermannSteeringData(const Telecommand_SteeringMode_AckermannSteeringData& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::SharedCtor() {
-  _cached_size_ = 0;
-  max_linear_velocity_ = 0.33f;
-  bezier_curve_segments_ = 20;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-Telecommand_SteeringMode_AckermannSteeringData::~Telecommand_SteeringMode_AckermannSteeringData() {
-  SharedDtor();
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Telecommand_SteeringMode_AckermannSteeringData::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Telecommand_SteeringMode_AckermannSteeringData_descriptor_;
-}
-
-const Telecommand_SteeringMode_AckermannSteeringData& Telecommand_SteeringMode_AckermannSteeringData::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_Telecommand_2eproto();
-  return *default_instance_;
-}
-
-Telecommand_SteeringMode_AckermannSteeringData* Telecommand_SteeringMode_AckermannSteeringData::default_instance_ = NULL;
-
-Telecommand_SteeringMode_AckermannSteeringData* Telecommand_SteeringMode_AckermannSteeringData::New() const {
-  return new Telecommand_SteeringMode_AckermannSteeringData;
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    max_linear_velocity_ = 0.33f;
-    bezier_curve_segments_ = 20;
-  }
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
-}
-
-bool Telecommand_SteeringMode_AckermannSteeringData::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
-  ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional float max_linear_velocity = 1 [default = 0.33];
-      case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &max_linear_velocity_)));
-          set_has_max_linear_velocity();
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(16)) goto parse_bezier_curve_segments;
-        break;
-      }
-
-      // optional int32 bezier_curve_segments = 2 [default = 20];
-      case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
-         parse_bezier_curve_segments:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &bezier_curve_segments_)));
-          set_has_bezier_curve_segments();
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectAtEnd()) return true;
-        break;
-      }
-
-      default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
-        }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, mutable_unknown_fields()));
-        break;
-      }
-    }
-  }
-  return true;
-#undef DO_
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // optional float max_linear_velocity = 1 [default = 0.33];
-  if (has_max_linear_velocity()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->max_linear_velocity(), output);
-  }
-
-  // optional int32 bezier_curve_segments = 2 [default = 20];
-  if (has_bezier_curve_segments()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->bezier_curve_segments(), output);
-  }
-
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Telecommand_SteeringMode_AckermannSteeringData::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // optional float max_linear_velocity = 1 [default = 0.33];
-  if (has_max_linear_velocity()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->max_linear_velocity(), target);
-  }
-
-  // optional int32 bezier_curve_segments = 2 [default = 20];
-  if (has_bezier_curve_segments()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->bezier_curve_segments(), target);
-  }
-
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
-}
-
-int Telecommand_SteeringMode_AckermannSteeringData::ByteSize() const {
-  int total_size = 0;
-
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // optional float max_linear_velocity = 1 [default = 0.33];
-    if (has_max_linear_velocity()) {
-      total_size += 1 + 4;
-    }
-
-    // optional int32 bezier_curve_segments = 2 [default = 20];
-    if (has_bezier_curve_segments()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->bezier_curve_segments());
-    }
-
-  }
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Telecommand_SteeringMode_AckermannSteeringData* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Telecommand_SteeringMode_AckermannSteeringData*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::MergeFrom(const Telecommand_SteeringMode_AckermannSteeringData& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_max_linear_velocity()) {
-      set_max_linear_velocity(from.max_linear_velocity());
-    }
-    if (from.has_bezier_curve_segments()) {
-      set_bezier_curve_segments(from.bezier_curve_segments());
-    }
-  }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::CopyFrom(const Telecommand_SteeringMode_AckermannSteeringData& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Telecommand_SteeringMode_AckermannSteeringData::IsInitialized() const {
-
-  return true;
-}
-
-void Telecommand_SteeringMode_AckermannSteeringData::Swap(Telecommand_SteeringMode_AckermannSteeringData* other) {
-  if (other != this) {
-    std::swap(max_linear_velocity_, other->max_linear_velocity_);
-    std::swap(bezier_curve_segments_, other->bezier_curve_segments_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
-}
-
-::google::protobuf::Metadata Telecommand_SteeringMode_AckermannSteeringData::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Telecommand_SteeringMode_AckermannSteeringData_descriptor_;
-  metadata.reflection = Telecommand_SteeringMode_AckermannSteeringData_reflection_;
-  return metadata;
-}
-
-
-// -------------------------------------------------------------------
-
-#ifndef _MSC_VER
-#endif  // !_MSC_VER
-
-Telecommand_SteeringMode_TurnInSpotSteeringData::Telecommand_SteeringMode_TurnInSpotSteeringData()
-  : ::google::protobuf::Message() {
-  SharedCtor();
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::InitAsDefaultInstance() {
-}
-
-Telecommand_SteeringMode_TurnInSpotSteeringData::Telecommand_SteeringMode_TurnInSpotSteeringData(const Telecommand_SteeringMode_TurnInSpotSteeringData& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::SharedCtor() {
-  _cached_size_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-Telecommand_SteeringMode_TurnInSpotSteeringData::~Telecommand_SteeringMode_TurnInSpotSteeringData() {
-  SharedDtor();
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Telecommand_SteeringMode_TurnInSpotSteeringData::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Telecommand_SteeringMode_TurnInSpotSteeringData_descriptor_;
-}
-
-const Telecommand_SteeringMode_TurnInSpotSteeringData& Telecommand_SteeringMode_TurnInSpotSteeringData::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_Telecommand_2eproto();
-  return *default_instance_;
-}
-
-Telecommand_SteeringMode_TurnInSpotSteeringData* Telecommand_SteeringMode_TurnInSpotSteeringData::default_instance_ = NULL;
-
-Telecommand_SteeringMode_TurnInSpotSteeringData* Telecommand_SteeringMode_TurnInSpotSteeringData::New() const {
-  return new Telecommand_SteeringMode_TurnInSpotSteeringData;
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::Clear() {
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
-}
-
-bool Telecommand_SteeringMode_TurnInSpotSteeringData::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
-  ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
-    if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-      return true;
-    }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, mutable_unknown_fields()));
-  }
-  return true;
-#undef DO_
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Telecommand_SteeringMode_TurnInSpotSteeringData::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
-}
-
-int Telecommand_SteeringMode_TurnInSpotSteeringData::ByteSize() const {
-  int total_size = 0;
-
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Telecommand_SteeringMode_TurnInSpotSteeringData* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Telecommand_SteeringMode_TurnInSpotSteeringData*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::MergeFrom(const Telecommand_SteeringMode_TurnInSpotSteeringData& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::CopyFrom(const Telecommand_SteeringMode_TurnInSpotSteeringData& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Telecommand_SteeringMode_TurnInSpotSteeringData::IsInitialized() const {
-
-  return true;
-}
-
-void Telecommand_SteeringMode_TurnInSpotSteeringData::Swap(Telecommand_SteeringMode_TurnInSpotSteeringData* other) {
-  if (other != this) {
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
-}
-
-::google::protobuf::Metadata Telecommand_SteeringMode_TurnInSpotSteeringData::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Telecommand_SteeringMode_TurnInSpotSteeringData_descriptor_;
-  metadata.reflection = Telecommand_SteeringMode_TurnInSpotSteeringData_reflection_;
-  return metadata;
-}
-
-
-// -------------------------------------------------------------------
-
-#ifndef _MSC_VER
-#endif  // !_MSC_VER
-
-Telecommand_SteeringMode_CrabSteeringData::Telecommand_SteeringMode_CrabSteeringData()
-  : ::google::protobuf::Message() {
-  SharedCtor();
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::InitAsDefaultInstance() {
-}
-
-Telecommand_SteeringMode_CrabSteeringData::Telecommand_SteeringMode_CrabSteeringData(const Telecommand_SteeringMode_CrabSteeringData& from)
-  : ::google::protobuf::Message() {
-  SharedCtor();
-  MergeFrom(from);
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::SharedCtor() {
-  _cached_size_ = 0;
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-}
-
-Telecommand_SteeringMode_CrabSteeringData::~Telecommand_SteeringMode_CrabSteeringData() {
-  SharedDtor();
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Telecommand_SteeringMode_CrabSteeringData::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Telecommand_SteeringMode_CrabSteeringData_descriptor_;
-}
-
-const Telecommand_SteeringMode_CrabSteeringData& Telecommand_SteeringMode_CrabSteeringData::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_Telecommand_2eproto();
-  return *default_instance_;
-}
-
-Telecommand_SteeringMode_CrabSteeringData* Telecommand_SteeringMode_CrabSteeringData::default_instance_ = NULL;
-
-Telecommand_SteeringMode_CrabSteeringData* Telecommand_SteeringMode_CrabSteeringData::New() const {
-  return new Telecommand_SteeringMode_CrabSteeringData;
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::Clear() {
-  ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
-}
-
-bool Telecommand_SteeringMode_CrabSteeringData::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
-  ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
-    if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-        ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-      return true;
-    }
-    DO_(::google::protobuf::internal::WireFormat::SkipField(
-          input, tag, mutable_unknown_fields()));
-  }
-  return true;
-#undef DO_
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  if (!unknown_fields().empty()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        unknown_fields(), output);
-  }
-}
-
-::google::protobuf::uint8* Telecommand_SteeringMode_CrabSteeringData::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  if (!unknown_fields().empty()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        unknown_fields(), target);
-  }
-  return target;
-}
-
-int Telecommand_SteeringMode_CrabSteeringData::ByteSize() const {
-  int total_size = 0;
-
-  if (!unknown_fields().empty()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        unknown_fields());
-  }
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const Telecommand_SteeringMode_CrabSteeringData* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const Telecommand_SteeringMode_CrabSteeringData*>(
-      &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::MergeFrom(const Telecommand_SteeringMode_CrabSteeringData& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::CopyFrom(const Telecommand_SteeringMode_CrabSteeringData& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Telecommand_SteeringMode_CrabSteeringData::IsInitialized() const {
-
-  return true;
-}
-
-void Telecommand_SteeringMode_CrabSteeringData::Swap(Telecommand_SteeringMode_CrabSteeringData* other) {
-  if (other != this) {
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
-}
-
-::google::protobuf::Metadata Telecommand_SteeringMode_CrabSteeringData::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Telecommand_SteeringMode_CrabSteeringData_descriptor_;
-  metadata.reflection = Telecommand_SteeringMode_CrabSteeringData_reflection_;
-  return metadata;
-}
-
-
-// -------------------------------------------------------------------
-
-#ifndef _MSC_VER
 const int Telecommand_SteeringMode::kTypeFieldNumber;
-const int Telecommand_SteeringMode::kAckermannSteeringDataFieldNumber;
-const int Telecommand_SteeringMode::kTurnInSpotSteeringDataFieldNumber;
-const int Telecommand_SteeringMode::kCrabSteeringDataFieldNumber;
+const int Telecommand_SteeringMode::kHeadingAccuracyFieldNumber;
+const int Telecommand_SteeringMode::kPositionAccuracyFieldNumber;
+const int Telecommand_SteeringMode::kMaxLinearVelocityFieldNumber;
+const int Telecommand_SteeringMode::kBezierCurveSegmentsFieldNumber;
 #endif  // !_MSC_VER
 
 Telecommand_SteeringMode::Telecommand_SteeringMode()
@@ -1504,9 +869,6 @@ Telecommand_SteeringMode::Telecommand_SteeringMode()
 }
 
 void Telecommand_SteeringMode::InitAsDefaultInstance() {
-  ackermann_steering_data_ = const_cast< ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData*>(&::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData::default_instance());
-  turn_in_spot_steering_data_ = const_cast< ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData*>(&::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData::default_instance());
-  crab_steering_data_ = const_cast< ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData*>(&::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData::default_instance());
 }
 
 Telecommand_SteeringMode::Telecommand_SteeringMode(const Telecommand_SteeringMode& from)
@@ -1518,9 +880,10 @@ Telecommand_SteeringMode::Telecommand_SteeringMode(const Telecommand_SteeringMod
 void Telecommand_SteeringMode::SharedCtor() {
   _cached_size_ = 0;
   type_ = 1;
-  ackermann_steering_data_ = NULL;
-  turn_in_spot_steering_data_ = NULL;
-  crab_steering_data_ = NULL;
+  heading_accuracy_ = 0;
+  position_accuracy_ = 0;
+  max_linear_velocity_ = 0;
+  bezier_curve_segments_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1530,9 +893,6 @@ Telecommand_SteeringMode::~Telecommand_SteeringMode() {
 
 void Telecommand_SteeringMode::SharedDtor() {
   if (this != default_instance_) {
-    delete ackermann_steering_data_;
-    delete turn_in_spot_steering_data_;
-    delete crab_steering_data_;
   }
 }
 
@@ -1560,15 +920,10 @@ Telecommand_SteeringMode* Telecommand_SteeringMode::New() const {
 void Telecommand_SteeringMode::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     type_ = 1;
-    if (has_ackermann_steering_data()) {
-      if (ackermann_steering_data_ != NULL) ackermann_steering_data_->::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData::Clear();
-    }
-    if (has_turn_in_spot_steering_data()) {
-      if (turn_in_spot_steering_data_ != NULL) turn_in_spot_steering_data_->::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData::Clear();
-    }
-    if (has_crab_steering_data()) {
-      if (crab_steering_data_ != NULL) crab_steering_data_->::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData::Clear();
-    }
+    heading_accuracy_ = 0;
+    position_accuracy_ = 0;
+    max_linear_velocity_ = 0;
+    bezier_curve_segments_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -1596,45 +951,67 @@ bool Telecommand_SteeringMode::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(18)) goto parse_ackermann_steering_data;
+        if (input->ExpectTag(21)) goto parse_heading_accuracy;
         break;
       }
 
-      // optional .lunabotics.proto.Telecommand.SteeringMode.AckermannSteeringData ackermann_steering_data = 2;
+      // required float heading_accuracy = 2;
       case 2: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_ackermann_steering_data:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_ackermann_steering_data()));
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_heading_accuracy:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &heading_accuracy_)));
+          set_has_heading_accuracy();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(26)) goto parse_turn_in_spot_steering_data;
+        if (input->ExpectTag(29)) goto parse_position_accuracy;
         break;
       }
 
-      // optional .lunabotics.proto.Telecommand.SteeringMode.TurnInSpotSteeringData turn_in_spot_steering_data = 3;
+      // required float position_accuracy = 3;
       case 3: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_turn_in_spot_steering_data:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_turn_in_spot_steering_data()));
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_position_accuracy:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &position_accuracy_)));
+          set_has_position_accuracy();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(34)) goto parse_crab_steering_data;
+        if (input->ExpectTag(37)) goto parse_max_linear_velocity;
         break;
       }
 
-      // optional .lunabotics.proto.Telecommand.SteeringMode.CrabSteeringData crab_steering_data = 4;
+      // required float max_linear_velocity = 4;
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_crab_steering_data:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_crab_steering_data()));
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_max_linear_velocity:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &max_linear_velocity_)));
+          set_has_max_linear_velocity();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(40)) goto parse_bezier_curve_segments;
+        break;
+      }
+
+      // required int32 bezier_curve_segments = 5;
+      case 5: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_bezier_curve_segments:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &bezier_curve_segments_)));
+          set_has_bezier_curve_segments();
         } else {
           goto handle_uninterpreted;
         }
@@ -1666,22 +1043,24 @@ void Telecommand_SteeringMode::SerializeWithCachedSizes(
       1, this->type(), output);
   }
 
-  // optional .lunabotics.proto.Telecommand.SteeringMode.AckermannSteeringData ackermann_steering_data = 2;
-  if (has_ackermann_steering_data()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->ackermann_steering_data(), output);
+  // required float heading_accuracy = 2;
+  if (has_heading_accuracy()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->heading_accuracy(), output);
   }
 
-  // optional .lunabotics.proto.Telecommand.SteeringMode.TurnInSpotSteeringData turn_in_spot_steering_data = 3;
-  if (has_turn_in_spot_steering_data()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->turn_in_spot_steering_data(), output);
+  // required float position_accuracy = 3;
+  if (has_position_accuracy()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->position_accuracy(), output);
   }
 
-  // optional .lunabotics.proto.Telecommand.SteeringMode.CrabSteeringData crab_steering_data = 4;
-  if (has_crab_steering_data()) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->crab_steering_data(), output);
+  // required float max_linear_velocity = 4;
+  if (has_max_linear_velocity()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->max_linear_velocity(), output);
+  }
+
+  // required int32 bezier_curve_segments = 5;
+  if (has_bezier_curve_segments()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->bezier_curve_segments(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -1698,25 +1077,24 @@ void Telecommand_SteeringMode::SerializeWithCachedSizes(
       1, this->type(), target);
   }
 
-  // optional .lunabotics.proto.Telecommand.SteeringMode.AckermannSteeringData ackermann_steering_data = 2;
-  if (has_ackermann_steering_data()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->ackermann_steering_data(), target);
+  // required float heading_accuracy = 2;
+  if (has_heading_accuracy()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->heading_accuracy(), target);
   }
 
-  // optional .lunabotics.proto.Telecommand.SteeringMode.TurnInSpotSteeringData turn_in_spot_steering_data = 3;
-  if (has_turn_in_spot_steering_data()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->turn_in_spot_steering_data(), target);
+  // required float position_accuracy = 3;
+  if (has_position_accuracy()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->position_accuracy(), target);
   }
 
-  // optional .lunabotics.proto.Telecommand.SteeringMode.CrabSteeringData crab_steering_data = 4;
-  if (has_crab_steering_data()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        4, this->crab_steering_data(), target);
+  // required float max_linear_velocity = 4;
+  if (has_max_linear_velocity()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->max_linear_velocity(), target);
+  }
+
+  // required int32 bezier_curve_segments = 5;
+  if (has_bezier_curve_segments()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->bezier_curve_segments(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -1736,25 +1114,26 @@ int Telecommand_SteeringMode::ByteSize() const {
         ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
     }
 
-    // optional .lunabotics.proto.Telecommand.SteeringMode.AckermannSteeringData ackermann_steering_data = 2;
-    if (has_ackermann_steering_data()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->ackermann_steering_data());
+    // required float heading_accuracy = 2;
+    if (has_heading_accuracy()) {
+      total_size += 1 + 4;
     }
 
-    // optional .lunabotics.proto.Telecommand.SteeringMode.TurnInSpotSteeringData turn_in_spot_steering_data = 3;
-    if (has_turn_in_spot_steering_data()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->turn_in_spot_steering_data());
+    // required float position_accuracy = 3;
+    if (has_position_accuracy()) {
+      total_size += 1 + 4;
     }
 
-    // optional .lunabotics.proto.Telecommand.SteeringMode.CrabSteeringData crab_steering_data = 4;
-    if (has_crab_steering_data()) {
+    // required float max_linear_velocity = 4;
+    if (has_max_linear_velocity()) {
+      total_size += 1 + 4;
+    }
+
+    // required int32 bezier_curve_segments = 5;
+    if (has_bezier_curve_segments()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->crab_steering_data());
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->bezier_curve_segments());
     }
 
   }
@@ -1787,14 +1166,17 @@ void Telecommand_SteeringMode::MergeFrom(const Telecommand_SteeringMode& from) {
     if (from.has_type()) {
       set_type(from.type());
     }
-    if (from.has_ackermann_steering_data()) {
-      mutable_ackermann_steering_data()->::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData::MergeFrom(from.ackermann_steering_data());
+    if (from.has_heading_accuracy()) {
+      set_heading_accuracy(from.heading_accuracy());
     }
-    if (from.has_turn_in_spot_steering_data()) {
-      mutable_turn_in_spot_steering_data()->::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData::MergeFrom(from.turn_in_spot_steering_data());
+    if (from.has_position_accuracy()) {
+      set_position_accuracy(from.position_accuracy());
     }
-    if (from.has_crab_steering_data()) {
-      mutable_crab_steering_data()->::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData::MergeFrom(from.crab_steering_data());
+    if (from.has_max_linear_velocity()) {
+      set_max_linear_velocity(from.max_linear_velocity());
+    }
+    if (from.has_bezier_curve_segments()) {
+      set_bezier_curve_segments(from.bezier_curve_segments());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -1813,7 +1195,7 @@ void Telecommand_SteeringMode::CopyFrom(const Telecommand_SteeringMode& from) {
 }
 
 bool Telecommand_SteeringMode::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
+  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
 
   return true;
 }
@@ -1821,9 +1203,10 @@ bool Telecommand_SteeringMode::IsInitialized() const {
 void Telecommand_SteeringMode::Swap(Telecommand_SteeringMode* other) {
   if (other != this) {
     std::swap(type_, other->type_);
-    std::swap(ackermann_steering_data_, other->ackermann_steering_data_);
-    std::swap(turn_in_spot_steering_data_, other->turn_in_spot_steering_data_);
-    std::swap(crab_steering_data_, other->crab_steering_data_);
+    std::swap(heading_accuracy_, other->heading_accuracy_);
+    std::swap(position_accuracy_, other->position_accuracy_);
+    std::swap(max_linear_velocity_, other->max_linear_velocity_);
+    std::swap(bezier_curve_segments_, other->bezier_curve_segments_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -1842,9 +1225,7 @@ void Telecommand_SteeringMode::Swap(Telecommand_SteeringMode* other) {
 // -------------------------------------------------------------------
 
 #ifndef _MSC_VER
-const int Telecommand_DefineRoute::kGoalFieldNumber;
-const int Telecommand_DefineRoute::kHeadingAccuracyFieldNumber;
-const int Telecommand_DefineRoute::kPositionAccuracyFieldNumber;
+const int Telecommand_DefineRoute::kWaypointsFieldNumber;
 #endif  // !_MSC_VER
 
 Telecommand_DefineRoute::Telecommand_DefineRoute()
@@ -1853,7 +1234,6 @@ Telecommand_DefineRoute::Telecommand_DefineRoute()
 }
 
 void Telecommand_DefineRoute::InitAsDefaultInstance() {
-  goal_ = const_cast< ::lunabotics::proto::Point*>(&::lunabotics::proto::Point::default_instance());
 }
 
 Telecommand_DefineRoute::Telecommand_DefineRoute(const Telecommand_DefineRoute& from)
@@ -1864,9 +1244,6 @@ Telecommand_DefineRoute::Telecommand_DefineRoute(const Telecommand_DefineRoute& 
 
 void Telecommand_DefineRoute::SharedCtor() {
   _cached_size_ = 0;
-  goal_ = NULL;
-  heading_accuracy_ = 0.4f;
-  position_accuracy_ = 0.2f;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1876,7 +1253,6 @@ Telecommand_DefineRoute::~Telecommand_DefineRoute() {
 
 void Telecommand_DefineRoute::SharedDtor() {
   if (this != default_instance_) {
-    delete goal_;
   }
 }
 
@@ -1902,13 +1278,7 @@ Telecommand_DefineRoute* Telecommand_DefineRoute::New() const {
 }
 
 void Telecommand_DefineRoute::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (has_goal()) {
-      if (goal_ != NULL) goal_->::lunabotics::proto::Point::Clear();
-    }
-    heading_accuracy_ = 0.4f;
-    position_accuracy_ = 0.2f;
-  }
+  waypoints_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
@@ -1919,47 +1289,17 @@ bool Telecommand_DefineRoute::MergePartialFromCodedStream(
   ::google::protobuf::uint32 tag;
   while ((tag = input->ReadTag()) != 0) {
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required .lunabotics.proto.Point goal = 1;
+      // repeated .lunabotics.proto.Point waypoints = 1;
       case 1: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+         parse_waypoints:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_goal()));
+                input, add_waypoints()));
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(21)) goto parse_heading_accuracy;
-        break;
-      }
-
-      // optional float heading_accuracy = 2 [default = 0.4];
-      case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
-         parse_heading_accuracy:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &heading_accuracy_)));
-          set_has_heading_accuracy();
-        } else {
-          goto handle_uninterpreted;
-        }
-        if (input->ExpectTag(29)) goto parse_position_accuracy;
-        break;
-      }
-
-      // optional float position_accuracy = 3 [default = 0.2];
-      case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
-         parse_position_accuracy:
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &position_accuracy_)));
-          set_has_position_accuracy();
-        } else {
-          goto handle_uninterpreted;
-        }
+        if (input->ExpectTag(10)) goto parse_waypoints;
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -1982,20 +1322,10 @@ bool Telecommand_DefineRoute::MergePartialFromCodedStream(
 
 void Telecommand_DefineRoute::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // required .lunabotics.proto.Point goal = 1;
-  if (has_goal()) {
+  // repeated .lunabotics.proto.Point waypoints = 1;
+  for (int i = 0; i < this->waypoints_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, this->goal(), output);
-  }
-
-  // optional float heading_accuracy = 2 [default = 0.4];
-  if (has_heading_accuracy()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(2, this->heading_accuracy(), output);
-  }
-
-  // optional float position_accuracy = 3 [default = 0.2];
-  if (has_position_accuracy()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->position_accuracy(), output);
+      1, this->waypoints(i), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -2006,21 +1336,11 @@ void Telecommand_DefineRoute::SerializeWithCachedSizes(
 
 ::google::protobuf::uint8* Telecommand_DefineRoute::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
-  // required .lunabotics.proto.Point goal = 1;
-  if (has_goal()) {
+  // repeated .lunabotics.proto.Point waypoints = 1;
+  for (int i = 0; i < this->waypoints_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        1, this->goal(), target);
-  }
-
-  // optional float heading_accuracy = 2 [default = 0.4];
-  if (has_heading_accuracy()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(2, this->heading_accuracy(), target);
-  }
-
-  // optional float position_accuracy = 3 [default = 0.2];
-  if (has_position_accuracy()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->position_accuracy(), target);
+        1, this->waypoints(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -2033,25 +1353,14 @@ void Telecommand_DefineRoute::SerializeWithCachedSizes(
 int Telecommand_DefineRoute::ByteSize() const {
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    // required .lunabotics.proto.Point goal = 1;
-    if (has_goal()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->goal());
-    }
-
-    // optional float heading_accuracy = 2 [default = 0.4];
-    if (has_heading_accuracy()) {
-      total_size += 1 + 4;
-    }
-
-    // optional float position_accuracy = 3 [default = 0.2];
-    if (has_position_accuracy()) {
-      total_size += 1 + 4;
-    }
-
+  // repeated .lunabotics.proto.Point waypoints = 1;
+  total_size += 1 * this->waypoints_size();
+  for (int i = 0; i < this->waypoints_size(); i++) {
+    total_size +=
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        this->waypoints(i));
   }
+
   if (!unknown_fields().empty()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
@@ -2077,17 +1386,7 @@ void Telecommand_DefineRoute::MergeFrom(const ::google::protobuf::Message& from)
 
 void Telecommand_DefineRoute::MergeFrom(const Telecommand_DefineRoute& from) {
   GOOGLE_CHECK_NE(&from, this);
-  if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_goal()) {
-      mutable_goal()->::lunabotics::proto::Point::MergeFrom(from.goal());
-    }
-    if (from.has_heading_accuracy()) {
-      set_heading_accuracy(from.heading_accuracy());
-    }
-    if (from.has_position_accuracy()) {
-      set_position_accuracy(from.position_accuracy());
-    }
-  }
+  waypoints_.MergeFrom(from.waypoints_);
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
@@ -2104,19 +1403,16 @@ void Telecommand_DefineRoute::CopyFrom(const Telecommand_DefineRoute& from) {
 }
 
 bool Telecommand_DefineRoute::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
 
-  if (has_goal()) {
-    if (!this->goal().IsInitialized()) return false;
+  for (int i = 0; i < waypoints_size(); i++) {
+    if (!this->waypoints(i).IsInitialized()) return false;
   }
   return true;
 }
 
 void Telecommand_DefineRoute::Swap(Telecommand_DefineRoute* other) {
   if (other != this) {
-    std::swap(goal_, other->goal_);
-    std::swap(heading_accuracy_, other->heading_accuracy_);
-    std::swap(position_accuracy_, other->position_accuracy_);
+    waypoints_.Swap(&other->waypoints_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
@@ -2294,8 +1590,10 @@ void Telecommand_RequestMap::Swap(Telecommand_RequestMap* other) {
 const int Telecommand_AdjustPID::kPFieldNumber;
 const int Telecommand_AdjustPID::kIFieldNumber;
 const int Telecommand_AdjustPID::kDFieldNumber;
-const int Telecommand_AdjustPID::kVelocityOffsetFieldNumber;
-const int Telecommand_AdjustPID::kVelocityMultiplierFieldNumber;
+const int Telecommand_AdjustPID::kFeedbackMinOffsetFieldNumber;
+const int Telecommand_AdjustPID::kFeedbackMultiplierFieldNumber;
+const int Telecommand_AdjustPID::kFeedforwardMinOffsetFieldNumber;
+const int Telecommand_AdjustPID::kFeedforwardFractionFieldNumber;
 #endif  // !_MSC_VER
 
 Telecommand_AdjustPID::Telecommand_AdjustPID()
@@ -2317,8 +1615,10 @@ void Telecommand_AdjustPID::SharedCtor() {
   p_ = 0;
   i_ = 0;
   d_ = 0;
-  velocity_offset_ = 0;
-  velocity_multiplier_ = 0;
+  feedback_min_offset_ = 0;
+  feedback_multiplier_ = 0;
+  feedforward_min_offset_ = 0;
+  feedforward_fraction_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -2357,8 +1657,10 @@ void Telecommand_AdjustPID::Clear() {
     p_ = 0;
     i_ = 0;
     d_ = 0;
-    velocity_offset_ = 0;
-    velocity_multiplier_ = 0;
+    feedback_min_offset_ = 0;
+    feedback_multiplier_ = 0;
+    feedforward_min_offset_ = 0;
+    feedforward_fraction_ = 0;
   }
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
@@ -2413,35 +1715,67 @@ bool Telecommand_AdjustPID::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(37)) goto parse_velocity_offset;
+        if (input->ExpectTag(37)) goto parse_feedback_min_offset;
         break;
       }
 
-      // required float velocity_offset = 4;
+      // required float feedback_min_offset = 4;
       case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
-         parse_velocity_offset:
+         parse_feedback_min_offset:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &velocity_offset_)));
-          set_has_velocity_offset();
+                 input, &feedback_min_offset_)));
+          set_has_feedback_min_offset();
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(45)) goto parse_velocity_multiplier;
+        if (input->ExpectTag(45)) goto parse_feedback_multiplier;
         break;
       }
 
-      // required float velocity_multiplier = 5;
+      // required float feedback_multiplier = 5;
       case 5: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
-         parse_velocity_multiplier:
+         parse_feedback_multiplier:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
-                 input, &velocity_multiplier_)));
-          set_has_velocity_multiplier();
+                 input, &feedback_multiplier_)));
+          set_has_feedback_multiplier();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(53)) goto parse_feedforward_min_offset;
+        break;
+      }
+
+      // required float feedforward_min_offset = 6;
+      case 6: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_feedforward_min_offset:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &feedforward_min_offset_)));
+          set_has_feedforward_min_offset();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(61)) goto parse_feedforward_fraction;
+        break;
+      }
+
+      // required float feedforward_fraction = 7;
+      case 7: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+         parse_feedforward_fraction:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
+                 input, &feedforward_fraction_)));
+          set_has_feedforward_fraction();
         } else {
           goto handle_uninterpreted;
         }
@@ -2482,14 +1816,24 @@ void Telecommand_AdjustPID::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->d(), output);
   }
 
-  // required float velocity_offset = 4;
-  if (has_velocity_offset()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->velocity_offset(), output);
+  // required float feedback_min_offset = 4;
+  if (has_feedback_min_offset()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(4, this->feedback_min_offset(), output);
   }
 
-  // required float velocity_multiplier = 5;
-  if (has_velocity_multiplier()) {
-    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->velocity_multiplier(), output);
+  // required float feedback_multiplier = 5;
+  if (has_feedback_multiplier()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(5, this->feedback_multiplier(), output);
+  }
+
+  // required float feedforward_min_offset = 6;
+  if (has_feedforward_min_offset()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(6, this->feedforward_min_offset(), output);
+  }
+
+  // required float feedforward_fraction = 7;
+  if (has_feedforward_fraction()) {
+    ::google::protobuf::internal::WireFormatLite::WriteFloat(7, this->feedforward_fraction(), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -2515,14 +1859,24 @@ void Telecommand_AdjustPID::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->d(), target);
   }
 
-  // required float velocity_offset = 4;
-  if (has_velocity_offset()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->velocity_offset(), target);
+  // required float feedback_min_offset = 4;
+  if (has_feedback_min_offset()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(4, this->feedback_min_offset(), target);
   }
 
-  // required float velocity_multiplier = 5;
-  if (has_velocity_multiplier()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->velocity_multiplier(), target);
+  // required float feedback_multiplier = 5;
+  if (has_feedback_multiplier()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(5, this->feedback_multiplier(), target);
+  }
+
+  // required float feedforward_min_offset = 6;
+  if (has_feedforward_min_offset()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(6, this->feedforward_min_offset(), target);
+  }
+
+  // required float feedforward_fraction = 7;
+  if (has_feedforward_fraction()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(7, this->feedforward_fraction(), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -2551,13 +1905,23 @@ int Telecommand_AdjustPID::ByteSize() const {
       total_size += 1 + 4;
     }
 
-    // required float velocity_offset = 4;
-    if (has_velocity_offset()) {
+    // required float feedback_min_offset = 4;
+    if (has_feedback_min_offset()) {
       total_size += 1 + 4;
     }
 
-    // required float velocity_multiplier = 5;
-    if (has_velocity_multiplier()) {
+    // required float feedback_multiplier = 5;
+    if (has_feedback_multiplier()) {
+      total_size += 1 + 4;
+    }
+
+    // required float feedforward_min_offset = 6;
+    if (has_feedforward_min_offset()) {
+      total_size += 1 + 4;
+    }
+
+    // required float feedforward_fraction = 7;
+    if (has_feedforward_fraction()) {
       total_size += 1 + 4;
     }
 
@@ -2597,11 +1961,17 @@ void Telecommand_AdjustPID::MergeFrom(const Telecommand_AdjustPID& from) {
     if (from.has_d()) {
       set_d(from.d());
     }
-    if (from.has_velocity_offset()) {
-      set_velocity_offset(from.velocity_offset());
+    if (from.has_feedback_min_offset()) {
+      set_feedback_min_offset(from.feedback_min_offset());
     }
-    if (from.has_velocity_multiplier()) {
-      set_velocity_multiplier(from.velocity_multiplier());
+    if (from.has_feedback_multiplier()) {
+      set_feedback_multiplier(from.feedback_multiplier());
+    }
+    if (from.has_feedforward_min_offset()) {
+      set_feedforward_min_offset(from.feedforward_min_offset());
+    }
+    if (from.has_feedforward_fraction()) {
+      set_feedforward_fraction(from.feedforward_fraction());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
@@ -2620,7 +1990,7 @@ void Telecommand_AdjustPID::CopyFrom(const Telecommand_AdjustPID& from) {
 }
 
 bool Telecommand_AdjustPID::IsInitialized() const {
-  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
+  if ((_has_bits_[0] & 0x0000007f) != 0x0000007f) return false;
 
   return true;
 }
@@ -2630,8 +2000,10 @@ void Telecommand_AdjustPID::Swap(Telecommand_AdjustPID* other) {
     std::swap(p_, other->p_);
     std::swap(i_, other->i_);
     std::swap(d_, other->d_);
-    std::swap(velocity_offset_, other->velocity_offset_);
-    std::swap(velocity_multiplier_, other->velocity_multiplier_);
+    std::swap(feedback_min_offset_, other->feedback_min_offset_);
+    std::swap(feedback_multiplier_, other->feedback_multiplier_);
+    std::swap(feedforward_min_offset_, other->feedforward_min_offset_);
+    std::swap(feedforward_fraction_, other->feedforward_fraction_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);

@@ -1,6 +1,8 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
+#include <QtGui>
+
 
 #define PEN_WHITE QPen(Qt::white)
 #define PEN_WHITE_BOLD QPen(QBrush(Qt::white), 2)

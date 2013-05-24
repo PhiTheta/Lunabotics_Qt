@@ -39,7 +39,7 @@ signals:
     void allWheelStateUpdated(AllWheelState *steering, AllWheelState *driving);
     void ICRUpdated(QPointF ICR);
     void jointPositionsUpdated(RobotGeometry *geometry);
-    void updateLocalFrame(QPointF velocityPoint, QPointF trajectoryPoint);
+    void updateLocalFrame(QPointF feedbackPoint, QPointF feedbackPathPoint, QVector<QPointF> feedforwardPoints, QPointF feedforwardCenter);
     void clearLocalFrame();
     void updateCurves(QVector<lunabotics::proto::Telemetry::Path::Curve> curves);
     void updateRadius(float minRadius);
@@ -50,8 +50,6 @@ protected:
     void keyReleaseEvent(QKeyEvent *event);
 
 private slots:
-
-    void on_useLateralButton_clicked();
 
     void on_useSpotButton_clicked();
 
@@ -64,6 +62,7 @@ private slots:
     void predefinedControlSelected(lunabotics::proto::AllWheelControl::PredefinedControlType controlType);
     void explicitControlSelected(AllWheelState *steering, AllWheelState *driving);
     void ICRControlSelected(QPointF ICR, float velocity);
+    void crabControlSelected(qreal head, qreal vel);
     void nullifyAllWheelPanel();
 
     void nullifyFollowingPanel();
@@ -85,6 +84,14 @@ private slots:
 
     void on_actionTrajectory_analysis_triggered();
 
+    void on_multiWaypointsButton_clicked();
+
+    void on_waypointsResetButton_clicked();
+
+    void on_waypointsSendButton_clicked();
+
+    void on_useAutoButton_clicked();
+
 private:
 
     //UI
@@ -97,6 +104,7 @@ private:
     TrajectoryFollowingForm *followingPanel;
     QGraphicsItemGroup *pathGraphicsItem;
     QGraphicsItemGroup *robotPointerItem;
+    QGraphicsItemGroup *multiWaypointsItem;
     QGraphicsRectItem *robotCellItem;
     QGraphicsLineItem *velocityVectorItem;
     QGraphicsLineItem *closestDistanceItem;
@@ -116,12 +124,12 @@ private:
     RobotState *robotState;
 
     //Trajectory following data
-    QPointF closestTrajectoryPoint;
-    QPointF velocityPoint;
-    QPointF transformedVelocityPoint;
-    QPointF transformedClosestTrajectoryPoint;
-    QPoint goal;
+    QPointF feedbackPathPoint;
+    QPointF feedbackPoint;
+    QPointF feedbackPointLocal;
+    QPointF feedbackPathPointLocal;
     int nextWaypointIdx;
+    int segmentIdx;
 
     //Trajectory analysis data
     QVector<lunabotics::proto::Telemetry::Path::Curve> trajectoryCurves;
@@ -154,6 +162,14 @@ private:
     void resetTelemetryModel();
     void resetPathModel();
 
+    qreal crabVelocity;
+    qreal crabHeading;
+
+
+    //Multiple waypoints selection
+    bool multiWaypoints;
+    QVector<QPoint> *waypoints;
+    void removeMultiWaypointsPrint();
 
 };
 

@@ -13,7 +13,7 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     QSettings settings("ivany4", "lunabotics");
 
     settings.beginGroup("connection");
-    ui->outIPLineEdit->setText(settings.value("ip", CONN_OUTGOING_ADDR).toString());
+    ui->outIPLineEdit->setText(settings.value(SETTINGS_IP, CONN_OUTGOING_ADDR).toString());
     settings.endGroup();
 }
 
@@ -26,7 +26,7 @@ void PreferenceDialog::on_buttonBox_accepted()
 {
     QSettings settings( "ivany4", "lunabotics");
     settings.beginGroup("connection");
-    settings.setValue("ip", ui->outIPLineEdit->text());
+    settings.setValue(SETTINGS_IP, ui->outIPLineEdit->text());
     settings.endGroup();
 }
 

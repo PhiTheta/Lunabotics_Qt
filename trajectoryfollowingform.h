@@ -5,6 +5,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsLineItem>
 #include <QGraphicsEllipseItem>
+#include <QGraphicsItemGroup>
 #include "mapviewmetainfo.h"
 
 namespace Ui {
@@ -19,7 +20,7 @@ signals:
     void sendPID();
 
 public slots:
-    void updateLocalFrame(QPointF velocityPoint, QPointF trajectoryPoint);
+    void updateLocalFrame(QPointF feedbackPoint, QPointF feedbackPathPoint, QVector<QPointF> feedforwardPoints, QPointF feedforwardCenter);
     void clearLocalFrame();
 
 public:
@@ -34,11 +35,13 @@ private slots:
 
 private:
     Ui::TrajectoryFollowingForm *ui;
-    QGraphicsLineItem *localVectorLineItem;
-    QGraphicsLineItem *localDistanceLineItem;
-    QGraphicsEllipseItem *localTrajectoryEllipseItem;
-    QGraphicsEllipseItem *localVectorEllipseItem;
+    QGraphicsLineItem *feedbackLookAheadLineItem;
+    QGraphicsLineItem *feedbackErrorLineItem;
+    QGraphicsEllipseItem *feedbackPathPointEllipseItem;
+    QGraphicsEllipseItem *feedbackPointEllipseItem;
+    QGraphicsItemGroup *feedforwardPointsItem;
 
+    bool graphicItemsCreated;
 
     QGraphicsScene *localFrameScene;
     MapViewMetaInfo *localFrameInfo;

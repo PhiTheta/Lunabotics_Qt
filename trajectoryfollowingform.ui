@@ -110,16 +110,6 @@
             <property name="bottomMargin">
              <number>10</number>
             </property>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="KpEdit">
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>16777215</height>
-               </size>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="0">
              <widget class="QLabel" name="KpLabel">
               <property name="text">
@@ -127,8 +117,8 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="KiEdit">
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="KpEdit">
               <property name="maximumSize">
                <size>
                 <width>100</width>
@@ -144,8 +134,8 @@
               </property>
              </widget>
             </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="KdEdit">
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="KiEdit">
               <property name="maximumSize">
                <size>
                 <width>100</width>
@@ -160,6 +150,29 @@
                <string>Kd</string>
               </property>
              </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="KdEdit">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="4" column="1">
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </widget>
@@ -183,12 +196,12 @@
             </font>
            </property>
            <property name="text">
-            <string>PID reference point</string>
+            <string>Feedback control:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QWidget" name="pidReferenceWidget" native="true">
+          <widget class="QWidget" name="feedbackWidget" native="true">
            <layout class="QFormLayout" name="formLayout_2">
             <property name="leftMargin">
              <number>10</number>
@@ -203,14 +216,14 @@
              <number>10</number>
             </property>
             <item row="0" column="0">
-             <widget class="QLabel" name="offsetTitleLabel">
+             <widget class="QLabel" name="feedbackOffsetTitleLabel">
               <property name="text">
                <string>Offset [m]:</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLineEdit" name="offsetEdit">
+             <widget class="QLineEdit" name="feedbackOffsetEdit">
               <property name="maximumSize">
                <size>
                 <width>100</width>
@@ -220,7 +233,7 @@
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QLineEdit" name="velocityEdit">
+             <widget class="QLineEdit" name="feedbackMultiplierEdit">
               <property name="maximumSize">
                <size>
                 <width>100</width>
@@ -230,9 +243,63 @@
              </widget>
             </item>
             <item row="2" column="0">
-             <widget class="QLabel" name="velocityTitleLabel">
+             <widget class="QLabel" name="feedbackMultiplierTitleLabel">
               <property name="text">
-               <string>Velocity x</string>
+               <string>Multiplier:</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Feedforward control:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QWidget" name="feedForwardWidget" native="true">
+           <layout class="QFormLayout" name="formLayout_3">
+            <item row="0" column="0">
+             <widget class="QLabel" name="feedforwardOffsetTitleLabel">
+              <property name="text">
+               <string>Offset [m]:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="feedforwardOffsetEdit">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="feedforwardFractionTitleLabel">
+              <property name="text">
+               <string>Fraction:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="feedforwardFractionEdit">
+              <property name="maximumSize">
+               <size>
+                <width>100</width>
+                <height>16777215</height>
+               </size>
               </property>
              </widget>
             </item>

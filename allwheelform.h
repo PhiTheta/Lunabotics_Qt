@@ -27,6 +27,7 @@ signals:
     void predefinedControlSelected(lunabotics::proto::AllWheelControl::PredefinedControlType controlType);
     void explicitControlSelected(AllWheelState *steering, AllWheelState *driving);
     void ICRControlSelected(QPointF ICR, float velocity);
+    void crabControlSelected(qreal head, qreal vel);
     void closing();
 
 private slots:
@@ -53,6 +54,8 @@ private slots:
     void on_resetButton_clicked();
 
     void on_sendButton_clicked();
+
+    void on_sendCrabButton_clicked();
 
 private:
     Ui::AllWheelForm *ui;

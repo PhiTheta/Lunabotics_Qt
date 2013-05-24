@@ -60,8 +60,8 @@ void protobuf_AddDesc_SteeringModeType_2eproto() {
 
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\026SteeringModeType.proto\022\020lunabotics.pro"
-    "to*=\n\020SteeringModeType\022\r\n\tACKERMANN\020\001\022\020\n"
-    "\014TURN_IN_SPOT\020\002\022\010\n\004CRAB\020\003", 105);
+    "to*;\n\020SteeringModeType\022\r\n\tACKERMANN\020\001\022\016\n"
+    "\nPOINT_TURN\020\002\022\010\n\004AUTO\020\003", 103);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "SteeringModeType.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_SteeringModeType_2eproto);

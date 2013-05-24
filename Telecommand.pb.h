@@ -42,9 +42,6 @@ class Telecommand;
 class Telecommand_Teleoperation;
 class Telecommand_Autonomy;
 class Telecommand_SteeringMode;
-class Telecommand_SteeringMode_AckermannSteeringData;
-class Telecommand_SteeringMode_TurnInSpotSteeringData;
-class Telecommand_SteeringMode_CrabSteeringData;
 class Telecommand_DefineRoute;
 class Telecommand_RequestMap;
 class Telecommand_AdjustPID;
@@ -269,242 +266,6 @@ class Telecommand_Autonomy : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Telecommand_SteeringMode_AckermannSteeringData : public ::google::protobuf::Message {
- public:
-  Telecommand_SteeringMode_AckermannSteeringData();
-  virtual ~Telecommand_SteeringMode_AckermannSteeringData();
-
-  Telecommand_SteeringMode_AckermannSteeringData(const Telecommand_SteeringMode_AckermannSteeringData& from);
-
-  inline Telecommand_SteeringMode_AckermannSteeringData& operator=(const Telecommand_SteeringMode_AckermannSteeringData& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Telecommand_SteeringMode_AckermannSteeringData& default_instance();
-
-  void Swap(Telecommand_SteeringMode_AckermannSteeringData* other);
-
-  // implements Message ----------------------------------------------
-
-  Telecommand_SteeringMode_AckermannSteeringData* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Telecommand_SteeringMode_AckermannSteeringData& from);
-  void MergeFrom(const Telecommand_SteeringMode_AckermannSteeringData& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // optional float max_linear_velocity = 1 [default = 0.33];
-  inline bool has_max_linear_velocity() const;
-  inline void clear_max_linear_velocity();
-  static const int kMaxLinearVelocityFieldNumber = 1;
-  inline float max_linear_velocity() const;
-  inline void set_max_linear_velocity(float value);
-
-  // optional int32 bezier_curve_segments = 2 [default = 20];
-  inline bool has_bezier_curve_segments() const;
-  inline void clear_bezier_curve_segments();
-  static const int kBezierCurveSegmentsFieldNumber = 2;
-  inline ::google::protobuf::int32 bezier_curve_segments() const;
-  inline void set_bezier_curve_segments(::google::protobuf::int32 value);
-
-  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.SteeringMode.AckermannSteeringData)
- private:
-  inline void set_has_max_linear_velocity();
-  inline void clear_has_max_linear_velocity();
-  inline void set_has_bezier_curve_segments();
-  inline void clear_has_bezier_curve_segments();
-
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-
-  float max_linear_velocity_;
-  ::google::protobuf::int32 bezier_curve_segments_;
-
-  mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(2 + 31) / 32];
-
-  friend void  protobuf_AddDesc_Telecommand_2eproto();
-  friend void protobuf_AssignDesc_Telecommand_2eproto();
-  friend void protobuf_ShutdownFile_Telecommand_2eproto();
-
-  void InitAsDefaultInstance();
-  static Telecommand_SteeringMode_AckermannSteeringData* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class Telecommand_SteeringMode_TurnInSpotSteeringData : public ::google::protobuf::Message {
- public:
-  Telecommand_SteeringMode_TurnInSpotSteeringData();
-  virtual ~Telecommand_SteeringMode_TurnInSpotSteeringData();
-
-  Telecommand_SteeringMode_TurnInSpotSteeringData(const Telecommand_SteeringMode_TurnInSpotSteeringData& from);
-
-  inline Telecommand_SteeringMode_TurnInSpotSteeringData& operator=(const Telecommand_SteeringMode_TurnInSpotSteeringData& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Telecommand_SteeringMode_TurnInSpotSteeringData& default_instance();
-
-  void Swap(Telecommand_SteeringMode_TurnInSpotSteeringData* other);
-
-  // implements Message ----------------------------------------------
-
-  Telecommand_SteeringMode_TurnInSpotSteeringData* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Telecommand_SteeringMode_TurnInSpotSteeringData& from);
-  void MergeFrom(const Telecommand_SteeringMode_TurnInSpotSteeringData& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.SteeringMode.TurnInSpotSteeringData)
- private:
-
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-
-
-  mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[1];
-
-  friend void  protobuf_AddDesc_Telecommand_2eproto();
-  friend void protobuf_AssignDesc_Telecommand_2eproto();
-  friend void protobuf_ShutdownFile_Telecommand_2eproto();
-
-  void InitAsDefaultInstance();
-  static Telecommand_SteeringMode_TurnInSpotSteeringData* default_instance_;
-};
-// -------------------------------------------------------------------
-
-class Telecommand_SteeringMode_CrabSteeringData : public ::google::protobuf::Message {
- public:
-  Telecommand_SteeringMode_CrabSteeringData();
-  virtual ~Telecommand_SteeringMode_CrabSteeringData();
-
-  Telecommand_SteeringMode_CrabSteeringData(const Telecommand_SteeringMode_CrabSteeringData& from);
-
-  inline Telecommand_SteeringMode_CrabSteeringData& operator=(const Telecommand_SteeringMode_CrabSteeringData& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
-    return _unknown_fields_;
-  }
-
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
-    return &_unknown_fields_;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Telecommand_SteeringMode_CrabSteeringData& default_instance();
-
-  void Swap(Telecommand_SteeringMode_CrabSteeringData* other);
-
-  // implements Message ----------------------------------------------
-
-  Telecommand_SteeringMode_CrabSteeringData* New() const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Telecommand_SteeringMode_CrabSteeringData& from);
-  void MergeFrom(const Telecommand_SteeringMode_CrabSteeringData& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.SteeringMode.CrabSteeringData)
- private:
-
-  ::google::protobuf::UnknownFieldSet _unknown_fields_;
-
-
-  mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[1];
-
-  friend void  protobuf_AddDesc_Telecommand_2eproto();
-  friend void protobuf_AssignDesc_Telecommand_2eproto();
-  friend void protobuf_ShutdownFile_Telecommand_2eproto();
-
-  void InitAsDefaultInstance();
-  static Telecommand_SteeringMode_CrabSteeringData* default_instance_;
-};
-// -------------------------------------------------------------------
-
 class Telecommand_SteeringMode : public ::google::protobuf::Message {
  public:
   Telecommand_SteeringMode();
@@ -557,10 +318,6 @@ class Telecommand_SteeringMode : public ::google::protobuf::Message {
 
   // nested types ----------------------------------------------------
 
-  typedef Telecommand_SteeringMode_AckermannSteeringData AckermannSteeringData;
-  typedef Telecommand_SteeringMode_TurnInSpotSteeringData TurnInSpotSteeringData;
-  typedef Telecommand_SteeringMode_CrabSteeringData CrabSteeringData;
-
   // accessors -------------------------------------------------------
 
   // required .lunabotics.proto.SteeringModeType type = 1;
@@ -570,53 +327,57 @@ class Telecommand_SteeringMode : public ::google::protobuf::Message {
   inline ::lunabotics::proto::SteeringModeType type() const;
   inline void set_type(::lunabotics::proto::SteeringModeType value);
 
-  // optional .lunabotics.proto.Telecommand.SteeringMode.AckermannSteeringData ackermann_steering_data = 2;
-  inline bool has_ackermann_steering_data() const;
-  inline void clear_ackermann_steering_data();
-  static const int kAckermannSteeringDataFieldNumber = 2;
-  inline const ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData& ackermann_steering_data() const;
-  inline ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* mutable_ackermann_steering_data();
-  inline ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* release_ackermann_steering_data();
-  inline void set_allocated_ackermann_steering_data(::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* ackermann_steering_data);
+  // required float heading_accuracy = 2;
+  inline bool has_heading_accuracy() const;
+  inline void clear_heading_accuracy();
+  static const int kHeadingAccuracyFieldNumber = 2;
+  inline float heading_accuracy() const;
+  inline void set_heading_accuracy(float value);
 
-  // optional .lunabotics.proto.Telecommand.SteeringMode.TurnInSpotSteeringData turn_in_spot_steering_data = 3;
-  inline bool has_turn_in_spot_steering_data() const;
-  inline void clear_turn_in_spot_steering_data();
-  static const int kTurnInSpotSteeringDataFieldNumber = 3;
-  inline const ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData& turn_in_spot_steering_data() const;
-  inline ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* mutable_turn_in_spot_steering_data();
-  inline ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* release_turn_in_spot_steering_data();
-  inline void set_allocated_turn_in_spot_steering_data(::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* turn_in_spot_steering_data);
+  // required float position_accuracy = 3;
+  inline bool has_position_accuracy() const;
+  inline void clear_position_accuracy();
+  static const int kPositionAccuracyFieldNumber = 3;
+  inline float position_accuracy() const;
+  inline void set_position_accuracy(float value);
 
-  // optional .lunabotics.proto.Telecommand.SteeringMode.CrabSteeringData crab_steering_data = 4;
-  inline bool has_crab_steering_data() const;
-  inline void clear_crab_steering_data();
-  static const int kCrabSteeringDataFieldNumber = 4;
-  inline const ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData& crab_steering_data() const;
-  inline ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* mutable_crab_steering_data();
-  inline ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* release_crab_steering_data();
-  inline void set_allocated_crab_steering_data(::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* crab_steering_data);
+  // required float max_linear_velocity = 4;
+  inline bool has_max_linear_velocity() const;
+  inline void clear_max_linear_velocity();
+  static const int kMaxLinearVelocityFieldNumber = 4;
+  inline float max_linear_velocity() const;
+  inline void set_max_linear_velocity(float value);
+
+  // required int32 bezier_curve_segments = 5;
+  inline bool has_bezier_curve_segments() const;
+  inline void clear_bezier_curve_segments();
+  static const int kBezierCurveSegmentsFieldNumber = 5;
+  inline ::google::protobuf::int32 bezier_curve_segments() const;
+  inline void set_bezier_curve_segments(::google::protobuf::int32 value);
 
   // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.SteeringMode)
  private:
   inline void set_has_type();
   inline void clear_has_type();
-  inline void set_has_ackermann_steering_data();
-  inline void clear_has_ackermann_steering_data();
-  inline void set_has_turn_in_spot_steering_data();
-  inline void clear_has_turn_in_spot_steering_data();
-  inline void set_has_crab_steering_data();
-  inline void clear_has_crab_steering_data();
+  inline void set_has_heading_accuracy();
+  inline void clear_has_heading_accuracy();
+  inline void set_has_position_accuracy();
+  inline void clear_has_position_accuracy();
+  inline void set_has_max_linear_velocity();
+  inline void clear_has_max_linear_velocity();
+  inline void set_has_bezier_curve_segments();
+  inline void clear_has_bezier_curve_segments();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* ackermann_steering_data_;
-  ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* turn_in_spot_steering_data_;
-  ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* crab_steering_data_;
   int type_;
+  float heading_accuracy_;
+  float position_accuracy_;
+  float max_linear_velocity_;
+  ::google::protobuf::int32 bezier_curve_segments_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telecommand_2eproto();
   friend void protobuf_AssignDesc_Telecommand_2eproto();
@@ -681,46 +442,27 @@ class Telecommand_DefineRoute : public ::google::protobuf::Message {
 
   // accessors -------------------------------------------------------
 
-  // required .lunabotics.proto.Point goal = 1;
-  inline bool has_goal() const;
-  inline void clear_goal();
-  static const int kGoalFieldNumber = 1;
-  inline const ::lunabotics::proto::Point& goal() const;
-  inline ::lunabotics::proto::Point* mutable_goal();
-  inline ::lunabotics::proto::Point* release_goal();
-  inline void set_allocated_goal(::lunabotics::proto::Point* goal);
-
-  // optional float heading_accuracy = 2 [default = 0.4];
-  inline bool has_heading_accuracy() const;
-  inline void clear_heading_accuracy();
-  static const int kHeadingAccuracyFieldNumber = 2;
-  inline float heading_accuracy() const;
-  inline void set_heading_accuracy(float value);
-
-  // optional float position_accuracy = 3 [default = 0.2];
-  inline bool has_position_accuracy() const;
-  inline void clear_position_accuracy();
-  static const int kPositionAccuracyFieldNumber = 3;
-  inline float position_accuracy() const;
-  inline void set_position_accuracy(float value);
+  // repeated .lunabotics.proto.Point waypoints = 1;
+  inline int waypoints_size() const;
+  inline void clear_waypoints();
+  static const int kWaypointsFieldNumber = 1;
+  inline const ::lunabotics::proto::Point& waypoints(int index) const;
+  inline ::lunabotics::proto::Point* mutable_waypoints(int index);
+  inline ::lunabotics::proto::Point* add_waypoints();
+  inline const ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point >&
+      waypoints() const;
+  inline ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point >*
+      mutable_waypoints();
 
   // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.DefineRoute)
  private:
-  inline void set_has_goal();
-  inline void clear_has_goal();
-  inline void set_has_heading_accuracy();
-  inline void clear_has_heading_accuracy();
-  inline void set_has_position_accuracy();
-  inline void clear_has_position_accuracy();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
-  ::lunabotics::proto::Point* goal_;
-  float heading_accuracy_;
-  float position_accuracy_;
+  ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point > waypoints_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telecommand_2eproto();
   friend void protobuf_AssignDesc_Telecommand_2eproto();
@@ -878,19 +620,33 @@ class Telecommand_AdjustPID : public ::google::protobuf::Message {
   inline float d() const;
   inline void set_d(float value);
 
-  // required float velocity_offset = 4;
-  inline bool has_velocity_offset() const;
-  inline void clear_velocity_offset();
-  static const int kVelocityOffsetFieldNumber = 4;
-  inline float velocity_offset() const;
-  inline void set_velocity_offset(float value);
+  // required float feedback_min_offset = 4;
+  inline bool has_feedback_min_offset() const;
+  inline void clear_feedback_min_offset();
+  static const int kFeedbackMinOffsetFieldNumber = 4;
+  inline float feedback_min_offset() const;
+  inline void set_feedback_min_offset(float value);
 
-  // required float velocity_multiplier = 5;
-  inline bool has_velocity_multiplier() const;
-  inline void clear_velocity_multiplier();
-  static const int kVelocityMultiplierFieldNumber = 5;
-  inline float velocity_multiplier() const;
-  inline void set_velocity_multiplier(float value);
+  // required float feedback_multiplier = 5;
+  inline bool has_feedback_multiplier() const;
+  inline void clear_feedback_multiplier();
+  static const int kFeedbackMultiplierFieldNumber = 5;
+  inline float feedback_multiplier() const;
+  inline void set_feedback_multiplier(float value);
+
+  // required float feedforward_min_offset = 6;
+  inline bool has_feedforward_min_offset() const;
+  inline void clear_feedforward_min_offset();
+  static const int kFeedforwardMinOffsetFieldNumber = 6;
+  inline float feedforward_min_offset() const;
+  inline void set_feedforward_min_offset(float value);
+
+  // required float feedforward_fraction = 7;
+  inline bool has_feedforward_fraction() const;
+  inline void clear_feedforward_fraction();
+  static const int kFeedforwardFractionFieldNumber = 7;
+  inline float feedforward_fraction() const;
+  inline void set_feedforward_fraction(float value);
 
   // @@protoc_insertion_point(class_scope:lunabotics.proto.Telecommand.AdjustPID)
  private:
@@ -900,21 +656,27 @@ class Telecommand_AdjustPID : public ::google::protobuf::Message {
   inline void clear_has_i();
   inline void set_has_d();
   inline void clear_has_d();
-  inline void set_has_velocity_offset();
-  inline void clear_has_velocity_offset();
-  inline void set_has_velocity_multiplier();
-  inline void clear_has_velocity_multiplier();
+  inline void set_has_feedback_min_offset();
+  inline void clear_has_feedback_min_offset();
+  inline void set_has_feedback_multiplier();
+  inline void clear_has_feedback_multiplier();
+  inline void set_has_feedforward_min_offset();
+  inline void clear_has_feedforward_min_offset();
+  inline void set_has_feedforward_fraction();
+  inline void clear_has_feedforward_fraction();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   float p_;
   float i_;
   float d_;
-  float velocity_offset_;
-  float velocity_multiplier_;
+  float feedback_min_offset_;
+  float feedback_multiplier_;
+  float feedforward_min_offset_;
+  float feedforward_fraction_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telecommand_2eproto();
   friend void protobuf_AssignDesc_Telecommand_2eproto();
@@ -1248,62 +1010,6 @@ inline void Telecommand_Autonomy::set_enabled(bool value) {
 
 // -------------------------------------------------------------------
 
-// Telecommand_SteeringMode_AckermannSteeringData
-
-// optional float max_linear_velocity = 1 [default = 0.33];
-inline bool Telecommand_SteeringMode_AckermannSteeringData::has_max_linear_velocity() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
-}
-inline void Telecommand_SteeringMode_AckermannSteeringData::set_has_max_linear_velocity() {
-  _has_bits_[0] |= 0x00000001u;
-}
-inline void Telecommand_SteeringMode_AckermannSteeringData::clear_has_max_linear_velocity() {
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline void Telecommand_SteeringMode_AckermannSteeringData::clear_max_linear_velocity() {
-  max_linear_velocity_ = 0.33f;
-  clear_has_max_linear_velocity();
-}
-inline float Telecommand_SteeringMode_AckermannSteeringData::max_linear_velocity() const {
-  return max_linear_velocity_;
-}
-inline void Telecommand_SteeringMode_AckermannSteeringData::set_max_linear_velocity(float value) {
-  set_has_max_linear_velocity();
-  max_linear_velocity_ = value;
-}
-
-// optional int32 bezier_curve_segments = 2 [default = 20];
-inline bool Telecommand_SteeringMode_AckermannSteeringData::has_bezier_curve_segments() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void Telecommand_SteeringMode_AckermannSteeringData::set_has_bezier_curve_segments() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void Telecommand_SteeringMode_AckermannSteeringData::clear_has_bezier_curve_segments() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void Telecommand_SteeringMode_AckermannSteeringData::clear_bezier_curve_segments() {
-  bezier_curve_segments_ = 20;
-  clear_has_bezier_curve_segments();
-}
-inline ::google::protobuf::int32 Telecommand_SteeringMode_AckermannSteeringData::bezier_curve_segments() const {
-  return bezier_curve_segments_;
-}
-inline void Telecommand_SteeringMode_AckermannSteeringData::set_bezier_curve_segments(::google::protobuf::int32 value) {
-  set_has_bezier_curve_segments();
-  bezier_curve_segments_ = value;
-}
-
-// -------------------------------------------------------------------
-
-// Telecommand_SteeringMode_TurnInSpotSteeringData
-
-// -------------------------------------------------------------------
-
-// Telecommand_SteeringMode_CrabSteeringData
-
-// -------------------------------------------------------------------
-
 // Telecommand_SteeringMode
 
 // required .lunabotics.proto.SteeringModeType type = 1;
@@ -1329,204 +1035,121 @@ inline void Telecommand_SteeringMode::set_type(::lunabotics::proto::SteeringMode
   type_ = value;
 }
 
-// optional .lunabotics.proto.Telecommand.SteeringMode.AckermannSteeringData ackermann_steering_data = 2;
-inline bool Telecommand_SteeringMode::has_ackermann_steering_data() const {
+// required float heading_accuracy = 2;
+inline bool Telecommand_SteeringMode::has_heading_accuracy() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void Telecommand_SteeringMode::set_has_ackermann_steering_data() {
+inline void Telecommand_SteeringMode::set_has_heading_accuracy() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void Telecommand_SteeringMode::clear_has_ackermann_steering_data() {
+inline void Telecommand_SteeringMode::clear_has_heading_accuracy() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void Telecommand_SteeringMode::clear_ackermann_steering_data() {
-  if (ackermann_steering_data_ != NULL) ackermann_steering_data_->::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData::Clear();
-  clear_has_ackermann_steering_data();
+inline void Telecommand_SteeringMode::clear_heading_accuracy() {
+  heading_accuracy_ = 0;
+  clear_has_heading_accuracy();
 }
-inline const ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData& Telecommand_SteeringMode::ackermann_steering_data() const {
-  return ackermann_steering_data_ != NULL ? *ackermann_steering_data_ : *default_instance_->ackermann_steering_data_;
+inline float Telecommand_SteeringMode::heading_accuracy() const {
+  return heading_accuracy_;
 }
-inline ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* Telecommand_SteeringMode::mutable_ackermann_steering_data() {
-  set_has_ackermann_steering_data();
-  if (ackermann_steering_data_ == NULL) ackermann_steering_data_ = new ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData;
-  return ackermann_steering_data_;
-}
-inline ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* Telecommand_SteeringMode::release_ackermann_steering_data() {
-  clear_has_ackermann_steering_data();
-  ::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* temp = ackermann_steering_data_;
-  ackermann_steering_data_ = NULL;
-  return temp;
-}
-inline void Telecommand_SteeringMode::set_allocated_ackermann_steering_data(::lunabotics::proto::Telecommand_SteeringMode_AckermannSteeringData* ackermann_steering_data) {
-  delete ackermann_steering_data_;
-  ackermann_steering_data_ = ackermann_steering_data;
-  if (ackermann_steering_data) {
-    set_has_ackermann_steering_data();
-  } else {
-    clear_has_ackermann_steering_data();
-  }
+inline void Telecommand_SteeringMode::set_heading_accuracy(float value) {
+  set_has_heading_accuracy();
+  heading_accuracy_ = value;
 }
 
-// optional .lunabotics.proto.Telecommand.SteeringMode.TurnInSpotSteeringData turn_in_spot_steering_data = 3;
-inline bool Telecommand_SteeringMode::has_turn_in_spot_steering_data() const {
+// required float position_accuracy = 3;
+inline bool Telecommand_SteeringMode::has_position_accuracy() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void Telecommand_SteeringMode::set_has_turn_in_spot_steering_data() {
+inline void Telecommand_SteeringMode::set_has_position_accuracy() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void Telecommand_SteeringMode::clear_has_turn_in_spot_steering_data() {
+inline void Telecommand_SteeringMode::clear_has_position_accuracy() {
   _has_bits_[0] &= ~0x00000004u;
 }
-inline void Telecommand_SteeringMode::clear_turn_in_spot_steering_data() {
-  if (turn_in_spot_steering_data_ != NULL) turn_in_spot_steering_data_->::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData::Clear();
-  clear_has_turn_in_spot_steering_data();
+inline void Telecommand_SteeringMode::clear_position_accuracy() {
+  position_accuracy_ = 0;
+  clear_has_position_accuracy();
 }
-inline const ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData& Telecommand_SteeringMode::turn_in_spot_steering_data() const {
-  return turn_in_spot_steering_data_ != NULL ? *turn_in_spot_steering_data_ : *default_instance_->turn_in_spot_steering_data_;
+inline float Telecommand_SteeringMode::position_accuracy() const {
+  return position_accuracy_;
 }
-inline ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* Telecommand_SteeringMode::mutable_turn_in_spot_steering_data() {
-  set_has_turn_in_spot_steering_data();
-  if (turn_in_spot_steering_data_ == NULL) turn_in_spot_steering_data_ = new ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData;
-  return turn_in_spot_steering_data_;
-}
-inline ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* Telecommand_SteeringMode::release_turn_in_spot_steering_data() {
-  clear_has_turn_in_spot_steering_data();
-  ::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* temp = turn_in_spot_steering_data_;
-  turn_in_spot_steering_data_ = NULL;
-  return temp;
-}
-inline void Telecommand_SteeringMode::set_allocated_turn_in_spot_steering_data(::lunabotics::proto::Telecommand_SteeringMode_TurnInSpotSteeringData* turn_in_spot_steering_data) {
-  delete turn_in_spot_steering_data_;
-  turn_in_spot_steering_data_ = turn_in_spot_steering_data;
-  if (turn_in_spot_steering_data) {
-    set_has_turn_in_spot_steering_data();
-  } else {
-    clear_has_turn_in_spot_steering_data();
-  }
+inline void Telecommand_SteeringMode::set_position_accuracy(float value) {
+  set_has_position_accuracy();
+  position_accuracy_ = value;
 }
 
-// optional .lunabotics.proto.Telecommand.SteeringMode.CrabSteeringData crab_steering_data = 4;
-inline bool Telecommand_SteeringMode::has_crab_steering_data() const {
+// required float max_linear_velocity = 4;
+inline bool Telecommand_SteeringMode::has_max_linear_velocity() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void Telecommand_SteeringMode::set_has_crab_steering_data() {
+inline void Telecommand_SteeringMode::set_has_max_linear_velocity() {
   _has_bits_[0] |= 0x00000008u;
 }
-inline void Telecommand_SteeringMode::clear_has_crab_steering_data() {
+inline void Telecommand_SteeringMode::clear_has_max_linear_velocity() {
   _has_bits_[0] &= ~0x00000008u;
 }
-inline void Telecommand_SteeringMode::clear_crab_steering_data() {
-  if (crab_steering_data_ != NULL) crab_steering_data_->::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData::Clear();
-  clear_has_crab_steering_data();
+inline void Telecommand_SteeringMode::clear_max_linear_velocity() {
+  max_linear_velocity_ = 0;
+  clear_has_max_linear_velocity();
 }
-inline const ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData& Telecommand_SteeringMode::crab_steering_data() const {
-  return crab_steering_data_ != NULL ? *crab_steering_data_ : *default_instance_->crab_steering_data_;
+inline float Telecommand_SteeringMode::max_linear_velocity() const {
+  return max_linear_velocity_;
 }
-inline ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* Telecommand_SteeringMode::mutable_crab_steering_data() {
-  set_has_crab_steering_data();
-  if (crab_steering_data_ == NULL) crab_steering_data_ = new ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData;
-  return crab_steering_data_;
+inline void Telecommand_SteeringMode::set_max_linear_velocity(float value) {
+  set_has_max_linear_velocity();
+  max_linear_velocity_ = value;
 }
-inline ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* Telecommand_SteeringMode::release_crab_steering_data() {
-  clear_has_crab_steering_data();
-  ::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* temp = crab_steering_data_;
-  crab_steering_data_ = NULL;
-  return temp;
+
+// required int32 bezier_curve_segments = 5;
+inline bool Telecommand_SteeringMode::has_bezier_curve_segments() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void Telecommand_SteeringMode::set_allocated_crab_steering_data(::lunabotics::proto::Telecommand_SteeringMode_CrabSteeringData* crab_steering_data) {
-  delete crab_steering_data_;
-  crab_steering_data_ = crab_steering_data;
-  if (crab_steering_data) {
-    set_has_crab_steering_data();
-  } else {
-    clear_has_crab_steering_data();
-  }
+inline void Telecommand_SteeringMode::set_has_bezier_curve_segments() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void Telecommand_SteeringMode::clear_has_bezier_curve_segments() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void Telecommand_SteeringMode::clear_bezier_curve_segments() {
+  bezier_curve_segments_ = 0;
+  clear_has_bezier_curve_segments();
+}
+inline ::google::protobuf::int32 Telecommand_SteeringMode::bezier_curve_segments() const {
+  return bezier_curve_segments_;
+}
+inline void Telecommand_SteeringMode::set_bezier_curve_segments(::google::protobuf::int32 value) {
+  set_has_bezier_curve_segments();
+  bezier_curve_segments_ = value;
 }
 
 // -------------------------------------------------------------------
 
 // Telecommand_DefineRoute
 
-// required .lunabotics.proto.Point goal = 1;
-inline bool Telecommand_DefineRoute::has_goal() const {
-  return (_has_bits_[0] & 0x00000001u) != 0;
+// repeated .lunabotics.proto.Point waypoints = 1;
+inline int Telecommand_DefineRoute::waypoints_size() const {
+  return waypoints_.size();
 }
-inline void Telecommand_DefineRoute::set_has_goal() {
-  _has_bits_[0] |= 0x00000001u;
+inline void Telecommand_DefineRoute::clear_waypoints() {
+  waypoints_.Clear();
 }
-inline void Telecommand_DefineRoute::clear_has_goal() {
-  _has_bits_[0] &= ~0x00000001u;
+inline const ::lunabotics::proto::Point& Telecommand_DefineRoute::waypoints(int index) const {
+  return waypoints_.Get(index);
 }
-inline void Telecommand_DefineRoute::clear_goal() {
-  if (goal_ != NULL) goal_->::lunabotics::proto::Point::Clear();
-  clear_has_goal();
+inline ::lunabotics::proto::Point* Telecommand_DefineRoute::mutable_waypoints(int index) {
+  return waypoints_.Mutable(index);
 }
-inline const ::lunabotics::proto::Point& Telecommand_DefineRoute::goal() const {
-  return goal_ != NULL ? *goal_ : *default_instance_->goal_;
+inline ::lunabotics::proto::Point* Telecommand_DefineRoute::add_waypoints() {
+  return waypoints_.Add();
 }
-inline ::lunabotics::proto::Point* Telecommand_DefineRoute::mutable_goal() {
-  set_has_goal();
-  if (goal_ == NULL) goal_ = new ::lunabotics::proto::Point;
-  return goal_;
+inline const ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point >&
+Telecommand_DefineRoute::waypoints() const {
+  return waypoints_;
 }
-inline ::lunabotics::proto::Point* Telecommand_DefineRoute::release_goal() {
-  clear_has_goal();
-  ::lunabotics::proto::Point* temp = goal_;
-  goal_ = NULL;
-  return temp;
-}
-inline void Telecommand_DefineRoute::set_allocated_goal(::lunabotics::proto::Point* goal) {
-  delete goal_;
-  goal_ = goal;
-  if (goal) {
-    set_has_goal();
-  } else {
-    clear_has_goal();
-  }
-}
-
-// optional float heading_accuracy = 2 [default = 0.4];
-inline bool Telecommand_DefineRoute::has_heading_accuracy() const {
-  return (_has_bits_[0] & 0x00000002u) != 0;
-}
-inline void Telecommand_DefineRoute::set_has_heading_accuracy() {
-  _has_bits_[0] |= 0x00000002u;
-}
-inline void Telecommand_DefineRoute::clear_has_heading_accuracy() {
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline void Telecommand_DefineRoute::clear_heading_accuracy() {
-  heading_accuracy_ = 0.4f;
-  clear_has_heading_accuracy();
-}
-inline float Telecommand_DefineRoute::heading_accuracy() const {
-  return heading_accuracy_;
-}
-inline void Telecommand_DefineRoute::set_heading_accuracy(float value) {
-  set_has_heading_accuracy();
-  heading_accuracy_ = value;
-}
-
-// optional float position_accuracy = 3 [default = 0.2];
-inline bool Telecommand_DefineRoute::has_position_accuracy() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void Telecommand_DefineRoute::set_has_position_accuracy() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void Telecommand_DefineRoute::clear_has_position_accuracy() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void Telecommand_DefineRoute::clear_position_accuracy() {
-  position_accuracy_ = 0.2f;
-  clear_has_position_accuracy();
-}
-inline float Telecommand_DefineRoute::position_accuracy() const {
-  return position_accuracy_;
-}
-inline void Telecommand_DefineRoute::set_position_accuracy(float value) {
-  set_has_position_accuracy();
-  position_accuracy_ = value;
+inline ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point >*
+Telecommand_DefineRoute::mutable_waypoints() {
+  return &waypoints_;
 }
 
 // -------------------------------------------------------------------
@@ -1603,48 +1226,92 @@ inline void Telecommand_AdjustPID::set_d(float value) {
   d_ = value;
 }
 
-// required float velocity_offset = 4;
-inline bool Telecommand_AdjustPID::has_velocity_offset() const {
+// required float feedback_min_offset = 4;
+inline bool Telecommand_AdjustPID::has_feedback_min_offset() const {
   return (_has_bits_[0] & 0x00000008u) != 0;
 }
-inline void Telecommand_AdjustPID::set_has_velocity_offset() {
+inline void Telecommand_AdjustPID::set_has_feedback_min_offset() {
   _has_bits_[0] |= 0x00000008u;
 }
-inline void Telecommand_AdjustPID::clear_has_velocity_offset() {
+inline void Telecommand_AdjustPID::clear_has_feedback_min_offset() {
   _has_bits_[0] &= ~0x00000008u;
 }
-inline void Telecommand_AdjustPID::clear_velocity_offset() {
-  velocity_offset_ = 0;
-  clear_has_velocity_offset();
+inline void Telecommand_AdjustPID::clear_feedback_min_offset() {
+  feedback_min_offset_ = 0;
+  clear_has_feedback_min_offset();
 }
-inline float Telecommand_AdjustPID::velocity_offset() const {
-  return velocity_offset_;
+inline float Telecommand_AdjustPID::feedback_min_offset() const {
+  return feedback_min_offset_;
 }
-inline void Telecommand_AdjustPID::set_velocity_offset(float value) {
-  set_has_velocity_offset();
-  velocity_offset_ = value;
+inline void Telecommand_AdjustPID::set_feedback_min_offset(float value) {
+  set_has_feedback_min_offset();
+  feedback_min_offset_ = value;
 }
 
-// required float velocity_multiplier = 5;
-inline bool Telecommand_AdjustPID::has_velocity_multiplier() const {
+// required float feedback_multiplier = 5;
+inline bool Telecommand_AdjustPID::has_feedback_multiplier() const {
   return (_has_bits_[0] & 0x00000010u) != 0;
 }
-inline void Telecommand_AdjustPID::set_has_velocity_multiplier() {
+inline void Telecommand_AdjustPID::set_has_feedback_multiplier() {
   _has_bits_[0] |= 0x00000010u;
 }
-inline void Telecommand_AdjustPID::clear_has_velocity_multiplier() {
+inline void Telecommand_AdjustPID::clear_has_feedback_multiplier() {
   _has_bits_[0] &= ~0x00000010u;
 }
-inline void Telecommand_AdjustPID::clear_velocity_multiplier() {
-  velocity_multiplier_ = 0;
-  clear_has_velocity_multiplier();
+inline void Telecommand_AdjustPID::clear_feedback_multiplier() {
+  feedback_multiplier_ = 0;
+  clear_has_feedback_multiplier();
 }
-inline float Telecommand_AdjustPID::velocity_multiplier() const {
-  return velocity_multiplier_;
+inline float Telecommand_AdjustPID::feedback_multiplier() const {
+  return feedback_multiplier_;
 }
-inline void Telecommand_AdjustPID::set_velocity_multiplier(float value) {
-  set_has_velocity_multiplier();
-  velocity_multiplier_ = value;
+inline void Telecommand_AdjustPID::set_feedback_multiplier(float value) {
+  set_has_feedback_multiplier();
+  feedback_multiplier_ = value;
+}
+
+// required float feedforward_min_offset = 6;
+inline bool Telecommand_AdjustPID::has_feedforward_min_offset() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void Telecommand_AdjustPID::set_has_feedforward_min_offset() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void Telecommand_AdjustPID::clear_has_feedforward_min_offset() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void Telecommand_AdjustPID::clear_feedforward_min_offset() {
+  feedforward_min_offset_ = 0;
+  clear_has_feedforward_min_offset();
+}
+inline float Telecommand_AdjustPID::feedforward_min_offset() const {
+  return feedforward_min_offset_;
+}
+inline void Telecommand_AdjustPID::set_feedforward_min_offset(float value) {
+  set_has_feedforward_min_offset();
+  feedforward_min_offset_ = value;
+}
+
+// required float feedforward_fraction = 7;
+inline bool Telecommand_AdjustPID::has_feedforward_fraction() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void Telecommand_AdjustPID::set_has_feedforward_fraction() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void Telecommand_AdjustPID::clear_has_feedforward_fraction() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void Telecommand_AdjustPID::clear_feedforward_fraction() {
+  feedforward_fraction_ = 0;
+  clear_has_feedforward_fraction();
+}
+inline float Telecommand_AdjustPID::feedforward_fraction() const {
+  return feedforward_fraction_;
+}
+inline void Telecommand_AdjustPID::set_feedforward_fraction(float value) {
+  set_has_feedforward_fraction();
+  feedforward_fraction_ = value;
 }
 
 // -------------------------------------------------------------------

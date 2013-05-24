@@ -8,7 +8,7 @@ class OccupancyGraphicsItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    OccupancyGraphicsItem(QPoint coordinate, QRect rect, QGraphicsItem* parent);
+    OccupancyGraphicsItem(QPoint coordinate, QRect rect, qint32 occupancy, QGraphicsItem* parent);
     QPoint coordinate;
 
 protected:
@@ -17,6 +17,7 @@ protected:
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
 
 private:
+    qint32 occupancy;
 
 signals:
     void clicked(QPoint coordinate);

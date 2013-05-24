@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) :
     this->robotState = new RobotState();
     this->nextWaypointIdx = -1;
     this->mapViewInfo = new MapViewMetaInfo(ui->mapView->width()-30, ui->mapView->height()-15);
+    this->multiWaypoints = false;
+    this->waypoints = new QVector<QPoint>();
 
 
     //Setup UI
@@ -41,17 +43,20 @@ MainWindow::MainWindow(QWidget *parent) :
     this->path = new QVector<QPointF>();
     this->pathGraphicsItem = NULL;
 
+    this->multiWaypointsItem = NULL;
+    ui->multiWaypointsButtonWidget->setVisible(false);
+    ui->multiWaypointsButtonWidget->setEnabled(false);
 
 
     QString text;
 
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("control");
-    ui->ackermannLinearSpeedEdit->setText(settings.value("ackermann.v", DEFAULT_LINEAR_SPEED_LIMIT).toString());
-    ui->bezierSegmentsEdit->setText(settings.value("ackermann.bezier", DEFAULT_BEZIER_SEGMENTS).toString());
+    ui->linearSpeedEdit->setText(settings.value(SETTINGS_VELOCITY, DEFAULT_LINEAR_SPEED_LIMIT).toString());
+    ui->bezierSegmentsEdit->setText(settings.value(SETTINGS_BEZIER, DEFAULT_BEZIER_SEGMENTS).toString());
+    ui->angleTolerance->setText(settings.value(SETTINGS_ANGLE_ACC, DEFAULT_ANGLE_ACCURACY).toString());
+    ui->distanceTolerance->setText(settings.value(SETTINGS_DIST_ACC, DEFAULT_DISTANCE_ACCURACY).toString());
     settings.endGroup();
-
-    ui->ackermannLinearSpeedEdit->setText(text.setNum(DEFAULT_LINEAR_SPEED_LIMIT));
 
     this->pathTableModel = new QStandardItemModel(0, 2, this); //0 Rows and 2 Columns
     ui->pathTableView->setModel(this->pathTableModel);
@@ -62,10 +67,6 @@ MainWindow::MainWindow(QWidget *parent) :
     this->resetTelemetryModel();
 
     this->redrawMap();
-    ui->driveForwardLabel->setStyleSheet("background-color : blue; color : white;");
-    ui->driveLeftLabel->setStyleSheet("background-color : blue; color : white;");
-    ui->driveRightLabel->setStyleSheet("background-color : blue; color : white;");
-    ui->driveBackLabel->setStyleSheet("background-color : blue; color : white;");
 
     ui->autonomyLabelWidget->setVisible(false);
     ui->autonomyButton->setVisible(false);
@@ -73,11 +74,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ctrlLeftPixmap->setVisible(false);
     ui->ctrlRightPixmap->setVisible(false);
     ui->ctrlUpPixmap->setVisible(false);
-
-    //Controller representation is used instead
-    ui->ctrlButtonsWidget->setVisible(false);
-
-
 
     //Setup network
     this->outgoingSocket = NULL;
@@ -94,13 +90,16 @@ MainWindow::~MainWindow()
 
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("control");
-    settings.setValue("ackermann.v", ui->ackermannLinearSpeedEdit->text());
-    settings.setValue("ackermann.bezier", ui->bezierSegmentsEdit->text());
+    settings.setValue(SETTINGS_VELOCITY, ui->linearSpeedEdit->text());
+    settings.setValue(SETTINGS_BEZIER, ui->bezierSegmentsEdit->text());
+    settings.setValue(SETTINGS_ANGLE_ACC, ui->angleTolerance->text());
+    settings.setValue(SETTINGS_DIST_ACC, ui->distanceTolerance->text());
     settings.endGroup();
 
     delete ui;
     this->disconnectRobot();
 
+    delete this->waypoints;
     delete this->incomingServer;
     delete this->outgoingSocket;
     delete this->mapScene;
@@ -147,6 +146,7 @@ void MainWindow::updateMapPath()
 {
     qDebug() << "Updating path";
     if (this->map->isValid()) {
+        this->removeMultiWaypointsPrint();
         this->resetPathModel();
         this->minICRRadius = -1;
         this->trajectoryCurves.clear();
@@ -159,7 +159,7 @@ void MainWindow::updateMapPath()
             this->pathGraphicsItem = new QGraphicsItemGroup();
             this->mapScene->addItem(this->pathGraphicsItem);
         }
-        if (this->robotState->steeringMode == lunabotics::proto::TURN_IN_SPOT) {
+        if (this->robotState->steeringMode == lunabotics::proto::POINT_TURN) {
             for (int i = 1; i < this->path->size(); i++) {
                 QPoint previousCoordinate = this->map->coordinateOf(this->path->at(i-1));
                 QPoint coordinate = this->map->coordinateOf(this->path->at(i));
@@ -272,8 +272,8 @@ void MainWindow::updateMapPoses()
 
 
         if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN && this->robotState->autonomous) {
-            QPointF closestPoint = this->mapViewInfo->pointFromWorld(this->closestTrajectoryPoint, this->map->resolution);
-            QPointF velocityPoint = this->mapViewInfo->pointFromWorld(this->velocityPoint, this->map->resolution);
+            QPointF closestPoint = this->mapViewInfo->pointFromWorld(this->feedbackPathPoint, this->map->resolution);
+            QPointF feedbackPoint = this->mapViewInfo->pointFromWorld(this->feedbackPoint, this->map->resolution);
             if (!this->velocityVectorItem) {
                 this->velocityVectorItem = new QGraphicsLineItem();
                 this->velocityVectorItem->setPen(PEN_PURPLE);
@@ -284,10 +284,10 @@ void MainWindow::updateMapPoses()
                 this->closestDistanceItem->setPen(PEN_PURPLE);
                 this->mapScene->addItem(this->closestDistanceItem);
             }
-            if (isvalid(velocityPoint)) {
-                this->velocityVectorItem->setLine(robotCenter.x(), robotCenter.y(), velocityPoint.x(), velocityPoint.y());
+            if (isvalid(feedbackPoint)) {
+                this->velocityVectorItem->setLine(robotCenter.x(), robotCenter.y(), feedbackPoint.x(), feedbackPoint.y());
                 if (isvalid(closestPoint)) {
-                    this->closestDistanceItem->setLine(velocityPoint.x(), velocityPoint.y(), closestPoint.x(), closestPoint.y());
+                    this->closestDistanceItem->setLine(feedbackPoint.x(), feedbackPoint.y(), closestPoint.x(), closestPoint.y());
                 }
             }
         }
@@ -322,12 +322,7 @@ void MainWindow::redrawMap()
                 quint8 occupancy = this->map->at(x, y);
                 QPoint point(x,y);
 
-                //Set color according to occupancy value
-                int val = 255-occupancy*2.55;
-                QBrush varBrush(QColor(val, val, val));
-                OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, this->mapViewInfo->cellRectAt(x, y), 0);
-                rect->setBrush(varBrush);
-                rect->setPen(PEN_CLEAR);
+                OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, this->mapViewInfo->cellRectAt(x, y), occupancy, 0);
 
                 QObject::connect(rect, SIGNAL(clicked(QPoint)), this, SLOT(mapCell_clicked(QPoint)));
                 QObject::connect(rect, SIGNAL(hovered(QPoint)), this, SLOT(mapCell_hovered(QPoint)));
@@ -354,6 +349,7 @@ void MainWindow::removeAndDeleteAllMapItems()
     this->velocityVectorItem = NULL;
     this->closestDistanceItem = NULL;
     this->pathGraphicsItem = NULL;
+    this->multiWaypointsItem = NULL;
 }
 
 
@@ -371,7 +367,7 @@ void MainWindow::connectRobot()
         this->outgoingSocket = new QTcpSocket(this);
     }
 
-    this->outgoingSocket->connectToHost(settings.value("ip", CONN_OUTGOING_ADDR).toString(), REMOTE_PORT);
+    this->outgoingSocket->connectToHost(settings.value(SETTINGS_IP, CONN_OUTGOING_ADDR).toString(), REMOTE_PORT);
 
     if (!this->incomingServer) {
         this->incomingServer = new QTcpServer(this);
@@ -511,8 +507,8 @@ void MainWindow::receiveTelemetry()
             QString str;
             switch (this->robotState->steeringMode) {
             case lunabotics::proto::ACKERMANN: str = "Ackermann"; break;
-            case lunabotics::proto::TURN_IN_SPOT: str = "Turn in spot"; break;
-            case lunabotics::proto::CRAB: str = "Crab"; break;
+            case lunabotics::proto::POINT_TURN: str = "Point-turn"; break;
+            case lunabotics::proto::AUTO: str = "Automatic"; break;
             default: str = "Undefined"; break;
             }
 
@@ -520,9 +516,19 @@ void MainWindow::receiveTelemetry()
 
             if (state.has_next_waypoint_idx()) {
                 this->nextWaypointIdx = state.next_waypoint_idx()-1;
+                this->setRow(row, "traj.next_waypoint", QString("%1").arg(QString::number(this->nextWaypointIdx)));
+            }
+
+            if (state.has_segment_idx()) {
+                this->segmentIdx = state.segment_idx();
+                this->setRow(row, "traj.segment", QString("%1").arg(QString::number(this->segmentIdx)));
             }
 
             if (state.has_icr()) {
+                if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN || this->robotState->steeringMode == lunabotics::proto::AUTO) {
+                    this->setRow(row, "ICR.x", QString("%1 m").arg(QString::number(state.icr().x(), 'f', 2)));
+                    this->setRow(row, "ICR.y", QString("%1 m").arg(QString::number(state.icr().y(), 'f', 2)));
+                }
                 emit ICRUpdated(QPointF(state.icr().x(), state.icr().y()));
             }
 
@@ -532,45 +538,57 @@ void MainWindow::receiveTelemetry()
                 this->setRow(row, "min ICR", QString("%1 m").arg(QString::number(state.min_icr_offset(), 'f', 2)));
             }
 
-            bool hasTrajectoryFollowingInfo = this->robotState->steeringMode == lunabotics::proto::ACKERMANN && state.has_ackermann_telemetry();
-
-            if (hasTrajectoryFollowingInfo) {
+            if (state.has_ackermann_telemetry()) {
 
                 const lunabotics::proto::Telemetry::State::AckermannTelemetry params = state.ackermann_telemetry();
 
-                this->closestTrajectoryPoint.setX(params.closest_trajectory_point().x());
-                this->closestTrajectoryPoint.setY(params.closest_trajectory_point().y());
-                this->velocityPoint.setX(params.velocity_vector_point().x());
-                this->velocityPoint.setY(params.velocity_vector_point().y());
-                this->transformedClosestTrajectoryPoint.setX(params.closest_trajectory_local_point().x());
-                this->transformedClosestTrajectoryPoint.setY(params.closest_trajectory_local_point().y());
-                this->transformedVelocityPoint.setX(params.velocity_vector_local_point().x());
-                this->transformedVelocityPoint.setY(params.velocity_vector_local_point().y());
+                this->feedbackPathPoint.setX(params.feedback_path_point().x());
+                this->feedbackPathPoint.setY(params.feedback_path_point().y());
+                this->feedbackPoint.setX(params.feedback_point().x());
+                this->feedbackPoint.setY(params.feedback_point().y());
+                this->feedbackPathPointLocal.setX(params.feedback_path_point_local().x());
+                this->feedbackPathPointLocal.setY(params.feedback_path_point_local().y());
+                this->feedbackPointLocal.setX(params.feedback_point_local().x());
+                this->feedbackPointLocal.setY(params.feedback_point_local().y());
 
-                emit updateLocalFrame(this->transformedVelocityPoint, this->transformedClosestTrajectoryPoint);
+                QVector<QPointF> feedforwardPoints;
+                for (int i = 0; i < params.feedforward_points_local_size(); i++) {
+                    const lunabotics::proto::Point point = params.feedforward_points_local(i);
+                    feedforwardPoints.push_back(QPointF(point.x(),point.y()));
+                }
 
-                this->setRow(row, "PID.err", QString("%1 m").arg(QString::number(params.pid_error(), 'f', 3)));
+                QPointF feedforwardCenter(params.feedforward_center().x(), params.feedforward_center().y());
 
-                if (isvalid(this->transformedClosestTrajectoryPoint)) {
-                    this->setRow(row, "local.traj.pt.x", QString("%1 m").arg(QString::number(this->transformedClosestTrajectoryPoint.x(), 'f', 2)));
-                    this->setRow(row, "local.traj.pt.y", QString("%1 m").arg(QString::number(this->transformedClosestTrajectoryPoint.y(), 'f', 2)));
+                emit updateLocalFrame(this->feedbackPointLocal, this->feedbackPathPointLocal, feedforwardPoints, feedforwardCenter);
+
+                this->setRow(row, "PID.err", QString("%1 m").arg(QString::number(params.feedback_error(), 'f', 3)));
+                this->setRow(row, "FF.prediction", QString("%1 rad").arg(QString::number(params.feedforward_prediction(), 'f', 3)));
+                this->setRow(row, "FF.radius", QString("%1 m").arg(QString::number(params.feedforward_curve_radius(), 'f', 3)));
+
+                if (isvalid(this->feedbackPathPointLocal)) {
+                    this->setRow(row, "traj.ff.c.x", QString("%1 m").arg(QString::number(feedforwardCenter.x(), 'f', 2)));
+                    this->setRow(row, "traj.ff.c.y", QString("%1 m").arg(QString::number(feedforwardCenter.y(), 'f', 2)));
                 }
-                if (isvalid(this->transformedVelocityPoint)) {
-                    this->setRow(row, "local.vec.pt.x", QString("%1 m").arg(QString::number(this->transformedVelocityPoint.x(), 'f', 2)));
-                    this->setRow(row, "local.vec.pt.y", QString("%1 m").arg(QString::number(this->transformedVelocityPoint.y(), 'f', 2)));
+                if (isvalid(this->feedbackPathPointLocal)) {
+                    this->setRow(row, "local.traj.pt.x", QString("%1 m").arg(QString::number(this->feedbackPathPointLocal.x(), 'f', 2)));
+                    this->setRow(row, "local.traj.pt.y", QString("%1 m").arg(QString::number(this->feedbackPathPointLocal.y(), 'f', 2)));
                 }
-                if (isvalid(this->closestTrajectoryPoint)) {
-                    this->setRow(row, "global.traj.pt.x", QString("%1 m").arg(QString::number(this->closestTrajectoryPoint.x(), 'f', 2)));
-                    this->setRow(row, "global.traj.pt.y", QString("%1 m").arg(QString::number(this->closestTrajectoryPoint.y(), 'f', 2)));
+                if (isvalid(this->feedbackPointLocal)) {
+                    this->setRow(row, "local.vec.pt.x", QString("%1 m").arg(QString::number(this->feedbackPointLocal.x(), 'f', 2)));
+                    this->setRow(row, "local.vec.pt.y", QString("%1 m").arg(QString::number(this->feedbackPointLocal.y(), 'f', 2)));
                 }
-                if (isvalid(this->velocityPoint)) {
-                    this->setRow(row, "global.vec.pt.x", QString("%1 m").arg(QString::number(this->velocityPoint.x(), 'f', 2)));
-                    this->setRow(row, "global.vec.pt.y", QString("%1 m").arg(QString::number(this->velocityPoint.y(), 'f', 2)));
+                if (isvalid(this->feedbackPathPoint)) {
+                    this->setRow(row, "global.traj.pt.x", QString("%1 m").arg(QString::number(this->feedbackPathPoint.x(), 'f', 2)));
+                    this->setRow(row, "global.traj.pt.y", QString("%1 m").arg(QString::number(this->feedbackPathPoint.y(), 'f', 2)));
+                }
+                if (isvalid(this->feedbackPoint)) {
+                    this->setRow(row, "global.vec.pt.x", QString("%1 m").arg(QString::number(this->feedbackPoint.x(), 'f', 2)));
+                    this->setRow(row, "global.vec.pt.y", QString("%1 m").arg(QString::number(this->feedbackPoint.y(), 'f', 2)));
                 }
             }
             else {
                 emit clearLocalFrame();
-                if (this->robotState->steeringMode == lunabotics::proto::TURN_IN_SPOT) { //state.has_point_turn_telemetry()) {
+                if (this->robotState->steeringMode == lunabotics::proto::POINT_TURN) { //state.has_point_turn_telemetry()) {
                     switch(state.point_turn_telemetry().state()) {
                     case lunabotics::proto::Telemetry::DRIVING: str = "Driving"; break;
                     case lunabotics::proto::Telemetry::TURNING: str = "Turning"; break;
@@ -630,7 +648,7 @@ void MainWindow::sendTelecommand(lunabotics::proto::Telecommand::Type contentTyp
     this->outgoingSocket->abort();
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("connection");
-    this->outgoingSocket->connectToHost(settings.value("ip", CONN_OUTGOING_ADDR).toString(), REMOTE_PORT);
+    this->outgoingSocket->connectToHost(settings.value(SETTINGS_IP, CONN_OUTGOING_ADDR).toString(), REMOTE_PORT);
     settings.endGroup();
 
     lunabotics::proto::Telecommand tc;
@@ -643,11 +661,10 @@ void MainWindow::sendTelecommand(lunabotics::proto::Telecommand::Type contentTyp
     case lunabotics::proto::Telecommand::STEERING_MODE: {
         lunabotics::proto::Telecommand::SteeringMode *steeringMode = tc.mutable_steering_mode_data();
         steeringMode->set_type(this->robotState->steeringMode);
-        if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN) {
-            lunabotics::proto::Telecommand::SteeringMode::AckermannSteeringData *steeringData = steeringMode->mutable_ackermann_steering_data();
-            steeringData->set_max_linear_velocity(ui->ackermannLinearSpeedEdit->text().toFloat());
-            steeringData->set_bezier_curve_segments(ui->bezierSegmentsEdit->text().toInt());
-        }
+        steeringMode->set_heading_accuracy(ui->angleTolerance->text().toFloat());
+        steeringMode->set_position_accuracy(ui->distanceTolerance->text().toFloat());
+        steeringMode->set_max_linear_velocity(ui->linearSpeedEdit->text().toFloat());
+        steeringMode->set_bezier_curve_segments(ui->bezierSegmentsEdit->text().toInt());
     }
         break;
     case lunabotics::proto::Telecommand::TELEOPERATION: {
@@ -660,11 +677,14 @@ void MainWindow::sendTelecommand(lunabotics::proto::Telecommand::Type contentTyp
         break;
     case lunabotics::proto::Telecommand::DEFINE_ROUTE: {
         lunabotics::proto::Telecommand::DefineRoute *route = tc.mutable_define_route_data();
-        QPointF goal = this->map->positionOf(this->goal);
-        route->mutable_goal()->set_x(goal.x());
-        route->mutable_goal()->set_y(goal.y());
-        route->set_heading_accuracy(ui->spotAngleTolerance->text().toFloat());
-        route->set_position_accuracy(ui->spotDistanceTolerance->text().toFloat());
+        for (int i = 0; i < this->waypoints->size(); i++) {
+            QPoint p = this->waypoints->at(i);
+            qreal p_x = p.x();
+            qreal p_y = p.y();
+            lunabotics::proto::Point *waypoint = route->add_waypoints();
+            waypoint->set_x(p_x);
+            waypoint->set_y(p_y);
+        }
     }
         break;
 
@@ -675,11 +695,13 @@ void MainWindow::sendTelecommand(lunabotics::proto::Telecommand::Type contentTyp
     case lunabotics::proto::Telecommand::ADJUST_PID: {
         lunabotics::proto::Telecommand::AdjustPID *pid = tc.mutable_adjust_pid_data();
         settings.beginGroup("pid");
-        pid->set_p(settings.value("p", PID_KP).toFloat());
-        pid->set_i(settings.value("i", PID_KI).toFloat());
-        pid->set_d(settings.value("d", PID_KD).toFloat());
-        pid->set_velocity_offset(settings.value("offset", PID_OFFSET).toFloat());
-        pid->set_velocity_multiplier(settings.value("v", PID_VEL_M).toFloat());
+        pid->set_p(settings.value(SETTING_PID_P, PID_KP).toFloat());
+        pid->set_i(settings.value(SETTING_PID_I, PID_KI).toFloat());
+        pid->set_d(settings.value(SETTING_PID_D, PID_KD).toFloat());
+        pid->set_feedback_min_offset(settings.value(SETTING_FEEDBACK_MIN_OFFSET, FEEDBACK_MIN_OFFSET).toFloat());
+        pid->set_feedback_multiplier(settings.value(SETTING_FEEDBACK_MULTIPLIER, FEEDBACK_MULTIPLIER).toFloat());
+        pid->set_feedforward_fraction(settings.value(SETTING_FEEDFORWARD_FRACTION, FEEDFORWARD_FRACTION).toFloat());
+        pid->set_feedforward_min_offset(settings.value(SETTING_FEEDFORWARD_MIN_OFFSET, FEEDFORWARD_MIN_OFFSET).toFloat());
         settings.endGroup();
     }
         break;
@@ -714,6 +736,12 @@ void MainWindow::sendTelecommand(lunabotics::proto::Telecommand::Type contentTyp
             tc.mutable_all_wheel_control_data()->mutable_icr_data()->set_velocity(this->robotState->ICRVelocity);
         }
             break;
+
+        case lunabotics::proto::AllWheelControl::CRAB: {
+            tc.mutable_all_wheel_control_data()->mutable_crab_data()->set_heading(this->crabHeading);
+            tc.mutable_all_wheel_control_data()->mutable_crab_data()->set_velocity(this->crabVelocity);
+        }
+            break;
         }
     }
         break;
@@ -741,12 +769,48 @@ void MainWindow::sendTelecommand(lunabotics::proto::Telecommand::Type contentTyp
     this->socketMutex.unlock();
 }
 
+void MainWindow::removeMultiWaypointsPrint()
+{
+    this->mapScene->removeItem(this->multiWaypointsItem);
+    delete this->multiWaypointsItem;
+    this->multiWaypointsItem = NULL;
+    this->waypoints->clear();
+}
+
 
 void MainWindow::mapCell_clicked(QPoint coordinate)
 {
-    this->goal = coordinate;
-    this->setAutonomy(true);
-    this->sendTelecommand(lunabotics::proto::Telecommand::DEFINE_ROUTE);
+    if (this->multiWaypoints) {
+        if (!this->multiWaypointsItem) {
+            this->multiWaypointsItem = new QGraphicsItemGroup();
+            this->mapScene->addItem(this->multiWaypointsItem);
+        }
+        this->waypoints->push_back(coordinate);
+        QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(this->mapViewInfo->cellRectAt(coordinate));
+        ellipse->setPen(PEN_BLUE);
+        ellipse->setBrush(BRUSH_CLEAR);
+        this->multiWaypointsItem->addToGroup(ellipse);
+        QPoint previousCoordinate;
+        if (this->waypoints->size() > 1) {
+            previousCoordinate = this->waypoints->at(this->waypoints->size()-2);
+        }
+        else {
+            previousCoordinate = this->map->coordinateOf(this->robotState->pose->position);
+        }
+        QPointF pathPoint1 = this->mapViewInfo->cellCenterAt(previousCoordinate);
+        QPointF pathPoint2 = this->mapViewInfo->cellCenterAt(coordinate);
+        QGraphicsLineItem *line = new QGraphicsLineItem(pathPoint1.x(), pathPoint1.y(), pathPoint2.x(), pathPoint2.y());
+        line->setPen(PEN_BLUE);
+        this->multiWaypointsItem->addToGroup(line);
+        ui->multiWaypointsButtonWidget->setEnabled(!this->waypoints->empty());
+    }
+    else {
+        ui->multiWaypointsButtonWidget->setEnabled(false);
+        this->removeMultiWaypointsPrint();
+        this->waypoints->push_back(coordinate);
+        this->setAutonomy(true);
+        this->sendTelecommand(lunabotics::proto::Telecommand::DEFINE_ROUTE);
+    }
 }
 
 void MainWindow::mapCell_hovered(QPoint coordinate)
@@ -774,18 +838,10 @@ void MainWindow::on_actionExit_triggered()
     QApplication::quit();
 }
 
-
-void MainWindow::on_useLateralButton_clicked()
-{
-    qDebug() << "Switching to lateral driving mode";
-    this->robotState->steeringMode = lunabotics::proto::CRAB;
-    this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
-}
-
 void MainWindow::on_useSpotButton_clicked()
 {
     qDebug() << "Switching to spot driving mode";
-    this->robotState->steeringMode = lunabotics::proto::TURN_IN_SPOT;
+    this->robotState->steeringMode = lunabotics::proto::POINT_TURN;
     this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
 }
 
@@ -806,22 +862,18 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
     this->setAutonomy(false);
     if (event->key() == Qt::Key_F5 || event->key() == Qt::Key_W) {
         this->robotState->drivingMask |= FORWARD;
-        ui->driveForwardLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
         ui->ctrlUpPixmap->setVisible(true);
     }
     if (event->key() == Qt::Key_F6 || event->key() == Qt::Key_A) {
         this->robotState->drivingMask |= LEFT;
-        ui->driveLeftLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
         ui->ctrlLeftPixmap->setVisible(true);
     }
     if (event->key() == Qt::Key_F7 || event->key() == Qt::Key_S) {
         this->robotState->drivingMask |= BACKWARD;
-        ui->driveBackLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
         ui->ctrlDownPixmap->setVisible(true);
     }
     if (event->key() == Qt::Key_F8 || event->key() == Qt::Key_D) {
         this->robotState->drivingMask |= RIGHT;
-        ui->driveRightLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
         ui->ctrlRightPixmap->setVisible(true);
     }
     this->sendTelecommand(lunabotics::proto::Telecommand::TELEOPERATION);
@@ -832,22 +884,18 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
     this->setAutonomy(false);
     if (event->key() == Qt::Key_F5 || event->key() == Qt::Key_W) {
         this->robotState->drivingMask &= ~FORWARD;
-        ui->driveForwardLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
         ui->ctrlUpPixmap->setVisible(false);
     }
     if (event->key() == Qt::Key_F6 || event->key() == Qt::Key_A) {
         this->robotState->drivingMask &= ~LEFT;
-        ui->driveLeftLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
         ui->ctrlLeftPixmap->setVisible(false);
     }
     if (event->key() == Qt::Key_F7 || event->key() == Qt::Key_S) {
         this->robotState->drivingMask &= ~BACKWARD;
-        ui->driveBackLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
         ui->ctrlDownPixmap->setVisible(false);
     }
     if (event->key() == Qt::Key_F8 || event->key() == Qt::Key_D) {
         this->robotState->drivingMask &= ~RIGHT;
-        ui->driveRightLabel->setStyleSheet("QLabel { background-color : blue; color : white; }");
         ui->ctrlRightPixmap->setVisible(false);
     }
     this->sendTelecommand(lunabotics::proto::Telecommand::TELEOPERATION);
@@ -911,6 +959,7 @@ void MainWindow::on_actionAll_wheel_control_triggered()
         connect(this->allWheelPanel, SIGNAL(predefinedControlSelected(lunabotics::proto::AllWheelControl::PredefinedControlType)), this, SLOT(predefinedControlSelected(lunabotics::proto::AllWheelControl::PredefinedControlType)));
         connect(this->allWheelPanel, SIGNAL(explicitControlSelected(AllWheelState*,AllWheelState*)), this, SLOT(explicitControlSelected(AllWheelState*,AllWheelState*)));
         connect(this->allWheelPanel, SIGNAL(ICRControlSelected(QPointF,float)), this, SLOT(ICRControlSelected(QPointF,float)));
+        connect(this->allWheelPanel, SIGNAL(crabControlSelected(qreal,qreal)), this, SLOT(crabControlSelected(qreal,qreal)));
         connect(this->allWheelPanel, SIGNAL(closing()), this, SLOT(nullifyAllWheelPanel()));
         connect(this, SIGNAL(allWheelStateUpdated(AllWheelState*,AllWheelState*)), this->allWheelPanel, SLOT(allWheelStateUpdated(AllWheelState*,AllWheelState*)));
         connect(this, SIGNAL(ICRUpdated(QPointF)), this->allWheelPanel, SLOT(ICRUpdated(QPointF)));
@@ -940,7 +989,7 @@ void MainWindow::on_actionTrajectory_following_triggered()
         connect(this->followingPanel, SIGNAL(closing()), this, SLOT(nullifyFollowingPanel()));
         connect(this->followingPanel, SIGNAL(sendPID()), this, SLOT(sendPID()));
         connect(this, SIGNAL(clearLocalFrame()), this->followingPanel, SLOT(clearLocalFrame()));
-        connect(this, SIGNAL(updateLocalFrame(QPointF,QPointF)), this->followingPanel, SLOT(updateLocalFrame(QPointF,QPointF)));
+        connect(this, SIGNAL(updateLocalFrame(QPointF,QPointF,QVector<QPointF>,QPointF)), this->followingPanel, SLOT(updateLocalFrame(QPointF,QPointF,QVector<QPointF>,QPointF)));
 
         this->followingPanel->show();
     }
@@ -992,4 +1041,36 @@ void MainWindow::resetPathModel()
     this->pathTableModel->clear();
     this->pathTableModel->setHorizontalHeaderItem(0, new QStandardItem(QString("x")));
     this->pathTableModel->setHorizontalHeaderItem(1, new QStandardItem(QString("y")));
+}
+
+void MainWindow::on_multiWaypointsButton_clicked()
+{
+    this->multiWaypoints = !this->multiWaypoints;
+    ui->multiWaypointsButtonWidget->setVisible(this->multiWaypoints);
+    ui->multiWaypointsButton->setText(this->multiWaypoints ? "Single selection" : "Multi selection");
+}
+
+void MainWindow::on_waypointsResetButton_clicked()
+{
+    this->removeMultiWaypointsPrint();
+}
+
+void MainWindow::on_waypointsSendButton_clicked()
+{
+    this->sendTelecommand(lunabotics::proto::Telecommand::DEFINE_ROUTE);
+}
+
+void MainWindow::crabControlSelected(qreal head, qreal vel)
+{
+    this->crabHeading = head;
+    this->crabVelocity = vel;
+    this->robotState->allWheelControlType = lunabotics::proto::AllWheelControl::CRAB;
+    this->sendTelecommand(lunabotics::proto::Telecommand::ADJUST_WHEELS);
+}
+
+void MainWindow::on_useAutoButton_clicked()
+{
+    qDebug() << "Switching to automatic driving mode";
+    this->robotState->steeringMode = lunabotics::proto::AUTO;
+    this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
 }

@@ -48,7 +48,6 @@ AllWheelForm::AllWheelForm(QWidget *parent) :
 
 AllWheelForm::~AllWheelForm()
 {
-    qDebug() << "DELETING PANEL";
     qDeleteAll(this->robotSketchScene->items());
     this->robotSketchScene->items().clear();
 

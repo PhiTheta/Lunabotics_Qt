@@ -2,19 +2,20 @@
 #include "ui_trajectoryfollowingform.h"
 #include "Graphics.h"
 #include "constants.h"
+#include "Common.h"
 #include <QDebug>
 #include <QCloseEvent>
 #include <QSettings>
 #include <QtCore>
 
-#define SCALE   1//0.0
+#define SCALE   100.0
 
 TrajectoryFollowingForm::TrajectoryFollowingForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TrajectoryFollowingForm)
 {
     ui->setupUi(this);
-
+    this->graphicItemsCreated = false;
     this->localFrameInfo = new MapViewMetaInfo(ui->graphicsView->width(), ui->graphicsView->height());
 
     QSettings settings("ivany4", "lunabotics");
@@ -74,34 +75,31 @@ void TrajectoryFollowingForm::clearLocalFrame()
     this->feedbackPointEllipseItem = NULL;
     this->feedforwardPointsItem = NULL;
     this->graphicItemsCreated = false;
+    this->localFrameScene->addLine(0, -5, 7, 7, PEN_RED_BOLD);
+    this->localFrameScene->addLine(7, 7, -7, 7, PEN_RED_BOLD);
+    this->localFrameScene->addLine(-7, 7, 0, -5, PEN_RED_BOLD);
 }
 
 
 
 void TrajectoryFollowingForm::updateLocalFrame(QPointF feedbackPoint, QPointF feedbackPathPoint, QVector<QPointF> feedforwardPoints, QPointF feedforwardCenter)
 {
-    QPointF origin(ui->graphicsView->width()/2, ui->graphicsView->height()/2);
-
     if (!this->graphicItemsCreated) {
         this->feedbackErrorLineItem = new QGraphicsLineItem();
-        this->feedbackErrorLineItem->setPen(PEN_BLUE);
+        this->feedbackErrorLineItem->setPen(PEN_RED);
         this->localFrameScene->addItem(this->feedbackErrorLineItem);
         this->feedbackLookAheadLineItem = new QGraphicsLineItem();
-        this->feedbackLookAheadLineItem->setPen(PEN_RED);
+        this->feedbackLookAheadLineItem->setPen(PEN_BLUE);
         this->localFrameScene->addItem(this->feedbackLookAheadLineItem);
         this->feedbackPathPointEllipseItem = new QGraphicsEllipseItem(-2, -2, 4, 4);
-        this->feedbackPathPointEllipseItem->setPen(PEN_BLUE);
-        this->feedbackPathPointEllipseItem->setBrush(BRUSH_BLUE);
+        this->feedbackPathPointEllipseItem->setPen(PEN_RED);
+        this->feedbackPathPointEllipseItem->setBrush(BRUSH_CLEAR);
         this->localFrameScene->addItem(this->feedbackPathPointEllipseItem);
-        this->feedbackPointEllipseItem = new QGraphicsEllipseItem(-1, -1, 2, 2);
-        this->feedbackPointEllipseItem->setPen(PEN_RED);
-        this->feedbackPointEllipseItem->setBrush(BRUSH_RED);
+        this->feedbackPointEllipseItem = new QGraphicsEllipseItem(-2, -2, 4, 4);
+        this->feedbackPointEllipseItem->setPen(PEN_BLUE);
+        this->feedbackPointEllipseItem->setBrush(BRUSH_CLEAR);
         this->localFrameScene->addItem(this->feedbackPointEllipseItem);
         this->graphicItemsCreated = true;
-
-        this->localFrameScene->addLine(origin.x(), origin.y()-5, origin.x()+7, origin.y()+7, PEN_RED_BOLD);
-        this->localFrameScene->addLine(origin.x()+7, origin.y()+7, origin.x()-7, origin.y()+7, PEN_RED_BOLD);
-        this->localFrameScene->addLine(origin.x()-7, origin.y()+7, origin.x(), origin.y()-5, PEN_RED_BOLD);
     }
 
     if (this->feedforwardPointsItem) {
@@ -112,35 +110,46 @@ void TrajectoryFollowingForm::updateLocalFrame(QPointF feedbackPoint, QPointF fe
     this->localFrameScene->addItem(this->feedforwardPointsItem);
 
 
-    qreal x = origin.x()+feedbackPoint.x()*SCALE;
-    qreal y = origin.y()+feedbackPoint.y()*SCALE;
-    qreal x1 = origin.x()+feedbackPathPoint.x()*SCALE;
-    qreal y1 = origin.y()+feedbackPathPoint.y()*SCALE;
 
-    this->feedbackPathPointEllipseItem->setPos(x1, y1);
-    this->feedbackPointEllipseItem->setPos(x, y);
-    this->feedbackErrorLineItem->setLine(origin.x(), origin.y(), x, y);
-    this->feedbackLookAheadLineItem->setLine(x, y, x1, y1);
-    this->feedbackPathPointEllipseItem->setRotation(-90);
-    this->feedbackPointEllipseItem->setRotation(-90);
-    this->feedbackErrorLineItem->setRotation(-90);
-    this->feedbackLookAheadLineItem->setRotation(-90);
-    //this->localFrameScene->addEllipse(origin.x()-5, origin.y()-5, 10.0, 10.0, PEN_BLACK, BRUSH_GREEN);
+    if (isvalid(feedbackPoint)) {
+        qreal x = -feedbackPoint.y()*SCALE;
+        qreal y = -feedbackPoint.x()*SCALE;
+        this->feedbackPointEllipseItem->setPos(x, y);
+        this->feedbackLookAheadLineItem->setLine(0, 0, x, y);
+        if (isvalid(feedbackPathPoint)) {
+            qreal x1 = -feedbackPathPoint.y()*SCALE;
+            qreal y1 = -feedbackPathPoint.x()*SCALE;
 
-    x1 = origin.x()+feedforwardCenter.x()*SCALE;
-    y1 = origin.y()+feedforwardCenter.y()*SCALE;
+            this->feedbackPathPointEllipseItem->setPos(x1, y1);
+            this->feedbackErrorLineItem->setLine(x, y, x1, y1);
+        }
+    }
 
-    for (int i = 0; i < feedforwardPoints.size(); i++) {
-        QPointF point = feedforwardPoints.at(i);
-        y = origin.x()+point.x()*SCALE;
-        x = origin.y()+point.y()*SCALE;
-        QGraphicsLineItem *line = new QGraphicsLineItem(x, y, x1, y1);
-        line->setPen(PEN_GREEN);
-        QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(x-2, y-2, 4, 4);
-        ellipse->setPen(PEN_GREEN);
-        ellipse->setBrush(BRUSH_CLEAR);
-        this->feedforwardPointsItem->addToGroup(ellipse);
-        this->feedforwardPointsItem->addToGroup(line);
+    if (isvalid(feedforwardCenter)) {
+        qreal x1 = -feedforwardCenter.y()*SCALE;
+        qreal y1 = -feedforwardCenter.x()*SCALE;
+        if (x1 > -ui->graphicsView->width()/2 && x1 < ui->graphicsView->width()/2 &&
+            y1 > -ui->graphicsView->height()/2 && y1 < ui->graphicsView->height()/2) {
+            QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(x1-2, y1-2, 4, 4);
+            ellipse->setPen(PEN_PURPLE);
+            ellipse->setBrush(BRUSH_CLEAR);
+            this->feedforwardPointsItem->addToGroup(ellipse);
+        }
+
+        for (int i = 0; i < feedforwardPoints.size(); i++) {
+            QPointF point = feedforwardPoints.at(i);
+            if (isvalid(point)) {
+                qreal x = -point.y()*SCALE;
+                qreal y = -point.x()*SCALE;
+                QGraphicsLineItem *line = new QGraphicsLineItem(x, y, x1, y1);
+                line->setPen(PEN_GREEN);
+                QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(x-2, y-2, 4, 4);
+                ellipse->setPen(PEN_GREEN);
+                ellipse->setBrush(BRUSH_CLEAR);
+                this->feedforwardPointsItem->addToGroup(ellipse);
+               // this->feedforwardPointsItem->addToGroup(line);
+            }
+        }
     }
 }
 

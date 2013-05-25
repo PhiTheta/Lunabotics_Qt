@@ -122,15 +122,9 @@ void MainWindow::setAutonomy(bool enabled)
 {
     if (enabled != this->robotState->autonomous) {
         this->robotState->autonomous = enabled;
-        if (enabled) {
-            qDebug() << "Enabling autonomy";
-        }
-        else {
-            qDebug() << "Disabling autonomy";
-            if (!this->path->isEmpty()) {
-                this->path->clear();
-                this->updateMapPath();
-            }
+        if (!enabled && !this->path->isEmpty()) {
+            this->path->clear();
+            this->updateMapPath();
         }
         this->sendTelecommand(lunabotics::proto::Telecommand::SET_AUTONOMY);
     }
@@ -144,7 +138,6 @@ void MainWindow::setAutonomyLabel(bool enabled)
 
 void MainWindow::updateMapPath()
 {
-    qDebug() << "Updating path";
     if (this->map->isValid()) {
         this->removeMultiWaypointsPrint();
         this->resetPathModel();
@@ -236,7 +229,6 @@ void MainWindow::updateMapPath()
             }
         }
     }
-    qDebug() << "Finished updating path";
 }
 
 void MainWindow::updateMapPoses()
@@ -312,7 +304,6 @@ void MainWindow::redrawMap()
     this->removeAndDeleteAllMapItems();
 
     if (this->map->isValid()) {
-        qDebug() << "Updating map";
         this->mapViewInfo->viewportWidth = ui->mapView->width();
         this->mapViewInfo->viewportHeight = ui->mapView->height();
         this->mapViewInfo->cellEdge = floor(std::min(this->mapViewInfo->viewportWidth,this->mapViewInfo->viewportHeight)/this->map->width);
@@ -336,8 +327,6 @@ void MainWindow::redrawMap()
 
     this->updateMapPath();
     this->updateMapPoses();
-
-    qDebug() << "Finished updating map";
 }
 
 void MainWindow::removeAndDeleteAllMapItems()
@@ -356,9 +345,6 @@ void MainWindow::removeAndDeleteAllMapItems()
 void MainWindow::connectRobot()
 {
     this->disconnectRobot();
-
-    qDebug() << "Creating new connection";
-
 
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("connection");
@@ -385,7 +371,6 @@ void MainWindow::connectRobot()
 
 void MainWindow::disconnectRobot()
 {
-    qDebug() << "Closing connection";
     if (this->outgoingSocket) {
         this->outgoingSocket->close();
     }
@@ -402,7 +387,6 @@ void MainWindow::acceptConnection()
     this->incomingSocket = this->incomingServer->nextPendingConnection();
 
     if (this->incomingSocket) {
-        qDebug() << "New connection";
         connect(this->incomingSocket, SIGNAL(readyRead()), this, SLOT(receiveTelemetry()));
     }
 }
@@ -429,7 +413,6 @@ void MainWindow::receiveTelemetry()
     }
     else {
         if (tm.has_world_data()) {
-            qDebug() << "Receiving world data";
             const lunabotics::proto::Telemetry::World world = tm.world_data();
             int width = world.width();
             int height = world.height();
@@ -446,8 +429,6 @@ void MainWindow::receiveTelemetry()
                 QVector<quint8> *cells = new QVector<quint8>();
 
                 ui->mapResolutionLabel->setText(QString("1 cell = %1x%2m").arg(QString::number(this->map->resolution, 'f', 2)).arg(QString::number(this->map->resolution, 'f', 2)));
-
-                qDebug() << "Receiving map";
 
                 for (int i = 0; i < world.cell_size(); i++) {
                     cells->push_back(world.cell(i));
@@ -474,7 +455,6 @@ void MainWindow::receiveTelemetry()
             QVector<lunabotics::proto::Telemetry::Path::Curve> curves;
             for (int i = 0; i < path.curves_size(); i++) {
                 const lunabotics::proto::Telemetry::Path::Curve curve = path.curves(i);
-                qDebug() << curve.start_idx() << " " << curve.end_idx();
                 curves.push_back(curve);
             }
             this->trajectoryCurves = curves;
@@ -840,14 +820,12 @@ void MainWindow::on_actionExit_triggered()
 
 void MainWindow::on_useSpotButton_clicked()
 {
-    qDebug() << "Switching to spot driving mode";
     this->robotState->steeringMode = lunabotics::proto::POINT_TURN;
     this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
 }
 
 void MainWindow::on_useAckermannButton_clicked()
 {
-    qDebug() << "Switching to Ackermann driving mode";
     this->robotState->steeringMode = lunabotics::proto::ACKERMANN;
     this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
 }
@@ -929,7 +907,6 @@ void MainWindow::ICRControlSelected(QPointF ICR, float velocity)
 
 void MainWindow::nullifyAllWheelPanel()
 {
-    qDebug() << "Close signal got";
     if (this->allWheelPanel) {
         delete this->allWheelPanel; this->allWheelPanel = NULL;
     }
@@ -937,7 +914,6 @@ void MainWindow::nullifyAllWheelPanel()
 
 void MainWindow::nullifyFollowingPanel()
 {
-    qDebug() << "Close signal got";
     if (this->followingPanel) {
         delete this->followingPanel; this->followingPanel = NULL;
     }
@@ -945,7 +921,6 @@ void MainWindow::nullifyFollowingPanel()
 
 void MainWindow::nullifyAnalysisPanel()
 {
-    qDebug() << "Close signal got";
     if (this->analysisPanel) {
         delete this->analysisPanel; this->analysisPanel = NULL;
     }
@@ -954,7 +929,6 @@ void MainWindow::nullifyAnalysisPanel()
 void MainWindow::on_actionAll_wheel_control_triggered()
 {
     if (!this->allWheelPanel) {
-        qDebug() << "Opening ALl Wheel Panel";
         this->allWheelPanel = new AllWheelForm();
         connect(this->allWheelPanel, SIGNAL(predefinedControlSelected(lunabotics::proto::AllWheelControl::PredefinedControlType)), this, SLOT(predefinedControlSelected(lunabotics::proto::AllWheelControl::PredefinedControlType)));
         connect(this->allWheelPanel, SIGNAL(explicitControlSelected(AllWheelState*,AllWheelState*)), this, SLOT(explicitControlSelected(AllWheelState*,AllWheelState*)));
@@ -972,7 +946,6 @@ void MainWindow::on_actionAll_wheel_control_triggered()
         }
     }
     else {
-        qDebug() << "Bringing ALl Wheel Panel to front";
         this->allWheelPanel->setWindowState( (windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
         this->allWheelPanel->raise();  // for MacOS
         this->allWheelPanel->activateWindow(); // for Windows
@@ -983,7 +956,6 @@ void MainWindow::on_actionTrajectory_following_triggered()
 {
 
     if (!this->followingPanel) {
-        qDebug() << "Opening Following Panel";
         this->followingPanel = new TrajectoryFollowingForm();
 
         connect(this->followingPanel, SIGNAL(closing()), this, SLOT(nullifyFollowingPanel()));
@@ -994,7 +966,6 @@ void MainWindow::on_actionTrajectory_following_triggered()
         this->followingPanel->show();
     }
     else {
-        qDebug() << "Bringing Folliowing Panel to front";
         this->followingPanel->setWindowState( (windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
         this->followingPanel->raise();  // for MacOS
         this->followingPanel->activateWindow(); // for Windows
@@ -1010,7 +981,6 @@ void MainWindow::on_actionTrajectory_analysis_triggered()
 {
 
     if (!this->analysisPanel) {
-        qDebug() << "Opening Following Panel";
         this->analysisPanel = new AnalysisForm();
 
         connect(this->analysisPanel, SIGNAL(closing()), this, SLOT(nullifyAnalysisPanel()));
@@ -1022,7 +992,6 @@ void MainWindow::on_actionTrajectory_analysis_triggered()
         emit updateRadius(this->minICRRadius);
     }
     else {
-        qDebug() << "Bringing Analysis Panel to front";
         this->analysisPanel->setWindowState( (windowState() & ~Qt::WindowMinimized) | Qt::WindowActive);
         this->analysisPanel->raise();  // for MacOS
         this->analysisPanel->activateWindow(); // for Windows
@@ -1070,7 +1039,6 @@ void MainWindow::crabControlSelected(qreal head, qreal vel)
 
 void MainWindow::on_useAutoButton_clicked()
 {
-    qDebug() << "Switching to automatic driving mode";
     this->robotState->steeringMode = lunabotics::proto::AUTO;
     this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
 }

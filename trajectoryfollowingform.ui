@@ -59,10 +59,13 @@
       <bool>false</bool>
      </property>
      <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+      <set>Qt::AlignCenter</set>
      </property>
      <property name="dragMode">
       <enum>QGraphicsView::RubberBandDrag</enum>
+     </property>
+     <property name="resizeAnchor">
+      <enum>QGraphicsView::AnchorViewCenter</enum>
      </property>
     </widget>
    </item>

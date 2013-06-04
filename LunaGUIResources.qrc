@@ -14,7 +14,10 @@
         <file>ctrl_up.png</file>
         <file>ctrl.png</file>
         <file>warning.png</file>
-        <file>aaltobotics.icns</file>
         <file>directions.png</file>
+        <file>analysis.png</file>
+        <file>following.png</file>
+        <file>allwheel.png</file>
+        <file>aaltobotics.icns</file>
     </qresource>
 </RCC>

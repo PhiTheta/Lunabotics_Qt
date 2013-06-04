@@ -910,14 +910,14 @@
         <widget class="QWidget" name="joystickWidget" native="true">
          <property name="minimumSize">
           <size>
-           <width>150</width>
-           <height>150</height>
+           <width>235</width>
+           <height>122</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>150</width>
-           <height>150</height>
+           <width>235</width>
+           <height>122</height>
           </size>
          </property>
          <widget class="QLabel" name="ctrlPixmap">
@@ -925,14 +925,20 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>235</width>
+            <height>122</height>
+           </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </size>
           </property>
           <property name="text">
@@ -950,20 +956,20 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </size>
           </property>
           <property name="text">
@@ -981,20 +987,20 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </size>
           </property>
           <property name="text">
@@ -1012,20 +1018,20 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </size>
           </property>
           <property name="text">
@@ -1043,20 +1049,20 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>150</width>
-            <height>150</height>
+            <width>235</width>
+            <height>122</height>
            </size>
           </property>
           <property name="text">
@@ -1262,7 +1268,7 @@
   <action name="actionAll_wheel_control">
    <property name="icon">
     <iconset resource="LunaGUIResources.qrc">
-     <normaloff>:/images/platform.png</normaloff>:/images/platform.png</iconset>
+     <normaloff>:/images/allwheel.png</normaloff>:/images/allwheel.png</iconset>
    </property>
    <property name="text">
     <string>All-wheel control</string>
@@ -1277,7 +1283,7 @@
   <action name="actionTrajectory_following">
    <property name="icon">
     <iconset resource="LunaGUIResources.qrc">
-     <normaloff>:/images/path.png</normaloff>:/images/path.png</iconset>
+     <normaloff>:/images/following.png</normaloff>:/images/following.png</iconset>
    </property>
    <property name="text">
     <string>Path following</string>
@@ -1286,7 +1292,7 @@
   <action name="actionTrajectory_analysis">
    <property name="icon">
     <iconset resource="LunaGUIResources.qrc">
-     <normaloff>:/images/directions.png</normaloff>:/images/directions.png</iconset>
+     <normaloff>:/images/analysis.png</normaloff>:/images/analysis.png</iconset>
    </property>
    <property name="text">
     <string>Trajectory analysis</string>

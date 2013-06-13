@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->multiWaypoints = false;
     this->waypoints = new QVector<QPoint>();
 
+    this->hasAckermannData = false;
 
     //Setup UI
     statusBar()->setVisible(false);
@@ -263,7 +264,8 @@ void MainWindow::updateMapPoses()
         this->robotPointerItem->setRotation(-this->robotState->pose->heading*180.0/M_PI);
 
 
-        if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN && this->robotState->autonomous) {
+        if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN && this->robotState->autonomous
+                && this->hasAckermannData) {
             QPointF closestPoint = this->mapViewInfo->pointFromWorld(this->feedbackPathPoint, this->map->resolution);
             QPointF feedbackPoint = this->mapViewInfo->pointFromWorld(this->feedbackPoint, this->map->resolution);
             if (!this->velocityVectorItem) {
@@ -518,6 +520,8 @@ void MainWindow::receiveTelemetry()
                 this->setRow(row, "min ICR", QString("%1 m").arg(QString::number(state.min_icr_offset(), 'f', 2)));
             }
 
+            this->hasAckermannData = state.has_ackermann_telemetry();
+
             if (state.has_ackermann_telemetry()) {
 
                 const lunabotics::proto::Telemetry::State::AckermannTelemetry params = state.ackermann_telemetry();
@@ -544,6 +548,7 @@ void MainWindow::receiveTelemetry()
                 this->setRow(row, "PID.err", QString("%1 m").arg(QString::number(params.feedback_error(), 'f', 3)));
                 this->setRow(row, "FF.prediction", QString("%1 rad").arg(QString::number(params.feedforward_prediction(), 'f', 3)));
                 this->setRow(row, "FF.radius", QString("%1 m").arg(QString::number(params.feedforward_curve_radius(), 'f', 3)));
+                this->setRow(row, "head.err", QString("%1 rad").arg(QString::number(params.heading_error(), 'f', 3)));
 
                 if (isvalid(this->feedbackPathPointLocal)) {
                     this->setRow(row, "traj.ff.c.x", QString("%1 m").arg(QString::number(feedforwardCenter.x(), 'f', 2)));

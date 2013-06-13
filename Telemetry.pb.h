@@ -203,6 +203,13 @@ class Telemetry_State_AckermannTelemetry : public ::google::protobuf::Message {
   inline ::lunabotics::proto::Point* release_feedforward_center();
   inline void set_allocated_feedforward_center(::lunabotics::proto::Point* feedforward_center);
 
+  // required float heading_error = 10;
+  inline bool has_heading_error() const;
+  inline void clear_heading_error();
+  static const int kHeadingErrorFieldNumber = 10;
+  inline float heading_error() const;
+  inline void set_heading_error(float value);
+
   // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.State.AckermannTelemetry)
  private:
   inline void set_has_feedback_error();
@@ -221,6 +228,8 @@ class Telemetry_State_AckermannTelemetry : public ::google::protobuf::Message {
   inline void clear_has_feedback_point_local();
   inline void set_has_feedforward_center();
   inline void clear_has_feedforward_center();
+  inline void set_has_heading_error();
+  inline void clear_has_heading_error();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
@@ -229,13 +238,14 @@ class Telemetry_State_AckermannTelemetry : public ::google::protobuf::Message {
   ::lunabotics::proto::Point* feedback_path_point_;
   ::lunabotics::proto::Point* feedback_point_;
   ::lunabotics::proto::Point* feedback_path_point_local_;
+  float feedforward_curve_radius_;
+  float heading_error_;
   ::lunabotics::proto::Point* feedback_point_local_;
   ::google::protobuf::RepeatedPtrField< ::lunabotics::proto::Point > feedforward_points_local_;
   ::lunabotics::proto::Point* feedforward_center_;
-  float feedforward_curve_radius_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(10 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telemetry_2eproto();
   friend void protobuf_AssignDesc_Telemetry_2eproto();
@@ -1522,6 +1532,28 @@ inline void Telemetry_State_AckermannTelemetry::set_allocated_feedforward_center
   } else {
     clear_has_feedforward_center();
   }
+}
+
+// required float heading_error = 10;
+inline bool Telemetry_State_AckermannTelemetry::has_heading_error() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void Telemetry_State_AckermannTelemetry::set_has_heading_error() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void Telemetry_State_AckermannTelemetry::clear_has_heading_error() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void Telemetry_State_AckermannTelemetry::clear_heading_error() {
+  heading_error_ = 0;
+  clear_has_heading_error();
+}
+inline float Telemetry_State_AckermannTelemetry::heading_error() const {
+  return heading_error_;
+}
+inline void Telemetry_State_AckermannTelemetry::set_heading_error(float value) {
+  set_has_heading_error();
+  heading_error_ = value;
 }
 
 // -------------------------------------------------------------------

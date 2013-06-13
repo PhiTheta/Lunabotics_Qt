@@ -124,6 +124,7 @@ private:
     RobotState *robotState;
 
     //Trajectory following data
+    bool hasAckermannData;
     QPointF feedbackPathPoint;
     QPointF feedbackPoint;
     QPointF feedbackPointLocal;

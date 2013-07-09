@@ -358,7 +358,7 @@ void MainWindow::connectRobot()
         this->outgoingSocket = new QTcpSocket(this);
     }
 
-    this->outgoingSocket->connectToHost(settings.value(SETTINGS_IP, CONN_OUTGOING_ADDR).toString(), REMOTE_PORT);
+    this->outgoingSocket->connectToHost(settings.value(SETTINGS_IP, CONN_OUTGOING_ADDR).toString(), settings.value(SETTINGS_REMOTE_PORT, CONN_REMOTE_PORT).toInt());
 
     if (!this->incomingServer) {
         this->incomingServer = new QTcpServer(this);
@@ -367,11 +367,14 @@ void MainWindow::connectRobot()
 
 
     QHostAddress addr = QHostAddress::Any;
-    if (!this->incomingServer->listen(addr, LOCAL_PORT)) {
+    if (!this->incomingServer->listen(addr, settings.value(SETTINGS_LOCAL_PORT, CONN_LOCAL_PORT).toInt())) {
         qDebug() << "Failed to start listening";
     }
 
     settings.endGroup();
+
+    //Acknowledge about ip and port and ask for a map right away
+    this->sendTelecommand(lunabotics::proto::Telecommand::REQUEST_MAP);
 }
 
 void MainWindow::disconnectRobot()
@@ -653,11 +656,12 @@ void MainWindow::sendTelecommand(lunabotics::proto::Telecommand::Type contentTyp
     this->outgoingSocket->abort();
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("connection");
-    this->outgoingSocket->connectToHost(settings.value(SETTINGS_IP, CONN_OUTGOING_ADDR).toString(), REMOTE_PORT);
+    this->outgoingSocket->connectToHost(settings.value(SETTINGS_IP, CONN_OUTGOING_ADDR).toString(), settings.value(SETTINGS_REMOTE_PORT, CONN_REMOTE_PORT).toInt());
     settings.endGroup();
 
     lunabotics::proto::Telecommand tc;
     tc.set_type(contentType);
+    tc.set_reply_port(settings.value(SETTINGS_LOCAL_PORT, CONN_LOCAL_PORT).toString().toStdString());
 
     switch (contentType) {
     case lunabotics::proto::Telecommand::SET_AUTONOMY:

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>435</width>
-    <height>191</height>
+    <height>323</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -60,31 +60,99 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="outIPTitleLabel">
+       <widget class="QLabel" name="robotTitleLabel">
         <property name="text">
-         <string>Robot IP address</string>
+         <string>Robot:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="outIPLineEdit">
+       <widget class="QWidget" name="widget" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>25</height>
+          <height>80</height>
          </size>
         </property>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="formAlignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+         <item row="1" column="0">
+          <widget class="QLabel" name="outIPTitleLabel">
+           <property name="text">
+            <string>IP address</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="outIPLineEdit">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::StrongFocus</enum>
+           </property>
+           <property name="text">
+            <string>192.168.218.129</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="portTitleLabel">
+           <property name="text">
+            <string>Port</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="portLineEdit">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>49203</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="selfPortTitleLabel">
+        <property name="text">
+         <string>Accept connections on port:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="selfPortLineEdit">
         <property name="maximumSize">
          <size>
           <width>120</width>
           <height>16777215</height>
          </size>
         </property>
-        <property name="focusPolicy">
-         <enum>Qt::StrongFocus</enum>
-        </property>
         <property name="text">
-         <string>192.168.218.129</string>
+         <string>44326</string>
         </property>
        </widget>
       </item>

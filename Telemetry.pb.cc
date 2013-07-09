@@ -144,10 +144,12 @@ void protobuf_AssignDesc_Telemetry_2eproto() {
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(Telemetry_State_PointTurnTelemetry));
   Telemetry_World_descriptor_ = Telemetry_descriptor_->nested_type(1);
-  static const int Telemetry_World_offsets_[4] = {
+  static const int Telemetry_World_offsets_[6] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_World, width_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_World, height_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_World, resolution_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_World, total_chunks_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_World, chunk_number_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Telemetry_World, cell_),
   };
   Telemetry_World_reflection_ =
@@ -298,7 +300,7 @@ void protobuf_AddDesc_Telemetry_2eproto() {
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\017Telemetry.proto\022\020lunabotics.proto\032\026Ste"
     "eringModeType.proto\032\013Point.proto\032\013Twist."
-    "proto\032\023AllWheelState.proto\"\277\017\n\tTelemetry"
+    "proto\032\023AllWheelState.proto\"\353\017\n\tTelemetry"
     "\0225\n\nstate_data\030\002 \001(\0132!.lunabotics.proto."
     "Telemetry.State\0225\n\nworld_data\030\003 \001(\0132!.lu"
     "nabotics.proto.Telemetry.World\0223\n\tpath_d"
@@ -333,22 +335,23 @@ void protobuf_AddDesc_Telemetry_2eproto() {
     "\0132\027.lunabotics.proto.Point\022\025\n\rheading_er"
     "ror\030\n \002(\002\032O\n\022PointTurnTelemetry\0229\n\005state"
     "\030\001 \002(\0162*.lunabotics.proto.Telemetry.Poin"
-    "tTurnState\032L\n\005World\022\r\n\005width\030\001 \002(\005\022\016\n\006he"
-    "ight\030\002 \002(\005\022\022\n\nresolution\030\003 \002(\002\022\020\n\004cell\030\004"
-    " \003(\005B\002\020\001\032\251\001\n\004Path\022)\n\010position\030\001 \003(\0132\027.lu"
-    "nabotics.proto.Point\0226\n\006curves\030\002 \003(\0132&.l"
-    "unabotics.proto.Telemetry.Path.Curve\032>\n\005"
-    "Curve\022\021\n\tstart_idx\030\001 \002(\005\022\017\n\007end_idx\030\002 \002("
-    "\005\022\021\n\tcurvature\030\003 \002(\002\032\013\n\tLaserScan\032\227\002\n\010Ge"
-    "ometry\0221\n\020left_front_joint\030\001 \002(\0132\027.lunab"
-    "otics.proto.Point\0220\n\017left_rear_joint\030\002 \002"
-    "(\0132\027.lunabotics.proto.Point\0222\n\021right_fro"
-    "nt_joint\030\003 \002(\0132\027.lunabotics.proto.Point\022"
-    "1\n\020right_rear_joint\030\004 \002(\0132\027.lunabotics.p"
-    "roto.Point\022\024\n\014wheel_offset\030\005 \002(\002\022\024\n\014whee"
-    "l_radius\030\006 \002(\002\022\023\n\013wheel_width\030\007 \002(\002\"7\n\016P"
-    "ointTurnState\022\013\n\007STOPPED\020\001\022\013\n\007DRIVING\020\002\022"
-    "\013\n\007TURNING\020\003", 2092);
+    "tTurnState\032x\n\005World\022\r\n\005width\030\001 \002(\005\022\016\n\006he"
+    "ight\030\002 \002(\005\022\022\n\nresolution\030\003 \002(\002\022\024\n\014total_"
+    "chunks\030\004 \002(\005\022\024\n\014chunk_number\030\005 \002(\005\022\020\n\004ce"
+    "ll\030\006 \003(\005B\002\020\001\032\251\001\n\004Path\022)\n\010position\030\001 \003(\0132"
+    "\027.lunabotics.proto.Point\0226\n\006curves\030\002 \003(\013"
+    "2&.lunabotics.proto.Telemetry.Path.Curve"
+    "\032>\n\005Curve\022\021\n\tstart_idx\030\001 \002(\005\022\017\n\007end_idx\030"
+    "\002 \002(\005\022\021\n\tcurvature\030\003 \002(\002\032\013\n\tLaserScan\032\227\002"
+    "\n\010Geometry\0221\n\020left_front_joint\030\001 \002(\0132\027.l"
+    "unabotics.proto.Point\0220\n\017left_rear_joint"
+    "\030\002 \002(\0132\027.lunabotics.proto.Point\0222\n\021right"
+    "_front_joint\030\003 \002(\0132\027.lunabotics.proto.Po"
+    "int\0221\n\020right_rear_joint\030\004 \002(\0132\027.lunaboti"
+    "cs.proto.Point\022\024\n\014wheel_offset\030\005 \002(\002\022\024\n\014"
+    "wheel_radius\030\006 \002(\002\022\023\n\013wheel_width\030\007 \002(\002\""
+    "7\n\016PointTurnState\022\013\n\007STOPPED\020\001\022\013\n\007DRIVIN"
+    "G\020\002\022\013\n\007TURNING\020\003", 2136);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Telemetry.proto", &protobuf_RegisterTypes);
   Telemetry::default_instance_ = new Telemetry();
@@ -1888,6 +1891,8 @@ void Telemetry_State::Swap(Telemetry_State* other) {
 const int Telemetry_World::kWidthFieldNumber;
 const int Telemetry_World::kHeightFieldNumber;
 const int Telemetry_World::kResolutionFieldNumber;
+const int Telemetry_World::kTotalChunksFieldNumber;
+const int Telemetry_World::kChunkNumberFieldNumber;
 const int Telemetry_World::kCellFieldNumber;
 #endif  // !_MSC_VER
 
@@ -1910,6 +1915,8 @@ void Telemetry_World::SharedCtor() {
   width_ = 0;
   height_ = 0;
   resolution_ = 0;
+  total_chunks_ = 0;
+  chunk_number_ = 0;
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -1948,6 +1955,8 @@ void Telemetry_World::Clear() {
     width_ = 0;
     height_ = 0;
     resolution_ = 0;
+    total_chunks_ = 0;
+    chunk_number_ = 0;
   }
   cell_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
@@ -2003,12 +2012,44 @@ bool Telemetry_World::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(34)) goto parse_cell;
+        if (input->ExpectTag(32)) goto parse_total_chunks;
         break;
       }
 
-      // repeated int32 cell = 4 [packed = true];
+      // required int32 total_chunks = 4;
       case 4: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_total_chunks:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &total_chunks_)));
+          set_has_total_chunks();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(40)) goto parse_chunk_number;
+        break;
+      }
+
+      // required int32 chunk_number = 5;
+      case 5: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_chunk_number:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
+                 input, &chunk_number_)));
+          set_has_chunk_number();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(50)) goto parse_cell;
+        break;
+      }
+
+      // repeated int32 cell = 6 [packed = true];
+      case 6: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_cell:
@@ -2020,7 +2061,7 @@ bool Telemetry_World::MergePartialFromCodedStream(
                       WIRETYPE_VARINT) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadRepeatedPrimitiveNoInline<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 1, 34, input, this->mutable_cell())));
+                 1, 50, input, this->mutable_cell())));
         } else {
           goto handle_uninterpreted;
         }
@@ -2061,9 +2102,19 @@ void Telemetry_World::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->resolution(), output);
   }
 
-  // repeated int32 cell = 4 [packed = true];
+  // required int32 total_chunks = 4;
+  if (has_total_chunks()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->total_chunks(), output);
+  }
+
+  // required int32 chunk_number = 5;
+  if (has_chunk_number()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt32(5, this->chunk_number(), output);
+  }
+
+  // repeated int32 cell = 6 [packed = true];
   if (this->cell_size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteTag(4, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
+    ::google::protobuf::internal::WireFormatLite::WriteTag(6, ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED, output);
     output->WriteVarint32(_cell_cached_byte_size_);
   }
   for (int i = 0; i < this->cell_size(); i++) {
@@ -2094,10 +2145,20 @@ void Telemetry_World::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->resolution(), target);
   }
 
-  // repeated int32 cell = 4 [packed = true];
+  // required int32 total_chunks = 4;
+  if (has_total_chunks()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->total_chunks(), target);
+  }
+
+  // required int32 chunk_number = 5;
+  if (has_chunk_number()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(5, this->chunk_number(), target);
+  }
+
+  // repeated int32 cell = 6 [packed = true];
   if (this->cell_size() > 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteTagToArray(
-      4,
+      6,
       ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED,
       target);
     target = ::google::protobuf::io::CodedOutputStream::WriteVarint32ToArray(
@@ -2138,8 +2199,22 @@ int Telemetry_World::ByteSize() const {
       total_size += 1 + 4;
     }
 
+    // required int32 total_chunks = 4;
+    if (has_total_chunks()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->total_chunks());
+    }
+
+    // required int32 chunk_number = 5;
+    if (has_chunk_number()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::Int32Size(
+          this->chunk_number());
+    }
+
   }
-  // repeated int32 cell = 4 [packed = true];
+  // repeated int32 cell = 6 [packed = true];
   {
     int data_size = 0;
     for (int i = 0; i < this->cell_size(); i++) {
@@ -2192,6 +2267,12 @@ void Telemetry_World::MergeFrom(const Telemetry_World& from) {
     if (from.has_resolution()) {
       set_resolution(from.resolution());
     }
+    if (from.has_total_chunks()) {
+      set_total_chunks(from.total_chunks());
+    }
+    if (from.has_chunk_number()) {
+      set_chunk_number(from.chunk_number());
+    }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
@@ -2209,7 +2290,7 @@ void Telemetry_World::CopyFrom(const Telemetry_World& from) {
 }
 
 bool Telemetry_World::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
+  if ((_has_bits_[0] & 0x0000001f) != 0x0000001f) return false;
 
   return true;
 }
@@ -2219,6 +2300,8 @@ void Telemetry_World::Swap(Telemetry_World* other) {
     std::swap(width_, other->width_);
     std::swap(height_, other->height_);
     std::swap(resolution_, other->resolution_);
+    std::swap(total_chunks_, other->total_chunks_);
+    std::swap(chunk_number_, other->chunk_number_);
     cell_.Swap(&other->cell_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);

@@ -123,6 +123,11 @@ private:
     QVector<QPointF> *path;
     RobotState *robotState;
 
+    //Map chunks data
+    int chunksTotal;
+    int currentChunk;
+
+
     //Trajectory following data
     bool hasAckermannData;
     QPointF feedbackPathPoint;
@@ -162,6 +167,8 @@ private:
 
     void resetTelemetryModel();
     void resetPathModel();
+
+    bool isMapValid();
 
     qreal crabVelocity;
     qreal crabHeading;

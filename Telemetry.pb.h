@@ -608,10 +608,24 @@ class Telemetry_World : public ::google::protobuf::Message {
   inline float resolution() const;
   inline void set_resolution(float value);
 
-  // repeated int32 cell = 4 [packed = true];
+  // required int32 total_chunks = 4;
+  inline bool has_total_chunks() const;
+  inline void clear_total_chunks();
+  static const int kTotalChunksFieldNumber = 4;
+  inline ::google::protobuf::int32 total_chunks() const;
+  inline void set_total_chunks(::google::protobuf::int32 value);
+
+  // required int32 chunk_number = 5;
+  inline bool has_chunk_number() const;
+  inline void clear_chunk_number();
+  static const int kChunkNumberFieldNumber = 5;
+  inline ::google::protobuf::int32 chunk_number() const;
+  inline void set_chunk_number(::google::protobuf::int32 value);
+
+  // repeated int32 cell = 6 [packed = true];
   inline int cell_size() const;
   inline void clear_cell();
-  static const int kCellFieldNumber = 4;
+  static const int kCellFieldNumber = 6;
   inline ::google::protobuf::int32 cell(int index) const;
   inline void set_cell(int index, ::google::protobuf::int32 value);
   inline void add_cell(::google::protobuf::int32 value);
@@ -628,17 +642,23 @@ class Telemetry_World : public ::google::protobuf::Message {
   inline void clear_has_height();
   inline void set_has_resolution();
   inline void clear_has_resolution();
+  inline void set_has_total_chunks();
+  inline void clear_has_total_chunks();
+  inline void set_has_chunk_number();
+  inline void clear_has_chunk_number();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::google::protobuf::int32 width_;
   ::google::protobuf::int32 height_;
+  float resolution_;
+  ::google::protobuf::int32 total_chunks_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > cell_;
   mutable int _cell_cached_byte_size_;
-  float resolution_;
+  ::google::protobuf::int32 chunk_number_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(6 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telemetry_2eproto();
   friend void protobuf_AssignDesc_Telemetry_2eproto();
@@ -1980,7 +2000,51 @@ inline void Telemetry_World::set_resolution(float value) {
   resolution_ = value;
 }
 
-// repeated int32 cell = 4 [packed = true];
+// required int32 total_chunks = 4;
+inline bool Telemetry_World::has_total_chunks() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void Telemetry_World::set_has_total_chunks() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void Telemetry_World::clear_has_total_chunks() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void Telemetry_World::clear_total_chunks() {
+  total_chunks_ = 0;
+  clear_has_total_chunks();
+}
+inline ::google::protobuf::int32 Telemetry_World::total_chunks() const {
+  return total_chunks_;
+}
+inline void Telemetry_World::set_total_chunks(::google::protobuf::int32 value) {
+  set_has_total_chunks();
+  total_chunks_ = value;
+}
+
+// required int32 chunk_number = 5;
+inline bool Telemetry_World::has_chunk_number() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void Telemetry_World::set_has_chunk_number() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void Telemetry_World::clear_has_chunk_number() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void Telemetry_World::clear_chunk_number() {
+  chunk_number_ = 0;
+  clear_has_chunk_number();
+}
+inline ::google::protobuf::int32 Telemetry_World::chunk_number() const {
+  return chunk_number_;
+}
+inline void Telemetry_World::set_chunk_number(::google::protobuf::int32 value) {
+  set_has_chunk_number();
+  chunk_number_ = value;
+}
+
+// repeated int32 cell = 6 [packed = true];
 inline int Telemetry_World::cell_size() const {
   return cell_.size();
 }

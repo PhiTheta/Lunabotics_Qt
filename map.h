@@ -24,6 +24,7 @@ public:
     QPointF positionOf(QPoint coordinate);
     QVector<quint8> *cells();
     void setCells(QVector<quint8> *cells);
+    void appendCells(QVector<quint8> *cells);
 private:
     QVector<quint8> *_cells;
 };

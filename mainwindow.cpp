@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->mapViewInfo = new MapViewMetaInfo(ui->mapView->width()-30, ui->mapView->height()-15);
     this->multiWaypoints = false;
     this->waypoints = new QVector<QPoint>();
+    this->currentChunk = this->chunksTotal = 0;
 
     this->hasAckermannData = false;
 
@@ -305,30 +306,32 @@ void MainWindow::redrawMap()
 {
     this->removeAndDeleteAllMapItems();
 
-    if (this->map->isValid()) {
-        this->mapViewInfo->viewportWidth = ui->mapView->width();
-        this->mapViewInfo->viewportHeight = ui->mapView->height();
-        this->mapViewInfo->cellEdge = floor(std::min(this->mapViewInfo->viewportWidth,this->mapViewInfo->viewportHeight)/this->map->width);
+    if (this->isMapValid()) {
+        if (map->isValid()) {
+            this->mapViewInfo->viewportWidth = ui->mapView->width();
+            this->mapViewInfo->viewportHeight = ui->mapView->height();
+            this->mapViewInfo->cellEdge = floor(std::min(this->mapViewInfo->viewportWidth,this->mapViewInfo->viewportHeight)/this->map->width);
 
-        for (int x = 0; x < this->map->width; x++) {
-            for (int y = 0; y < this->map->height; y++) {
-                quint8 occupancy = this->map->at(x, y);
-                QPoint point(x,y);
+            for (int x = 0; x < this->map->width; x++) {
+                for (int y = 0; y < this->map->height; y++) {
+                    quint8 occupancy = this->map->at(x, y);
+                    QPoint point(x,y);
 
-                OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, this->mapViewInfo->cellRectAt(x, y), occupancy, 0);
+                    OccupancyGraphicsItem *rect = new OccupancyGraphicsItem(point, this->mapViewInfo->cellRectAt(x, y), occupancy, 0);
 
-                QObject::connect(rect, SIGNAL(clicked(QPoint)), this, SLOT(mapCell_clicked(QPoint)));
-                QObject::connect(rect, SIGNAL(hovered(QPoint)), this, SLOT(mapCell_hovered(QPoint)));
-                this->mapScene->addItem(rect);
+                    QObject::connect(rect, SIGNAL(clicked(QPoint)), this, SLOT(mapCell_clicked(QPoint)));
+                    QObject::connect(rect, SIGNAL(hovered(QPoint)), this, SLOT(mapCell_hovered(QPoint)));
+                    this->mapScene->addItem(rect);
+                }
             }
         }
-    }
-    else {
-        qDebug() << "ERROR: Invalid map";
-    }
+        else {
+            qDebug() << "ERROR: Invalid map";
+        }
 
-    this->updateMapPath();
-    this->updateMapPoses();
+        this->updateMapPath();
+        this->updateMapPoses();
+    }
 }
 
 void MainWindow::removeAndDeleteAllMapItems()
@@ -418,10 +421,9 @@ void MainWindow::receiveTelemetry()
             const lunabotics::proto::Telemetry::World world = tm.world_data();
             int width = world.width();
             int height = world.height();
-            if (world.cell_size() != width*height) {
-                qDebug() << "ERROR: World dimensions mismatch. Declared width and height don't correspond to number of cells in the message (" << world.cell_size() << "against " << width << "*" << height << ")";
-            }
-            else if (width == 0 || height == 0) {
+            this->chunksTotal = world.total_chunks();
+            this->currentChunk = world.chunk_number();
+            if (width == 0 || height == 0) {
                 qDebug() << "ERROR: Receiving zero dimensions for map";
             }
             else {
@@ -435,7 +437,25 @@ void MainWindow::receiveTelemetry()
                 for (int i = 0; i < world.cell_size(); i++) {
                     cells->push_back(world.cell(i));
                 }
-                this->map->setCells(cells);
+
+                qDebug() << "Receiving map chunk " << this->currentChunk+1 << " of " << this->chunksTotal << " (" << cells->size() << " cells)";
+
+                if (this->currentChunk == 0) {
+                    this->map->setCells(cells);
+                }
+                else {
+                    this->map->appendCells(cells);
+                }
+
+                if (this->currentChunk < this->chunksTotal-1) {
+                    ui->refreshMapButton->setEnabled(false);
+                    ui->refreshMapButton->setText(QString("Downloading %1%...").arg(QString::number(100*this->currentChunk/((float)this->chunksTotal), 'f', 0)));
+                }
+                else {
+                    ui->refreshMapButton->setEnabled(true);
+                    ui->refreshMapButton->setText("Refresh map");
+                    this->currentChunk = this->chunksTotal = 0;
+                }
             }
             this->redrawMap();
         }
@@ -1046,4 +1066,9 @@ void MainWindow::on_useAutoButton_clicked()
 {
     this->robotState->steeringMode = lunabotics::proto::AUTO;
     this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
+}
+
+bool MainWindow::isMapValid()
+{
+    return (this->currentChunk >= this->chunksTotal || this->chunksTotal == 0) && this->map->isValid();
 }

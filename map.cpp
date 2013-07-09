@@ -25,7 +25,7 @@ Map::~Map()
 
 bool Map::isValid()
 {
-    return this->width > 0 && this->height > 0 && this->resolution > 0.0 && !this->_cells->isEmpty();
+    return this->width > 0 && this->height > 0 && this->resolution > 0.0 && !this->_cells->isEmpty() && this->width*this->height == this->_cells->size();
 }
 
 
@@ -69,4 +69,17 @@ void Map::setCells(QVector<quint8> *cells)
         delete this->_cells;
     }
     this->_cells = cells;
+}
+
+
+void Map::appendCells(QVector<quint8> *cells)
+{
+    if (!this->_cells) {
+        this->_cells = cells;
+    }
+    else {
+        for (int i = 0; i < cells->size(); i++) {
+            this->_cells->append(cells->at(i));
+        }
+    }
 }

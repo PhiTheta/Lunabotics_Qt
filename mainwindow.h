@@ -172,6 +172,7 @@ private:
 
     qreal crabVelocity;
     qreal crabHeading;
+    bool robotGeometryDrawn;
 
 
     //Multiple waypoints selection

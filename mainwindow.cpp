@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->currentChunk = this->chunksTotal = 0;
 
     this->hasAckermannData = false;
+    this->robotGeometryDrawn = false;
 
     //Setup UI
     statusBar()->setVisible(false);
@@ -250,7 +251,7 @@ void MainWindow::updateMapPoses()
         }
         this->robotCellItem->setRect(this->mapViewInfo->cellRectAt(coordinate));
 
-        if (!this->robotPointerItem) {
+        if (!this->robotPointerItem && this->robotState->geometry->jointPositionsAcquired) {
             QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(-robotRadius, -robotRadius, robotRadius*2, robotRadius*2);
             ellipse->setPen(PEN_RED);
             ellipse->setBrush(BRUSH_CLEAR);
@@ -259,46 +260,71 @@ void MainWindow::updateMapPoses()
             this->robotPointerItem = new QGraphicsItemGroup();
             this->robotPointerItem->addToGroup(ellipse);
             this->robotPointerItem->addToGroup(line);
+
+            QPointF leftFront(this->robotState->geometry->leftFrontJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->leftFrontJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+            QPointF rightFront(this->robotState->geometry->rightFrontJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->rightFrontJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+            QPointF leftRear(this->robotState->geometry->leftRearJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->leftRearJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+            QPointF rightRear(this->robotState->geometry->rightRearJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->rightRearJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+
+            qDebug() << "TEST " << leftFront.x() << " " << leftFront.y();
+
+            line = new QGraphicsLineItem(-leftFront.x(), -leftFront.y(), -rightFront.x(), -rightFront.y());
+            line->setPen(PEN_GREEN);
+            this->robotPointerItem->addToGroup(line);
+            line = new QGraphicsLineItem(-rightFront.x(), -rightFront.y(), -rightRear.x(), -rightRear.y());
+            line->setPen(PEN_GREEN);
+            this->robotPointerItem->addToGroup(line);
+            line = new QGraphicsLineItem(-rightRear.x(), -rightRear.y(), -leftRear.x(), -leftRear.y());
+            line->setPen(PEN_GREEN);
+            this->robotPointerItem->addToGroup(line);
+            line = new QGraphicsLineItem(-leftRear.x(), -leftRear.y(), -leftFront.x(), -leftFront.y());
+            line->setPen(PEN_GREEN);
+            this->robotPointerItem->addToGroup(line);
+
             this->mapScene->addItem(this->robotPointerItem);
         }
-        this->robotPointerItem->setPos(robotCenter);
-        this->robotPointerItem->setRotation(-this->robotState->pose->heading*180.0/M_PI);
+
+        if (this->robotPointerItem) {
+
+            this->robotPointerItem->setPos(robotCenter);
+            this->robotPointerItem->setRotation(-this->robotState->pose->heading*180.0/M_PI);
 
 
-        if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN && this->robotState->autonomous
-                && this->hasAckermannData) {
-            QPointF closestPoint = this->mapViewInfo->pointFromWorld(this->feedbackPathPoint, this->map->resolution);
-            QPointF feedbackPoint = this->mapViewInfo->pointFromWorld(this->feedbackPoint, this->map->resolution);
-            if (!this->velocityVectorItem) {
-                this->velocityVectorItem = new QGraphicsLineItem();
-                this->velocityVectorItem->setPen(PEN_PURPLE);
-                this->mapScene->addItem(this->velocityVectorItem);
-            }
-            if (!this->closestDistanceItem) {
-                this->closestDistanceItem = new QGraphicsLineItem();
-                this->closestDistanceItem->setPen(PEN_PURPLE);
-                this->mapScene->addItem(this->closestDistanceItem);
-            }
-            if (isvalid(feedbackPoint)) {
-                this->velocityVectorItem->setLine(robotCenter.x(), robotCenter.y(), feedbackPoint.x(), feedbackPoint.y());
-                if (isvalid(closestPoint)) {
-                    this->closestDistanceItem->setLine(feedbackPoint.x(), feedbackPoint.y(), closestPoint.x(), closestPoint.y());
+            if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN && this->robotState->autonomous
+                    && this->hasAckermannData) {
+                QPointF closestPoint = this->mapViewInfo->pointFromWorld(this->feedbackPathPoint, this->map->resolution);
+                QPointF feedbackPoint = this->mapViewInfo->pointFromWorld(this->feedbackPoint, this->map->resolution);
+                if (!this->velocityVectorItem) {
+                    this->velocityVectorItem = new QGraphicsLineItem();
+                    this->velocityVectorItem->setPen(PEN_PURPLE);
+                    this->mapScene->addItem(this->velocityVectorItem);
+                }
+                if (!this->closestDistanceItem) {
+                    this->closestDistanceItem = new QGraphicsLineItem();
+                    this->closestDistanceItem->setPen(PEN_PURPLE);
+                    this->mapScene->addItem(this->closestDistanceItem);
+                }
+                if (isvalid(feedbackPoint)) {
+                    this->velocityVectorItem->setLine(robotCenter.x(), robotCenter.y(), feedbackPoint.x(), feedbackPoint.y());
+                    if (isvalid(closestPoint)) {
+                        this->closestDistanceItem->setLine(feedbackPoint.x(), feedbackPoint.y(), closestPoint.x(), closestPoint.y());
+                    }
                 }
             }
-        }
-        else {
-            if (this->closestDistanceItem) {
-                this->mapScene->removeItem(this->closestDistanceItem);
-                delete this->closestDistanceItem, this->closestDistanceItem = NULL;
+            else {
+                if (this->closestDistanceItem) {
+                    this->mapScene->removeItem(this->closestDistanceItem);
+                    delete this->closestDistanceItem, this->closestDistanceItem = NULL;
+                }
+                if (this->velocityVectorItem) {
+                    this->mapScene->removeItem(this->velocityVectorItem);
+                    delete this->velocityVectorItem, this->velocityVectorItem = NULL;
+                }
             }
-            if (this->velocityVectorItem) {
-                this->mapScene->removeItem(this->velocityVectorItem);
-                delete this->velocityVectorItem, this->velocityVectorItem = NULL;
-            }
-        }
 
-        this->robotCellItem->setZValue(1000);
-        this->robotPointerItem->setZValue(1000);
+            this->robotCellItem->setZValue(1000);
+            this->robotPointerItem->setZValue(1000);
+        }
     }
 }
 
@@ -310,7 +336,12 @@ void MainWindow::redrawMap()
         if (map->isValid()) {
             this->mapViewInfo->viewportWidth = ui->mapView->width();
             this->mapViewInfo->viewportHeight = ui->mapView->height();
-            this->mapViewInfo->cellEdge = floor(std::min(this->mapViewInfo->viewportWidth,this->mapViewInfo->viewportHeight)/this->map->width);
+            if (this->map->width > this->map->height) {
+                this->mapViewInfo->cellEdge = floor(std::min(this->mapViewInfo->viewportWidth,this->mapViewInfo->viewportHeight)/this->map->width);
+            }
+            else {
+                this->mapViewInfo->cellEdge = floor(std::min(this->mapViewInfo->viewportWidth,this->mapViewInfo->viewportHeight)/this->map->height);
+            }
 
             for (int x = 0; x < this->map->width; x++) {
                 for (int y = 0; y < this->map->height; y++) {

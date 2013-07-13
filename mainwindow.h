@@ -105,6 +105,7 @@ private:
     QGraphicsItemGroup *pathGraphicsItem;
     QGraphicsItemGroup *robotPointerItem;
     QGraphicsItemGroup *multiWaypointsItem;
+    QGraphicsItemGroup *actualTrajcetoryItem;
     QGraphicsRectItem *robotCellItem;
     QGraphicsLineItem *velocityVectorItem;
     QGraphicsLineItem *closestDistanceItem;
@@ -179,6 +180,10 @@ private:
     bool multiWaypoints;
     QVector<QPoint> *waypoints;
     void removeMultiWaypointsPrint();
+
+    //Actual trajectory
+    bool showActualTrajectory;
+    void assignShowActualTrajectory();
 
 };
 

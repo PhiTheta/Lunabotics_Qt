@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->pathGraphicsItem = NULL;
 
     this->multiWaypointsItem = NULL;
+    this->actualTrajcetoryItem = NULL;
     ui->multiWaypointsButtonWidget->setVisible(false);
     ui->multiWaypointsButtonWidget->setEnabled(false);
 
@@ -77,6 +78,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ctrlLeftPixmap->setVisible(false);
     ui->ctrlRightPixmap->setVisible(false);
     ui->ctrlUpPixmap->setVisible(false);
+
+    this->assignShowActualTrajectory();
 
     //Setup network
     this->outgoingSocket = NULL;
@@ -284,6 +287,20 @@ void MainWindow::updateMapPoses()
             this->mapScene->addItem(this->robotPointerItem);
         }
 
+        if (this->showActualTrajectory) {
+            if (!this->actualTrajcetoryItem) {
+                this->actualTrajcetoryItem = new QGraphicsItemGroup();
+                this->mapScene->addItem(this->actualTrajcetoryItem);
+            }
+
+            QGraphicsEllipseItem *dot = new QGraphicsEllipseItem(robotCenter.x(), robotCenter.y(), 1, 1);
+            dot->setPen(PEN_RED);
+            dot->setBrush(BRUSH_CLEAR);
+            this->actualTrajcetoryItem->addToGroup(dot);
+            this->actualTrajcetoryItem->setZValue(990);
+        }
+
+
         if (this->robotPointerItem) {
 
             this->robotPointerItem->setPos(robotCenter);
@@ -375,6 +392,7 @@ void MainWindow::removeAndDeleteAllMapItems()
     this->closestDistanceItem = NULL;
     this->pathGraphicsItem = NULL;
     this->multiWaypointsItem = NULL;
+    this->actualTrajcetoryItem = NULL;
 }
 
 
@@ -864,7 +882,23 @@ void MainWindow::on_actionPreferences_triggered()
     preferenceDialog->setWindowModality(Qt::WindowModal);
     if (preferenceDialog->exec() == QDialog::Accepted) {
         this->connectRobot();
+
+        this->assignShowActualTrajectory();
+
+        if (!this->showActualTrajectory && this->actualTrajcetoryItem) {
+            this->mapScene->removeItem(this->actualTrajcetoryItem);
+            delete this->actualTrajcetoryItem;
+            this->actualTrajcetoryItem = NULL;
+        }
     }
+}
+
+void MainWindow::assignShowActualTrajectory()
+{
+    QSettings settings("ivany4", "lunabotics");
+    settings.beginGroup("map");
+    this->showActualTrajectory = settings.value(SETTINGS_RECORD_TRAJ, DEFAULT_RECORD_TRAJECTORY).toBool();
+    settings.endGroup();
 }
 
 void MainWindow::on_autonomyButton_clicked()

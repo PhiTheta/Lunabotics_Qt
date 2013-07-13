@@ -17,6 +17,10 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     ui->portLineEdit->setText(settings.value(SETTINGS_REMOTE_PORT, CONN_REMOTE_PORT).toString());
     ui->selfPortLineEdit->setText(settings.value(SETTINGS_LOCAL_PORT, CONN_LOCAL_PORT).toString());
     settings.endGroup();
+
+    settings.beginGroup("map");
+    ui->recordCheckBox->setChecked(settings.value(SETTINGS_RECORD_TRAJ, DEFAULT_RECORD_TRAJECTORY).toBool());
+    settings.endGroup();
 }
 
 PreferenceDialog::~PreferenceDialog()
@@ -31,6 +35,9 @@ void PreferenceDialog::on_buttonBox_accepted()
     settings.setValue(SETTINGS_IP, ui->outIPLineEdit->text());
     settings.setValue(SETTINGS_REMOTE_PORT, ui->portLineEdit->text());
     settings.setValue(SETTINGS_LOCAL_PORT, ui->selfPortLineEdit->text());
+    settings.endGroup();
+    settings.beginGroup("map");
+    settings.setValue(SETTINGS_RECORD_TRAJ, ui->recordCheckBox->isChecked());
     settings.endGroup();
 }
 

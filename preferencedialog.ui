@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>435</width>
-    <height>323</height>
+    <height>377</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -153,6 +153,22 @@
         </property>
         <property name="text">
          <string>44326</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="mapBox">
+     <property name="title">
+      <string>Map</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QCheckBox" name="recordCheckBox">
+        <property name="text">
+         <string>Record actual trajectory</string>
         </property>
        </widget>
       </item>

@@ -20,7 +20,12 @@
 #define DEFAULT_ANGLE_ACCURACY 0.05
 #define DEFAULT_DISTANCE_ACCURACY 0.25
 
-#define DEFAULT_RECORD_TRAJECTORY false
+#define DEFAULT_SHOW_ACTUAL_PATH false
+#define DEFAULT_SHOW_PLANNED_PATH true
+#define DEFAULT_SHOW_ROBOT_POINTER true
+#define DEFAULT_SHOW_ROBOT_DIMENSIONS true
+#define DEFAULT_SHOW_ROBOT_CELL true
+#define DEFAULT_SHOW_PATH_FOLLOWING true
 
 #define OCCUPANCY_THRESHOLD     50
 
@@ -41,7 +46,12 @@
 #define SETTING_FEEDFORWARD_FRACTION "feedforward.fraction"
 #define SETTINGS_LOCAL_PORT  "port.local"
 #define SETTINGS_REMOTE_PORT "port.remote"
-#define SETTINGS_RECORD_TRAJ "record.trajectory"
+#define SETTINGS_SHOW_ACTUAL_PATH "show.actual.path"
+#define SETTINGS_SHOW_PLANNED_PATH "show.planned.path"
+#define SETTINGS_SHOW_ROBOT_POINTER "show.robot.pointer"
+#define SETTINGS_SHOW_ROBOT_DIMENSIONS "show.robot.dimensions"
+#define SETTINGS_SHOW_ROBOT_CELL "show.robot.cell"
+#define SETTINGS_SHOW_PATH_FOLLOWING "show.pathfollowing"
 
 
 #endif // CONSTANTS_H

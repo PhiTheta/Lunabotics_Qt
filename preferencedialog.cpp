@@ -19,7 +19,12 @@ PreferenceDialog::PreferenceDialog(QWidget *parent) :
     settings.endGroup();
 
     settings.beginGroup("map");
-    ui->recordCheckBox->setChecked(settings.value(SETTINGS_RECORD_TRAJ, DEFAULT_RECORD_TRAJECTORY).toBool());
+    ui->actualPathCheckBox->setChecked(settings.value(SETTINGS_SHOW_ACTUAL_PATH, DEFAULT_SHOW_ACTUAL_PATH).toBool());
+    ui->plannedPathCheckBox->setChecked(settings.value(SETTINGS_SHOW_PLANNED_PATH, DEFAULT_SHOW_PLANNED_PATH).toBool());
+    ui->robotDimensionsCheckBox->setChecked(settings.value(SETTINGS_SHOW_ROBOT_DIMENSIONS, DEFAULT_SHOW_ROBOT_DIMENSIONS).toBool());
+    ui->robotPointerCheckBox->setChecked(settings.value(SETTINGS_SHOW_ROBOT_POINTER, DEFAULT_SHOW_ROBOT_POINTER).toBool());
+    ui->robotCellCheckBox->setChecked(settings.value(SETTINGS_SHOW_ROBOT_CELL, DEFAULT_SHOW_ROBOT_CELL).toBool());
+    ui->pathFollowingCheckBox->setChecked(settings.value(SETTINGS_SHOW_PATH_FOLLOWING, DEFAULT_SHOW_PATH_FOLLOWING).toBool());
     settings.endGroup();
 }
 
@@ -37,7 +42,12 @@ void PreferenceDialog::on_buttonBox_accepted()
     settings.setValue(SETTINGS_LOCAL_PORT, ui->selfPortLineEdit->text());
     settings.endGroup();
     settings.beginGroup("map");
-    settings.setValue(SETTINGS_RECORD_TRAJ, ui->recordCheckBox->isChecked());
+    settings.setValue(SETTINGS_SHOW_ACTUAL_PATH, ui->actualPathCheckBox->isChecked());
+    settings.setValue(SETTINGS_SHOW_PLANNED_PATH, ui->plannedPathCheckBox->isChecked());
+    settings.setValue(SETTINGS_SHOW_ROBOT_DIMENSIONS, ui->robotDimensionsCheckBox->isChecked());
+    settings.setValue(SETTINGS_SHOW_ROBOT_POINTER, ui->robotPointerCheckBox->isChecked());
+    settings.setValue(SETTINGS_SHOW_ROBOT_CELL, ui->robotCellCheckBox->isChecked());
+    settings.setValue(SETTINGS_SHOW_PATH_FOLLOWING, ui->pathFollowingCheckBox->isChecked());
     settings.endGroup();
 }
 

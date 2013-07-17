@@ -6,6 +6,7 @@
 #include <QTcpSocket>
 #include <QTcpServer>
 #include <QtGui>
+#include <QTimer>
 #include <QtCore>
 #include <QMutex>
 #include <QGraphicsItemGroup>
@@ -40,6 +41,7 @@ signals:
     void ICRUpdated(QPointF ICR);
     void jointPositionsUpdated(RobotGeometry *geometry);
     void updateLocalFrame(QPointF feedbackPoint, QPointF feedbackPathPoint, QVector<QPointF> feedforwardPoints, QPointF feedforwardCenter);
+    void updateLocalFrame(QPointF deviationPathPoint);
     void clearLocalFrame();
     void updateCurves(QVector<lunabotics::proto::Telemetry::Path::Curve> curves);
     void updateRadius(float minRadius);
@@ -92,6 +94,8 @@ private slots:
 
     void on_useAutoButton_clicked();
 
+    void ping();
+
 private:
 
     //UI
@@ -109,6 +113,9 @@ private:
     QGraphicsRectItem *robotCellItem;
     QGraphicsLineItem *velocityVectorItem;
     QGraphicsLineItem *closestDistanceItem;
+    QGraphicsLineItem *deviationItem;
+    QGraphicsItemGroup *cellsItem;
+    QGraphicsItemGroup *robotDimensionsItem;
     MapViewMetaInfo *mapViewInfo;
 
     //Network
@@ -135,8 +142,12 @@ private:
     QPointF feedbackPoint;
     QPointF feedbackPointLocal;
     QPointF feedbackPathPointLocal;
+    bool hasDeviationData;
+    QPointF deviationPathPoint;
+    QPointF deviationPathPointLocal;
     int nextWaypointIdx;
     int segmentIdx;
+    bool robotDimensionsSet;
 
     //Trajectory analysis data
     QVector<lunabotics::proto::Telemetry::Path::Curve> trajectoryCurves;
@@ -173,7 +184,6 @@ private:
 
     qreal crabVelocity;
     qreal crabHeading;
-    bool robotGeometryDrawn;
 
 
     //Multiple waypoints selection
@@ -183,7 +193,17 @@ private:
 
     //Actual trajectory
     bool showActualTrajectory;
-    void assignShowActualTrajectory();
+    bool showPlannedTrajectory;
+    bool showRobotPointer;
+    bool showRobotDimensions;
+    bool showPathFollowng;
+    bool showRobotCell;
+    void assignMapSettings();
+
+
+    //Timer for pinging broken connection
+    QTimer *connectionTimer;
+//    void setWindowTitle();
 
 };
 

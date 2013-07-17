@@ -15,8 +15,62 @@ TrajectoryFollowingForm::TrajectoryFollowingForm(QWidget *parent) :
     ui(new Ui::TrajectoryFollowingForm)
 {
     ui->setupUi(this);
-    this->graphicItemsCreated = false;
     this->localFrameInfo = new MapViewMetaInfo(ui->graphicsView->width(), ui->graphicsView->height());
+
+    this->mode = LocalFrameAckermann;
+
+    this->localFrameScene = new QGraphicsScene(this);
+    ui->graphicsView->setScene(this->localFrameScene);
+
+
+    this->localFrameScene->addLine(0, -5, 7, 7, PEN_RED_BOLD);
+    this->localFrameScene->addLine(7, 7, -7, 7, PEN_RED_BOLD);
+    this->localFrameScene->addLine(-7, 7, 0, -5, PEN_RED_BOLD);
+
+    this->feedbackErrorLineItem = new QGraphicsLineItem();
+    this->feedbackErrorLineItem->setPen(PEN_RED);
+    this->feedbackErrorLineItem->hide();
+    this->localFrameScene->addItem(this->feedbackErrorLineItem);
+
+    this->feedbackLookAheadLineItem = new QGraphicsLineItem();
+    this->feedbackLookAheadLineItem->setPen(PEN_BLUE);
+    this->feedbackLookAheadLineItem->hide();
+    this->localFrameScene->addItem(this->feedbackLookAheadLineItem);
+
+    this->feedbackPathPointEllipseItem = new QGraphicsEllipseItem(-2, -2, 4, 4);
+    this->feedbackPathPointEllipseItem->setPen(PEN_RED);
+    this->feedbackPathPointEllipseItem->setBrush(BRUSH_CLEAR);
+    this->feedbackPathPointEllipseItem->hide();
+    this->localFrameScene->addItem(this->feedbackPathPointEllipseItem);
+
+    this->feedbackPointEllipseItem = new QGraphicsEllipseItem(-2, -2, 4, 4);
+    this->feedbackPointEllipseItem->setPen(PEN_BLUE);
+    this->feedbackPointEllipseItem->setBrush(BRUSH_CLEAR);
+    this->feedbackPointEllipseItem->hide();
+    this->localFrameScene->addItem(this->feedbackPointEllipseItem);
+
+    this->feedforwardItems = new QGraphicsItemGroup();
+    this->feedforwardItems->hide();
+    this->localFrameScene->addItem(this->feedforwardItems);
+
+
+    this->feedforwardCenterItem = new QGraphicsEllipseItem(-2, -2, 4, 4);
+    this->feedforwardCenterItem->setPen(PEN_PURPLE);
+    this->feedforwardCenterItem->setBrush(BRUSH_CLEAR);
+    this->feedforwardCenterItem->hide();
+    this->localFrameScene->addItem(this->feedforwardCenterItem);
+
+    this->deviationLineItem = new QGraphicsLineItem();
+    this->deviationLineItem->setPen(PEN_RED);
+    this->deviationLineItem->hide();
+    this->localFrameScene->addItem(this->deviationLineItem);
+
+    this->deviationPathPointEllipseItem = new QGraphicsEllipseItem(-2, -2, 4, 4);
+    this->deviationPathPointEllipseItem->setPen(PEN_RED);
+    this->deviationPathPointEllipseItem->setBrush(BRUSH_CLEAR);
+    this->deviationPathPointEllipseItem->hide();
+    this->localFrameScene->addItem(this->deviationPathPointEllipseItem);
+
 
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("pid");
@@ -29,8 +83,6 @@ TrajectoryFollowingForm::TrajectoryFollowingForm(QWidget *parent) :
     ui->feedforwardOffsetEdit->setText(settings.value(SETTING_FEEDFORWARD_MIN_OFFSET, FEEDFORWARD_MIN_OFFSET).toString());
     settings.endGroup();
 
-    this->localFrameScene = new QGraphicsScene(this);
-    ui->graphicsView->setScene(this->localFrameScene);
     this->clearLocalFrame();
 }
 
@@ -67,56 +119,39 @@ void TrajectoryFollowingForm::saveSettings()
 
 void TrajectoryFollowingForm::clearLocalFrame()
 {
-    qDeleteAll(this->localFrameScene->items());
-    this->localFrameScene->items().clear();
-    this->feedbackLookAheadLineItem = NULL;
-    this->feedbackErrorLineItem = NULL;
-    this->feedbackPathPointEllipseItem = NULL;
-    this->feedbackPointEllipseItem = NULL;
-    this->feedforwardPointsItem = NULL;
-    this->graphicItemsCreated = false;
-    this->localFrameScene->addLine(0, -5, 7, 7, PEN_RED_BOLD);
-    this->localFrameScene->addLine(7, 7, -7, 7, PEN_RED_BOLD);
-    this->localFrameScene->addLine(-7, 7, 0, -5, PEN_RED_BOLD);
+    this->feedbackErrorLineItem->hide();
+    this->feedbackLookAheadLineItem->hide();
+    this->feedbackPathPointEllipseItem->hide();
+    this->feedbackPointEllipseItem->hide();
+    this->feedforwardItems->hide();
+    this->deviationPathPointEllipseItem->hide();
+    this->deviationLineItem->hide();
+    this->feedforwardCenterItem->hide();
 }
 
 
 
 void TrajectoryFollowingForm::updateLocalFrame(QPointF feedbackPoint, QPointF feedbackPathPoint, QVector<QPointF> feedforwardPoints, QPointF feedforwardCenter)
 {
-    if (!this->graphicItemsCreated) {
-        this->feedbackErrorLineItem = new QGraphicsLineItem();
-        this->feedbackErrorLineItem->setPen(PEN_RED);
-        this->localFrameScene->addItem(this->feedbackErrorLineItem);
-        this->feedbackLookAheadLineItem = new QGraphicsLineItem();
-        this->feedbackLookAheadLineItem->setPen(PEN_BLUE);
-        this->localFrameScene->addItem(this->feedbackLookAheadLineItem);
-        this->feedbackPathPointEllipseItem = new QGraphicsEllipseItem(-2, -2, 4, 4);
-        this->feedbackPathPointEllipseItem->setPen(PEN_RED);
-        this->feedbackPathPointEllipseItem->setBrush(BRUSH_CLEAR);
-        this->localFrameScene->addItem(this->feedbackPathPointEllipseItem);
-        this->feedbackPointEllipseItem = new QGraphicsEllipseItem(-2, -2, 4, 4);
-        this->feedbackPointEllipseItem->setPen(PEN_BLUE);
-        this->feedbackPointEllipseItem->setBrush(BRUSH_CLEAR);
-        this->localFrameScene->addItem(this->feedbackPointEllipseItem);
-        this->graphicItemsCreated = true;
-    }
-
-    if (this->feedforwardPointsItem) {
-        this->localFrameScene->removeItem(this->feedforwardPointsItem);
-        delete this->feedforwardPointsItem;
-    }
-    this->feedforwardPointsItem = new QGraphicsItemGroup();
-    this->localFrameScene->addItem(this->feedforwardPointsItem);
+    this->mode = LocalFrameAckermann;
+    this->deviationLineItem->hide();
+    this->deviationPathPointEllipseItem->hide();
 
 
-
-    if (isvalid(feedbackPoint)) {
+    bool pointOk = isvalid(feedbackPoint);
+    this->feedbackLookAheadLineItem->setVisible(pointOk);
+    this->feedbackPointEllipseItem->setVisible(pointOk);
+    if (pointOk) {
         qreal x = -feedbackPoint.y()*SCALE;
         qreal y = -feedbackPoint.x()*SCALE;
         this->feedbackPointEllipseItem->setPos(x, y);
         this->feedbackLookAheadLineItem->setLine(0, 0, x, y);
-        if (isvalid(feedbackPathPoint)) {
+
+        pointOk = isvalid(feedbackPathPoint);
+        this->feedbackPathPointEllipseItem->setVisible(pointOk);
+        this->feedbackErrorLineItem->setVisible(pointOk);
+
+        if (pointOk) {
             qreal x1 = -feedbackPathPoint.y()*SCALE;
             qreal y1 = -feedbackPathPoint.x()*SCALE;
 
@@ -125,18 +160,24 @@ void TrajectoryFollowingForm::updateLocalFrame(QPointF feedbackPoint, QPointF fe
         }
     }
 
-    if (isvalid(feedforwardCenter)) {
+    pointOk = isvalid(feedforwardCenter);
+
+    this->feedforwardItems->setVisible(pointOk);
+    if (pointOk) {
+
         qreal x1 = -feedforwardCenter.y()*SCALE;
         qreal y1 = -feedforwardCenter.x()*SCALE;
         if (x1 > -ui->graphicsView->width()/2 && x1 < ui->graphicsView->width()/2 &&
             y1 > -ui->graphicsView->height()/2 && y1 < ui->graphicsView->height()/2) {
-            QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(x1-2, y1-2, 4, 4);
-            ellipse->setPen(PEN_PURPLE);
-            ellipse->setBrush(BRUSH_CLEAR);
-            this->feedforwardPointsItem->addToGroup(ellipse);
+            this->feedforwardCenterItem->setPos(x1, y1);
+            this->feedforwardCenterItem->show();
+        }
+        else {
+            this->feedforwardCenterItem->hide();
         }
 
-        for (int i = 0; i < feedforwardPoints.size(); i++) {
+        qDeleteAll(this->feedforwardItems->childItems());
+        for (int i = 0; i < feedforwardPoints.size() && i < 5; i++) {
             QPointF point = feedforwardPoints.at(i);
             if (isvalid(point)) {
                 qreal x = -point.y()*SCALE;
@@ -146,10 +187,32 @@ void TrajectoryFollowingForm::updateLocalFrame(QPointF feedbackPoint, QPointF fe
                 QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(x-2, y-2, 4, 4);
                 ellipse->setPen(PEN_GREEN);
                 ellipse->setBrush(BRUSH_CLEAR);
-                this->feedforwardPointsItem->addToGroup(ellipse);
+                this->feedforwardItems->addToGroup(ellipse);
                // this->feedforwardPointsItem->addToGroup(line);
             }
         }
+    }
+}
+
+void TrajectoryFollowingForm::updateLocalFrame(QPointF deviationPathPoint)
+{
+    this->mode = LocalFramePointTurn;
+    this->feedbackErrorLineItem->hide();
+    this->feedbackLookAheadLineItem->hide();
+    this->feedbackPathPointEllipseItem->hide();
+    this->feedbackPointEllipseItem->hide();
+    this->feedforwardItems->hide();
+    this->feedforwardCenterItem->hide();
+
+    bool pointOk = isvalid(deviationPathPoint);
+    this->deviationPathPointEllipseItem->setVisible(pointOk);
+    this->deviationLineItem->setVisible(pointOk);
+
+    if (pointOk) {
+        qreal x = -deviationPathPoint.y()*SCALE;
+        qreal y = -deviationPathPoint.x()*SCALE;
+        this->deviationPathPointEllipseItem->setPos(x, y);
+        this->deviationLineItem->setLine(0, 0, x, y);
     }
 }
 

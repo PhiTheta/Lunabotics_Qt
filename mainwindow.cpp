@@ -31,7 +31,12 @@ MainWindow::MainWindow(QWidget *parent) :
     this->currentChunk = this->chunksTotal = 0;
 
     this->hasAckermannData = false;
-    this->robotGeometryDrawn = false;
+    this->robotDimensionsSet = false;
+    this->showPlannedTrajectory = false;
+    this->showRobotPointer = false;
+    this->showRobotDimensions = false;
+    this->showPathFollowng = false;
+    this->showRobotCell = false;
 
     //Setup UI
     statusBar()->setVisible(false);
@@ -44,13 +49,14 @@ MainWindow::MainWindow(QWidget *parent) :
     this->mapScene = new QGraphicsScene(this);
     ui->mapView->setScene(this->mapScene);
     this->path = new QVector<QPointF>();
-    this->pathGraphicsItem = NULL;
 
-    this->multiWaypointsItem = NULL;
-    this->actualTrajcetoryItem = NULL;
     ui->multiWaypointsButtonWidget->setVisible(false);
     ui->multiWaypointsButtonWidget->setEnabled(false);
 
+
+    this->connectionTimer = new QTimer();
+    this->connectionTimer->setSingleShot(true);
+    connect(this->connectionTimer, SIGNAL(timeout()), this, SLOT(ping()));
 
     QString text;
 
@@ -70,6 +76,64 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->telemetryTableView->setModel(this->telemetryTableModel);
     this->resetTelemetryModel();
 
+
+
+    //Graphics Items
+
+    this->cellsItem = new QGraphicsItemGroup();
+    this->cellsItem->setHandlesChildEvents(false);
+    this->mapScene->addItem(this->cellsItem);
+
+    this->robotCellItem = new QGraphicsRectItem();
+    this->robotCellItem->setBrush(BRUSH_CLEAR);
+    this->robotCellItem->setPen(PEN_BLUE);
+    this->robotCellItem->hide();
+    this->mapScene->addItem(this->robotCellItem);
+
+
+    this->pathGraphicsItem = new QGraphicsItemGroup();
+    this->pathGraphicsItem->hide();
+    this->mapScene->addItem(this->pathGraphicsItem);
+
+    this->multiWaypointsItem = new QGraphicsItemGroup();
+    this->multiWaypointsItem->hide();
+    this->mapScene->addItem(this->multiWaypointsItem);
+
+    this->deviationItem = new QGraphicsLineItem();
+    this->deviationItem->setPen(PEN_PURPLE);
+    this->deviationItem->hide();
+    this->mapScene->addItem(this->deviationItem);
+
+    this->closestDistanceItem = new QGraphicsLineItem();
+    this->closestDistanceItem->setPen(PEN_PURPLE);
+    this->closestDistanceItem->hide();
+    this->mapScene->addItem(this->closestDistanceItem);
+
+    this->velocityVectorItem = new QGraphicsLineItem();
+    this->velocityVectorItem->setPen(PEN_PURPLE);
+    this->velocityVectorItem->hide();
+    this->mapScene->addItem(this->velocityVectorItem);
+
+    this->actualTrajcetoryItem = new QGraphicsItemGroup();
+    this->actualTrajcetoryItem->hide();
+    this->mapScene->addItem(this->actualTrajcetoryItem);
+
+    this->robotPointerItem = new QGraphicsItemGroup();
+    this->robotPointerItem->hide();
+    int robotRadius = 10;
+    QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(-robotRadius, -robotRadius, robotRadius*2, robotRadius*2);
+    ellipse->setPen(PEN_RED);
+    ellipse->setBrush(BRUSH_CLEAR);
+    QGraphicsLineItem *line = new QGraphicsLineItem(0, 0, -robotRadius, 0);
+    line->setPen(PEN_RED);
+    this->robotPointerItem->addToGroup(ellipse);
+    this->robotPointerItem->addToGroup(line);
+    this->mapScene->addItem(this->robotPointerItem);
+
+    this->robotDimensionsItem = new QGraphicsItemGroup();
+    this->robotDimensionsItem->hide();
+    this->mapScene->addItem(this->robotDimensionsItem);
+
     this->redrawMap();
 
     ui->autonomyLabelWidget->setVisible(false);
@@ -79,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ctrlRightPixmap->setVisible(false);
     ui->ctrlUpPixmap->setVisible(false);
 
-    this->assignShowActualTrajectory();
+    this->assignMapSettings();
 
     //Setup network
     this->outgoingSocket = NULL;
@@ -116,6 +180,18 @@ MainWindow::~MainWindow()
     delete this->analysisPanel;
     delete this->pathTableModel;
     delete this->telemetryTableModel;
+    delete this->connectionTimer;
+/*
+    delete this->pathGraphicsItem;
+    delete this->robotPointerItem;
+    delete this->multiWaypointsItem;
+    delete this->actualTrajcetoryItem;
+    delete this->robotCellItem;
+    delete this->velocityVectorItem;
+    delete this->closestDistanceItem;
+    delete this->deviationItem;
+    delete this->cellsItem;
+    delete this->robotDimensionsItem;*/
 }
 
 
@@ -144,20 +220,16 @@ void MainWindow::setAutonomyLabel(bool enabled)
 
 void MainWindow::updateMapPath()
 {
+    this->pathGraphicsItem->setVisible(this->map->isValid() && this->showPlannedTrajectory);
     if (this->map->isValid()) {
         this->removeMultiWaypointsPrint();
         this->resetPathModel();
         this->minICRRadius = -1;
         this->trajectoryCurves.clear();
         emit updateCurves(this->trajectoryCurves);
-        if (this->pathGraphicsItem) {
-            this->mapScene->removeItem(this->pathGraphicsItem);
-            delete this->pathGraphicsItem, this->pathGraphicsItem = NULL;
-        }
-        if (!this->pathGraphicsItem) {
-            this->pathGraphicsItem = new QGraphicsItemGroup();
-            this->mapScene->addItem(this->pathGraphicsItem);
-        }
+
+        qDeleteAll(this->pathGraphicsItem->childItems());
+
         if (this->robotState->steeringMode == lunabotics::proto::POINT_TURN) {
             for (int i = 1; i < this->path->size(); i++) {
                 QPoint previousCoordinate = this->map->coordinateOf(this->path->at(i-1));
@@ -235,112 +307,73 @@ void MainWindow::updateMapPath()
             }
         }
     }
+    else {
+        qDeleteAll(this->pathGraphicsItem->childItems());
+    }
 }
 
 void MainWindow::updateMapPoses()
 {
+    this->robotCellItem->setVisible(this->map->isValid() && this->showRobotCell);
+    this->robotPointerItem->setVisible(this->map->isValid() && this->showRobotPointer);
+    this->robotDimensionsItem->setVisible(this->map->isValid() && this->showRobotDimensions);
     if (this->map->isValid()) {
         QPoint coordinate = this->map->coordinateOf(this->robotState->pose->position);
         ui->gridPositionLabel->setText(QString("%1,%2").arg(QString::number(coordinate.x())).arg(QString::number(coordinate.y())));
 
         QPointF robotCenter = this->mapViewInfo->pointFromWorld(this->robotState->pose->position, this->map->resolution);
-        qreal robotRadius = 10;
 
-        if (!this->robotCellItem) {
-            this->robotCellItem = new QGraphicsRectItem();
-            this->robotCellItem->setBrush(BRUSH_CLEAR);
-            this->robotCellItem->setPen(PEN_BLUE);
-            this->mapScene->addItem(this->robotCellItem);
-        }
         this->robotCellItem->setRect(this->mapViewInfo->cellRectAt(coordinate));
 
-        if (!this->robotPointerItem && this->robotState->geometry->jointPositionsAcquired) {
-            QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(-robotRadius, -robotRadius, robotRadius*2, robotRadius*2);
-            ellipse->setPen(PEN_RED);
-            ellipse->setBrush(BRUSH_CLEAR);
-            QGraphicsLineItem *line = new QGraphicsLineItem(0, 0, -robotRadius, 0);
-            line->setPen(PEN_RED);
-            this->robotPointerItem = new QGraphicsItemGroup();
-            this->robotPointerItem->addToGroup(ellipse);
-            this->robotPointerItem->addToGroup(line);
-
-            QPointF leftFront(this->robotState->geometry->leftFrontJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->leftFrontJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
-            QPointF rightFront(this->robotState->geometry->rightFrontJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->rightFrontJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
-            QPointF leftRear(this->robotState->geometry->leftRearJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->leftRearJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
-            QPointF rightRear(this->robotState->geometry->rightRearJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->rightRearJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
-
-            qDebug() << "TEST " << leftFront.x() << " " << leftFront.y();
-
-            line = new QGraphicsLineItem(-leftFront.x(), -leftFront.y(), -rightFront.x(), -rightFront.y());
-            line->setPen(PEN_GREEN);
-            this->robotPointerItem->addToGroup(line);
-            line = new QGraphicsLineItem(-rightFront.x(), -rightFront.y(), -rightRear.x(), -rightRear.y());
-            line->setPen(PEN_GREEN);
-            this->robotPointerItem->addToGroup(line);
-            line = new QGraphicsLineItem(-rightRear.x(), -rightRear.y(), -leftRear.x(), -leftRear.y());
-            line->setPen(PEN_GREEN);
-            this->robotPointerItem->addToGroup(line);
-            line = new QGraphicsLineItem(-leftRear.x(), -leftRear.y(), -leftFront.x(), -leftFront.y());
-            line->setPen(PEN_GREEN);
-            this->robotPointerItem->addToGroup(line);
-
-            this->mapScene->addItem(this->robotPointerItem);
-        }
-
+        this->actualTrajcetoryItem->setVisible(this->showActualTrajectory);
         if (this->showActualTrajectory) {
-            if (!this->actualTrajcetoryItem) {
-                this->actualTrajcetoryItem = new QGraphicsItemGroup();
-                this->mapScene->addItem(this->actualTrajcetoryItem);
-            }
-
             QGraphicsEllipseItem *dot = new QGraphicsEllipseItem(robotCenter.x(), robotCenter.y(), 1, 1);
             dot->setPen(PEN_RED);
             dot->setBrush(BRUSH_CLEAR);
             this->actualTrajcetoryItem->addToGroup(dot);
             this->actualTrajcetoryItem->setZValue(990);
         }
+        else {
+            qDeleteAll(this->actualTrajcetoryItem->childItems());
+        }
 
 
-        if (this->robotPointerItem) {
+        this->robotPointerItem->setPos(robotCenter);
+        this->robotPointerItem->setRotation(-this->robotState->pose->heading*180.0/M_PI);
+        this->robotDimensionsItem->setPos(robotCenter);
+        this->robotDimensionsItem->setRotation(-this->robotState->pose->heading*180.0/M_PI);
 
-            this->robotPointerItem->setPos(robotCenter);
-            this->robotPointerItem->setRotation(-this->robotState->pose->heading*180.0/M_PI);
 
+        if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN && this->robotState->autonomous
+                && this->hasAckermannData) {
 
-            if (this->robotState->steeringMode == lunabotics::proto::ACKERMANN && this->robotState->autonomous
-                    && this->hasAckermannData) {
+            this->deviationItem->hide();
+
+            QPointF feedbackPoint = this->mapViewInfo->pointFromWorld(this->feedbackPoint, this->map->resolution);
+
+            this->velocityVectorItem->setVisible(isvalid(feedbackPoint) && this->showPathFollowng);
+            if (isvalid(feedbackPoint)) {
+                this->velocityVectorItem->setLine(robotCenter.x(), robotCenter.y(), feedbackPoint.x(), feedbackPoint.y());
+
                 QPointF closestPoint = this->mapViewInfo->pointFromWorld(this->feedbackPathPoint, this->map->resolution);
-                QPointF feedbackPoint = this->mapViewInfo->pointFromWorld(this->feedbackPoint, this->map->resolution);
-                if (!this->velocityVectorItem) {
-                    this->velocityVectorItem = new QGraphicsLineItem();
-                    this->velocityVectorItem->setPen(PEN_PURPLE);
-                    this->mapScene->addItem(this->velocityVectorItem);
-                }
-                if (!this->closestDistanceItem) {
-                    this->closestDistanceItem = new QGraphicsLineItem();
-                    this->closestDistanceItem->setPen(PEN_PURPLE);
-                    this->mapScene->addItem(this->closestDistanceItem);
-                }
-                if (isvalid(feedbackPoint)) {
-                    this->velocityVectorItem->setLine(robotCenter.x(), robotCenter.y(), feedbackPoint.x(), feedbackPoint.y());
-                    if (isvalid(closestPoint)) {
-                        this->closestDistanceItem->setLine(feedbackPoint.x(), feedbackPoint.y(), closestPoint.x(), closestPoint.y());
-                    }
-                }
-            }
-            else {
-                if (this->closestDistanceItem) {
-                    this->mapScene->removeItem(this->closestDistanceItem);
-                    delete this->closestDistanceItem, this->closestDistanceItem = NULL;
-                }
-                if (this->velocityVectorItem) {
-                    this->mapScene->removeItem(this->velocityVectorItem);
-                    delete this->velocityVectorItem, this->velocityVectorItem = NULL;
-                }
-            }
 
-            this->robotCellItem->setZValue(1000);
-            this->robotPointerItem->setZValue(1000);
+                this->closestDistanceItem->setVisible(isvalid(closestPoint) && this->showPathFollowng);
+                if (isvalid(closestPoint)) {
+                    this->closestDistanceItem->setLine(feedbackPoint.x(), feedbackPoint.y(), closestPoint.x(), closestPoint.y());
+                }
+            }
+        }
+        else {
+            this->closestDistanceItem->hide();
+            this->velocityVectorItem->hide();
+
+            if (this->hasDeviationData) {
+                QPointF deviationPoint = this->mapViewInfo->pointFromWorld(this->deviationPathPoint, this->map->resolution);
+                this->closestDistanceItem->setVisible(isvalid(deviationPoint) && this->showPathFollowng);
+                if (isvalid(deviationPoint)) {
+                    this->deviationItem->setLine(robotCenter.x(), robotCenter.y(), deviationPoint.x(), deviationPoint.y());
+                }
+            }
         }
     }
 }
@@ -369,7 +402,8 @@ void MainWindow::redrawMap()
 
                     QObject::connect(rect, SIGNAL(clicked(QPoint)), this, SLOT(mapCell_clicked(QPoint)));
                     QObject::connect(rect, SIGNAL(hovered(QPoint)), this, SLOT(mapCell_hovered(QPoint)));
-                    this->mapScene->addItem(rect);
+
+                    this->cellsItem->addToGroup(rect);
                 }
             }
         }
@@ -384,15 +418,15 @@ void MainWindow::redrawMap()
 
 void MainWindow::removeAndDeleteAllMapItems()
 {
-    qDeleteAll(this->mapScene->items());
-    this->mapScene->items().clear();
-    this->robotCellItem = NULL;
-    this->robotPointerItem = NULL;
-    this->velocityVectorItem = NULL;
-    this->closestDistanceItem = NULL;
-    this->pathGraphicsItem = NULL;
-    this->multiWaypointsItem = NULL;
-    this->actualTrajcetoryItem = NULL;
+    qDeleteAll(this->cellsItem->childItems());
+    this->robotCellItem->hide();
+    this->robotPointerItem->hide();
+    this->velocityVectorItem->hide();
+    this->closestDistanceItem->hide();
+    this->deviationItem->hide();
+    this->pathGraphicsItem->hide();
+    this->multiWaypointsItem->hide();
+    this->actualTrajcetoryItem->hide();
 }
 
 
@@ -422,12 +456,28 @@ void MainWindow::connectRobot()
 
     settings.endGroup();
 
-    //Acknowledge about ip and port and ask for a map right away
-    this->sendTelecommand(lunabotics::proto::Telecommand::REQUEST_MAP);
+
+    if (this->outgoingSocket->state() != QTcpSocket::UnconnectedState) {
+        //Acknowledge about ip and port and ask for a map right away
+        this->sendTelecommand(lunabotics::proto::Telecommand::REQUEST_MAP);
+
+        //Send latest steering mode options
+        this->sendTelecommand(lunabotics::proto::Telecommand::STEERING_MODE);
+
+        //Send latest path following setup
+        this->sendTelecommand(lunabotics::proto::Telecommand::ADJUST_PID);
+    }
+
+    qDebug()<< "Starting timer";
+    this->connectionTimer->start(1000);
+
 }
 
 void MainWindow::disconnectRobot()
 {
+    qDebug()<< "Stopping timer";
+    this->connectionTimer->stop();
+
     if (this->outgoingSocket) {
         this->outgoingSocket->close();
     }
@@ -446,6 +496,7 @@ void MainWindow::acceptConnection()
     if (this->incomingSocket) {
         connect(this->incomingSocket, SIGNAL(readyRead()), this, SLOT(receiveTelemetry()));
     }
+
 }
 
 void MainWindow::setRow(int &rowNumber, const QString &label, const QString &value)
@@ -460,6 +511,10 @@ void MainWindow::setRow(int &rowNumber, const QString &label, const QString &val
 
 void MainWindow::receiveTelemetry()
 {
+    //Reset timer
+    this->connectionTimer->start();
+    this->setWindowTitle("Lunabotics");
+
     qint64 bytesAvailable = this->incomingSocket->bytesAvailable();
     char *buffer = new char[bytesAvailable];
     this->incomingSocket->read(buffer, bytesAvailable);
@@ -622,7 +677,7 @@ void MainWindow::receiveTelemetry()
                 this->setRow(row, "FF.radius", QString("%1 m").arg(QString::number(params.feedforward_curve_radius(), 'f', 3)));
                 this->setRow(row, "head.err", QString("%1 rad").arg(QString::number(params.heading_error(), 'f', 3)));
 
-                if (isvalid(this->feedbackPathPointLocal)) {
+                if (isvalid(feedforwardCenter)) {
                     this->setRow(row, "traj.ff.c.x", QString("%1 m").arg(QString::number(feedforwardCenter.x(), 'f', 2)));
                     this->setRow(row, "traj.ff.c.y", QString("%1 m").arg(QString::number(feedforwardCenter.y(), 'f', 2)));
                 }
@@ -646,13 +701,37 @@ void MainWindow::receiveTelemetry()
             else {
                 emit clearLocalFrame();
                 if (this->robotState->steeringMode == lunabotics::proto::POINT_TURN) { //state.has_point_turn_telemetry()) {
-                    switch(state.point_turn_telemetry().state()) {
+
+                    const lunabotics::proto::Telemetry::State::PointTurnTelemetry params = state.point_turn_telemetry();
+
+
+                    switch(params.state()) {
                     case lunabotics::proto::Telemetry::DRIVING: str = "Driving"; break;
                     case lunabotics::proto::Telemetry::TURNING: str = "Turning"; break;
                     case lunabotics::proto::Telemetry::STOPPED: str = "Stopped"; break;
                     default: str = "Unknown"; break;
                     }
                     this->setRow(row, "spot-turn.state", str);
+
+                    this->hasDeviationData = params.has_lateral_deviation();
+                    if (params.has_lateral_deviation()) {
+
+                        emit updateLocalFrame(this->deviationPathPointLocal);
+
+                        this->deviationPathPoint.setX(params.deviation_path_point().x());
+                        this->deviationPathPoint.setY(params.deviation_path_point().y());
+                        this->deviationPathPointLocal.setX(params.deviation_path_point_local().x());
+                        this->deviationPathPointLocal.setY(params.deviation_path_point_local().y());
+
+                        if (isvalid(this->deviationPathPoint)) {
+                            this->setRow(row, "global.dev.pt.x", QString("%1 m").arg(QString::number(this->deviationPathPoint.x(), 'f', 2)));
+                            this->setRow(row, "global.dev.pt.y", QString("%1 m").arg(QString::number(this->deviationPathPoint.y(), 'f', 2)));
+                        }
+                        if (isvalid(this->deviationPathPointLocal)) {
+                            this->setRow(row, "local.dev.pt.x", QString("%1 m").arg(QString::number(this->deviationPathPointLocal.x(), 'f', 2)));
+                            this->setRow(row, "local.dev.pt.y", QString("%1 m").arg(QString::number(this->deviationPathPointLocal.y(), 'f', 2)));
+                        }
+                    }
                 }
             }
             this->updateMapPoses();
@@ -692,6 +771,34 @@ void MainWindow::receiveTelemetry()
                 this->robotState->geometry->wheelWidth = geometry.wheel_width();
                 this->robotState->geometry->jointPositionsAcquired = true;
                 emit jointPositionsUpdated(this->robotState->geometry);
+            }
+
+            if (!this->robotDimensionsSet &&
+                    this->robotState->geometry->jointPositionsAcquired &&
+                    this->map->isValid()) {
+
+                //Update map graphics item
+                QPointF leftFront(this->robotState->geometry->leftFrontJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->leftFrontJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+                QPointF rightFront(this->robotState->geometry->rightFrontJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->rightFrontJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+                QPointF leftRear(this->robotState->geometry->leftRearJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->leftRearJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+                QPointF rightRear(this->robotState->geometry->rightRearJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->rightRearJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+
+                this->robotDimensionsItem->setPos(0, 0);
+                this->robotDimensionsItem->setRotation(0);
+                QGraphicsLineItem *line = new QGraphicsLineItem(-leftFront.x(), -leftFront.y(), -rightFront.x(), -rightFront.y());
+                line->setPen(PEN_GREEN);
+                this->robotDimensionsItem->addToGroup(line);
+                line = new QGraphicsLineItem(-rightFront.x(), -rightFront.y(), -rightRear.x(), -rightRear.y());
+                line->setPen(PEN_GREEN);
+                this->robotDimensionsItem->addToGroup(line);
+                line = new QGraphicsLineItem(-rightRear.x(), -rightRear.y(), -leftRear.x(), -leftRear.y());
+                line->setPen(PEN_GREEN);
+                this->robotDimensionsItem->addToGroup(line);
+                line = new QGraphicsLineItem(-leftRear.x(), -leftRear.y(), -leftFront.x(), -leftFront.y());
+                line->setPen(PEN_GREEN);
+                this->robotDimensionsItem->addToGroup(line);
+
+                this->robotDimensionsSet = true;
             }
         }
     }
@@ -814,10 +921,15 @@ void MainWindow::sendTelecommand(lunabotics::proto::Telecommand::Type contentTyp
     }
     else {
         if (this->outgoingSocket->state() != QTcpSocket::UnconnectedState) {
+            if (this->outgoingSocket->state() != QTcpSocket::ConnectedState) {
+                this->outgoingSocket->waitForConnected(1000);
+            }
             QByteArray byteArray(tc.SerializeAsString().c_str(), tc.ByteSize());
             qDebug() << "Sending " << byteArray.size() << " bytes";
             this->outgoingSocket->write(byteArray);
-            this->outgoingSocket->waitForDisconnected(1);
+            if (this->outgoingSocket->state() != QTcpSocket::UnconnectedState) {
+                this->outgoingSocket->waitForDisconnected();
+            }
         }
         else {
             qDebug() << "Socket is not connected!";
@@ -829,20 +941,16 @@ void MainWindow::sendTelecommand(lunabotics::proto::Telecommand::Type contentTyp
 
 void MainWindow::removeMultiWaypointsPrint()
 {
-    this->mapScene->removeItem(this->multiWaypointsItem);
-    delete this->multiWaypointsItem;
-    this->multiWaypointsItem = NULL;
+    qDeleteAll(this->multiWaypointsItem->childItems());
+    this->multiWaypointsItem->hide();
     this->waypoints->clear();
 }
 
 
 void MainWindow::mapCell_clicked(QPoint coordinate)
 {
+    this->multiWaypointsItem->setVisible(this->multiWaypoints);
     if (this->multiWaypoints) {
-        if (!this->multiWaypointsItem) {
-            this->multiWaypointsItem = new QGraphicsItemGroup();
-            this->mapScene->addItem(this->multiWaypointsItem);
-        }
         this->waypoints->push_back(coordinate);
         QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(this->mapViewInfo->cellRectAt(coordinate));
         ellipse->setPen(PEN_BLUE);
@@ -883,21 +991,22 @@ void MainWindow::on_actionPreferences_triggered()
     if (preferenceDialog->exec() == QDialog::Accepted) {
         this->connectRobot();
 
-        this->assignShowActualTrajectory();
+        this->assignMapSettings();
 
-        if (!this->showActualTrajectory && this->actualTrajcetoryItem) {
-            this->mapScene->removeItem(this->actualTrajcetoryItem);
-            delete this->actualTrajcetoryItem;
-            this->actualTrajcetoryItem = NULL;
-        }
+        this->actualTrajcetoryItem->setVisible(this->showActualTrajectory);
     }
 }
 
-void MainWindow::assignShowActualTrajectory()
+void MainWindow::assignMapSettings()
 {
     QSettings settings("ivany4", "lunabotics");
     settings.beginGroup("map");
-    this->showActualTrajectory = settings.value(SETTINGS_RECORD_TRAJ, DEFAULT_RECORD_TRAJECTORY).toBool();
+    this->showActualTrajectory = settings.value(SETTINGS_SHOW_ACTUAL_PATH, DEFAULT_SHOW_ACTUAL_PATH).toBool();
+    this->showPlannedTrajectory = settings.value(SETTINGS_SHOW_PLANNED_PATH, DEFAULT_SHOW_PLANNED_PATH).toBool();
+    this->showRobotCell = settings.value(SETTINGS_SHOW_ROBOT_CELL, DEFAULT_SHOW_ROBOT_CELL).toBool();
+    this->showRobotDimensions = settings.value(SETTINGS_SHOW_ROBOT_DIMENSIONS, DEFAULT_SHOW_ROBOT_DIMENSIONS).toBool();
+    this->showRobotPointer = settings.value(SETTINGS_SHOW_ROBOT_POINTER, DEFAULT_SHOW_ROBOT_POINTER).toBool();
+    this->showPathFollowng = settings.value(SETTINGS_SHOW_PATH_FOLLOWING, DEFAULT_SHOW_PATH_FOLLOWING).toBool();
     settings.endGroup();
 }
 
@@ -1140,4 +1249,11 @@ void MainWindow::on_useAutoButton_clicked()
 bool MainWindow::isMapValid()
 {
     return (this->currentChunk >= this->chunksTotal || this->chunksTotal == 0) && this->map->isValid();
+}
+
+void MainWindow::ping()
+{
+    qDebug() << "Connection timeout. Trying to reconnect";
+    this->setWindowTitle("Lunabotics. Connecting...");
+    this->connectRobot();
 }

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1022</width>
+    <width>1049</width>
     <height>704</height>
    </rect>
   </property>
@@ -910,14 +910,14 @@
         <widget class="QWidget" name="joystickWidget" native="true">
          <property name="minimumSize">
           <size>
-           <width>235</width>
-           <height>122</height>
+           <width>100</width>
+           <height>52</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>235</width>
-           <height>122</height>
+           <width>100</width>
+           <height>52</height>
           </size>
          </property>
          <widget class="QLabel" name="ctrlPixmap">
@@ -925,20 +925,20 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </size>
           </property>
           <property name="text">
@@ -956,20 +956,20 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </size>
           </property>
           <property name="text">
@@ -987,20 +987,20 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </size>
           </property>
           <property name="text">
@@ -1018,20 +1018,20 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </size>
           </property>
           <property name="text">
@@ -1049,20 +1049,20 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </rect>
           </property>
           <property name="minimumSize">
            <size>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>235</width>
-            <height>122</height>
+            <width>100</width>
+            <height>52</height>
            </size>
           </property>
           <property name="text">
@@ -1078,7 +1078,7 @@
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer">
+        <spacer name="horizontalSpacer_6">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -1202,7 +1202,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1022</width>
+     <width>1049</width>
      <height>22</height>
     </rect>
    </property>

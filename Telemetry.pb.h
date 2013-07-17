@@ -317,17 +317,51 @@ class Telemetry_State_PointTurnTelemetry : public ::google::protobuf::Message {
   inline ::lunabotics::proto::Telemetry_PointTurnState state() const;
   inline void set_state(::lunabotics::proto::Telemetry_PointTurnState value);
 
+  // optional float lateral_deviation = 2;
+  inline bool has_lateral_deviation() const;
+  inline void clear_lateral_deviation();
+  static const int kLateralDeviationFieldNumber = 2;
+  inline float lateral_deviation() const;
+  inline void set_lateral_deviation(float value);
+
+  // optional .lunabotics.proto.Point deviation_path_point = 3;
+  inline bool has_deviation_path_point() const;
+  inline void clear_deviation_path_point();
+  static const int kDeviationPathPointFieldNumber = 3;
+  inline const ::lunabotics::proto::Point& deviation_path_point() const;
+  inline ::lunabotics::proto::Point* mutable_deviation_path_point();
+  inline ::lunabotics::proto::Point* release_deviation_path_point();
+  inline void set_allocated_deviation_path_point(::lunabotics::proto::Point* deviation_path_point);
+
+  // optional .lunabotics.proto.Point deviation_path_point_local = 4;
+  inline bool has_deviation_path_point_local() const;
+  inline void clear_deviation_path_point_local();
+  static const int kDeviationPathPointLocalFieldNumber = 4;
+  inline const ::lunabotics::proto::Point& deviation_path_point_local() const;
+  inline ::lunabotics::proto::Point* mutable_deviation_path_point_local();
+  inline ::lunabotics::proto::Point* release_deviation_path_point_local();
+  inline void set_allocated_deviation_path_point_local(::lunabotics::proto::Point* deviation_path_point_local);
+
   // @@protoc_insertion_point(class_scope:lunabotics.proto.Telemetry.State.PointTurnTelemetry)
  private:
   inline void set_has_state();
   inline void clear_has_state();
+  inline void set_has_lateral_deviation();
+  inline void clear_has_lateral_deviation();
+  inline void set_has_deviation_path_point();
+  inline void clear_has_deviation_path_point();
+  inline void set_has_deviation_path_point_local();
+  inline void clear_has_deviation_path_point_local();
 
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   int state_;
+  float lateral_deviation_;
+  ::lunabotics::proto::Point* deviation_path_point_;
+  ::lunabotics::proto::Point* deviation_path_point_local_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(4 + 31) / 32];
 
   friend void  protobuf_AddDesc_Telemetry_2eproto();
   friend void protobuf_AssignDesc_Telemetry_2eproto();
@@ -1601,6 +1635,104 @@ inline void Telemetry_State_PointTurnTelemetry::set_state(::lunabotics::proto::T
   assert(::lunabotics::proto::Telemetry_PointTurnState_IsValid(value));
   set_has_state();
   state_ = value;
+}
+
+// optional float lateral_deviation = 2;
+inline bool Telemetry_State_PointTurnTelemetry::has_lateral_deviation() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void Telemetry_State_PointTurnTelemetry::set_has_lateral_deviation() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void Telemetry_State_PointTurnTelemetry::clear_has_lateral_deviation() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void Telemetry_State_PointTurnTelemetry::clear_lateral_deviation() {
+  lateral_deviation_ = 0;
+  clear_has_lateral_deviation();
+}
+inline float Telemetry_State_PointTurnTelemetry::lateral_deviation() const {
+  return lateral_deviation_;
+}
+inline void Telemetry_State_PointTurnTelemetry::set_lateral_deviation(float value) {
+  set_has_lateral_deviation();
+  lateral_deviation_ = value;
+}
+
+// optional .lunabotics.proto.Point deviation_path_point = 3;
+inline bool Telemetry_State_PointTurnTelemetry::has_deviation_path_point() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void Telemetry_State_PointTurnTelemetry::set_has_deviation_path_point() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void Telemetry_State_PointTurnTelemetry::clear_has_deviation_path_point() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void Telemetry_State_PointTurnTelemetry::clear_deviation_path_point() {
+  if (deviation_path_point_ != NULL) deviation_path_point_->::lunabotics::proto::Point::Clear();
+  clear_has_deviation_path_point();
+}
+inline const ::lunabotics::proto::Point& Telemetry_State_PointTurnTelemetry::deviation_path_point() const {
+  return deviation_path_point_ != NULL ? *deviation_path_point_ : *default_instance_->deviation_path_point_;
+}
+inline ::lunabotics::proto::Point* Telemetry_State_PointTurnTelemetry::mutable_deviation_path_point() {
+  set_has_deviation_path_point();
+  if (deviation_path_point_ == NULL) deviation_path_point_ = new ::lunabotics::proto::Point;
+  return deviation_path_point_;
+}
+inline ::lunabotics::proto::Point* Telemetry_State_PointTurnTelemetry::release_deviation_path_point() {
+  clear_has_deviation_path_point();
+  ::lunabotics::proto::Point* temp = deviation_path_point_;
+  deviation_path_point_ = NULL;
+  return temp;
+}
+inline void Telemetry_State_PointTurnTelemetry::set_allocated_deviation_path_point(::lunabotics::proto::Point* deviation_path_point) {
+  delete deviation_path_point_;
+  deviation_path_point_ = deviation_path_point;
+  if (deviation_path_point) {
+    set_has_deviation_path_point();
+  } else {
+    clear_has_deviation_path_point();
+  }
+}
+
+// optional .lunabotics.proto.Point deviation_path_point_local = 4;
+inline bool Telemetry_State_PointTurnTelemetry::has_deviation_path_point_local() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void Telemetry_State_PointTurnTelemetry::set_has_deviation_path_point_local() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void Telemetry_State_PointTurnTelemetry::clear_has_deviation_path_point_local() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void Telemetry_State_PointTurnTelemetry::clear_deviation_path_point_local() {
+  if (deviation_path_point_local_ != NULL) deviation_path_point_local_->::lunabotics::proto::Point::Clear();
+  clear_has_deviation_path_point_local();
+}
+inline const ::lunabotics::proto::Point& Telemetry_State_PointTurnTelemetry::deviation_path_point_local() const {
+  return deviation_path_point_local_ != NULL ? *deviation_path_point_local_ : *default_instance_->deviation_path_point_local_;
+}
+inline ::lunabotics::proto::Point* Telemetry_State_PointTurnTelemetry::mutable_deviation_path_point_local() {
+  set_has_deviation_path_point_local();
+  if (deviation_path_point_local_ == NULL) deviation_path_point_local_ = new ::lunabotics::proto::Point;
+  return deviation_path_point_local_;
+}
+inline ::lunabotics::proto::Point* Telemetry_State_PointTurnTelemetry::release_deviation_path_point_local() {
+  clear_has_deviation_path_point_local();
+  ::lunabotics::proto::Point* temp = deviation_path_point_local_;
+  deviation_path_point_local_ = NULL;
+  return temp;
+}
+inline void Telemetry_State_PointTurnTelemetry::set_allocated_deviation_path_point_local(::lunabotics::proto::Point* deviation_path_point_local) {
+  delete deviation_path_point_local_;
+  deviation_path_point_local_ = deviation_path_point_local;
+  if (deviation_path_point_local) {
+    set_has_deviation_path_point_local();
+  } else {
+    clear_has_deviation_path_point_local();
+  }
 }
 
 // -------------------------------------------------------------------

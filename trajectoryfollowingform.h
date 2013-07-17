@@ -12,6 +12,11 @@ namespace Ui {
 class TrajectoryFollowingForm;
 }
 
+enum LocalFrameMode {
+    LocalFrameAckermann,
+    LocalFramePointTurn
+};
+
 class TrajectoryFollowingForm : public QWidget
 {
     Q_OBJECT
@@ -21,6 +26,7 @@ signals:
 
 public slots:
     void updateLocalFrame(QPointF feedbackPoint, QPointF feedbackPathPoint, QVector<QPointF> feedforwardPoints, QPointF feedforwardCenter);
+    void updateLocalFrame(QPointF deviationPathPoint);
     void clearLocalFrame();
 
 public:
@@ -39,9 +45,13 @@ private:
     QGraphicsLineItem *feedbackErrorLineItem;
     QGraphicsEllipseItem *feedbackPathPointEllipseItem;
     QGraphicsEllipseItem *feedbackPointEllipseItem;
-    QGraphicsItemGroup *feedforwardPointsItem;
+    QGraphicsLineItem *deviationLineItem;
+    QGraphicsEllipseItem *deviationPathPointEllipseItem;
+    QGraphicsItemGroup *feedforwardItems;
+    QGraphicsEllipseItem *feedforwardCenterItem;
 
-    bool graphicItemsCreated;
+
+    LocalFrameMode mode;
 
     QGraphicsScene *localFrameScene;
     MapViewMetaInfo *localFrameInfo;

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>435</width>
-    <height>377</height>
+    <height>476</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -166,9 +166,44 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QCheckBox" name="recordCheckBox">
+       <widget class="QCheckBox" name="actualPathCheckBox">
         <property name="text">
-         <string>Record actual trajectory</string>
+         <string>Show actual trajectory</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="plannedPathCheckBox">
+        <property name="text">
+         <string>Show planned trajectory</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="robotDimensionsCheckBox">
+        <property name="text">
+         <string>Show robot dimensions</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="robotPointerCheckBox">
+        <property name="text">
+         <string>Show robot pointer</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="robotCellCheckBox">
+        <property name="text">
+         <string>Show robot cell</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="pathFollowingCheckBox">
+        <property name="text">
+         <string>Show path following deviations</string>
         </property>
        </widget>
       </item>

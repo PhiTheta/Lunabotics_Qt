@@ -369,7 +369,7 @@ void MainWindow::updateMapPoses()
 
             if (this->hasDeviationData) {
                 QPointF deviationPoint = this->mapViewInfo->pointFromWorld(this->deviationPathPoint, this->map->resolution);
-                this->closestDistanceItem->setVisible(isvalid(deviationPoint) && this->showPathFollowng);
+                this->deviationItem->setVisible(isvalid(deviationPoint) && this->showPathFollowng);
                 if (isvalid(deviationPoint)) {
                     this->deviationItem->setLine(robotCenter.x(), robotCenter.y(), deviationPoint.x(), deviationPoint.y());
                 }
@@ -419,6 +419,7 @@ void MainWindow::redrawMap()
 void MainWindow::removeAndDeleteAllMapItems()
 {
     qDeleteAll(this->cellsItem->childItems());
+    qDeleteAll(this->actualTrajcetoryItem->childItems());
     this->robotCellItem->hide();
     this->robotPointerItem->hide();
     this->velocityVectorItem->hide();
@@ -717,6 +718,8 @@ void MainWindow::receiveTelemetry()
                     if (params.has_lateral_deviation()) {
 
                         emit updateLocalFrame(this->deviationPathPointLocal);
+
+                        this->setRow(row, "dev", QString("%1 m").arg(QString::number(params.lateral_deviation(), 'f', 3)));
 
                         this->deviationPathPoint.setX(params.deviation_path_point().x());
                         this->deviationPathPoint.setY(params.deviation_path_point().y());

@@ -650,6 +650,9 @@ void MainWindow::receiveTelemetry()
 
             this->hasAckermannData = state.has_ackermann_telemetry();
 
+
+            this->showPathFollowng = false;
+
             if (state.has_ackermann_telemetry()) {
 
                 const lunabotics::proto::Telemetry::State::AckermannTelemetry params = state.ackermann_telemetry();
@@ -668,6 +671,8 @@ void MainWindow::receiveTelemetry()
                     const lunabotics::proto::Point point = params.feedforward_points_local(i);
                     feedforwardPoints.push_back(QPointF(point.x(),point.y()));
                 }
+
+                this->showPathFollowng = true;
 
                 QPointF feedforwardCenter(params.feedforward_center().x(), params.feedforward_center().y());
 
@@ -718,6 +723,8 @@ void MainWindow::receiveTelemetry()
                     if (params.has_lateral_deviation()) {
 
                         emit updateLocalFrame(this->deviationPathPointLocal);
+
+                        this->showPathFollowng = true;
 
                         this->setRow(row, "dev", QString("%1 m").arg(QString::number(params.lateral_deviation(), 'f', 3)));
 

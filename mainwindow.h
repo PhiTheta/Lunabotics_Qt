@@ -45,6 +45,7 @@ signals:
     void clearLocalFrame();
     void updateCurves(QVector<lunabotics::proto::Telemetry::Path::Curve> curves);
     void updateRadius(float minRadius);
+    void cellEdgeChanged();
 
 
 protected:
@@ -93,6 +94,8 @@ private slots:
     void on_waypointsSendButton_clicked();
 
     void on_useAutoButton_clicked();
+
+    void updateRobotDimensions();
 
     void ping();
 

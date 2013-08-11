@@ -151,7 +151,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->incomingSocket = NULL;
     this->connectRobot();
 
-
+    connect(this, SIGNAL(cellEdgeChanged()), this, SLOT(updateRobotDimensions()));
 }
 
 MainWindow::~MainWindow()
@@ -392,6 +392,8 @@ void MainWindow::redrawMap()
             else {
                 this->mapViewInfo->cellEdge = floor(std::min(this->mapViewInfo->viewportWidth,this->mapViewInfo->viewportHeight)/this->map->height);
             }
+            emit cellEdgeChanged();
+
 
             for (int x = 0; x < this->map->width; x++) {
                 for (int y = 0; y < this->map->height; y++) {
@@ -786,29 +788,7 @@ void MainWindow::receiveTelemetry()
             if (!this->robotDimensionsSet &&
                     this->robotState->geometry->jointPositionsAcquired &&
                     this->map->isValid()) {
-
-                //Update map graphics item
-                QPointF leftFront(this->robotState->geometry->leftFrontJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->leftFrontJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
-                QPointF rightFront(this->robotState->geometry->rightFrontJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->rightFrontJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
-                QPointF leftRear(this->robotState->geometry->leftRearJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->leftRearJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
-                QPointF rightRear(this->robotState->geometry->rightRearJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->rightRearJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
-
-                this->robotDimensionsItem->setPos(0, 0);
-                this->robotDimensionsItem->setRotation(0);
-                QGraphicsLineItem *line = new QGraphicsLineItem(-leftFront.x(), -leftFront.y(), -rightFront.x(), -rightFront.y());
-                line->setPen(PEN_GREEN);
-                this->robotDimensionsItem->addToGroup(line);
-                line = new QGraphicsLineItem(-rightFront.x(), -rightFront.y(), -rightRear.x(), -rightRear.y());
-                line->setPen(PEN_GREEN);
-                this->robotDimensionsItem->addToGroup(line);
-                line = new QGraphicsLineItem(-rightRear.x(), -rightRear.y(), -leftRear.x(), -leftRear.y());
-                line->setPen(PEN_GREEN);
-                this->robotDimensionsItem->addToGroup(line);
-                line = new QGraphicsLineItem(-leftRear.x(), -leftRear.y(), -leftFront.x(), -leftFront.y());
-                line->setPen(PEN_GREEN);
-                this->robotDimensionsItem->addToGroup(line);
-
-                this->robotDimensionsSet = true;
+                this->updateRobotDimensions();
             }
         }
     }
@@ -1266,4 +1246,32 @@ void MainWindow::ping()
     qDebug() << "Connection timeout. Trying to reconnect";
     this->setWindowTitle("Lunabotics. Connecting...");
     this->connectRobot();
+}
+
+void MainWindow::updateRobotDimensions()
+{
+    qDeleteAll(this->robotDimensionsItem->childItems());
+
+    //Update map graphics item
+    QPointF leftFront(this->robotState->geometry->leftFrontJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->leftFrontJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+    QPointF rightFront(this->robotState->geometry->rightFrontJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->rightFrontJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+    QPointF leftRear(this->robotState->geometry->leftRearJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->leftRearJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+    QPointF rightRear(this->robotState->geometry->rightRearJoint.x()/this->map->resolution*this->mapViewInfo->cellEdge, this->robotState->geometry->rightRearJoint.y()/this->map->resolution*this->mapViewInfo->cellEdge);
+
+    this->robotDimensionsItem->setPos(0, 0);
+    this->robotDimensionsItem->setRotation(0);
+    QGraphicsLineItem *line = new QGraphicsLineItem(-leftFront.x(), -leftFront.y(), -rightFront.x(), -rightFront.y());
+    line->setPen(PEN_GREEN);
+    this->robotDimensionsItem->addToGroup(line);
+    line = new QGraphicsLineItem(-rightFront.x(), -rightFront.y(), -rightRear.x(), -rightRear.y());
+    line->setPen(PEN_GREEN);
+    this->robotDimensionsItem->addToGroup(line);
+    line = new QGraphicsLineItem(-rightRear.x(), -rightRear.y(), -leftRear.x(), -leftRear.y());
+    line->setPen(PEN_GREEN);
+    this->robotDimensionsItem->addToGroup(line);
+    line = new QGraphicsLineItem(-leftRear.x(), -leftRear.y(), -leftFront.x(), -leftFront.y());
+    line->setPen(PEN_GREEN);
+    this->robotDimensionsItem->addToGroup(line);
+
+    this->robotDimensionsSet = true;
 }
